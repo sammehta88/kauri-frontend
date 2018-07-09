@@ -12,3 +12,4 @@ client-secret.json
 credentials.tar.gz
 bundles
 .fliphub
+packages/kauri-components/lib

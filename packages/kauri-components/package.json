@@ -1,0 +1,47 @@
+{
+  "name": "kauri-components",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "bsb -make-world",
+    "clean": "bsb -clean-world",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "storybook": "start-storybook -p 6006",
+    "start": "concurrently \"bsb -make-world -w\" \"yarn run storybook\""
+  },
+  "author": {
+    "name": "Eric Juta"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "luxon": "^1.3.1",
+    "ppx_bs_css": "github:astrada/ppx_bs_css#36a3675"
+  },
+  "esy": {},
+  "devDependencies": {
+    "@esy-ocaml/merlin": "*",
+    "@storybook/addon-actions": "latest",
+    "@storybook/addon-knobs": "latest",
+    "@storybook/addon-links": "latest",
+    "@storybook/addons": "latest",
+    "@storybook/react": "latest",
+    "bs-css": "^7.0.1",
+    "bs-luxon": "^0.3.0",
+    "bs-platform": "^3.1.5",
+    "bs-storybook": "^0.1.2",
+    "concurrently": "^3.6.0",
+    "ocaml": "~4.2.3000",
+    "reason-react": ">=0.4.0",
+    "vrroom": "glennsl/vrroom"
+  },
+  "peerDependencies": {
+    "ocaml": "~4.2.3000"
+  },
+  "resolutions": {
+    "@opam/gen": "0.5.0"
+  },
+  "_registry": "npm",
+  "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",
+  "readmeFilename": "README.md",
+  "readme": "# kauri-components\n\n## Run Project\n\n```sh\nnpm install\nnpm start\n# in another tab\nnpm run webpack\n```\n\nAfter you see the webpack compilation succeed (the `npm run webpack` step), open up `src/index.html` (**no server needed!**). Then modify whichever `.re` file in `src` and refresh the page to see the changes.\n\n**For more elaborate ReasonReact examples**, please see https://github.com/reasonml-community/reason-react-example\n\n## Build for Production\n\n```sh\nnpm run build\nnpm run webpack:production\n```\n\nThis will replace the development artifact `build/Index.js` for an optimized version.\n\n**To enable dead code elimination**, change `bsconfig.json`'s `package-specs` `module` from `\"commonjs\"` to `\"es6\"`. Then re-run the above 2 commands. This will allow Webpack to remove unused code.\n",
+  "description": "## Run Project"
+}

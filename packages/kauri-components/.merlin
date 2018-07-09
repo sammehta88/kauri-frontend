@@ -1,0 +1,25 @@
+####{BSB GENERATED: NO EDIT
+B lib/bs
+FLG -open KauriComponents
+FLG -ppx /Users/rej156/Documents/kauri/packages/kauri-components/./bs-ppx-css\ --as-ppx
+FLG -ppx '/Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-platform/lib/reactjs_jsx_ppx_2.exe'
+FLG -ppx /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-platform/lib/bsppx.exe
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-platform/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-platform/lib/ocaml
+FLG -nostdlib -no-alias-deps -color always
+FLG -w -30-40+6+7+27+32..39+44+45+101
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/reason-react/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/reason-react/lib/ocaml
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-storybook/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-storybook/lib/ocaml
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-css/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-css/lib/ocaml
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-luxon/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/bs-luxon/lib/ocaml
+S /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/vrroom/lib/ocaml
+B /Users/rej156/Documents/kauri/packages/kauri-components/node_modules/vrroom/lib/ocaml
+S components/Hello
+B lib/bs/components/Hello
+S components/Articles
+B lib/bs/components/Articles
+####BSB GENERATED: NO EDIT}

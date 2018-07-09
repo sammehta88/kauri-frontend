@@ -1,0 +1,12 @@
+[ignore]
+.*/node_modules/.*
+[lints]
+all=warn
+[options]
+include_warnings=true
+[libs]
+graphql-export.flow.js
+flow-typed
+[include]
+graphql-export.flow.js
+node_modules/graphql-tag/index.js.flow

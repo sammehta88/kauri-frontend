@@ -1,0 +1,23 @@
+Request description header font
+Make Request Article Subject disappear/placholder + Font
+Export Ethereum logo properly
+Ditto for Request Description
+Deformat the description rows on the articles on the topics page + fonts
+
+Remove Article Content header on View submitted article
+Change header outline parser alignment and fonts
+BUMP REWARD ON VIEW ARTICLE COPY CHANGE -> Reward article creator
+
+Bump reward copy
+Bump reward dropdown toggle slide tingy
+Paddfing left
+Clickable outline headers to scroll to
+POSTED Copy
+
+FOOTER
+PROFILE PAGE AVIS
+
+Approvals page
+searchRequests w/ total_submissions_gt 0 and category_in: Array<Category> filters
+  onClick
+  -> Nested searchArticles w/ request_id_eq filter query for .map(article => <PendingArticle />)

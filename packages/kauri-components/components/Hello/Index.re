@@ -1,7 +1,8 @@
 let textColor = (name: string) =>
   switch (name) {
-  | "pattern" => Css.blue
+  | "blue" => Css.blue
   | "yellow" => Css.yellow
+  | "white" => Css.white
   | _ => Css.red
   };
 
@@ -10,14 +11,14 @@ let className =
     [%css
       {|
       {
-        color: textColor("pattern");
+        color: textColor("blue");
         background-color: white;
         border-bottom: 1px dashed #eee;
         border-right-color: rgb(1, 0, 1);
         width: 70%;
       }
       :hover {
-        color: textColor("yellow");
+        color: textColor("white");
       }
     |}
     ]

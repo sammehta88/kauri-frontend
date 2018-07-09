@@ -9,7 +9,7 @@ import RecentCategoryArticle from './RecentCategoryArticle'
 import RecentCategoryRequests from './RecentCategoryRequests'
 import TotalArticleBadge from '../TotalArticleBadge'
 import RecentArticlesFeed from './RecentArticlesFeed'
-import MyComponent from 'kauri-components/components/Hello/Index.bs'
+import MyComponent from '../../../../kauri-components/components/Hello/Index.bs.js'
 
 type Props = {
   data: {
@@ -127,7 +127,7 @@ class Homepage extends Component<Props> {
     return (
       <section>
         <MyComponent />
-        <Homepage.IntroBanner />
+        {/* <Homepage.IntroBanner />
         <Homepage.NewArticlesContainer>
           <Homepage.NewArticles>
             {typeof this.props.data.searchArticles === 'object' ? (
@@ -152,7 +152,7 @@ class Homepage extends Component<Props> {
             <Homepage.RecentArticlesFeed recentArticlesFeed />
           </Homepage.CategoryArticleContent>
           <Homepage.RecentCategoryRequests recentCategoryRequests size={6} />
-        </Homepage.ContentContainer>
+        </Homepage.ContentContainer> */}
       </section>
     )
   }

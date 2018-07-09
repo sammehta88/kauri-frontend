@@ -4,7 +4,7 @@
   "author": {},
   "license": "ISC",
   "scripts": {
-    "dev": "node index.js",
+    "dev": "NODE_ENV=development node index.js",
     "dev:mock": "NODE_ENV=development ENABLE_MOCK_SERVER=true node index.js",
     "debug": "NODE_ENV=development node --inspect --debug-brk index.js",
     "test:e2e:local": "cypress open",
@@ -38,11 +38,11 @@
     "driver.js": "^0.5.2",
     "express": "^4.16.2",
     "flow-runtime": "^0.17.0",
+    "glamor": "2.20.40",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "helmet": "^3.9.0",
     "highlightjs": "^9.10.0",
-    "kauri-components": "1.0.0",
     "highlightjs-solidity": "^1.0.5",
     "immutable": "3.8.2",
     "isomorphic-unfetch": "^2.0.0",
@@ -75,7 +75,9 @@
     "wdio-jasmine-framework": "0.3.2",
     "web3": "0.20.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "kauri-components": "1.0.0"
+  },
   "optionalDependencies": {
     "fsevents": "^1.2.4"
   },

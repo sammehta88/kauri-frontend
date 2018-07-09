@@ -15,3 +15,5 @@ bundles
 packages/kauri-components/lib
 lerna-debug.log
 lerna-error.log
+*.bs.js
+.merlin

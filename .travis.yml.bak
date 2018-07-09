@@ -10,6 +10,11 @@ cache:
   directories:
   - "$HOME/google-cloud-sdk/"
 before_install:
+- npm i -g esy
+- cd packages/kauri-components
+- esy install
+- esy build
+- ln -s $(esy which bs-ppx-css) bs-ppx-css
 - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then openssl aes-256-cbc -K $encrypted_265c17ae507b_key -iv $encrypted_265c17ae507b_iv -in credentials.tar.gz.enc -out credentials.tar.gz -d; fi'
 - export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
 - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"

@@ -6,7 +6,8 @@
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",
-    "start": "concurrently \"bsb -make-world -w\" \"yarn run storybook\""
+    "start": "concurrently \"bsb -make-world -w\" \"yarn run storybook\"",
+    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
   },
   "author": {
     "name": "Eric Juta"

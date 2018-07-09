@@ -13,3 +13,5 @@ credentials.tar.gz
 bundles
 .fliphub
 packages/kauri-components/lib
+lerna-debug.log
+lerna-error.log

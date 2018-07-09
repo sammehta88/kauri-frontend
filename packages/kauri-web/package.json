@@ -75,9 +75,7 @@
     "wdio-jasmine-framework": "0.3.2",
     "web3": "0.20.1"
   },
-  "devDependencies": {
-    "kauri-components": "1.0.0"
-  },
+  "devDependencies": {},
   "optionalDependencies": {
     "fsevents": "^1.2.4"
   },

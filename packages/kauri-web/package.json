@@ -4,7 +4,7 @@
   "author": {},
   "license": "ISC",
   "scripts": {
-    "dev": "NODE_ENV=development node index.js",
+    "dev": "node index.js",
     "dev:mock": "NODE_ENV=development ENABLE_MOCK_SERVER=true node index.js",
     "debug": "NODE_ENV=development node --inspect --debug-brk index.js",
     "test:e2e:local": "cypress open",
@@ -22,6 +22,8 @@
     "test:integration": "NODE_ENV=test jest integration"
   },
   "dependencies": {
+    "apollo-client-preset": "^1.0.8",
+    "apollo-link-ws": "^1.0.4",
     "@rej156/react-mde": "^5.5.6",
     "antd": "3.2.1",
     "compression": "^1.7.1",
@@ -40,6 +42,7 @@
     "graphql-tag": "^2.9.2",
     "helmet": "^3.9.0",
     "highlightjs": "^9.10.0",
+    "kauri-components": "1.0.0",
     "highlightjs-solidity": "^1.0.5",
     "immutable": "3.8.2",
     "isomorphic-unfetch": "^2.0.0",
@@ -63,6 +66,7 @@
     "showdown": "^1.8.6",
     "showdown-xss-filter": "^0.2.0",
     "subscriptions-transport-ws": "^0.9.9",
+    "styled-components": "^3.2.6",
     "superagent": "^3.8.2",
     "truffle": "^3.4.11",
     "truffle-contract": "^3.0.1",
@@ -75,6 +79,7 @@
   "optionalDependencies": {
     "fsevents": "^1.2.4"
   },
+  "esy": {},
   "jest": {
     "setupFiles": [
       "<rootDir>/scripts/setupJest.js"

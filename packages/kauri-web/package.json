@@ -57,7 +57,6 @@
     "react-youtube": "^7.5.0",
     "recompose": "^0.26.0",
     "redraft": "^0.10.1",
-    "redux": "^3.7.2",
     "redux-observable": "^0.17.0",
     "request": "^2.86.0",
     "serve-favicon": "^2.4.5",

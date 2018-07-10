@@ -1,6 +1,6 @@
 node_modules/
 build/
-config/local*
+packages/kauri-web/config/local*
 static/workbox/
 npm-debug.log
 .next

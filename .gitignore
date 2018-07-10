@@ -20,3 +20,4 @@ lerna-error.log
 bs-ppx-css
 .bsb.lock
 yarn.lock
+Dockerfile-local

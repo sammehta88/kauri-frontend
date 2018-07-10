@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "bsb -make-world",
+    "dev": "bsb -make-world -w",
     "clean": "bsb -clean-world",
     "test": "echo \"Error: no test specified\" && exit 1",
     "storybook": "start-storybook -p 6006",

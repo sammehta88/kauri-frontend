@@ -5,7 +5,7 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app/
-COPY yarn.lock /usr/src/app/
+COPY esy.lock /usr/src/app/
 RUN npm install -g yarn
 RUN yarn
 COPY . /usr/src/app

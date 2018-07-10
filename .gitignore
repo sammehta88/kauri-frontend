@@ -19,3 +19,4 @@ lerna-error.log
 .merlin
 bs-ppx-css
 .bsb.lock
+yarn.lock

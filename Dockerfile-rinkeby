@@ -10,10 +10,8 @@ RUN npm install -g --unsafe-perm esy@preview
 # kauri-components, ReasonML
 COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/
 COPY packages/kauri-components/esy.lock /usr/src/app/packages/kauri-components/
-RUN cd /usr/src/app/packages/kauri-components && esy install
 RUN apt-get update && apt-get install -y rsync
-RUN cd /usr/src/app/packages/kauri-components && esy build
-RUN cd /usr/src/app/packages/kauri-components && npm run link-ppx
+RUN cd /usr/src/app/packages/kauri-components && esy install
 
 COPY packages/kauri-components /usr/src/app/packages/kauri-components/
 RUN cd /usr/src/app/packages/kauri-components && npm run build

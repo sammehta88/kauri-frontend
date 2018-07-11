@@ -13,6 +13,7 @@ credentials.tar.gz
 bundles
 .fliphub
 packages/kauri-components/lib
+packages/kauri-web/lib/bs
 lerna-debug.log
 lerna-error.log
 *.bs.js

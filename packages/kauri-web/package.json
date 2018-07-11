@@ -1,10 +1,13 @@
 {
   "name": "kauri-web",
   "version": "1.0.0",
-  "author": {},
+  "author": {
+    "name": "Eric Juta"
+  },
   "license": "ISC",
   "scripts": {
-    "dev": "concurrently \"bsb -make-world -w\" \"npm run dev:web\"",
+    "dev": "concurrently \"npm run dev:bs\" \"npm run dev:web\"",
+    "dev:bs": "bsb -make-world -w",
     "dev:web": "NODE_ENV=development node index.js",
     "dev:mock": "NODE_ENV=development ENABLE_MOCK_SERVER=true node index.js",
     "debug": "NODE_ENV=development node --inspect --debug-brk index.js",

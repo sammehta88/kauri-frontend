@@ -1,4 +1,4 @@
-open BsStorybook.Main;
+open Main;
 
 let _module = [%bs.raw "module"];
 

@@ -1,4 +1,4 @@
-open BsStorybook.Main;
+open Main;
 
 let _module = [%bs.raw "module"];
 
@@ -11,8 +11,8 @@ myStory.add("first chapter", () =>
 
 let hey = 1;
 
-myStory.add("UpdatedAt", () => <PostedAt postType=PostedAt.UpdatedAt />);
+myStory.add("UpdatedAt", () => <PostedAt postType=PostedAt.Posted />);
 
-myStory.add("Posted", () => <PostedAt postType=PostedAt.Posted />);
+myStory.add("Posted", () => <PostedAt postType=PostedAt.UpdatedAt />);
 
 myStory.add("Index", () => <Index />);

@@ -1,3 +1,5 @@
+open ReduxObservable.Store;
+
 [@bs.deriving abstract]
 type approveArticlePayload = {
   id: string,
@@ -26,12 +28,8 @@ let approveArticleAction =
   approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
 
 let approveArticleEpic =
-    (
-      action: approveArticleAction,
-      store: ReduxObservable.store,
-      _dependencies,
-    ) =>
-  ReduxObservable.(
+    (action: approveArticleAction, store: store, _dependencies) =>
+  ReduxObservable.Observable.(
     action
     |. ofType("hey")
     |. flatMap(x => of1(x |. payloadGet))

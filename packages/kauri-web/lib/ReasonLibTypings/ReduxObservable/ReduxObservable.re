@@ -2,7 +2,7 @@ type observable('a);
 
 [@bs.module "rxjs"] external of1 : 'a => observable('a) = "of";
 
-[@bs.send] external ofType : 't => 't = "";
+[@bs.send] external ofType : ('a, string) => 'a = "";
 
 /* [@bs.send] external mergeMap : ('t, 't => 'b) => t('b) = ""; */
 [@bs.module "rxjs"]

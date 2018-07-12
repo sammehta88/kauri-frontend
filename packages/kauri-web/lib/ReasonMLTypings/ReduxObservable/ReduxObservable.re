@@ -22,3 +22,41 @@ let what =
   |. flatMap(x => of1(String.uppercase(x)))
   |. mergeMap(x => fromPromise(Js.Promise.resolve(x ++ "HEY")))
   |. flatMap(x => of1(int_of_string(x)));
+
+/* Redux deps */
+[@bs.deriving abstract]
+type reduxState = {
+  hey: int,
+  woo: string,
+};
+
+type store = {getState: unit => reduxState};
+
+type apolloClient;
+
+type smartContracts;
+
+type web3;
+
+type fetch;
+
+type apolloSubscriber;
+
+type web3PersonalSign;
+
+type getGasPrice;
+
+type driverJS;
+
+/* [@bs.send] external getDriver : (driverJS, int) => unit = ""; */
+[@bs.deriving abstract]
+type dependencies = {
+  apolloClient,
+  smartContracts,
+  web3,
+  fetch,
+  apolloSubscriber,
+  web3PersonalSign,
+  getGasPrice,
+  driverJS,
+};

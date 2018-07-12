@@ -25,40 +25,12 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
 
-type state = {hey: int};
-
-type store = {getState: unit => state};
-
-type apolloClient;
-
-type smartContracts;
-
-type web3;
-
-type fetch;
-
-type apolloSubscriber;
-
-type web3PersonalSign;
-
-type getGasPrice;
-
-type driverJS;
-
-/* [@bs.send] external getDriver : (driverJS, int) => unit = ""; */
-[@bs.deriving abstract]
-type dependencies = {
-  apolloClient,
-  smartContracts,
-  web3,
-  fetch,
-  apolloSubscriber,
-  web3PersonalSign,
-  getGasPrice,
-  driverJS,
-};
-
-let approveArticleEpic = (action: approveArticleAction, _store, _dependencies) =>
+let approveArticleEpic =
+    (
+      action: approveArticleAction,
+      store: ReduxObservable.store,
+      _dependencies,
+    ) =>
   ReduxObservable.(
     action
     |. ofType("hey")

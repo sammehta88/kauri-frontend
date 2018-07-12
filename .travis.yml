@@ -72,7 +72,7 @@ jobs:
   - stage: deploy-uat
     if: "(NOT type IN (pull_request) AND (branch = master))"
     install:
-    - cd kauri-ops
+    - cd kauri-ops 
     - source env_setup.sh --config-file config/config-uat.json
     - cd ..
     - gcloud config set project $GOOGLE_PROJECT_ID

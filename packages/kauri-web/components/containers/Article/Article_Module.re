@@ -18,16 +18,16 @@ let stringOfActionType = actionType =>
   };
 
 [@bs.deriving abstract]
+type reduxAction = {
+  [@bs.as "type"]
+  type_: string,
+};
+
+[@bs.deriving abstract]
 type approveArticleAction = {
   [@bs.as "type"]
   type_: string,
   payload: approveArticlePayload,
-};
-
-[@bs.deriving abstract]
-type reduxAction = {
-  [@bs.as "type"]
-  type_: string,
 };
 
 let approveArticleAction =
@@ -37,15 +37,17 @@ let approveArticleAction =
 
 module GetArticle = [%graphql
   {|
-    query getArticle($id: String) {
-        getArticle (id: $id) {
-          article_id
+    mutation approveArticle($id: String, $article_version: Int, $signature: String) {
+      approveArticle(id: $id, version: $article_version, signature: $signature) {
+         hash
         }
     }
   |}
 ];
 
-module GetArticleQuery = ReasonApollo.CreateQuery(GetArticle);
+module ApproveArticleQuery = ReasonApollo.CreateQuery(GetArticle);
+let approveArticleQuery =
+  GetArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
 
 [@bs.deriving abstract]
 type apolloQuery = {
@@ -53,29 +55,26 @@ type apolloQuery = {
   mutation: string,
 };
 
-[@bs.module] external gql : ReasonApolloTypes.gql = "graphql-tag";
-
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
-  let hey = 1;
   let apolloClient = dependencies |. apolloClient;
-  let getArticleQuery =
-    GetArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
-  /* let graphqlQueryAST = gql(GetArticleQuery.query); */
   let queryMethod = {
-    "query": gql(. GetArticle.query),
-    "variables": getArticleQuery##variables,
+    "query": ApproveArticleQuery.graphqlQueryAST,
+    "variables": approveArticleQuery##variables,
   };
+  let subscriber = dependencies |. apolloSubscriber;
 
   ReduxObservable.Observable.(
     action
     |. ofType(stringOfActionType(ApproveArticle))
     |. tap(_x => Js.log(of1))
     |. tap(_x => Js.log(apolloClient##query(queryMethod)))
-    |. flatMap(x => of1(x |. payload))
-    |. mergeMap(x => of1(x |. version))
-    |. mapTo(reduxAction(~type_="HEY"))
+    |. mergeMap(x => fromPromise(subscriber(x |. type_)))
   );
+  /* |. mapTo(reduxAction(~type_="HEY")) */
+  /* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */
+  /* |. flatMap(x => of1(x |. payload))
+     |. mergeMap(x => of1(x |. version)) */
 };
 /* let signature = ...Some genius , */
 /* let hey = action |. payloadGet; */

@@ -6,7 +6,7 @@ type web3;
 
 type fetch;
 
-type apolloSubscriber;
+type apolloSubscriber = string => Js.Promise.t(string);
 
 type web3PersonalSign;
 

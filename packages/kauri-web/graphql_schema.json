@@ -29,6 +29,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -89,6 +99,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -238,6 +258,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -433,6 +463,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -496,6 +536,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -585,6 +635,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -615,6 +675,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -673,7 +743,47 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version_description",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "draft",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "text",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -779,7 +889,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "text",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -789,7 +899,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "text",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -804,6 +914,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -891,15 +1011,35 @@
               "deprecationReason": null
             },
             {
-              "name": "downvoteRequest",
+              "name": "rejectArticle",
               "description": null,
               "args": [
+                {
+                  "name": "rejection_cause",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
                 {
                   "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -914,19 +1054,9 @@
               "deprecationReason": null
             },
             {
-              "name": "rejectArticle",
+              "name": "downvoteRequest",
               "description": null,
               "args": [
-                {
-                  "name": "rejection_cause",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
                 {
                   "name": "id",
                   "description": "",
@@ -986,6 +1116,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -996,6 +1136,49 @@
                   "name": "CommentDTO",
                   "ofType": null
                 }
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "approveArticle",
+              "description": null,
+              "args": [
+                {
+                  "name": "signature",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "MutationResponse",
+                "ofType": null
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1533,8 +1716,8 @@
             {
               "name": "CLOSED",
               "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": ""
             },
             {
               "name": "CREATED",
@@ -1544,6 +1727,12 @@
             },
             {
               "name": "EXPIRED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FULFILLED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -1587,6 +1776,18 @@
               "deprecationReason": null
             },
             {
+              "name": "article_version",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "category",
               "description": null,
               "args": [],
@@ -1594,6 +1795,22 @@
                 "kind": "SCALAR",
                 "name": "String",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "comments",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CommentDTO",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1684,6 +1901,18 @@
             },
             {
               "name": "short_description",
+              "description": null,
+              "args": [],
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "signature",
               "description": null,
               "args": [],
               "type": {
@@ -1789,33 +2018,6 @@
               },
               "isDeprecated": false,
               "deprecationReason": null
-            },
-            {
-              "name": "versions",
-              "description": null,
-              "args": [
-                {
-                  "name": "version",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "DocumentDTO",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
             }
           ],
           "inputFields": null,
@@ -1838,7 +2040,19 @@
               "deprecationReason": null
             },
             {
+              "name": "DRAFT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "IN_REVIEW",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PUBLISHED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -1852,85 +2066,10 @@
             {
               "name": "SUBMITTED",
               "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": ""
             }
           ],
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "DocumentDTO",
-          "description": "",
-          "fields": [
-            {
-              "name": "comments",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "CommentDTO",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "date_created",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "short_description",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "text",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "version",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
           "possibleTypes": null
         },
         {
@@ -2083,6 +2222,26 @@
           "fields": null,
           "inputFields": [
             {
+              "name": "date_updated_lt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "user_id_eq",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
               "name": "category_in",
               "description": null,
               "type": {
@@ -2097,7 +2256,31 @@
               "defaultValue": null
             },
             {
-              "name": "user_id_eq",
+              "name": "sub_category_in",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "total_contribution_lt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "full_text",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2117,55 +2300,21 @@
               "defaultValue": null
             },
             {
-              "name": "date_updated_lt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "total_contribution_lt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "sub_category_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "full_text",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "total_contribution_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "latest_version",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Boolean",
                 "ofType": null
               },
               "defaultValue": null
@@ -2191,27 +2340,7 @@
               "defaultValue": null
             },
             {
-              "name": "userId",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "total_vote_gt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Int",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "dateUpdatedGreaterThan",
+              "name": "date_created_lt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2235,7 +2364,27 @@
               "defaultValue": null
             },
             {
-              "name": "date_created_lt",
+              "name": "total_vote_gt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "article_version_eq",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "date_updated_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2246,6 +2395,16 @@
             },
             {
               "name": "request_id_eq",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "article_id_eq",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2304,7 +2463,19 @@
               "deprecationReason": null
             },
             {
+              "name": "DRAFT",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
               "name": "IN_REVIEW",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "PUBLISHED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -2318,8 +2489,8 @@
             {
               "name": "SUBMITTED",
               "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": ""
             }
           ],
           "possibleTypes": null
@@ -2477,21 +2648,7 @@
           "fields": null,
           "inputFields": [
             {
-              "name": "category_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "dead_line_gt",
+              "name": "date_updated_lt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2531,16 +2688,6 @@
               "defaultValue": null
             },
             {
-              "name": "date_created_gt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "total_submissions_gt",
               "description": null,
               "type": {
@@ -2551,21 +2698,39 @@
               "defaultValue": null
             },
             {
-              "name": "date_updated_lt",
+              "name": "category_in",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             },
             {
-              "name": "total_contribution_lt",
+              "name": "status_in",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "RequestStatusInput",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "dead_line_lt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
-                "name": "Int",
+                "name": "Date",
                 "ofType": null
               },
               "defaultValue": null
@@ -2585,7 +2750,17 @@
               "defaultValue": null
             },
             {
-              "name": "dead_line_lt",
+              "name": "total_contribution_lt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "dead_line_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2600,6 +2775,16 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "date_created_gt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
                 "ofType": null
               },
               "defaultValue": null
@@ -2625,7 +2810,7 @@
               "defaultValue": null
             },
             {
-              "name": "date_updated_gt",
+              "name": "date_created_lt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2645,26 +2830,12 @@
               "defaultValue": null
             },
             {
-              "name": "date_created_lt",
+              "name": "date_updated_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Date",
                 "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "status_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "RequestStatusInput",
-                  "ofType": null
-                }
               },
               "defaultValue": null
             },
@@ -2714,8 +2885,8 @@
             {
               "name": "CLOSED",
               "description": null,
-              "isDeprecated": false,
-              "deprecationReason": null
+              "isDeprecated": true,
+              "deprecationReason": ""
             },
             {
               "name": "CREATED",
@@ -2725,6 +2896,12 @@
             },
             {
               "name": "EXPIRED",
+              "description": null,
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "FULFILLED",
               "description": null,
               "isDeprecated": false,
               "deprecationReason": null
@@ -2791,6 +2968,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -2851,6 +3038,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -2954,6 +3151,39 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "Date",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "MutationResponse",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "submitForReview",
+              "description": null,
+              "args": [
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3086,6 +3316,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -3152,6 +3392,16 @@
                     "ofType": null
                   },
                   "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
                 }
               ],
               "type": {
@@ -3172,6 +3422,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3205,6 +3465,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3263,7 +3533,27 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "draft",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "text",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -3294,6 +3584,16 @@
                 },
                 {
                   "name": "request_id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version_description",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -3369,7 +3669,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "text",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -3379,7 +3679,7 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "text",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -3394,6 +3694,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3523,6 +3833,59 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "MutationResponse",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "approveArticle",
+              "description": null,
+              "args": [
+                {
+                  "name": "signature",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null

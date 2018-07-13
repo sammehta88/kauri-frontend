@@ -15,9 +15,10 @@ type getGasPrice;
 type driverJS;
 
 /* [@bs.send] external getDriver : (driverJS, int) => unit = ""; */
+/* open ApolloClient; */
 [@bs.deriving abstract]
 type dependencies = {
-  apolloClient,
+  apolloClient: ApolloClient.generatedApolloClient,
   smartContracts,
   web3,
   fetch,

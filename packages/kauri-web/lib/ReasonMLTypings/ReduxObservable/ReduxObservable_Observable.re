@@ -1,12 +1,20 @@
 type observable('a);
 
-[@bs.module "rxjs"] external of1 : 'a => observable('a) = "of";
+[@bs.module "rxjs"] external makeObservable : 'a = "Observable";
+
+[@bs.send] external _of : ('a, 'b) => observable('b) = "of";
+
+let of1 = a => _of(makeObservable, a);
 
 [@bs.send] external ofType : ('a, string) => 'a = "";
 
-/* [@bs.send] external mergeMap : ('t, 't => 'b) => t('b) = ""; */
-[@bs.module "rxjs"]
-external fromPromise : Js.Promise.t('a) => observable('a) = "";
+[@bs.send]
+external _fromPromise : ('a, Js.Promise.t('b)) => observable('b) =
+  "fromPromise";
+
+let fromPromise = a => _fromPromise(makeObservable, a);
+
+[@bs.send] external mapTo : ('a, 'b) => 'b = "";
 
 [@bs.send] external filter : ('a, 'b => bool) => 'b = "";
 
@@ -14,6 +22,9 @@ external fromPromise : Js.Promise.t('a) => observable('a) = "";
 
 [@bs.send] external mergeMap : ('a, 'a => observable('b)) => 'b = "";
 
+[@bs.send] external tap : ('a, 'a => 'b) => 'a = "do";
+
+/* [@bs.send] external mergeMap : ('t, 't => 'b) => t('b) = ""; */
 /* let hello = a => */
 /* a |. ofType |. flatMap(x => x / 2) |. flatMap(y => y + a) |. mergeMap(x => x); */
 let what =

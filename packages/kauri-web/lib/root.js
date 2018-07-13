@@ -23,6 +23,7 @@ import {
   rejectArticleEpic,
   deleteArticleCommentEpic,
 } from '../components/containers/Article/Module'
+import { approveArticleEpic as testEpic } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
 import {
@@ -73,6 +74,7 @@ const epics = [
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
+  testEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

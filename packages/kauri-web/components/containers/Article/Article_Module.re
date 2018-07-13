@@ -28,12 +28,12 @@ let approveArticleAction =
   approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
 
 let approveArticleEpic =
-    (action: approveArticleAction, store: store, _dependencies) =>
+    (action: approveArticleAction, _store: store, _dependencies) =>
   ReduxObservable.Observable.(
     action
     |. ofType("hey")
-    |. flatMap(x => of1(x |. payloadGet))
-    |. mergeMap(x => of1(x |. versionGet))
+    |. flatMap(x => of1(x |. payload))
+    |. mergeMap(x => of1(x |. version))
   );
 /* let hey = action |. payloadGet; */
 /* let state = store.getState(); */

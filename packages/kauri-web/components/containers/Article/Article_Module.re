@@ -35,7 +35,7 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
 
-module GetArticle = [%graphql
+module ApproveArticle = [%graphql
   {|
     mutation approveArticle($id: String, $article_version: Int, $signature: String) {
       approveArticle(id: $id, version: $article_version, signature: $signature) {
@@ -45,15 +45,9 @@ module GetArticle = [%graphql
   |}
 ];
 
-module ApproveArticleQuery = ReasonApollo.CreateQuery(GetArticle);
+module ApproveArticleQuery = ReasonApollo.CreateQuery(ApproveArticle);
 let approveArticleQuery =
-  GetArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
-
-[@bs.deriving abstract]
-type apolloQuery = {
-  query: string,
-  mutation: string,
-};
+  ApproveArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
@@ -68,9 +62,10 @@ let approveArticleEpic =
     action
     |. ofType(stringOfActionType(ApproveArticle))
     |. tap(_x => Js.log(of1))
-    |. tap(_x => Js.log(apolloClient##query(queryMethod)))
-    |. mergeMap(x => fromPromise(subscriber(x |. type_)))
+    /* |. tap(_x => Js.log(apolloClient##query(queryMethod))) */
+    |. tap(_x => fromPromise(apolloClient##query(queryMethod)))
   );
+  /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
   /* |. mapTo(reduxAction(~type_="HEY")) */
   /* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */
   /* |. flatMap(x => of1(x |. payload))

@@ -21,21 +21,21 @@
               "description": null,
               "args": [
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -94,21 +94,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -127,29 +127,6 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "MutationResponse",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "getRequest",
-              "description": null,
-              "args": [
-                {
-                  "name": "id",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "RequestDTO",
                 "ofType": null
               },
               "isDeprecated": false,
@@ -249,7 +226,7 @@
               "deprecationReason": null
             },
             {
-              "name": "getArticle",
+              "name": "getRequest",
               "description": null,
               "args": [
                 {
@@ -261,13 +238,36 @@
                     "ofType": null
                   },
                   "defaultValue": null
-                },
+                }
+              ],
+              "type": {
+                "kind": "OBJECT",
+                "name": "RequestDTO",
+                "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "getArticle",
+              "description": null,
+              "args": [
                 {
-                  "name": "version",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
                     "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -445,6 +445,16 @@
               "description": null,
               "args": [
                 {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "id",
                   "description": "",
                   "type": {
@@ -456,16 +466,6 @@
                 },
                 {
                   "name": "comment_id",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -531,21 +531,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -627,21 +627,21 @@
               "description": null,
               "args": [
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -670,21 +670,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -743,16 +743,6 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "version_description",
                   "description": "",
                   "type": {
@@ -768,6 +758,16 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "Boolean",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -899,6 +899,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "id",
                   "description": "",
                   "type": {
@@ -914,16 +924,6 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "version",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1025,21 +1025,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1104,43 +1104,6 @@
               "deprecationReason": null
             },
             {
-              "name": "getArticleComment",
-              "description": null,
-              "args": [
-                {
-                  "name": "id",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "version",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "OBJECT",
-                  "name": "CommentDTO",
-                  "ofType": null
-                }
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "approveArticle",
               "description": null,
               "args": [
@@ -1155,21 +1118,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -1179,6 +1142,43 @@
                 "kind": "OBJECT",
                 "name": "MutationResponse",
                 "ofType": null
+              },
+              "isDeprecated": false,
+              "deprecationReason": null
+            },
+            {
+              "name": "getArticleComment",
+              "description": null,
+              "args": [
+                {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
+                  "name": "id",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                }
+              ],
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "OBJECT",
+                  "name": "CommentDTO",
+                  "ofType": null
+                }
               },
               "isDeprecated": false,
               "deprecationReason": null
@@ -1260,6 +1260,36 @@
           "kind": "SCALAR",
           "name": "Int",
           "description": "Built-in Int",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Map_String_StringScalar",
+          "description": "Built-in scalar for dynamic structures",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Float",
+          "description": "Built-in Float",
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "enumValues": null,
+          "possibleTypes": null
+        },
+        {
+          "kind": "SCALAR",
+          "name": "Date",
+          "description": "Built-in scalar representing an instant in time",
           "fields": null,
           "inputFields": null,
           "interfaces": null,
@@ -1522,16 +1552,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "Float",
-          "description": "Built-in Float",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "CommentDTO",
           "description": "",
@@ -1651,16 +1671,6 @@
           "possibleTypes": null
         },
         {
-          "kind": "SCALAR",
-          "name": "Date",
-          "description": "Built-in scalar representing an instant in time",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
           "kind": "OBJECT",
           "name": "UserDTO",
           "description": "",
@@ -1692,16 +1702,6 @@
           ],
           "inputFields": null,
           "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "SCALAR",
-          "name": "Map_String_StringScalar",
-          "description": "Built-in scalar for dynamic structures",
-          "fields": null,
-          "inputFields": null,
-          "interfaces": null,
           "enumValues": null,
           "possibleTypes": null
         },
@@ -2242,39 +2242,21 @@
               "defaultValue": null
             },
             {
-              "name": "category_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "sub_category_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "total_contribution_lt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "date_created_gt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
                 "ofType": null
               },
               "defaultValue": null
@@ -2290,12 +2272,16 @@
               "defaultValue": null
             },
             {
-              "name": "date_created_gt",
+              "name": "status_in",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "ENUM",
+                  "name": "ArticleStatusInput",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             },
@@ -2330,16 +2316,6 @@
               "defaultValue": null
             },
             {
-              "name": "moderator_eq",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
               "name": "date_created_lt",
               "description": null,
               "type": {
@@ -2350,16 +2326,12 @@
               "defaultValue": null
             },
             {
-              "name": "status_in",
+              "name": "moderator_eq",
               "description": null,
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "ENUM",
-                  "name": "ArticleStatusInput",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -2369,6 +2341,30 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "category_in",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "date_updated_gt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
                 "ofType": null
               },
               "defaultValue": null
@@ -2384,12 +2380,16 @@
               "defaultValue": null
             },
             {
-              "name": "date_updated_gt",
+              "name": "sub_category_in",
               "description": null,
               "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             },
@@ -2698,16 +2698,22 @@
               "defaultValue": null
             },
             {
-              "name": "category_in",
+              "name": "dead_line_lt",
               "description": null,
               "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
+                "kind": "SCALAR",
+                "name": "Date",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "dead_line_gt",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "Date",
+                "ofType": null
               },
               "defaultValue": null
             },
@@ -2726,30 +2732,6 @@
               "defaultValue": null
             },
             {
-              "name": "dead_line_lt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Date",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "sub_category_in",
-              "description": null,
-              "type": {
-                "kind": "LIST",
-                "name": null,
-                "ofType": {
-                  "kind": "SCALAR",
-                  "name": "String",
-                  "ofType": null
-                }
-              },
-              "defaultValue": null
-            },
-            {
               "name": "total_contribution_lt",
               "description": null,
               "type": {
@@ -2760,7 +2742,7 @@
               "defaultValue": null
             },
             {
-              "name": "dead_line_gt",
+              "name": "date_created_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
@@ -2775,16 +2757,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "String",
-                "ofType": null
-              },
-              "defaultValue": null
-            },
-            {
-              "name": "date_created_gt",
-              "description": null,
-              "type": {
-                "kind": "SCALAR",
-                "name": "Date",
                 "ofType": null
               },
               "defaultValue": null
@@ -2830,12 +2802,40 @@
               "defaultValue": null
             },
             {
+              "name": "category_in",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              },
+              "defaultValue": null
+            },
+            {
               "name": "date_updated_gt",
               "description": null,
               "type": {
                 "kind": "SCALAR",
                 "name": "Date",
                 "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "sub_category_in",
+              "description": null,
+              "type": {
+                "kind": "LIST",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
               },
               "defaultValue": null
             },
@@ -2960,21 +2960,21 @@
               "description": null,
               "args": [
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3033,21 +3033,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3169,21 +3169,21 @@
               "description": null,
               "args": [
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3298,6 +3298,16 @@
               "description": null,
               "args": [
                 {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "id",
                   "description": "",
                   "type": {
@@ -3309,16 +3319,6 @@
                 },
                 {
                   "name": "comment_id",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
@@ -3384,21 +3384,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3417,21 +3417,21 @@
               "description": null,
               "args": [
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3460,21 +3460,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3679,6 +3679,16 @@
                   "defaultValue": null
                 },
                 {
+                  "name": "article_version",
+                  "description": "",
+                  "type": {
+                    "kind": "SCALAR",
+                    "name": "Int",
+                    "ofType": null
+                  },
+                  "defaultValue": null
+                },
+                {
                   "name": "id",
                   "description": "",
                   "type": {
@@ -3694,16 +3704,6 @@
                   "type": {
                     "kind": "SCALAR",
                     "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
-                  "name": "version",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3828,21 +3828,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null
@@ -3871,21 +3871,21 @@
                   "defaultValue": null
                 },
                 {
-                  "name": "id",
+                  "name": "article_version",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "String",
+                    "name": "Int",
                     "ofType": null
                   },
                   "defaultValue": null
                 },
                 {
-                  "name": "version",
+                  "name": "id",
                   "description": "",
                   "type": {
                     "kind": "SCALAR",
-                    "name": "Int",
+                    "name": "String",
                     "ofType": null
                   },
                   "defaultValue": null

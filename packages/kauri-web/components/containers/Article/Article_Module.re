@@ -38,7 +38,7 @@ let approveArticleAction =
 module ApproveArticle = [%graphql
   {|
     mutation approveArticle($id: String, $article_version: Int, $signature: String) {
-      approveArticle(id: $id, version: $article_version, signature: $signature) {
+      approveArticle(id: $id, article_version: $article_version, signature: $signature) {
          hash
         }
     }
@@ -53,7 +53,7 @@ let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
   let apolloClient = dependencies |. apolloClient;
   let queryMethod = {
-    "query": ApproveArticleQuery.graphqlQueryAST,
+    "mutation": ApproveArticleQuery.graphqlQueryAST,
     "variables": approveArticleQuery##variables,
   };
   let subscriber = dependencies |. apolloSubscriber;
@@ -63,7 +63,12 @@ let approveArticleEpic =
     |. ofType(stringOfActionType(ApproveArticle))
     |. tap(_x => Js.log(of1))
     /* |. tap(_x => Js.log(apolloClient##query(queryMethod))) */
-    |. tap(_x => fromPromise(apolloClient##query(queryMethod)))
+    |. mergeMap(_x => fromPromise(apolloClient##mutate(queryMethod)))
+    |. tap(x => {
+         let result = ApproveArticle.parse(x);
+         Js.log(result);
+         of1(result);
+       })
   );
   /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
   /* |. mapTo(reduxAction(~type_="HEY")) */

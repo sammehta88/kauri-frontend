@@ -14,8 +14,12 @@ type mutationObj = {
 
 type generatedApolloClient = {
   .
-  "query": [@bs.meth] (queryObj => Js.Promise.t(Js.Json.t)),
-  "mutate": [@bs.meth] (mutationObj => Js.Promise.t(Js.Json.t)),
+  "query":
+    [@bs.meth] (queryObj => Js.Promise.t(ReasonApolloTypes.executionResult)),
+  "mutate":
+    [@bs.meth] (
+      mutationObj => Js.Promise.t(ReasonApolloTypes.executionResult)
+    ),
 };
 
 type fetch;

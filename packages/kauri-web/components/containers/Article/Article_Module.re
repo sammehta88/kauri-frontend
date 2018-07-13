@@ -35,6 +35,45 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
 
+module CreateRequest = [%graphql
+  {|
+  mutation(
+    $bounty: Float
+    $subject: String
+    $text: String
+    $category: String
+    $dead_line: Date
+    $sub_category: String
+  ) {
+    createRequest(
+      bounty: $bounty
+      subject: $subject
+      text: $text
+      category: $category
+      dead_line: $dead_line
+      sub_category: $sub_category
+    ) {
+      hash
+    }
+  }
+|}
+];
+
+module CreateRequestQuery = ReasonApollo.CreateMutation(CreateRequest);
+
+let createRequestQuery =
+  CreateRequest.make(
+    ~bounty=1.0,
+    ~subject="lol",
+    ~text=
+      "{\"markdown\":\"dasasd\",\"html\":\"<p>dasasd</p>\",\"draftEditorState\":{\"_immutable\":{\"allowUndo\":true,\"currentContent\":{\"entityMap\":{},\"blockMap\":{\"frtqs\":{\"key\":\"frtqs\",\"type\":\"unstyled\",\"text\":\"dasasd\",\"characterList\":[{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null}],\"depth\":0,\"data\":{}}},\"selectionBefore\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":true},\"selectionAfter\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":6,\"focusKey\":\"frtqs\",\"focusOffset\":6,\"isBackward\":false,\"hasFocus\":true}},\"decorator\":null,\"directionMap\":{\"frtqs\":\"LTR\"},\"forceSelection\":false,\"inCompositionMode\":false,\"inlineStyleOverride\":null,\"lastChangeType\":\"insert-characters\",\"nativelyRenderedContent\":null,\"redoStack\":[],\"selection\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":6,\"focusKey\":\"frtqs\",\"focusOffset\":6,\"isBackward\":false,\"hasFocus\":false},\"treeMap\":{\"frtqs\":[{\"start\":0,\"end\":6,\"decoratorKey\":null,\"leaves\":[{\"start\":0,\"end\":6}]}]},\"undoStack\":[{\"entityMap\":{},\"blockMap\":{\"frtqs\":{\"key\":\"frtqs\",\"type\":\"unstyled\",\"text\":\"\",\"characterList\":[],\"depth\":0,\"data\":{}}},\"selectionBefore\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":false},\"selectionAfter\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":false}}]}}}",
+    ~category="kauri",
+    ~dead_line="1531842285127" |. Js.Json.parseExn,
+    /* Js.Json.parseExn(string_of_float(Js.Date.now())) */
+    ~sub_category="general",
+    (),
+  );
+
 module ApproveArticle = [%graphql
   {|
     mutation approveArticle($id: String, $article_version: Int, $signature: String) {
@@ -53,10 +92,15 @@ let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
   let apolloClient = dependencies |. apolloClient;
   let queryMethod = {
-    "mutation": ApproveArticleQuery.graphqlQueryAST,
-    "variables": approveArticleQuery##variables,
+    "mutation": CreateRequestQuery.graphqlMutationAST,
+    "variables": createRequestQuery##variables,
   };
   let subscriber = dependencies |. apolloSubscriber;
+  let (|?) = (a, b) =>
+    switch (a) {
+    | None => None
+    | Some(a) => b(a)
+    };
 
   ReduxObservable.Observable.(
     action
@@ -65,10 +109,25 @@ let approveArticleEpic =
     /* |. tap(_x => Js.log(apolloClient##query(queryMethod))) */
     |. mergeMap(_x => fromPromise(apolloClient##mutate(queryMethod)))
     |. tap(x => {
-         let result = ApproveArticle.parse(x);
-         Js.log(result);
-         of1(result);
+         Js.log(x);
+         Js.log(x##data);
+         let possibleResponse = Js.Nullable.toOption(x##data);
+
+         switch (possibleResponse) {
+         | Some(y) =>
+           let result = CreateRequest.parse(y);
+           switch (result##createRequest |? (x => x##hash)) {
+           | Some(x) => Js.log(x)
+           | None => Js.log("lol")
+           };
+           /* Js.log(result); */
+           x;
+         | _ =>
+           Js.log(x##data);
+           x;
+         };
        })
+    |. flatMap(x => of1(x))
   );
   /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
   /* |. mapTo(reduxAction(~type_="HEY")) */

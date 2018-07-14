@@ -9,7 +9,7 @@
       "subdirs": true
     },
     {
-      "dir": "lib",
+      "dir": "lib/ReasonMLTypings",
       "subdirs": true
     }
   ],

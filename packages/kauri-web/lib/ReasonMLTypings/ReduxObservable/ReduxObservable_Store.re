@@ -4,4 +4,5 @@ type reduxState = {
   woo: string,
 };
 
+[@bs.deriving abstract]
 type store = {getState: unit => reduxState};

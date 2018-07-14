@@ -26,22 +26,26 @@ module Get = (Config: ReasonApolloTypes.Config) => {
     variables: Js.Json.t,
     updateQuery: updateQueryT,
   };
-  
+
   type updateSubscriptionOptions = {
     .
     "subscriptionData": Js.Nullable.t(Js.Json.t),
     "variables": Js.Nullable.t(Js.Json.t),
   };
 
-  type updateQuerySubscriptionT = (Js.Json.t, updateSubscriptionOptions) => Js.Json.t;
+  type updateQuerySubscriptionT =
+    (Js.Json.t, updateSubscriptionOptions) => Js.Json.t;
   type onErrorT;
 
-  [@bs.deriving abstract] 
+  [@bs.deriving abstract]
   type subscribeToMoreOptions = {
     document: queryString,
-    [@bs.optional] variables: Js.Json.t,
-    [@bs.optional] updateQuery: updateQuerySubscriptionT,
-    [@bs.optional] onError: onErrorT 
+    [@bs.optional]
+    variables: Js.Json.t,
+    [@bs.optional]
+    updateQuery: updateQuerySubscriptionT,
+    [@bs.optional]
+    onError: onErrorT,
   };
 
   type renderPropObj = {
@@ -54,7 +58,16 @@ module Get = (Config: ReasonApolloTypes.Config) => {
       (~variables: Js.Json.t=?, ~updateQuery: updateQueryT, unit) =>
       Js.Promise.t(unit),
     networkStatus: int,
-    subscribeToMore: (~document: queryString, ~variables: Js.Json.t=?, ~updateQuery: updateQuerySubscriptionT=?, ~onError: onErrorT=?, unit) => unit => unit
+    subscribeToMore:
+      (
+        ~document: queryString,
+        ~variables: Js.Json.t=?,
+        ~updateQuery: updateQuerySubscriptionT=?,
+        ~onError: onErrorT=?,
+        unit,
+        unit
+      ) =>
+      unit,
   };
 
   [@bs.deriving abstract]
@@ -66,16 +79,16 @@ module Get = (Config: ReasonApolloTypes.Config) => {
     networkStatus: int,
     variables: Js.Null_undefined.t(Js.Json.t),
     fetchMore: fetchMoreOptions => Js.Promise.t(unit),
-    subscribeToMore: subscribeToMoreOptions => unit => unit,
+    subscribeToMore: (subscribeToMoreOptions, unit) => unit,
   };
 
   let graphqlQueryAST = gql(. Config.query);
   let apolloDataToVariant: renderPropObjJS => response =
     apolloData =>
       switch (
-        apolloData |. loading,
-        apolloData |. data |> Js.Nullable.toOption,
-        apolloData |. error |> Js.Nullable.toOption,
+        apolloData |. loadingGet,
+        apolloData |. dataGet |> Js.Nullable.toOption,
+        apolloData |. errorGet |> Js.Nullable.toOption,
       ) {
       | (true, _, _) => Loading
       | (false, Some(response), _) => Data(Config.parse(response))
@@ -106,21 +119,27 @@ module Get = (Config: ReasonApolloTypes.Config) => {
       },
     loading: apolloData |. loading,
     refetch: variables =>
-      apolloData |. refetch(variables |> Js.Nullable.fromOption)
+      apolloData
+      |. refetch(variables |> Js.Nullable.fromOption)
       |> Js.Promise.then_(data =>
            data |> apolloDataToVariant |> Js.Promise.resolve
          ),
     fetchMore: (~variables=?, ~updateQuery, ()) =>
-      apolloData |. fetchMore(fetchMoreOptions(~variables?, ~updateQuery, ())),
-    networkStatus: apolloData |.networkStatus,
-    subscribeToMore: (~document, ~variables=?, ~updateQuery=?, ~onError=?, ()) => 
-    apolloData |. subscribeToMore(subscribeToMoreOptions(
-      ~document,
-      ~variables?,
-      ~updateQuery?,
-      ~onError?,
-      ()
-    )),
+      apolloData
+      |. fetchMore(fetchMoreOptions(~variables?, ~updateQuery, ())),
+    networkStatus: apolloData |. networkStatus,
+    subscribeToMore:
+      (~document, ~variables=?, ~updateQuery=?, ~onError=?, ()) =>
+      apolloData
+      |. subscribeToMore(
+           subscribeToMoreOptions(
+             ~document,
+             ~variables?,
+             ~updateQuery?,
+             ~onError?,
+             (),
+           ),
+         ),
   };
 
   let make =

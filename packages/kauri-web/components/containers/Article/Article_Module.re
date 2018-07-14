@@ -87,15 +87,18 @@ module ApproveArticle = [%graphql
 module ApproveArticleQuery = ReasonApollo.CreateQuery(ApproveArticle);
 let approveArticleQuery =
   ApproveArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
+[@bs.val] external studentAges : string = "subscriber";
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
-  let apolloClient = dependencies |. apolloClient;
+  let apolloClient = dependencies |. apolloClientGet;
   let queryMethod = {
     "mutation": CreateRequestQuery.graphqlMutationAST,
     "variables": createRequestQuery##variables,
   };
   let subscriber = dependencies |. apolloSubscriber;
+  subscriber([|"wow", "omg"|]);
+
   let (|?) = (a, b) =>
     switch (a) {
     | None => None
@@ -108,23 +111,16 @@ let approveArticleEpic =
     |. tap(_x => Js.log(of1))
     /* |. tap(_x => Js.log(apolloClient##query(queryMethod))) */
     |. mergeMap(_x => fromPromise(apolloClient##mutate(queryMethod)))
-    |. tap(x => {
-         Js.log(x);
-         Js.log(x##data);
-         let possibleResponse = Js.Nullable.toOption(x##data);
-
+    |. tap(response => {
+         let possibleResponse = Js.Nullable.toOption(response##data);
          switch (possibleResponse) {
-         | Some(y) =>
-           let result = CreateRequest.parse(y);
+         | Some(data) =>
+           let result = CreateRequest.parse(data);
            switch (result##createRequest |? (x => x##hash)) {
            | Some(x) => Js.log(x)
            | None => Js.log("lol")
            };
-           /* Js.log(result); */
-           x;
-         | _ =>
-           Js.log(x##data);
-           x;
+         | _ => Js.log(response##data)
          };
        })
     |. flatMap(x => of1(x))

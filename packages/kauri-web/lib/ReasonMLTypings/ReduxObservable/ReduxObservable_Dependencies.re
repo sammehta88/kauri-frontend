@@ -6,7 +6,7 @@ type web3;
 
 type fetch;
 
-type apolloSubscriber = string => Js.Promise.t(string);
+type apolloSubscriber;
 
 type web3PersonalSign;
 
@@ -27,3 +27,6 @@ type dependencies = {
   getGasPrice,
   driverJS,
 };
+
+[@bs.splice] [@bs.send]
+external apolloSubscriber : (dependencies, array(string)) => unit = "";

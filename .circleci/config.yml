@@ -36,7 +36,7 @@ jobs:
           name: 'esy install'
           command: |
             cd packages/kauri-web;
-            ~/.npm-global/bin/esy install
+            yarn install
       - save_cache:
           <<: *esy_cache_key
           paths:

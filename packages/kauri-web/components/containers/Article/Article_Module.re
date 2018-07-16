@@ -16,6 +16,7 @@ type approveArticlePayload = {
   article_version: int,
   category: string,
   content_hash: string,
+  request_id: string,
 };
 
 [@bs.deriving abstract]
@@ -130,25 +131,24 @@ module ApproveArticle = [%graphql
 module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 
 let approveArticleEpic =
-    (action: approveArticleAction, _store: store, dependencies: dependencies) => {
-  let apolloClient = dependencies |. apolloClientGet;
-  let subscriber = dependencies |. subscribeToOffchainEvent;
-  let resourceID = action |. payloadGet |. idGet;
-  let article_version = action |. payloadGet |. article_versionGet;
-  let category = action |. payloadGet |. categoryGet;
-  let content_hash = action |. payloadGet |. content_hashGet;
-  let personalSign = dependencies |. personalSignGet;
-
-  let queryMethodTo = {
-    "query": GetArticleQuery.graphqlQueryAST,
-    "variables": getArticleQuery##variables,
-    "fetchPolicy": Js.Nullable.return("network-only"),
-  };
-
+    (action: approveArticleAction, _store: store, dependencies: dependencies) =>
   ReduxObservable.Observable.(
     action
     |. ofType("APPROVE_ARTICLE")
-    |. switchMap(_action => {
+    |. switchMap(action => {
+         let apolloClient = dependencies |. apolloClientGet;
+         let subscriber = dependencies |. subscribeToOffchainEvent;
+         let resourceID = action |. payloadGet |. idGet;
+         let article_version = action |. payloadGet |. article_versionGet;
+         let category = action |. payloadGet |. categoryGet;
+         let content_hash = action |. payloadGet |. content_hashGet;
+         let request_id = action |. payloadGet |. request_idGet;
+         let personalSign = dependencies |. personalSignGet;
+         let queryMethodTo = {
+           "query": GetArticleQuery.graphqlQueryAST,
+           "variables": getArticleQuery##variables,
+           "fetchPolicy": Js.Nullable.return("network-only"),
+         };
          open Mixpanel_Module;
          let metaData = {
            "resource": "article",
@@ -172,7 +172,9 @@ let approveArticleEpic =
          let showApproveArticleNotificationAction =
            showNotificationAction(showApproveArticleNotificationPayload);
 
-         fromPromise(personalSign("HEY"))
+         let approveArticleHash = "";
+
+         fromPromise(personalSign(approveArticleHash))
          |. mergeMap(signature => {
               let approveArticleMutation =
                 ApproveArticle.make(
@@ -225,13 +227,12 @@ let approveArticleEpic =
             });
        })
   );
-  /* |. catch(err => of1(err)) */
-  /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
-  /* |. mapTo(reduxAction(~type_="HEY")) */
-  /* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */
-  /* |. flatMap(x => of1(x |. payload))
-     |. mergeMap(x => of1(x |. version)) */
-};
+/* |. catch(err => of1(err)) */
+/* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
+/* |. mapTo(reduxAction(~type_="HEY")) */
+/* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */
+/* |. flatMap(x => of1(x |. payload))
+   |. mergeMap(x => of1(x |. version)) */
 /* let signature = ...Some genius , */
 /* let hey = action |. payloadGet; */
 /* let state = store.getState(); */

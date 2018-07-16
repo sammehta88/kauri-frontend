@@ -17,6 +17,7 @@ type approveArticlePayload = {
   category: string,
   content_hash: string,
   request_id: string,
+  user_id: string,
 };
 
 [@bs.deriving abstract]
@@ -130,6 +131,12 @@ module ApproveArticle = [%graphql
 
 module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 
+[@bs.module "../../../lib/generate-approve-article-hash.js"]
+/* (id, version, content_hash, category, request_id, contributor) => "" */
+external generateApproveArticleHash :
+  (string, int, string, string, string, string) => string =
+  "default";
+
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) =>
   ReduxObservable.Observable.(
@@ -143,6 +150,7 @@ let approveArticleEpic =
          let category = action |. payloadGet |. categoryGet;
          let content_hash = action |. payloadGet |. content_hashGet;
          let request_id = action |. payloadGet |. request_idGet;
+         let user_id = action |. payloadGet |. user_idGet;
          let personalSign = dependencies |. personalSignGet;
          let queryMethodTo = {
            "query": GetArticleQuery.graphqlQueryAST,
@@ -172,7 +180,16 @@ let approveArticleEpic =
          let showApproveArticleNotificationAction =
            showNotificationAction(showApproveArticleNotificationPayload);
 
-         let approveArticleHash = "";
+         /* (id, version, content_hash, category, request_id, contributor) => "" */
+         let approveArticleHash =
+           generateApproveArticleHash(
+             resourceID,
+             article_version,
+             content_hash,
+             category,
+             request_id,
+             user_id,
+           );
 
          fromPromise(personalSign(approveArticleHash))
          |. mergeMap(signature => {

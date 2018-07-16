@@ -1,6 +1,6 @@
 import bs58 from 'bs58'
 
-const generateApproveArticleHash = (id, version, content_hash, category, request_id, contributor) => {
+const generateApproveArticleHash = (id, article_version, content_hash, category, request_id, contributor) => {
   const web3 = window.web3
   const keccak256 = function (...args) {
     args = args.map(arg => {
@@ -34,7 +34,7 @@ const generateApproveArticleHash = (id, version, content_hash, category, request
 
   return keccak256(
     web3.padRight(web3.fromAscii(id), 66),
-    version,
+    article_version,
     web3.padRight(web3.fromAscii(request_id), 66),
     web3.padRight(convertIpfsHash(content_hash), 66),
     web3.padRight(web3.fromAscii(category), 66),

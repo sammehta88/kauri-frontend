@@ -128,7 +128,6 @@ module ApproveArticle = [%graphql
 ];
 
 module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
-[@bs.val] external studentAges : string = "subscriber";
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
@@ -138,20 +137,8 @@ let approveArticleEpic =
   let article_version = action |. payloadGet |. article_versionGet;
   let category = action |. payloadGet |. categoryGet;
   let content_hash = action |. payloadGet |. content_hashGet;
-  let signature = "";
-  let approveArticleMutation =
-    ApproveArticle.make(
-      ~id="993d89122c124b9aba49e07f41c21752",
-      ~article_version,
-      ~signature,
-      (),
-    );
+  let personalSign = dependencies |. personalSignGet;
 
-  let approveArticleMutationMethod = {
-    "mutation": ApproveArticleMutation.graphqlMutationAST,
-    "variables": approveArticleMutation##variables,
-    "fetchPolicy": Js.Nullable.undefined,
-  };
   let queryMethodTo = {
     "query": GetArticleQuery.graphqlQueryAST,
     "variables": getArticleQuery##variables,
@@ -185,7 +172,26 @@ let approveArticleEpic =
          let showApproveArticleNotificationAction =
            showNotificationAction(showApproveArticleNotificationPayload);
 
-         fromPromise(apolloClient##mutate(approveArticleMutationMethod))
+         fromPromise(personalSign("HEY"))
+         |. mergeMap(signature => {
+              let approveArticleMutation =
+                ApproveArticle.make(
+                  ~id="993d89122c124b9aba49e07f41c21752",
+                  ~article_version,
+                  ~signature,
+                  (),
+                );
+
+              let approveArticleMutationMethod = {
+                "mutation": ApproveArticleMutation.graphqlMutationAST,
+                "variables": approveArticleMutation##variables,
+                "fetchPolicy": Js.Nullable.undefined,
+              };
+
+              fromPromise(
+                apolloClient##mutate(approveArticleMutationMethod),
+              );
+            })
          |. map(response => {
               let possibleResponse = Js.Nullable.toOption(response##data);
               switch (possibleResponse) {
@@ -198,22 +204,10 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
-         |. tap(x => {
-              Js.log(x);
-              x;
-            })
          |. mergeMap(hash => fromPromise(subscriber([|hash|])))
-         |. tap(x => {
-              Js.log(x);
-              x;
-            })
          |. mergeMap(_hash =>
               fromPromise(apolloClient##query(queryMethodTo))
             )
-         |. tap(x => {
-              Js.log(x);
-              x;
-            })
          /* idk; works */
          |. flatMapTo(
               of3(

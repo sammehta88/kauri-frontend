@@ -23,19 +23,24 @@ let fromPromise = a => _fromPromise(makeObservable, a);
 
 [@bs.send] external filter : ('a, 'b => bool) => 'b = "";
 
-[@bs.send] external flatMap : ('a, 'a => observable('b)) => 'b = "";
+[@bs.send]
+external flatMap : (observable('a), 'a => observable('b)) => observable('b) =
+  "";
 
-[@bs.send] external mergeMap : ('a, 'a => observable('b)) => 'b = "";
+[@bs.send]
+external mergeMap : (observable('a), 'a => observable('b)) => observable('b) =
+  "";
 
 [@bs.send]
 external switchMap : ('a, 'a => observable('b)) => observable('b) = "";
 
 [@bs.send] external tap : ('a, 'a => 'b) => 'a = "do";
 
-[@bs.send] external map : (observable('a), 'a => 'b) => 'b = "";
+[@bs.send] external map : (observable('a), 'a => 'b) => observable('b) = "";
 
 [@bs.send]
-external catch : ('a, exn => observable('b)) => observable('b) = "";
+external catch : (observable('a), exn => observable('b)) => observable('b) =
+  "";
 
 /* [@bs.send] external mergeMap : ('t, 't => 'b) => t('b) = ""; */
 /* let hello = a => */

@@ -1,3 +1,4 @@
+open ReduxObservable_Observable;
 type apolloClient;
 
 type smartContracts;
@@ -9,6 +10,8 @@ type fetch;
 type apolloSubscriber;
 
 type web3PersonalSign;
+
+type personalSign = string => Js.Promise.t(string);
 
 type getGasPrice;
 
@@ -29,13 +32,12 @@ type dependencies = {
   fetch,
   apolloSubscriber,
   web3PersonalSign,
+  personalSign,
   getGasPrice,
   driverJS,
 };
 
-open ReduxObservable_Observable;
-
 [@bs.splice] [@bs.send]
 external subscribeToOffchainEvent :
-  (dependencies, array(string)) => Js.Promise.t(observable(string)) =
+  (dependencies, array(string)) => Js.Promise.t(string) =
   "apolloSubscriber";

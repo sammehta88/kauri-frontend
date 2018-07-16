@@ -13,18 +13,8 @@ let (|?) = (a, b) =>
 [@bs.deriving abstract]
 type approveArticlePayload = {
   id: string,
-  version: int,
-  content_hash: string,
-  category: string,
+  article_version: int,
 };
-
-type actionType =
-  | ApproveArticle;
-
-let stringOfActionType = actionType =>
-  switch (actionType) {
-  | ApproveArticle => "TRACK_ANALYTICS"
-  };
 
 [@bs.deriving abstract]
 type reduxAction = {
@@ -42,7 +32,7 @@ type approveArticleAction = {
 let approveArticleAction =
     (payload: approveArticlePayload)
     : approveArticleAction =>
-  approveArticleAction(~type_=stringOfActionType(ApproveArticle), ~payload);
+  approveArticleAction(~type_="APPROVE_ARTICLE", ~payload);
 
 module CreateRequest = [%graphql
   {|
@@ -127,7 +117,7 @@ let getArticleQuery = GetArticle.make(~article_id="XYZ", ());
 
 module ApproveArticle = [%graphql
   {|
-    mutation approveArticle($id: String, $article_version: Int, $signature: String) {
+    mutation approveArticle($id: String!, $article_version: Int!, $signature: String!) {
       approveArticle(id: $id, article_version: $article_version, signature: $signature) {
          hash
         }
@@ -135,18 +125,27 @@ module ApproveArticle = [%graphql
   |}
 ];
 
-module ApproveArticleQuery = ReasonApollo.CreateQuery(ApproveArticle);
-let approveArticleQuery =
-  ApproveArticle.make(~id="993d89122c124b9aba49e07f41c21752", ());
+module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 [@bs.val] external studentAges : string = "subscriber";
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
   let apolloClient = dependencies |. apolloClientGet;
   let subscriber = dependencies |. subscribeToOffchainEvent;
+  let resourceID = action |. payloadGet |. idGet;
+  let article_version = action |. payloadGet |. article_versionGet;
+  let signature = "";
+  let approveArticleMutation =
+    ApproveArticle.make(
+      ~id="993d89122c124b9aba49e07f41c21752",
+      ~article_version,
+      ~signature,
+      (),
+    );
+
   let queryMethod = {
-    "mutation": CreateRequestQuery.graphqlMutationAST,
-    "variables": createRequestQuery##variables,
+    "mutation": ApproveArticleMutation.graphqlMutationAST,
+    "variables": approveArticleMutation##variables,
     /* interesting.. */
     "fetchPolicy": Js.Nullable.undefined,
   };
@@ -159,9 +158,8 @@ let approveArticleEpic =
 
   ReduxObservable.Observable.(
     action
-    |. ofType(stringOfActionType(ApproveArticle))
+    |. ofType("APPROVE_ARTICLE")
     |. switchMap(action => {
-         let resourceID = action |. payloadGet |. idGet;
          open Mixpanel_Module;
          let metaData = {
            "resource": "article",

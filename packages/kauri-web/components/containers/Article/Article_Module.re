@@ -219,7 +219,9 @@ let approveArticleEpic =
               of3(
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
-                {"type": "LOOL"},
+                routeChangeAction(
+                  route(~routeType=ArticleApproved, ~slug=resourceID),
+                ),
               ),
             )
          /* |. mapTo({"heyt": "wow"}) */

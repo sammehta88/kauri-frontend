@@ -83,6 +83,48 @@ let createRequestQuery =
     (),
   );
 
+module GetArticle = [%graphql
+  {|
+    query getArticle($article_id: String) {
+      getArticle(id: $article_id) {
+        article_id
+        user_id
+        request_id
+        date_created
+        date_updated
+        text
+        tip
+        status
+        subject
+        sub_category
+        category
+        content_hash
+        comments {
+          comment_id
+          date_created
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
+          user {
+            username
+          }
+        }
+        user {
+          user_id
+          username
+        }
+        metadata
+      }
+    }
+  |}
+];
+
+module GetArticleQuery = ReasonApollo.CreateQuery(GetArticle);
+
+let getArticleQuery = GetArticle.make(~article_id="XYZ", ());
+
 module ApproveArticle = [%graphql
   {|
     mutation approveArticle($id: String, $article_version: Int, $signature: String) {
@@ -109,11 +151,12 @@ let approveArticleEpic =
     "fetchPolicy": Js.Nullable.undefined,
   };
   let queryMethodTo = {
-    "query": CreateRequestQuery.graphqlMutationAST,
-    "variables": createRequestQuery##variables,
+    "query": GetArticleQuery.graphqlQueryAST,
+    "variables": getArticleQuery##variables,
     /* interesting.. */
     "fetchPolicy": Js.Nullable.return("network-only"),
   };
+
   ReduxObservable.Observable.(
     action
     |. ofType(stringOfActionType(ApproveArticle))
@@ -155,10 +198,22 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
+         |. tap(x => {
+              Js.log(x);
+              x;
+            })
          |. mergeMap(hash => fromPromise(subscriber([|hash|])))
+         |. tap(x => {
+              Js.log(x);
+              x;
+            })
          |. mergeMap(_hash =>
               fromPromise(apolloClient##query(queryMethodTo))
             )
+         |. tap(x => {
+              Js.log(x);
+              x;
+            })
          /* idk; works */
          |. flatMapTo(
               of3(
@@ -167,8 +222,11 @@ let approveArticleEpic =
                 {"type": "LOOL"},
               ),
             )
-         |. mapTo({"heyt": "wow"})
-         |. catch(err => of1(err));
+         /* |. mapTo({"heyt": "wow"}) */
+         |. catch(err => {
+              Js.log(err);
+              of1(showErrorNotificationAction(err));
+            });
        })
   );
   /* |. catch(err => of1(err)) */

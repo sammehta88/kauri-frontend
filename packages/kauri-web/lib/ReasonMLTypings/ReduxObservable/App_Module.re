@@ -20,5 +20,18 @@ type showNotificationAction = {
   payload: showNotificationPayload,
 };
 
+let showErrorNotificationPayload =
+  showNotificationPayload(
+    ~notificationType=notificationTypeToJs(`Error),
+    ~message="Submission error",
+    ~description="Please try again",
+  );
+
+let showErrorNotificationAction = _err =>
+  showNotificationAction(
+    ~type_="SHOW_NOTIFICATION",
+    ~payload=showErrorNotificationPayload,
+  );
+
 let showNotificationAction = payload =>
   showNotificationAction(~type_="SHOW_NOTIFICATION", ~payload);

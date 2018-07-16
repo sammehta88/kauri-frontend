@@ -38,4 +38,4 @@ open ReduxObservable_Observable;
 [@bs.splice] [@bs.send]
 external subscribeToOffchainEvent :
   (dependencies, array(string)) => Js.Promise.t(observable(string)) =
-  "";
+  "apolloSubscriber";

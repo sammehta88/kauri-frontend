@@ -117,7 +117,31 @@ let approveArticleEpic =
   ReduxObservable.Observable.(
     action
     |. ofType(stringOfActionType(ApproveArticle))
-    |. switchMap(_action =>
+    |. switchMap(action => {
+         let resourceID = action |. payloadGet |. idGet;
+         open Mixpanel_Module;
+         let metaData = {
+           "resource": "article",
+           "resourceID": resourceID,
+           "resourceAction": "approve article",
+         };
+         let trackApproveArticlePayload =
+           trackMixPanelPayload(~event="Offchain", ~metaData);
+         let trackApproveArticleAction =
+           trackMixPanelAction(trackApproveArticlePayload);
+         open App_Module;
+         let notificationType = notificationTypeToJs(`Success);
+         let showApproveArticleNotificationPayload =
+           showNotificationPayload(
+             ~notificationType,
+             ~message="Article approved",
+             ~description=
+               "This approved article now needs to be published by the author",
+           );
+
+         let showApproveArticleNotificationAction =
+           showNotificationAction(showApproveArticleNotificationPayload);
+
          fromPromise(apolloClient##mutate(queryMethod))
          |. map(response => {
               let possibleResponse = Js.Nullable.toOption(response##data);
@@ -136,10 +160,16 @@ let approveArticleEpic =
               fromPromise(apolloClient##query(queryMethodTo))
             )
          /* idk; works */
-         |. flatMapTo(of3({"a": 1}, {"f": 2}, {"w": 3}))
+         |. flatMapTo(
+              of3(
+                trackApproveArticleAction,
+                showApproveArticleNotificationAction,
+                {"type": "LOOL"},
+              ),
+            )
          |. mapTo({"heyt": "wow"})
-         |. catch(err => of1(err))
-       )
+         |. catch(err => of1(err));
+       })
   );
   /* |. catch(err => of1(err)) */
   /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */

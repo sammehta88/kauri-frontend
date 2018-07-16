@@ -38,45 +38,6 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_="APPROVE_ARTICLE", ~payload);
 
-module CreateRequest = [%graphql
-  {|
-  mutation(
-    $bounty: Float
-    $subject: String
-    $text: String
-    $category: String
-    $dead_line: Date
-    $sub_category: String
-  ) {
-    createRequest(
-      bounty: $bounty
-      subject: $subject
-      text: $text
-      category: $category
-      dead_line: $dead_line
-      sub_category: $sub_category
-    ) {
-      hash
-    }
-  }
-|}
-];
-
-module CreateRequestQuery = ReasonApollo.CreateMutation(CreateRequest);
-
-let createRequestQuery =
-  CreateRequest.make(
-    ~bounty=1.0,
-    ~subject="lol",
-    ~text=
-      "{\"markdown\":\"dasasd\",\"html\":\"<p>dasasd</p>\",\"draftEditorState\":{\"_immutable\":{\"allowUndo\":true,\"currentContent\":{\"entityMap\":{},\"blockMap\":{\"frtqs\":{\"key\":\"frtqs\",\"type\":\"unstyled\",\"text\":\"dasasd\",\"characterList\":[{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null},{\"style\":[],\"entity\":null}],\"depth\":0,\"data\":{}}},\"selectionBefore\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":true},\"selectionAfter\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":6,\"focusKey\":\"frtqs\",\"focusOffset\":6,\"isBackward\":false,\"hasFocus\":true}},\"decorator\":null,\"directionMap\":{\"frtqs\":\"LTR\"},\"forceSelection\":false,\"inCompositionMode\":false,\"inlineStyleOverride\":null,\"lastChangeType\":\"insert-characters\",\"nativelyRenderedContent\":null,\"redoStack\":[],\"selection\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":6,\"focusKey\":\"frtqs\",\"focusOffset\":6,\"isBackward\":false,\"hasFocus\":false},\"treeMap\":{\"frtqs\":[{\"start\":0,\"end\":6,\"decoratorKey\":null,\"leaves\":[{\"start\":0,\"end\":6}]}]},\"undoStack\":[{\"entityMap\":{},\"blockMap\":{\"frtqs\":{\"key\":\"frtqs\",\"type\":\"unstyled\",\"text\":\"\",\"characterList\":[],\"depth\":0,\"data\":{}}},\"selectionBefore\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":false},\"selectionAfter\":{\"anchorKey\":\"frtqs\",\"anchorOffset\":0,\"focusKey\":\"frtqs\",\"focusOffset\":0,\"isBackward\":false,\"hasFocus\":false}}]}}}",
-    ~category="kauri",
-    ~dead_line="1531842285127" |. Js.Json.parseExn,
-    /* Js.Json.parseExn(string_of_float(Js.Date.now())) */
-    ~sub_category="general",
-    (),
-  );
-
 module GetArticle = [%graphql
   {|
     query getArticle($article_id: String) {
@@ -117,14 +78,12 @@ module GetArticle = [%graphql
 
 module GetArticleQuery = ReasonApollo.CreateQuery(GetArticle);
 
-let getArticleQuery = GetArticle.make(~article_id="XYZ", ());
-
 module ApproveArticle = [%graphql
   {|
     mutation approveArticle($id: String!, $article_version: Int!, $signature: String!) {
       approveArticle(id: $id, article_version: $article_version, signature: $signature) {
          hash
-        }
+      }
     }
   |}
 ];
@@ -134,35 +93,34 @@ module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (id, version, content_hash, category, request_id, contributor) => "" */
 external generateApproveArticleHash :
-  (string, int, string, string, option(string), string) => string =
+  (string, int, string, string, string, string) => string =
   "default";
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) =>
   ReduxObservable.Observable.(
     action
-    |. ofType("TRACK_ANALYTICS")
+    |. ofType("APPROVE_ARTICLE")
     |. switchMap(action => {
          let apolloClient = dependencies |. apolloClientGet;
          let subscriber = dependencies |. subscribeToOffchainEvent;
-         /* let resourceID = action |. payloadGet |. idGet;
-            let article_version = action |. payloadGet |. article_versionGet;
-            let category = action |. payloadGet |. categoryGet;
-            let content_hash = action |. payloadGet |. content_hashGet;
-            let request_id = action |. payloadGet |. request_idGet;
-            let user_id = action |. payloadGet |. user_idGet; */
-         let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
-         let article_version = 1;
-         let category = "kauri";
-         let content_hash = "QmZpfbd67BNumh5gJnp7jeXNz443V4rDvYsDssDKREtFgq";
-         let request_id = Some("");
-         let user_id = "0xf8ae578d5d4e570de6c31f26d42ef369c320ae0b";
          let personalSign = dependencies |. personalSignGet;
-         let getArticleQueryMethod = {
-           "query": GetArticleQuery.graphqlQueryAST,
-           "variables": getArticleQuery##variables,
-           "fetchPolicy": Js.Nullable.return("network-only"),
-         };
+
+         let resourceID = action |. payloadGet |. idGet;
+         let article_version = action |. payloadGet |. article_versionGet;
+         let category = action |. payloadGet |. categoryGet;
+         let content_hash = action |. payloadGet |. content_hashGet;
+         let request_id =
+           switch (action |. payloadGet |. request_idGet) {
+           | Some(request_id) => request_id
+           | None => ""
+           };
+         let user_id = action |. payloadGet |. user_idGet;
+         /* let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
+            let article_version = 1;
+            let category = "kauri";
+            let user_id = "0xf8ae578d5d4e570de6c31f26d42ef369c320ae0b";
+            let content_hash = "QmZpfbd67BNumh5gJnp7jeXNz443V4rDvYsDssDKREtFgq"; */
          open Mixpanel_Module;
          let metaData = {
            "resource": "article",
@@ -201,7 +159,7 @@ let approveArticleEpic =
          |. mergeMap(signature => {
               let approveArticleMutation =
                 ApproveArticle.make(
-                  ~id="993d89122c124b9aba49e07f41c21752",
+                  ~id=resourceID,
                   ~article_version,
                   ~signature,
                   (),
@@ -230,10 +188,17 @@ let approveArticleEpic =
               };
             })
          |. mergeMap(hash => fromPromise(subscriber([|hash|])))
-         |. mergeMap(_hash =>
-              fromPromise(apolloClient##query(getArticleQueryMethod))
-            )
-         /* idk; works */
+         |. mergeMap(_hash => {
+              let getArticleQuery =
+                GetArticle.make(~article_id=resourceID, ());
+              let getArticleQueryMethod = {
+                "query": GetArticleQuery.graphqlQueryAST,
+                "variables": getArticleQuery##variables,
+                "fetchPolicy": Js.Nullable.return("network-only"),
+              };
+
+              fromPromise(apolloClient##query(getArticleQueryMethod));
+            })
          |. flatMapTo(
               of3(
                 trackApproveArticleAction,
@@ -249,13 +214,3 @@ let approveArticleEpic =
             });
        })
   );
-/* |. catch(err => of1(err)) */
-/* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
-/* |. mapTo(reduxAction(~type_="HEY")) */
-/* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */
-/* |. flatMap(x => of1(x |. payload))
-   |. mergeMap(x => of1(x |. version)) */
-/* let signature = ...Some genius , */
-/* let hey = action |. payloadGet; */
-/* let state = store.getState(); */
-/* let me = dependencies |. driverJSGet |. getDriver(2); */

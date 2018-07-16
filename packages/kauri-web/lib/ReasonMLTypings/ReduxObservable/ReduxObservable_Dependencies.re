@@ -1,4 +1,3 @@
-open ReduxObservable_Observable;
 type apolloClient;
 
 type smartContracts;

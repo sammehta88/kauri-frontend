@@ -11,6 +11,10 @@
     {
       "dir": "lib/ReasonMLTypings",
       "subdirs": true
+    },
+    {
+      "dir": "queries",
+      "subdirs": true
     }
   ],
   "package-specs": [

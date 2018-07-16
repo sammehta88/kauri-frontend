@@ -38,58 +38,6 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_="APPROVE_ARTICLE", ~payload);
 
-module GetArticle = [%graphql
-  {|
-    query getArticle($article_id: String) {
-      getArticle(id: $article_id) {
-        article_id
-        user_id
-        request_id
-        date_created
-        date_updated
-        text
-        tip
-        status
-        subject
-        sub_category
-        category
-        content_hash
-        comments {
-          comment_id
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-          user {
-            username
-          }
-        }
-        user {
-          user_id
-          username
-        }
-        metadata
-      }
-    }
-  |}
-];
-
-module GetArticleQuery = ReasonApollo.CreateQuery(GetArticle);
-
-module ApproveArticle = [%graphql
-  {|
-    mutation approveArticle($id: String!, $article_version: Int!, $signature: String!) {
-      approveArticle(id: $id, article_version: $article_version, signature: $signature) {
-         hash
-      }
-    }
-  |}
-];
-
-module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
-
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (id, version, content_hash, category, request_id, contributor) => "" */
 external generateApproveArticleHash :
@@ -158,7 +106,7 @@ let approveArticleEpic =
          fromPromise(personalSign(approveArticleHash))
          |. mergeMap(signature => {
               let approveArticleMutation =
-                ApproveArticle.make(
+                Article_Queries.ApproveArticle.make(
                   ~id=resourceID,
                   ~article_version,
                   ~signature,
@@ -166,7 +114,7 @@ let approveArticleEpic =
                 );
 
               let approveArticleMutationMethod = {
-                "mutation": ApproveArticleMutation.graphqlMutationAST,
+                "mutation": Article_Queries.ApproveArticleMutation.graphqlMutationAST,
                 "variables": approveArticleMutation##variables,
                 "fetchPolicy": Js.Nullable.undefined,
               };
@@ -179,7 +127,7 @@ let approveArticleEpic =
               let possibleResponse = Js.Nullable.toOption(response##data);
               switch (possibleResponse) {
               | Some(data) =>
-                let result = ApproveArticle.parse(data);
+                let result = Article_Queries.ApproveArticle.parse(data);
                 switch (result##approveArticle |? (x => x##hash)) {
                 | Some(hash) => hash
                 | None => raise(NoHashFound)
@@ -190,9 +138,9 @@ let approveArticleEpic =
          |. mergeMap(hash => fromPromise(subscriber([|hash|])))
          |. mergeMap(_hash => {
               let getArticleQuery =
-                GetArticle.make(~article_id=resourceID, ());
+                Article_Queries.GetArticle.make(~article_id=resourceID, ());
               let getArticleQueryMethod = {
-                "query": GetArticleQuery.graphqlQueryAST,
+                "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
                 "variables": getArticleQuery##variables,
                 "fetchPolicy": Js.Nullable.return("network-only"),
               };

@@ -1,239 +1,234 @@
 /* @flow */
 
 declare type GraphQLResponseRoot = {
-  data?: QUERY_ROOT | MUTATION_ROOT,
-  errors?: Array<GraphQLResponseError>,
+  data?: Query | Mutation;
+  errors?: Array<GraphQLResponseError>;
 }
 
 declare type GraphQLResponseError = {
-  message: string, // Required for all errors
-  locations?: Array<GraphQLResponseErrorLocation>,
-  [propName: string]: any, // 7.2.2 says 'GraphQL servers may provide additional entries to error'
+  message: string;            // Required for all errors
+  locations?: Array<GraphQLResponseErrorLocation>;
+  [propName: string]: any;    // 7.2.2 says 'GraphQL servers may provide additional entries to error'
 }
 
 declare type GraphQLResponseErrorLocation = {
-  line: number,
-  column: number,
+  line: number;
+  column: number;
 }
 
 /**
   Query root type
 */
-declare type QUERY_ROOT = {
-  /** downvoteArticle */
-  downvoteArticle: ?ArticleDTO,
-  /** createRequest */
-  createRequest: ?RequestDTO,
-  getRequest: ?RequestDTO,
-  getArticle: ?ArticleDTO,
-  /** editRequest */
-  editRequest: ?RequestDTO,
-  /** flagRequest */
-  flagRequest: ?RequestDTO,
-  searchArticles: ?Page_ArticleDTO,
-  /** finaliseArticle */
-  finaliseArticle: ?ArticleDTO,
-  searchRequests: ?Page_RequestDTO,
-  /** upvoteArticle */
-  upvoteArticle: ?ArticleDTO,
-  /** submitArticle */
-  submitArticle: ?ArticleDTO,
-  /** upvoteRequest */
-  upvoteRequest: ?RequestDTO,
-  /** preApproveArticle */
-  preApproveArticle: ?ArticleDTO,
-  /** editArticle */
-  editArticle: ?ArticleDTO,
-  /** rejectArticle */
-  rejectArticle: ?ArticleDTO,
-  /** downvoteRequest */
-  downvoteRequest: ?RequestDTO,
-  getRequestComment: ?Array<CommentDTO>,
-  /** approveArticle */
-  approveArticle: ?ArticleDTO,
-  getArticleComment: ?Array<CommentDTO>,
+declare type Query = {
+  downvoteArticle: ?MutationResponse;
+  commentArticle: ?MutationResponse;
+  createRequest: ?MutationResponse;
+  getRequest: ?RequestDTO;
+  getArticle: ?ArticleDTO;
+  deleteRequestComment: ?MutationResponse;
+  editRequest: ?MutationResponse;
+  searchArticles: ?Page_ArticleDTO;
+  deleteArticleComment: ?MutationResponse;
+  storeRequestOwnershipSignature: ?MutationResponse;
+  storeArticleOwnershipSignature: ?MutationResponse;
+  searchRequests: ?Page_RequestDTO;
+  upvoteArticle: ?MutationResponse;
+  storeArticleValidationSignature: ?MutationResponse;
+  submitArticle: ?MutationResponse;
+  upvoteRequest: ?MutationResponse;
+  editArticle: ?MutationResponse;
+  commentRequest: ?MutationResponse;
+  rejectArticle: ?MutationResponse;
+  downvoteRequest: ?MutationResponse;
+  getRequestComment: ?Array<CommentDTO>;
+  approveArticle: ?MutationResponse;
+  getArticleComment: ?Array<CommentDTO>;
 }
 
-declare type ArticleMetadataDTO = {
-  LICENSE?: string,
-  LICENSE_URL?: string,
-  SEO?: string,
-  FOR_VERSION?: string,
+declare type MutationResponse = {
+  hash: ?string;
+  message: ?string;
+  success: ?boolean;
 }
 
-declare type ArticleDTO = {
-  article_id: ?string,
-  total_vote: ?number,
-  date_updated: ?any,
-  versions: ?Array<DocumentDTO>,
-  user_id: ?string,
-  date_created: ?any,
-  category: ?string,
-  sub_category: ?string,
-  tip: ?number,
-  text: ?string,
-  request_id: ?string,
-  status: ?ArticleStatus,
-  subject: ?string,
-  user: ?UserDTO,
-  content_hash: ?string,
-  metadata: ?ArticleMetadataDTO,
-}
-
-declare type DocumentDTO = {
-  comments: ?Array<CommentDTO>,
-  text: ?string,
-  version: ?number,
-  date_created: ?any,
+declare type RequestDTO = {
+  bounty: ?number;
+  category: ?string;
+  comments: ?Array<CommentDTO>;
+  content_hash: ?string;
+  date_created: ?any;
+  date_updated: ?any;
+  dead_line: ?any;
+  is_flagged: ?boolean;
+  metadata: ?any;
+  request_id: ?string;
+  short_description: ?string;
+  status: ?RequestStatus;
+  sub_category: ?string;
+  subject: ?string;
+  text: ?string;
+  total_flag: ?number;
+  total_submissions: ?number;
+  total_vote: ?number;
+  user: ?UserDTO;
+  user_id: ?string;
 }
 
 declare type CommentDTO = {
-  comment_id: ?number,
-  highlight_from: ?number,
-  highlight_to: ?number,
-  anchor_key: ?string,
-  focus_key: ?string,
-  comment: ?string,
-  user_id: ?string,
-  date_created: ?any,
-  user: ?UserDTO,
+  anchor_key: ?string;
+  comment: ?string;
+  comment_id: ?number;
+  date_created: ?any;
+  focus_key: ?string;
+  highlight_from: ?number;
+  highlight_to: ?number;
+  user: ?UserDTO;
+  user_id: ?string;
 }
 
 declare type UserDTO = {
-  user_id: ?string,
-  username: ?string,
-  user_email: ?string,
+  user_id: ?string;
+  username: ?string;
 }
 
-declare type ArticleStatus = 'IN_REVIEW' | 'SUBMITTED' | 'APPROVED' | 'REJECTED'
+declare type RequestStatus = "CLOSED" | "CREATED" | "EXPIRED" | "FULFILLED" | "IN_MODERATION_PERIOD" | "OPENED" | "REFUNDED";
 
-declare type RequestDTO = {
-  date_updated: ?any,
-  comments: ?Array<CommentDTO>,
-  date_created: ?any,
-  dead_line: ?number,
-  /** bounty */
-  bounty: ?number,
-  /** subject */
-  subject: ?string,
-  total_flag: ?number,
-  total_vote: ?number,
-  total_submissions: ?number,
-  user_id: ?string,
-  /** text */
-  text: ?string,
-  /** category */
-  category: ?string,
-  content_hash: ?string,
-  sub_category: ?string,
-  request_id: ?string,
-  is_flagged: ?boolean,
-  /** status */
-  status: ?RequestStatus,
-  user: ?UserDTO,
+declare type ArticleDTO = {
+  article_id: ?string;
+  article_version: ?number;
+  category: ?string;
+  comments: ?Array<CommentDTO>;
+  content_hash: ?string;
+  date_created: ?any;
+  date_updated: ?any;
+  metadata: ?any;
+  moderator: ?UserDTO;
+  rejection_cause: ?string;
+  request_id: ?string;
+  short_description: ?string;
+  signature: ?string;
+  status: ?ArticleStatus;
+  sub_category: ?string;
+  subject: ?string;
+  text: ?string;
+  tip: ?number;
+  total_vote: ?number;
+  user: ?UserDTO;
+  user_id: ?string;
 }
 
-declare type RequestStatus = 'CREATED' | 'OPENED' | 'CLOSED' | 'CANCELLED' | 'EXPIRED' | 'IN_MODERATION_PERIOD'
+declare type ArticleStatus = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
 
 declare type Page_ArticleDTO = {
-  /** number */
-  number: ?number,
-  /** numberOfElements */
-  numberOfElements: ?number,
-  /** last */
-  last: ?boolean,
-  /** size */
-  size: ?number,
-  /** totalPages */
-  totalPages: ?number,
-  /** first */
-  first: ?boolean,
-  /** content */
-  content: ?Array<ArticleDTO>,
-  /** totalElements */
-  totalElements: ?any,
-  _type_: ?string,
+  content: ?Array<ArticleDTO>;
+  first: ?boolean;
+  last: ?boolean;
+  number: ?number;
+  numberOfElements: ?number;
+  size: ?number;
+  sort: ?Sort;
+  totalElements: ?any;
+  totalPages: ?number;
 }
 
-declare type CategoryInput = 'metamask' | 'ethereum' | 'kauri'
+declare type Sort = {
+
+}
 
 declare type ArticleFilterInput = {
-  category_in: Array<?CategoryInput>,
-  date_created_gt: ?any,
-  subject_ct: ?string,
-  full_text: ?string,
-  text_ct: ?string,
-  request_id_eq: ?string,
-  userId: ?string,
-  user_id_eq: ?string,
-  status_in: ?Array<ArticleStatusInput>,
-  date_updated_lt: ?any,
-  date_created_lt: ?any,
-  dateUpdatedGreaterThan: ?any,
+  date_created_lt: ?any;
+  user_id_eq: ?string;
+  date_updated_gt: ?any;
+  total_contribution_lt: ?number;
+  full_text: ?string;
+  total_contribution_gt: ?number;
+  latest_version: ?boolean;
+  total_vote_lt: ?number;
+  moderator_eq: ?string;
+  date_updated_lt: ?any;
+  total_vote_gt: ?number;
+  category_in: ?Array<string>;
+  sub_category_in: ?Array<string>;
+  article_version_eq: ?number;
+  request_id_eq: ?string;
+  date_created_gt: ?any;
+  status_in: ?Array<ArticleStatusInput>;
+  article_id_eq: ?string;
+  text_ct: ?string;
+  moderator: ?string;
+  subject_ct: ?string;
 }
 
-declare type ArticleStatusInput = 'PENDING' | 'PRE_APPROVED' | 'COMPLETED' | 'APPROVED' | 'REJECTED'
+declare type ArticleStatusInput = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
 
-declare type DirectionInput = 'ASC' | 'DESC'
+declare type DirectionInput = "ASC" | "DESC";
 
 declare type Page_RequestDTO = {
-  /** number */
-  number: ?number,
-  /** numberOfElements */
-  numberOfElements: ?number,
-  /** last */
-  last: ?boolean,
-  /** size */
-  size: ?number,
-  /** totalPages */
-  totalPages: ?number,
-  /** first */
-  first: ?boolean,
-  /** content */
-  content: ?Array<RequestDTO>,
-  /** totalElements */
-  totalElements: ?any,
-  _type_: ?string,
+  content: ?Array<RequestDTO>;
+  first: ?boolean;
+  last: ?boolean;
+  number: ?number;
+  numberOfElements: ?number;
+  size: ?number;
+  sort: ?Sort;
+  totalElements: ?any;
+  totalPages: ?number;
 }
 
 declare type RequestFilterInput = {
-  category_in: ?Array<CategoryInput>,
-  date_created_gt: ?any,
-  subject_ct: ?string,
-  full_text: ?string,
-  text_ct: ?string,
-  user_id_eq: ?string,
-  status_in: ?Array<RequestStatusInput>,
-  date_updated_lt: ?any,
-  date_created_lt: ?any,
-  dateUpdatedGreaterThan: ?any,
+  date_created_lt: ?any;
+  user_id_eq: ?string;
+  total_flag_lt: ?number;
+  total_submissions_lt: ?number;
+  total_submissions_gt: ?number;
+  date_updated_gt: ?any;
+  total_contribution_lt: ?number;
+  full_text: ?string;
+  total_contribution_gt: ?number;
+  total_vote_lt: ?number;
+  date_updated_lt: ?any;
+  dead_line_lt: ?any;
+  total_vote_gt: ?number;
+  category_in: ?Array<string>;
+  dead_line_gt: ?any;
+  sub_category_in: ?Array<string>;
+  status_in: ?Array<RequestStatusInput>;
+  date_created_gt: ?any;
+  total_flag_gt: ?number;
+  text_ct: ?string;
+  subject_ct: ?string;
 }
 
-declare type RequestStatusInput =
-  | 'CREATED'
-  | 'OPENED'
-  | 'IN_PROGRESS'
-  | 'CLOSED'
-  | 'CANCELLATION_IN_PROGRESS'
-  | 'CANCELED'
+declare type RequestStatusInput = "CLOSED" | "CREATED" | "EXPIRED" | "FULFILLED" | "IN_MODERATION_PERIOD" | "OPENED" | "REFUNDED";
 
 /**
   Mutation root type
 */
-declare type MUTATION_ROOT = {
-  downvoteArticle: ?ArticleDTO,
-  commentArticle: ?boolean,
-  createRequest: ?RequestDTO,
-  editRequest: ?RequestDTO,
-  flagRequest: ?RequestDTO,
-  finaliseArticle: ?ArticleDTO,
-  upvoteArticle: ?ArticleDTO,
-  submitArticle: ?ArticleDTO,
-  upvoteRequest: ?RequestDTO,
-  preApproveArticle: ?ArticleDTO,
-  commentRequest: ?boolean,
-  editArticle: ?ArticleDTO,
-  rejectArticle: ?ArticleDTO,
-  downvoteRequest: ?RequestDTO,
-  approveArticle: ?ArticleDTO,
+declare type Mutation = {
+  getEvent: ?boolean;
+  downvoteArticle: ?MutationResponse;
+  commentArticle: ?MutationResponse;
+  createRequest: ?MutationResponse;
+  submitForReview: ?MutationResponse;
+  deleteRequestComment: ?MutationResponse;
+  editRequest: ?MutationResponse;
+  deleteArticleComment: ?MutationResponse;
+  storeRequestOwnershipSignature: ?MutationResponse;
+  storeArticleOwnershipSignature: ?MutationResponse;
+  upvoteArticle: ?MutationResponse;
+  storeArticleValidationSignature: ?MutationResponse;
+  submitArticle: ?MutationResponse;
+  upvoteRequest: ?MutationResponse;
+  editArticle: ?MutationResponse;
+  commentRequest: ?MutationResponse;
+  downvoteRequest: ?MutationResponse;
+  rejectArticle: ?MutationResponse;
+  approveArticle: ?MutationResponse;
+}
+
+/**
+  Subscription root type
+*/
+declare type Subscription = {
+  getEvent: ?boolean;
 }

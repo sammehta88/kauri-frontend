@@ -59,21 +59,16 @@ export const getArticle = gql`
       sub_category
       category
       content_hash
-      versions(version: "ALL") {
-        text
-        version
+      comments {
+        comment_id
         date_created
-        comments {
-          comment_id
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-          user {
-            username
-          }
+        comment
+        highlight_from
+        highlight_to
+        anchor_key
+        focus_key
+        user {
+          username
         }
       }
       user {
@@ -136,17 +131,13 @@ export const searchApprovedArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -169,17 +160,13 @@ export const globalSearchApprovedCategoryArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -202,17 +189,13 @@ export const globalSearchApprovedArticles = gql`
         sub_category
         subject
         text
-        versions(version: "ALL") {
-          version
+        comments {
           date_created
-          comments {
-            date_created
-            comment
-            highlight_from
-            highlight_to
-            anchor_key
-            focus_key
-          }
+          comment
+          highlight_from
+          highlight_to
+          anchor_key
+          focus_key
         }
       }
     }
@@ -234,10 +217,8 @@ export const searchPersonalSubmittedArticles = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username
@@ -263,10 +244,8 @@ export const searchPendingArticles = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username
@@ -317,10 +296,8 @@ export const searchApprovedArticleHistory = gql`
         category
         sub_category
         subject
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username

@@ -163,7 +163,7 @@ export default ({
   article: {
     article_id,
     date_updated,
-    versions,
+    comments
     date_created,
     text,
     status,
@@ -232,8 +232,8 @@ export default ({
           (status !== 'PRE_APPROVED' ? (
             <Badge>
               <strong>
-                {Array.isArray(versions)
-                  ? versions[versions.length - 1] && versions[versions.length - 1].comments.length.toString()
+                {Array.isArray(comments)
+                  ? comments.length.toString()
                   : 0}
               </strong>
               <span>Comments</span>

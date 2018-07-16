@@ -1,6 +1,15 @@
 open ReduxObservable.Store;
 open ReduxObservable.Dependencies;
 
+exception NoHashFound;
+exception NoResponseData;
+
+let (|?) = (a, b) =>
+  switch (a) {
+  | None => None
+  | Some(a) => b(a)
+  };
+
 [@bs.deriving abstract]
 type approveArticlePayload = {
   id: string,
@@ -92,39 +101,47 @@ let approveArticleQuery =
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) => {
   let apolloClient = dependencies |. apolloClientGet;
+  let subscriber = dependencies |. subscribeToOffchainEvent;
   let queryMethod = {
     "mutation": CreateRequestQuery.graphqlMutationAST,
     "variables": createRequestQuery##variables,
+    /* interesting.. */
+    "fetchPolicy": Js.Nullable.undefined,
   };
-  let subscriber = dependencies |. apolloSubscriber;
-  subscriber([|"wow", "omg"|]);
-
-  let (|?) = (a, b) =>
-    switch (a) {
-    | None => None
-    | Some(a) => b(a)
-    };
-
+  let queryMethodTo = {
+    "query": CreateRequestQuery.graphqlMutationAST,
+    "variables": createRequestQuery##variables,
+    /* interesting.. */
+    "fetchPolicy": Js.Nullable.return("network-only"),
+  };
   ReduxObservable.Observable.(
     action
     |. ofType(stringOfActionType(ApproveArticle))
-    |. tap(_x => Js.log(of1))
-    /* |. tap(_x => Js.log(apolloClient##query(queryMethod))) */
-    |. mergeMap(_x => fromPromise(apolloClient##mutate(queryMethod)))
-    |. tap(response => {
-         let possibleResponse = Js.Nullable.toOption(response##data);
-         switch (possibleResponse) {
-         | Some(data) =>
-           let result = CreateRequest.parse(data);
-           switch (result##createRequest |? (x => x##hash)) {
-           | Some(x) => Js.log(x)
-           | None => Js.log("lol")
-           };
-         | _ => Js.log(response##data)
-         };
-       })
-    |. flatMap(x => of1(x))
+    |. switchMap(_action =>
+         fromPromise(apolloClient##mutate(queryMethod))
+         |. map(response => {
+              let possibleResponse = Js.Nullable.toOption(response##data);
+              switch (possibleResponse) {
+              | Some(data) =>
+                let result = CreateRequest.parse(data);
+                switch (result##createRequest |? (x => x##hash)) {
+                | Some(hash) => hash
+                | None => raise(NoHashFound)
+                };
+              | _ => raise(NoResponseData)
+              };
+            })
+         |. mergeMap(hash => fromPromise(subscriber([|hash|])))
+         |. mergeMap(_hash =>
+              fromPromise(apolloClient##query(queryMethodTo))
+            )
+         /* idk; works */
+         |. flatMapTo(of3({"a": 1}, {"f": 2}, {"w": 3}))
+         |. mapTo({"heyt": "wow"})
+         |. catch(err => of1(err))
+       )
   );
+  /* |. catch(err => of1(err)) */
   /* |. mergeMap({ data: { approveArticle: { hash } } }) => fromPromise(subscriber(x |. type_))) */
   /* |. mapTo(reduxAction(~type_="HEY")) */
   /* |. flatMap(x => fromPromise(Js.Promise.resolve(1))) */

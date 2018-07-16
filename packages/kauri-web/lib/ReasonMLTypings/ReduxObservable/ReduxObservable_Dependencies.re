@@ -33,5 +33,9 @@ type dependencies = {
   driverJS,
 };
 
+open ReduxObservable_Observable;
+
 [@bs.splice] [@bs.send]
-external apolloSubscriber : (dependencies, array(string)) => unit = "";
+external subscribeToOffchainEvent :
+  (dependencies, array(string)) => Js.Promise.t(observable(string)) =
+  "";

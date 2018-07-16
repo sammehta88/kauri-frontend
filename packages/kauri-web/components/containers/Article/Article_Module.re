@@ -16,7 +16,7 @@ type approveArticlePayload = {
   article_version: int,
   category: string,
   content_hash: string,
-  request_id: string,
+  request_id: option(string),
   user_id: string,
 };
 
@@ -134,25 +134,31 @@ module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (id, version, content_hash, category, request_id, contributor) => "" */
 external generateApproveArticleHash :
-  (string, int, string, string, string, string) => string =
+  (string, int, string, string, option(string), string) => string =
   "default";
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) =>
   ReduxObservable.Observable.(
     action
-    |. ofType("APPROVE_ARTICLE")
+    |. ofType("TRACK_ANALYTICS")
     |. switchMap(action => {
          let apolloClient = dependencies |. apolloClientGet;
          let subscriber = dependencies |. subscribeToOffchainEvent;
-         let resourceID = action |. payloadGet |. idGet;
-         let article_version = action |. payloadGet |. article_versionGet;
-         let category = action |. payloadGet |. categoryGet;
-         let content_hash = action |. payloadGet |. content_hashGet;
-         let request_id = action |. payloadGet |. request_idGet;
-         let user_id = action |. payloadGet |. user_idGet;
+         /* let resourceID = action |. payloadGet |. idGet;
+            let article_version = action |. payloadGet |. article_versionGet;
+            let category = action |. payloadGet |. categoryGet;
+            let content_hash = action |. payloadGet |. content_hashGet;
+            let request_id = action |. payloadGet |. request_idGet;
+            let user_id = action |. payloadGet |. user_idGet; */
+         let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
+         let article_version = 1;
+         let category = "kauri";
+         let content_hash = "QmZpfbd67BNumh5gJnp7jeXNz443V4rDvYsDssDKREtFgq";
+         let request_id = Some("");
+         let user_id = "0xf8ae578d5d4e570de6c31f26d42ef369c320ae0b";
          let personalSign = dependencies |. personalSignGet;
-         let queryMethodTo = {
+         let getArticleQueryMethod = {
            "query": GetArticleQuery.graphqlQueryAST,
            "variables": getArticleQuery##variables,
            "fetchPolicy": Js.Nullable.return("network-only"),
@@ -215,8 +221,8 @@ let approveArticleEpic =
               let possibleResponse = Js.Nullable.toOption(response##data);
               switch (possibleResponse) {
               | Some(data) =>
-                let result = CreateRequest.parse(data);
-                switch (result##createRequest |? (x => x##hash)) {
+                let result = ApproveArticle.parse(data);
+                switch (result##approveArticle |? (x => x##hash)) {
                 | Some(hash) => hash
                 | None => raise(NoHashFound)
                 };
@@ -225,7 +231,7 @@ let approveArticleEpic =
             })
          |. mergeMap(hash => fromPromise(subscriber([|hash|])))
          |. mergeMap(_hash =>
-              fromPromise(apolloClient##query(queryMethodTo))
+              fromPromise(apolloClient##query(getArticleQueryMethod))
             )
          /* idk; works */
          |. flatMapTo(
@@ -237,7 +243,6 @@ let approveArticleEpic =
                 ),
               ),
             )
-         /* |. mapTo({"heyt": "wow"}) */
          |. catch(err => {
               Js.log(err);
               of1(showErrorNotificationAction(err));

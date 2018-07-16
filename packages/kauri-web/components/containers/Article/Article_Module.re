@@ -14,6 +14,8 @@ let (|?) = (a, b) =>
 type approveArticlePayload = {
   id: string,
   article_version: int,
+  category: string,
+  content_hash: string,
 };
 
 [@bs.deriving abstract]
@@ -134,6 +136,8 @@ let approveArticleEpic =
   let subscriber = dependencies |. subscribeToOffchainEvent;
   let resourceID = action |. payloadGet |. idGet;
   let article_version = action |. payloadGet |. article_versionGet;
+  let category = action |. payloadGet |. categoryGet;
+  let content_hash = action |. payloadGet |. content_hashGet;
   let signature = "";
   let approveArticleMutation =
     ApproveArticle.make(
@@ -143,23 +147,21 @@ let approveArticleEpic =
       (),
     );
 
-  let queryMethod = {
+  let approveArticleMutationMethod = {
     "mutation": ApproveArticleMutation.graphqlMutationAST,
     "variables": approveArticleMutation##variables,
-    /* interesting.. */
     "fetchPolicy": Js.Nullable.undefined,
   };
   let queryMethodTo = {
     "query": GetArticleQuery.graphqlQueryAST,
     "variables": getArticleQuery##variables,
-    /* interesting.. */
     "fetchPolicy": Js.Nullable.return("network-only"),
   };
 
   ReduxObservable.Observable.(
     action
     |. ofType("APPROVE_ARTICLE")
-    |. switchMap(action => {
+    |. switchMap(_action => {
          open Mixpanel_Module;
          let metaData = {
            "resource": "article",
@@ -183,7 +185,7 @@ let approveArticleEpic =
          let showApproveArticleNotificationAction =
            showNotificationAction(showApproveArticleNotificationPayload);
 
-         fromPromise(apolloClient##mutate(queryMethod))
+         fromPromise(apolloClient##mutate(approveArticleMutationMethod))
          |. map(response => {
               let possibleResponse = Js.Nullable.toOption(response##data);
               switch (possibleResponse) {

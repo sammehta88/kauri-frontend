@@ -111,7 +111,7 @@ let publishArticleEpic =
               let dispatchAction = store |. ReduxObservable.Store.dispatch;
               open App_Module;
               let notificationType = notificationTypeToJs(`Success);
-              let showpublishArticleNotificationPayload =
+              let showPublishArticleNotificationPayload =
                 showNotificationPayload(
                   ~notificationType,
                   ~message="Article published",
@@ -122,9 +122,9 @@ let publishArticleEpic =
                 );
 
               let showPublishArticleNotificationAction =
-                showNotificationAction(showpublishArticleNotificationPayload);
+                showNotificationAction(showPublishArticleNotificationPayload);
 
-              let publishArticleMeta = {
+              let publishArticleMetaData = {
                 resource: "article",
                 resourceID,
                 resourceAction: "publish article",
@@ -145,7 +145,7 @@ let publishArticleEpic =
                   trackMixPanelAction(
                     trackMixPanelPayload(
                       ~event="Offchain",
-                      ~metaData=publishArticleMeta,
+                      ~metaData=publishArticleMetaData,
                     ),
                   ),
                 ),

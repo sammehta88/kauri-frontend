@@ -8,6 +8,7 @@ export const submitArticle = gql`
     $sub_category: String
     $category: String
     $metadata: Map_String_StringScalar
+    $author_id: String
   ) {
     submitArticle(
       request_id: $request_id
@@ -16,6 +17,8 @@ export const submitArticle = gql`
       sub_category: $sub_category
       category: $category
       metadata: $metadata
+      author_id: $author_id
+      draft: false
     ) {
       hash
     }

@@ -402,16 +402,6 @@
                   "defaultValue": "20"
                 },
                 {
-                  "name": "sort",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                },
-                {
                   "name": "page",
                   "description": "",
                   "type": {
@@ -582,16 +572,6 @@
                     "ofType": null
                   },
                   "defaultValue": "20"
-                },
-                {
-                  "name": "sort",
-                  "description": "",
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
                 },
                 {
                   "name": "page",
@@ -2154,18 +2134,6 @@
               "deprecationReason": null
             },
             {
-              "name": "sort",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Sort",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
               "name": "totalElements",
               "description": null,
               "args": [],
@@ -2190,16 +2158,6 @@
               "deprecationReason": null
             }
           ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "Sort",
-          "description": "",
-          "fields": [],
           "inputFields": null,
           "interfaces": [],
           "enumValues": null,
@@ -2594,18 +2552,6 @@
               "type": {
                 "kind": "SCALAR",
                 "name": "Int",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "sort",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "Sort",
                 "ofType": null
               },
               "isDeprecated": false,

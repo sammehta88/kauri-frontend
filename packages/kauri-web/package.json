@@ -98,6 +98,7 @@
   "devDependencies": {
     "@zeit/next-source-maps": "^0.0.2",
     "babel-core": "^6.26.0",
+    "babel-eslint": "8",
     "babel-jest": "^21.2.0",
     "babel-loader": "^7.1.5",
     "babel-plugin-import": "^1.7.0",

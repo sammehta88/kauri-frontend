@@ -20,8 +20,8 @@ const generateApproveArticleHash = (id, article_version, content_hash, category,
     })
 
     args = args.join('')
-    console.log(args)
     const result = web3.sha3(args, { encoding: 'hex' })
+    console.log('generated approved article hash', result)
     return result
   }
 

@@ -235,13 +235,11 @@ export default ({
         )}
         {type !== 'approval' &&
           status !== 'PUBLISHED' &&
-          (status === 'APPROVED' ? (
+          (status !== 'APPROVED' && (
             <Badge>
               <strong>{Array.isArray(comments) ? comments.length.toString() : 0}</strong>
               <span>Comments</span>
             </Badge>
-          ) : (
-            <p>{status}</p>
           ))}
       </Badges>
     </SubmittedArticle.SubmittedArticleDetails>

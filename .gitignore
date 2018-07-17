@@ -20,5 +20,5 @@ lerna-error.log
 .merlin
 bs-ppx-css
 .bsb.lock
-yarn.lock
+packages/kauri-components/yarn.lock
 Dockerfile-local

@@ -6,15 +6,10 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
 RUN mkdir -p /usr/src/app/packages/kauri-web
 # RUN mkdir -p /usr/src/app/packages/kauri-components
 WORKDIR /usr/src/app/packages/kauri-web
-RUN npm install -g --unsafe-perm esy@preview
 
 COPY packages/kauri-web/package.json /usr/src/app/packages/kauri-web/
-COPY packages/kauri-web/esy.lock /usr/src/app/packages/kauri-web/
-RUN esy install
-
-# COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/
-# COPY packages/kauri-components/esy.lock /usr/src/app/packages/kauri-components/
-# RUN esy install
+COPY packages/kauri-web/yarn.lock /usr/src/app/packages/kauri-web/
+RUN yarn
 
 COPY ./packages/kauri-web /usr/src/app/packages/kauri-web
 

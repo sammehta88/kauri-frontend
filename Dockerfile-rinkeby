@@ -18,8 +18,8 @@ RUN cd /usr/src/app/packages/kauri-components && npm run build
 
 # kauri-web, ReasonML
 COPY packages/kauri-web/package.json /usr/src/app/packages/kauri-web/
-COPY packages/kauri-web/esy.lock /usr/src/app/packages/kauri-web/
-RUN esy install
+COPY packages/kauri-web/yarn.lock /usr/src/app/packages/kauri-web/
+RUN yarn
 
 COPY packages/kauri-web /usr/src/app/packages/kauri-web/
 RUN npm run build

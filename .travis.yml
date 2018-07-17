@@ -9,6 +9,7 @@ branches:
 install:
   - cd kauri-ops
   - source env_setup.sh --config-file config/config-devgke.json
+  - cd ..
 script:
   - cd kauri-ops
   - source env_setup.sh --config-file config/config-devgke.json

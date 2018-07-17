@@ -10,6 +10,7 @@ module GetArticle = [%graphql
         text
         tip
         status
+        signature
         subject
         sub_category
         category

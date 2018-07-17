@@ -43,11 +43,11 @@ type routeType =
   | Back
   | ArticleApproved;
 
-let route = (~routeType: routeType, ~slug: option(string)=?) =>
-  switch (routeType, slug) {
-  | (ArticleApproved, Some(slug)) =>
+let route = (~slug: option(string)=?, ~routeType: routeType) =>
+  switch (slug, routeType) {
+  | (Some(slug), ArticleApproved) =>
     "/article/" ++ slug ++ "/article-approved"
-  | (Back, None) => "back"
+  | (None, Back) => "back"
   | _ => ""
   };
 

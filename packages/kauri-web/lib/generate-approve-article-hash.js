@@ -1,5 +1,12 @@
 import bs58 from 'bs58'
 
+const convertIpfsHash = ipfsHash => {
+  const decoded = bs58.decode(ipfsHash)
+
+  const result = `0x${decoded.slice(2).toString('hex')}`
+  return result
+}
+
 const generateApproveArticleHash = (id, article_version, content_hash, category, request_id, contributor) => {
   const web3 = window.web3
   const keccak256 = function (...args) {
@@ -25,13 +32,6 @@ const generateApproveArticleHash = (id, article_version, content_hash, category,
     return result
   }
 
-  const convertIpfsHash = ipfsHash => {
-    const decoded = bs58.decode(ipfsHash)
-
-    const result = `0x${decoded.slice(2).toString('hex')}`
-    return result
-  }
-
   return keccak256(
     web3.padRight(web3.fromAscii(id), 66),
     article_version,
@@ -43,3 +43,4 @@ const generateApproveArticleHash = (id, article_version, content_hash, category,
 }
 
 export default generateApproveArticleHash
+export { convertIpfsHash }

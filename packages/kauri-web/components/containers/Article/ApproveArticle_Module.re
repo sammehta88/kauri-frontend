@@ -152,7 +152,7 @@ let approveArticleEpic =
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
                 routeChangeAction(
-                  route(~routeType=ArticleApproved, ~slug=resourceID),
+                  route(~slug=resourceID, ~routeType=ArticleApproved),
                 ),
               ),
             )

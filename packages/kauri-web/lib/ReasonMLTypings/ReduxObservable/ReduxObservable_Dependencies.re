@@ -1,8 +1,18 @@
 type apolloClient;
 
-type smartContracts;
+[@bs.deriving abstract]
+type smartContractInstances = {
+  [@bs.as "KauriCore"]
+  kauriCore: KauriCore.deployedContract,
+};
 
-type web3;
+type smartContracts = unit => smartContractInstances;
+
+[@bs.deriving abstract]
+type eth = {accounts: array(string)};
+
+[@bs.deriving abstract]
+type web3 = {eth};
 
 type fetch;
 

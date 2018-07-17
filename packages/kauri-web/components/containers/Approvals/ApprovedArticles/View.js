@@ -28,7 +28,7 @@ const PendingPublicationArticles = ({
   <Container>
     {articles.map(article => (
       <SubmittedArticle
-        type='approval'
+        type='approved'
         routeChangeAction={routeChangeAction}
         approveArticleAction={approveArticleAction}
         rejectArticleAction={rejectArticleAction}

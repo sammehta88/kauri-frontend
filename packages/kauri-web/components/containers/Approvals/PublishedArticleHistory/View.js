@@ -3,13 +3,13 @@ import React from 'react'
 import { Container } from '../ArticleRequests/View'
 import SubmittedArticle from '../../SubmittedArticles/SubmittedArticle'
 
-const NoArticlesApproved = () => (
+const NoArticlesPublished = () => (
   <Container>
-    <p>You have not approved any articles.</p>
+    <p>You have no approved articles that were published.</p>
   </Container>
 )
 
-const ApprovedArticles = ({
+const PublishedArticles = ({
   articles,
   ethUsdPrice,
   userId,
@@ -50,12 +50,12 @@ export default ({
   routeChangeAction,
 }: Props) =>
   content.length > 0 ? (
-    <ApprovedArticles
+    <PublishedArticles
       routeChangeAction={routeChangeAction}
       userId={userId}
       articles={content}
       ethUsdPrice={ethUsdPrice}
     />
   ) : (
-    <NoArticlesApproved />
+    <NoArticlesPublished />
   )

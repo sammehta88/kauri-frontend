@@ -4,13 +4,13 @@ import { Container } from '../ArticleRequests/View'
 import SubmittedArticle from '../../SubmittedArticles/SubmittedArticle'
 import type { ApproveArticlePayload } from '../../Article/Module'
 
-const NoArticlesSubmitted = () => (
+const NoArticlesApproved = () => (
   <Container>
-    <p>No articles to approve found, inbox zero! Hurray!</p>
+    <p>You have not approved any articles!</p>
   </Container>
 )
 
-const PendingApprovals = ({
+const PendingPublicationArticles = ({
   articles,
   ethUsdPrice,
   userId,
@@ -61,7 +61,7 @@ export default ({
   rejectArticleAction,
 }: Props) =>
   content.length > 0 ? (
-    <PendingApprovals
+    <PendingPublicationArticles
       routeChangeAction={routeChangeAction}
       articles={content}
       ethUsdPrice={ethUsdPrice}
@@ -70,5 +70,5 @@ export default ({
       rejectArticleAction={rejectArticleAction}
     />
   ) : (
-    <NoArticlesSubmitted />
+    <NoArticlesApproved />
   )

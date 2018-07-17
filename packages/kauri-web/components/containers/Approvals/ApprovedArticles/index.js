@@ -28,7 +28,7 @@ export default compose(
       variables: {
         filter: {
           category_in: categories,
-          status_in: ['SUBMITTED'],
+          status_in: ['APPROVED'],
         },
       },
     }),

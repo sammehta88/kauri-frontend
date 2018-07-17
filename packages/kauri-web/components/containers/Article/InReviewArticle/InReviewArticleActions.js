@@ -86,12 +86,11 @@ export default ({
             <strong>REJECT ARTICLE</strong>
           </ActionBadge>
         )}
-      {status === 'SUBMITTED' &&
+      {status === 'IN_REVIEW' &&
         isTopicOwner && (
           <ActionBadge onClick={approveArticle}>
             <ActionIcon />
-            {/* PUBLISH === APPROVE ARTICLE AFTER FINALISED */}
-            <strong>PUBLISH ARTICLE</strong>
+            <strong>APPROVE ARTICLE</strong>
           </ActionBadge>
         )}
     </PullRight>

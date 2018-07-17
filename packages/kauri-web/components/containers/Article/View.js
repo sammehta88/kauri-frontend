@@ -26,30 +26,37 @@ class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
     if (this.props.data.getArticle) {
       if (
-        this.props.data.getArticle.versions &&
         typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.request_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'string' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.content_hash === 'string'
+        typeof this.props.data.getArticle.category === 'string' &&
+        typeof this.props.data.getArticle.content_hash === 'string' &&
+        typeof this.props.data.getArticle.request_id === 'string'
       ) {
         const approveArticlePayload: ApproveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
-          request_id: this.props.data.getArticle.request_id,
+          article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
+          category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
+          request_id: this.props.data.getArticle.request_id,
         }
 
         this.props.approveArticleAction(approveArticlePayload)
       } else if (
         typeof this.props.data.getArticle.article_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'string' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
+        typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string'
       ) {
         const approveArticlePayload: ApproveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
-          request_id: '',
+          article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
+          category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
+          request_id: '',
         }
 
         this.props.approveArticleAction(approveArticlePayload)

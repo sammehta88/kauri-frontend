@@ -12,7 +12,7 @@ let (|?) = (a, b) =>
 
 [@bs.deriving abstract]
 type approveArticlePayload = {
-  id: string,
+  article_id: string,
   article_version: int,
   category: string,
   content_hash: string,
@@ -54,7 +54,7 @@ let approveArticleEpic =
          let subscriber = dependencies |. subscribeToOffchainEvent;
          let personalSign = dependencies |. personalSignGet;
 
-         let resourceID = action |. payloadGet |. idGet;
+         let resourceID = action |. payloadGet |. article_idGet;
          let article_version = action |. payloadGet |. article_versionGet;
          let category = action |. payloadGet |. categoryGet;
          let content_hash = action |. payloadGet |. content_hashGet;
@@ -107,7 +107,7 @@ let approveArticleEpic =
          |. mergeMap(signature => {
               let approveArticleMutation =
                 Article_Queries.ApproveArticle.make(
-                  ~id=resourceID,
+                  ~article_id=resourceID,
                   ~article_version,
                   ~signature,
                   (),

@@ -40,8 +40,8 @@ module GetArticleQuery = ReasonApollo.CreateQuery(GetArticle);
 
 module ApproveArticle = [%graphql
   {|
-    mutation approveArticle($id: String!, $article_version: Int!, $signature: String!) {
-      approveArticle(id: $id, article_version: $article_version, signature: $signature) {
+    mutation approveArticle($article_id: String!, $article_version: Int!, $signature: String!) {
+      approveArticle(id: $article_id, article_version: $article_version, signature: $signature) {
          hash
       }
     }

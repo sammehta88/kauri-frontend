@@ -31,12 +31,14 @@ jobs:
           <<: *esy_post_build_cache_key
       - run:
           name: "Install esy"
-          command: npm install -g esy@preview
+          command: npm install -g esy@latest
       - run:
-          name: 'esy install'
+          name: 'Install yarn'
           command: |
-            cd packages/kauri-web;
-            yarn install
+            npm i -g yarn@latest
+      - run:
+          name: "Install package deps"
+          command: cd packages/kauri-web && yarn
       - save_cache:
           <<: *esy_cache_key
           paths:

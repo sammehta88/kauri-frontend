@@ -286,9 +286,9 @@ export const rejectArticle = gql`
   }
 `
 
-export const searchApprovedArticleHistory = gql`
-  query searchApprovedArticleHistory($userId: String, $categories: [String]) {
-    searchArticles(filter: { category_in: $categories, status_in: [APPROVED], moderator_eq: $userId }) {
+export const searchPublishedArticleHistory = gql`
+  query searchPublishedArticleHistory($userId: String, $categories: [String]) {
+    searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
         article_id
         user_id

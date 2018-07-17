@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { compose, graphql } from 'react-apollo'
 import withLoading from '../../../../lib/with-loading'
 import routeChangeAction from '../../../../lib/Module'
-import { searchApprovedArticleHistory } from '../../../../queries/Article'
+import { searchPublishedArticleHistory } from '../../../../queries/Article'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -18,7 +18,7 @@ export default compose(
     mapStateToProps,
     { routeChangeAction }
   ),
-  graphql(searchApprovedArticleHistory, {
+  graphql(searchPublishedArticleHistory, {
     options: ({ categories, userId }) => ({
       variables: {
         categories,

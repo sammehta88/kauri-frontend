@@ -1,8 +1,7 @@
 type metaData = {
-  .
-  "resource": string,
-  "resourceID": string,
-  "resourceAction": string,
+  resource: string,
+  resourceID: string,
+  resourceAction: string,
 };
 
 [@bs.deriving abstract]

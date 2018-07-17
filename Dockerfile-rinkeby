@@ -5,7 +5,7 @@ RUN mkdir -p /usr/src/app/packages/kauri-web
 RUN mkdir -p /usr/src/app/packages/kauri-components
 WORKDIR /usr/src/app/packages/kauri-web
 
-RUN npm install -g --unsafe-perm esy@preview
+RUN npm install -g --unsafe-perm esy@0.1.27
 
 # kauri-components, ReasonML
 COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/

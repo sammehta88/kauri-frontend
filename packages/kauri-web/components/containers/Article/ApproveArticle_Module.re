@@ -69,28 +69,6 @@ let approveArticleEpic =
             let category = "kauri";
             let user_id = "0xf8ae578d5d4e570de6c31f26d42ef369c320ae0b";
             let content_hash = "QmZpfbd67BNumh5gJnp7jeXNz443V4rDvYsDssDKREtFgq"; */
-         open Mixpanel_Module;
-         let metaData = {
-           "resource": "article",
-           "resourceID": resourceID,
-           "resourceAction": "approve article",
-         };
-         let trackApproveArticlePayload =
-           trackMixPanelPayload(~event="Offchain", ~metaData);
-         let trackApproveArticleAction =
-           trackMixPanelAction(trackApproveArticlePayload);
-         open App_Module;
-         let notificationType = notificationTypeToJs(`Success);
-         let showApproveArticleNotificationPayload =
-           showNotificationPayload(
-             ~notificationType,
-             ~message="Article approved",
-             ~description=
-               "This approved article now needs to be published by the author",
-           );
-
-         let showApproveArticleNotificationAction =
-           showNotificationAction(showApproveArticleNotificationPayload);
 
          /* (id, version, content_hash, category, request_id, contributor) => "" */
          let approveArticleHash =
@@ -147,18 +125,45 @@ let approveArticleEpic =
 
               fromPromise(apolloClient##query(getArticleQueryMethod));
             })
-         |. flatMapTo(
+         |. flatMap(_x => {
+              open App_Module;
+              let approveArticleMetaData = {
+                resource: "article",
+                resourceID,
+                resourceAction: "approve article",
+              };
+
+              let trackApproveArticlePayload =
+                trackMixPanelPayload(
+                  ~event="Offchain",
+                  ~metaData=approveArticleMetaData,
+                );
+              let trackApproveArticleAction =
+                trackMixPanelAction(trackApproveArticlePayload);
+
+              let notificationType = notificationTypeToJs(`Success);
+              let showApproveArticleNotificationPayload =
+                showNotificationPayload(
+                  ~notificationType,
+                  ~message="Article approved",
+                  ~description=
+                    "This approved article now needs to be published by the author",
+                );
+
+              let showApproveArticleNotificationAction =
+                showNotificationAction(showApproveArticleNotificationPayload);
+
               of3(
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
                 routeChangeAction(
                   route(~slug=resourceID, ~routeType=ArticleApproved),
                 ),
-              ),
-            )
+              );
+            })
          |. catch(err => {
               Js.log(err);
-              of1(showErrorNotificationAction(err));
+              of1(App_Module.(showErrorNotificationAction(err)));
             });
        })
   );

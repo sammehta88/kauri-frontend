@@ -16,6 +16,7 @@ external dispatch :
     [@bs.unwrap] [
       | `RouteChange(routeChangeAction)
       | `ShowNotification(showNotificationAction)
+      | `TrackMixpanel(trackMixPanelAction)
     ]
   ) =>
   unit =

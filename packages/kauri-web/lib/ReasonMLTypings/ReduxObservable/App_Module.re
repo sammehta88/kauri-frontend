@@ -1,3 +1,4 @@
+include Mixpanel_Module;
 /* ShowNotificationAction */
 [@bs.deriving jsConverter]
 type notificationType = [

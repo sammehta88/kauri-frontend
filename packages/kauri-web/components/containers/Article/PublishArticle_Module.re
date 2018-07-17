@@ -85,30 +85,6 @@ let publishArticleEpic =
             let category = "kauri";
             let user_id = "0xf8ae578d5d4e570de6c31f26d42ef369c320ae0b";
             let content_hash = "QmZpfbd67BNumh5gJnp7jeXNz443V4rDvYsDssDKREtFgq"; */
-         open Mixpanel_Module;
-         let metaData = {
-           "resource": "article",
-           "resourceID": resourceID,
-           "resourceAction": "publish article",
-         };
-         let trackPublishArticlePayload =
-           trackMixPanelPayload(~event="Offchain", ~metaData);
-         let trackPublishArticleAction =
-           trackMixPanelAction(trackPublishArticlePayload);
-         open App_Module;
-         let notificationType = notificationTypeToJs(`Success);
-         let showpublishArticleNotificationPayload =
-           showNotificationPayload(
-             ~notificationType,
-             ~message="Article published",
-             ~description=
-               "Your article is now published and verified by "
-               ++ String.capitalize(category)
-               ++ "!",
-           );
-
-         let showPublishArticleNotificationAction =
-           showNotificationAction(showpublishArticleNotificationPayload);
 
          let kauriCoreDeployedContract =
            dependencies |. smartContractsGet() |. kauriCoreGet;
@@ -133,6 +109,27 @@ let publishArticleEpic =
          |. tap(transactionHash => {
               Js.log(transactionHash);
               let dispatchAction = store |. ReduxObservable.Store.dispatch;
+              open App_Module;
+              let notificationType = notificationTypeToJs(`Success);
+              let showpublishArticleNotificationPayload =
+                showNotificationPayload(
+                  ~notificationType,
+                  ~message="Article published",
+                  ~description=
+                    "Your article is now published and verified by "
+                    ++ String.capitalize(category)
+                    ++ "!",
+                );
+
+              let showPublishArticleNotificationAction =
+                showNotificationAction(showpublishArticleNotificationPayload);
+
+              let publishArticleMeta = {
+                resource: "article",
+                resourceID,
+                resourceAction: "publish article",
+              };
+
               dispatchAction(
                 `RouteChange(
                   routeChangeAction(
@@ -143,11 +140,21 @@ let publishArticleEpic =
               dispatchAction(
                 `ShowNotification(showWaitingForTransactionToBeMinedAction),
               );
+              dispatchAction(
+                `TrackMixpanel(
+                  trackMixPanelAction(
+                    trackMixPanelPayload(
+                      ~event="Offchain",
+                      ~metaData=publishArticleMeta,
+                    ),
+                  ),
+                ),
+              );
               transactionHash;
             })
          |. catch(err => {
               Js.log(err);
-              of1(showErrorNotificationAction(err));
+              of1(App_Module.(showErrorNotificationAction(err)));
             });
        })
   );

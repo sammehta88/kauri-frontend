@@ -130,6 +130,7 @@ let publishArticleEpic =
              accounts[0],
            ),
          )
+         |. tap(transactionHash => Js.log(transactionHash))
          |. catch(err => {
               Js.log(err);
               of1(showErrorNotificationAction(err));

@@ -34,7 +34,8 @@ external mergeMap : (observable('a), 'a => observable('b)) => observable('b) =
 [@bs.send]
 external switchMap : ('a, 'a => observable('b)) => observable('b) = "";
 
-[@bs.send] external tap : ('a, 'a => 'b) => 'a = "do";
+[@bs.send]
+external tap : (observable('a), 'a => 'b) => observable('a) = "do";
 
 [@bs.send] external map : (observable('a), 'a => 'b) => observable('b) = "";
 

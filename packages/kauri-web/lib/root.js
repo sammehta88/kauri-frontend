@@ -17,7 +17,7 @@ import {
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
 import {
-  approveArticleEpic,
+  // approveArticleEpic,
   submitFinalisedArticleEpic,
   tipArticleEpic,
   rejectArticleEpic,
@@ -53,7 +53,7 @@ const epics = [
   updateRequestEpic,
   submitArticleEpic,
   editArticleEpic,
-  approveArticleEpic,
+  // approveArticleEpic,
   flagRequestEpic,
   addCommentEpic,
   userDetailsEpic,

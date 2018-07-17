@@ -57,7 +57,7 @@ export default ({
     <Middle>
       {status === 'IN_REVIEW' &&
         isTopicOwner && (
-          <ActionBadge onClick={preApproveArticle}>
+          <ActionBadge onClick={approveArticle}>
             <ActionIcon />
             <strong>APPROVE ARTICLE</strong>
           </ActionBadge>
@@ -84,13 +84,6 @@ export default ({
           <ActionBadge onClick={rejectArticle}>
             <ActionIcon />
             <strong>REJECT ARTICLE</strong>
-          </ActionBadge>
-        )}
-      {status === 'IN_REVIEW' &&
-        isTopicOwner && (
-          <ActionBadge onClick={approveArticle}>
-            <ActionIcon />
-            <strong>APPROVE ARTICLE</strong>
           </ActionBadge>
         )}
     </PullRight>

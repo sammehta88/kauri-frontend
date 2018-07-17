@@ -51,7 +51,9 @@ export const getArticle = gql`
   query getArticle($article_id: String) {
     getArticle(id: $article_id) {
       article_id
+      article_version
       user_id
+      category
       request_id
       date_created
       date_updated
@@ -60,7 +62,6 @@ export const getArticle = gql`
       status
       subject
       sub_category
-      category
       content_hash
       comments {
         comment_id
@@ -238,6 +239,7 @@ export const searchPendingArticles = gql`
         article_id
         user_id
         request_id
+        article_version
         date_created
         date_updated
         tip

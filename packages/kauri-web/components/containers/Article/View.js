@@ -2,10 +2,8 @@
 import React from 'react'
 import ApprovedArticle from './ApprovedArticle/View'
 import InReviewArticle from './InReviewArticle/View'
-import { editorStateFromRaw } from 'megadraft'
-import { getAllBlocks } from 'draftjs-utils'
 
-import type { ApproveArticlePayload, SubmitFinalisedArticlePayload, DeleteArticleCommentPayload } from './Module'
+import type { SubmitFinalisedArticlePayload, DeleteArticleCommentPayload } from './Module'
 import type { AddCommentPayload } from '../AddCommentForm/Module'
 
 type ArticleProps = {
@@ -24,16 +22,18 @@ type ArticleProps = {
 
 class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
-    if (this.props.data.getArticle) {
+    console.log('CLICKED APPROVE ARTICLE')
+    if (typeof this.props.data.getArticle === 'object') {
+      console.log('getArticle exists')
       if (
         typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.article_version === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string' &&
         typeof this.props.data.getArticle.request_id === 'string'
       ) {
-        const approveArticlePayload: ApproveArticlePayload = {
+        const approveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
           article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
@@ -42,15 +42,16 @@ class Article extends React.Component<ArticleProps> {
           request_id: this.props.data.getArticle.request_id,
         }
 
+        console.log(approveArticlePayload)
         this.props.approveArticleAction(approveArticlePayload)
       } else if (
         typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.article_version === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string'
       ) {
-        const approveArticlePayload: ApproveArticlePayload = {
+        const approveArticlePayload = {
           article_id: this.props.data.getArticle.article_id,
           article_version: this.props.data.getArticle.article_version,
           user_id: this.props.data.getArticle.user_id,
@@ -59,6 +60,7 @@ class Article extends React.Component<ArticleProps> {
           request_id: '',
         }
 
+        console.log(approveArticlePayload)
         this.props.approveArticleAction(approveArticlePayload)
       }
     }
@@ -144,7 +146,7 @@ class Article extends React.Component<ArticleProps> {
   }
 
   render () {
-    return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'APPROVED' ? (
+    return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
       <ApprovedArticle {...this.props} />
     ) : (
       <InReviewArticle

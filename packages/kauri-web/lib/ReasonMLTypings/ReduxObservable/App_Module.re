@@ -34,6 +34,18 @@ let showErrorNotificationAction = _err =>
     ~payload=showErrorNotificationPayload,
   );
 
+let showWaitingForTransactionToBeMinedAction =
+  showNotificationAction(
+    ~type_="SHOW_NOTIFICATION",
+    ~payload=
+      showNotificationPayload(
+        ~notificationType=notificationTypeToJs(`Info),
+        ~message="Waiting for it to be mined",
+        ~description=
+          "You will get another notification when the block is mined!",
+      ),
+  );
+
 let showNotificationAction = payload =>
   showNotificationAction(~type_="SHOW_NOTIFICATION", ~payload);
 
@@ -41,12 +53,15 @@ let showNotificationAction = payload =>
 
 type routeType =
   | Back
-  | ArticleApproved;
+  | ArticleApproved
+  | ArticlePublished;
 
 let route = (~slug: option(string)=?, ~routeType: routeType) =>
   switch (slug, routeType) {
   | (Some(slug), ArticleApproved) =>
     "/article/" ++ slug ++ "/article-approved"
+  | (Some(slug), ArticlePublished) =>
+    "/article/" ++ slug ++ "/article-published"
   | (None, Back) => "back"
   | _ => ""
   };

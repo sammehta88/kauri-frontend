@@ -55,7 +55,7 @@ external fromRpcSig : string => signatureParameters = "";
    */
 
 let publishArticleEpic =
-    (action: publishArticleAction, _store: store, dependencies: dependencies) =>
+    (action: publishArticleAction, store: store, dependencies: dependencies) =>
   ReduxObservable.Observable.(
     action
     |. ofType("PUBLISH_ARTICLE")
@@ -130,7 +130,21 @@ let publishArticleEpic =
              accounts[0],
            ),
          )
-         |. tap(transactionHash => Js.log(transactionHash))
+         |. tap(transactionHash => {
+              Js.log(transactionHash);
+              let dispatchAction = store |. ReduxObservable.Store.dispatch;
+              dispatchAction(
+                `RouteChange(
+                  routeChangeAction(
+                    route(~slug=resourceID, ~routeType=ArticlePublished),
+                  ),
+                ),
+              );
+              dispatchAction(
+                `ShowNotification(showWaitingForTransactionToBeMinedAction),
+              );
+              transactionHash;
+            })
          |. catch(err => {
               Js.log(err);
               of1(showErrorNotificationAction(err));

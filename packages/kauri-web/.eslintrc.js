@@ -1,5 +1,4 @@
 module.exports = {
-  parser: 'babel-eslint',
   extends: ['standard', 'standard-react', 'plugin:flowtype/recommended'],
   plugins: ['flowtype', 'jest', 'graphql'],
   rules: {

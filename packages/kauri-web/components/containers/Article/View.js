@@ -152,8 +152,9 @@ class Article extends React.Component<ArticleProps> {
         typeof this.props.data.getArticle.article_version === 'number' &&
         typeof this.props.data.getArticle.content_hash === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.signature === 'string'
+        typeof this.props.data.getArticle.user_id === 'string'
+        // TODO UNCOMMENT!!
+        // typeof this.props.data.getArticle.signature === 'string'
       ) {
         const {
           article_id,

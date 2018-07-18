@@ -22,7 +22,7 @@ import {
   rejectArticleEpic,
   deleteArticleCommentEpic,
 } from '../components/containers/Article/Module'
-import { approveArticleEpic } from '../components/containers/Article/Article_Module.bs'
+import { approveArticleEpic, publishArticleEpic } from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
 import {
@@ -74,6 +74,7 @@ const epics = [
   finishedDriverStepsEpic,
   // ReasonML epics
   approveArticleEpic,
+  publishArticleEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

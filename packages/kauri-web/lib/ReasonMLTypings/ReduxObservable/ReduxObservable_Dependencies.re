@@ -52,12 +52,16 @@ external subscribeToOffchainEvent :
   "apolloSubscriber";
 
 [@bs.deriving jsConverter]
-type eventFilter = [ | [@bs.as "ArticlePublished"] `ArticlePublished];
+type smartContractEvent = [ | [@bs.as "ArticlePublished"] `ArticlePublished];
 
 [@bs.send]
 external _subscribeToOnchainEvent :
   (dependencies, string, string) => Js.Promise.t(string) =
   "apolloSubscriber";
 
-let subscribeToOnchainEvent = (dependencies, hash, eventFilter) =>
-  _subscribeToOnchainEvent(dependencies, hash, eventFilterToJs(eventFilter));
+let subscribeToOnchainEvent = (dependencies, hash, smartContractEvent) =>
+  _subscribeToOnchainEvent(
+    dependencies,
+    hash,
+    smartContractEventToJs(smartContractEvent),
+  );

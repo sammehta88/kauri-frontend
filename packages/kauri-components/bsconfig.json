@@ -9,7 +9,7 @@
       "subdirs": true
     },
     {
-      "dir": "lib",
+      "dir": "lib/bs-storybook",
       "subdirs": true
     }
   ],

@@ -33,7 +33,7 @@ let publishArticleAction =
     : publishArticleAction =>
   publishArticleAction(~type_="publish_ARTICLE", ~payload);
 
-[@bs.module "../../../lib/generate-publish-article-hash.js"]
+[@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (content_hash) => "" */
 external convertIpfsHash : string => string = "convertIpfsHash";
 

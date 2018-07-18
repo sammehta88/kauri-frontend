@@ -7,6 +7,7 @@
     "clean": "bsb -clean-world",
     "start:storybook": "start-storybook -p 6006",
     "storybook": "concurrently \"npm run build\" \"npm run start:storybook\"",
+    "storybook:dev": "concurrently \"npm run dev\" \"npm run start:storybook\"",
     "test:chromatic": "chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test": "npm run test:chromatic",
     "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"

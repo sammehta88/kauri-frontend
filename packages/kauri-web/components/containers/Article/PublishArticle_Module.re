@@ -110,19 +110,6 @@ let publishArticleEpic =
               Js.log(transactionHash);
               let dispatchAction = store |. ReduxObservable.Store.dispatch;
               open App_Module;
-              let notificationType = notificationTypeToJs(`Success);
-              let showPublishArticleNotificationPayload =
-                showNotificationPayload(
-                  ~notificationType,
-                  ~message="Article published",
-                  ~description=
-                    "Your article is now published and verified by "
-                    ++ String.capitalize(category)
-                    ++ "!",
-                );
-
-              let showPublishArticleNotificationAction =
-                showNotificationAction(showPublishArticleNotificationPayload);
 
               let publishArticleMetaData = {
                 resource: "article",
@@ -151,9 +138,29 @@ let publishArticleEpic =
                 ),
               );
             })
+         |. tap(_ => apolloClient##resetStore())
          |. mergeMap(transactionHash =>
               fromPromise(subscriber(transactionHash, `ArticlePublished))
             )
+         |. tap(response => Js.log(response))
+         |. mergeMap(_ => {
+              open App_Module;
+              let notificationType = notificationTypeToJs(`Success);
+              let showPublishArticleNotificationPayload =
+                showNotificationPayload(
+                  ~notificationType,
+                  ~message="Article published",
+                  ~description=
+                    "Your article is now published and verified by "
+                    ++ String.capitalize(category)
+                    ++ "!",
+                );
+
+              let showPublishArticleNotificationAction =
+                showNotificationAction(showPublishArticleNotificationPayload);
+
+              of1(showPublishArticleNotificationAction);
+            })
          |. catch(err => {
               Js.log(err);
               of1(App_Module.(showErrorNotificationAction(err)));

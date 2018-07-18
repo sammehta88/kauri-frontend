@@ -22,6 +22,7 @@ type generatedApolloClient = {
     [@bs.meth] (
       mutationObj => Js.Promise.t(ReasonApolloTypes.executionResult)
     ),
+  "resetStore": [@bs.meth] (unit => unit),
 };
 
 type fetch;

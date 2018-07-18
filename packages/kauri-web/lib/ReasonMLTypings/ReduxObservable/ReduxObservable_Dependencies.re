@@ -59,9 +59,9 @@ external _subscribeToOnchainEvent :
   (dependencies, string, string) => Js.Promise.t(string) =
   "apolloSubscriber";
 
-let subscribeToOnchainEvent = (dependencies, hash, smartContractEvent) =>
+let subscribeToOnchainEvent = (dependencies, hash, eventFilter) =>
   _subscribeToOnchainEvent(
     dependencies,
     hash,
-    smartContractEventToJs(smartContractEvent),
+    smartContractEventToJs(eventFilter),
   );

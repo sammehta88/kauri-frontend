@@ -143,6 +143,10 @@ class Article extends React.Component<ArticleProps> {
     }
   }
 
+  publishArticle = () => {
+    console.log('publishArticle')
+  }
+
   render () {
     return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
       <ApprovedArticle {...this.props} />
@@ -157,6 +161,7 @@ class Article extends React.Component<ArticleProps> {
         addCommentAction={this.props.addCommentAction}
         personalUsername={this.props.personalUsername}
         deleteArticleComment={this.deleteArticleComment}
+        publishArticle={this.publishArticle}
       />
     )
   }

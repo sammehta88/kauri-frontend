@@ -1,7 +1,7 @@
 import { compose, graphql } from 'react-apollo'
 import { connect } from 'react-redux'
 import { submitFinalisedArticleAction, tipArticleAction, deleteArticleCommentAction } from './Module'
-import { approveArticleAction } from './Article_Module.bs'
+import { approveArticleAction, publishArticleAction } from './Article_Module.bs'
 import { getArticle } from '../../../queries/Article'
 import { toggleModalAction, routeChangeAction } from '../../../lib/Module'
 import { addCommentAction } from '../AddCommentForm/Module'
@@ -29,6 +29,7 @@ export default compose(
       addCommentAction,
       rejectArticleAction: article_id => routeChangeAction(`/article/${article_id}/reject-article`),
       deleteArticleCommentAction,
+      publishArticleAction,
     }
   ),
   graphql(getArticle, {

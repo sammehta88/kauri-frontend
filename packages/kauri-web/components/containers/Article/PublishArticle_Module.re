@@ -31,7 +31,7 @@ type publishArticleAction = {
 let publishArticleAction =
     (payload: publishArticlePayload)
     : publishArticleAction =>
-  publishArticleAction(~type_="publish_ARTICLE", ~payload);
+  publishArticleAction(~type_="PUBLISH_ARTICLE", ~payload);
 
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (content_hash) => "" */

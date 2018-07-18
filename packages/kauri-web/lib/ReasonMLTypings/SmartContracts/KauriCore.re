@@ -1,4 +1,6 @@
-type deployedContract;
+type publishArticle;
+[@bs.deriving abstract]
+type deployedContract = {publishArticle};
 
 [@bs.deriving abstract]
 type transactionOptions = {
@@ -22,7 +24,7 @@ type transactionOptions = {
 [@bs.send]
 external _publishArticle :
   (
-    deployedContract,
+    publishArticle,
     string,
     int,
     string,
@@ -35,7 +37,7 @@ external _publishArticle :
     transactionOptions
   ) =>
   Js.Promise.t(string) =
-  "publishArticle";
+  "sendTransaction";
 
 let publishArticle =
     (
@@ -54,8 +56,10 @@ let publishArticle =
     ) => {
   let transactionOptions =
     transactionOptions(~from=account, ~gas=250000, ~gasPrice);
+
+  /* [%debugger]; */
   _publishArticle(
-    deployedContract,
+    deployedContract |. publishArticleGet,
     articleID,
     articleVersion,
     requestID,

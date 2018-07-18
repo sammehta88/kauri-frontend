@@ -38,11 +38,42 @@ let approveArticleAction =
     : approveArticleAction =>
   approveArticleAction(~type_="APPROVE_ARTICLE", ~payload);
 
+type generateApproveArticleHashPayload = {
+  id: string,
+  version: int,
+  content_hash: string,
+  category: string,
+  request_id: string,
+  contributor: string,
+};
+
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (id, version, content_hash, category, request_id, contributor) => "" */
-external generateApproveArticleHash :
+external _generateApproveArticleHash :
   (string, int, string, string, string, string) => string =
   "default";
+
+type generateApproveArticlePayload = {
+  id: string,
+  version: int,
+  content_hash: string,
+  category: string,
+  request_id: string,
+  user_id: string,
+};
+
+let generateApproveArticleHash =
+    (
+      {id, version, content_hash, category, request_id, user_id}: generateApproveArticlePayload,
+    ) =>
+  _generateApproveArticleHash(
+    id,
+    version,
+    content_hash,
+    category,
+    request_id,
+    user_id,
+  );
 
 let approveArticleEpic =
     (action: approveArticleAction, _store: store, dependencies: dependencies) =>
@@ -72,14 +103,14 @@ let approveArticleEpic =
 
          /* (id, version, content_hash, category, request_id, contributor) => "" */
          let approveArticleHash =
-           generateApproveArticleHash(
-             resourceID,
-             article_version,
+           generateApproveArticleHash({
+             id: resourceID,
+             version: article_version,
              content_hash,
              category,
              request_id,
              user_id,
-           );
+           });
 
          fromPromise(personalSign(approveArticleHash))
          |. mergeMap(signature => {

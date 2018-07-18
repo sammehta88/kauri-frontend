@@ -37,11 +37,15 @@ let publishArticleAction =
 /* (content_hash) => "" */
 external convertIpfsHash : string => string = "convertIpfsHash";
 
+type rs;
+
+[@bs.send] external toString : (rs, string) => string = "";
+
 [@bs.deriving abstract]
 type signatureParameters = {
-  r: string,
-  s: string,
   v: string,
+  r: rs,
+  s: rs,
 };
 [@bs.module "ethereumjs-util"]
 /* Article signature => signature decomposed */
@@ -61,6 +65,7 @@ let publishArticleEpic =
     |. ofType("PUBLISH_ARTICLE")
     |. switchMap(action => {
          let apolloClient = dependencies |. apolloClientGet;
+         let getGasPrice = dependencies |. getGasPriceGet;
          let subscriber = dependencies |. subscribeToOnchainEvent;
 
          let resourceID = action |. payloadGet |. article_idGet;
@@ -77,9 +82,15 @@ let publishArticleEpic =
          let contributor = action |. payloadGet |. user_idGet;
          let convertedIPFSHash = convertIpfsHash(content_hash);
          let signatureParams = fromRpcSig(signature);
+         /* let signatureParams =
+            fromRpcSig(
+              "0x472832bdb76d62cc39582e37f493d03549b7c6cc5129fe7c133df86d75edc20632ccaa52e4c0e72ef1ff581fbe7cb376036be9785ff522c685825ad8e84e75fe1b",
+            ); */
          let signatureV = signatureParams |. vGet;
-         let signatureR = signatureParams |. rGet;
-         let signatureS = signatureParams |. sGet;
+         let signatureR =
+           "0x" ++ (signatureParams |. rGet |. toString("hex"));
+         let signatureS =
+           "0x" ++ (signatureParams |. sGet |. toString("hex"));
          /* let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
             let article_version = 1;
             let category = "kauri";
@@ -92,20 +103,23 @@ let publishArticleEpic =
          let publishArticle =
            kauriCoreDeployedContract |. KauriCore.publishArticle;
 
-         fromPromise(
-           publishArticle(
-             resourceID,
-             article_version,
-             request_id,
-             convertedIPFSHash,
-             category,
-             contributor,
-             signatureV,
-             signatureR,
-             signatureS,
-             accounts[0],
-           ),
-         )
+         fromPromise(getGasPrice())
+         |. mergeMap(gasPrice =>
+              publishArticle(
+                resourceID,
+                article_version,
+                request_id,
+                convertedIPFSHash,
+                category,
+                contributor,
+                signatureV,
+                signatureR,
+                signatureS,
+                accounts[0],
+                gasPrice,
+              )
+              |. fromPromise
+            )
          |. tap(transactionHash => {
               Js.log(transactionHash);
               let dispatchAction = store |. ReduxObservable.Store.dispatch;
@@ -156,10 +170,9 @@ let publishArticleEpic =
                     ++ "!",
                 );
 
-              let showPublishArticleNotificationAction =
-                showNotificationAction(showPublishArticleNotificationPayload);
-
-              of1(showPublishArticleNotificationAction);
+              showPublishArticleNotificationPayload
+              |. showNotificationAction
+              |. of1;
             })
          |. catch(err => {
               Js.log(err);

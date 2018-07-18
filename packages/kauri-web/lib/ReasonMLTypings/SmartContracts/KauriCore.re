@@ -1,7 +1,11 @@
 type deployedContract;
 
 [@bs.deriving abstract]
-type fromAccount = {from: string};
+type transactionOptions = {
+  from: string,
+  gas: int,
+  gasPrice: int,
+};
 
 /*
  articleId,
@@ -28,7 +32,7 @@ external _publishArticle :
     string,
     string,
     string,
-    fromAccount
+    transactionOptions
   ) =>
   Js.Promise.t(string) =
   "publishArticle";
@@ -46,8 +50,10 @@ let publishArticle =
       signatureR,
       signatureS,
       account,
+      gasPrice,
     ) => {
-  let fromAccount = fromAccount(~from=account);
+  let transactionOptions =
+    transactionOptions(~from=account, ~gas=250000, ~gasPrice);
   _publishArticle(
     deployedContract,
     articleID,
@@ -59,6 +65,6 @@ let publishArticle =
     signatureV,
     signatureR,
     signatureS,
-    fromAccount,
+    transactionOptions,
   );
 };

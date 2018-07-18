@@ -22,7 +22,7 @@ type web3PersonalSign;
 
 type personalSign = string => Js.Promise.t(string);
 
-type getGasPrice;
+type getGasPrice = unit => Js.Promise.t(int);
 
 type driverJS;
 

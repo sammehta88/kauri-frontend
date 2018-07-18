@@ -144,7 +144,7 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
-         |. mergeMap(hash => fromPromise(subscriber([|hash|])))
+         |. mergeMap(hash => fromPromise(subscriber(hash)))
          |. mergeMap(_hash => {
               let getArticleQuery =
                 Article_Queries.GetArticle.make(~article_id=resourceID, ());

@@ -61,7 +61,7 @@ let publishArticleEpic =
     |. ofType("PUBLISH_ARTICLE")
     |. switchMap(action => {
          let apolloClient = dependencies |. apolloClientGet;
-         /* let subscriber = dependencies |. subscribeToOnchainEvent; */
+         let subscriber = dependencies |. subscribeToOnchainEvent;
 
          let resourceID = action |. payloadGet |. article_idGet;
          let article_version = action |. payloadGet |. article_versionGet;
@@ -150,8 +150,10 @@ let publishArticleEpic =
                   ),
                 ),
               );
-              transactionHash;
             })
+         |. mergeMap(transactionHash =>
+              fromPromise(subscriber(transactionHash, `ArticlePublished))
+            )
          |. catch(err => {
               Js.log(err);
               of1(App_Module.(showErrorNotificationAction(err)));

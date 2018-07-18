@@ -46,7 +46,18 @@ type dependencies = {
   driverJS,
 };
 
-[@bs.splice] [@bs.send]
+[@bs.send]
 external subscribeToOffchainEvent :
-  (dependencies, array(string)) => Js.Promise.t(string) =
+  (dependencies, string) => Js.Promise.t(string) =
   "apolloSubscriber";
+
+[@bs.deriving jsConverter]
+type eventFilter = [ | [@bs.as "ArticlePublished"] `ArticlePublished];
+
+[@bs.send]
+external _subscribeToOnchainEvent :
+  (dependencies, string, string) => Js.Promise.t(string) =
+  "apolloSubscriber";
+
+let subscribeToOnchainEvent = (dependencies, hash, eventFilter) =>
+  _subscribeToOnchainEvent(dependencies, hash, eventFilterToJs(eventFilter));

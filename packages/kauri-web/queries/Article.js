@@ -59,6 +59,7 @@ export const getArticle = gql`
       date_updated
       text
       tip
+      signature
       status
       subject
       sub_category

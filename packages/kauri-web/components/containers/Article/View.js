@@ -11,13 +11,14 @@ type ArticleProps = {
   data: {
     getArticle: ArticleDTO,
   },
-  approveArticleAction: ApproveArticlePayload => void,
+  approveArticleAction: any => void,
   submitFinalisedArticleAction: SubmitFinalisedArticlePayload => void,
   routeChangeAction: string => void,
   rejectArticleAction: string => void,
   addCommentAction: (AddCommentPayload, callback: any) => void,
   personalUsername: ?string,
   deleteArticleCommentAction: DeleteArticleCommentPayload => void,
+  publishArticleAction: any => void,
 }
 
 class Article extends React.Component<ArticleProps> {
@@ -144,7 +145,38 @@ class Article extends React.Component<ArticleProps> {
   }
 
   publishArticle = () => {
-    console.log('publishArticle')
+    if (typeof this.props.data.getArticle === 'object') {
+      console.log(this.props.data.getArticle)
+      if (
+        typeof this.props.data.getArticle.article_id === 'string' &&
+        typeof this.props.data.getArticle.article_version === 'number' &&
+        typeof this.props.data.getArticle.content_hash === 'string' &&
+        typeof this.props.data.getArticle.category === 'string' &&
+        typeof this.props.data.getArticle.user_id === 'string' &&
+        typeof this.props.data.getArticle.signature === 'string'
+      ) {
+        const {
+          article_id,
+          article_version,
+          content_hash,
+          category,
+          user_id,
+          signature,
+          request_id,
+        } = this.props.data.getArticle
+        const publishArticlePayload = {
+          article_id,
+          article_version,
+          request_id: request_id || '',
+          content_hash,
+          category,
+          user_id,
+          signature,
+        }
+        console.log('publishArticlePayload, ', publishArticlePayload)
+        this.props.publishArticleAction(publishArticlePayload)
+      }
+    }
   }
 
   render () {

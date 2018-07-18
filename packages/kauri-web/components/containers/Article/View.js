@@ -22,9 +22,7 @@ type ArticleProps = {
 
 class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
-    console.log('CLICKED APPROVE ARTICLE')
     if (typeof this.props.data.getArticle === 'object') {
-      console.log('getArticle exists')
       if (
         typeof this.props.data.getArticle.article_id === 'string' &&
         typeof this.props.data.getArticle.article_version === 'number' &&

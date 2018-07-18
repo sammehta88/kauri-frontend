@@ -39,7 +39,9 @@ external convertIpfsHash : string => string = "convertIpfsHash";
 
 type rs;
 
-[@bs.send] external toString : (rs, string) => string = "";
+[@bs.send] external _toString : (rs, string) => string = "";
+
+let toHexString = rs => _toString(rs, "hex");
 
 [@bs.deriving abstract]
 type signatureParameters = {
@@ -87,10 +89,8 @@ let publishArticleEpic =
               "0x472832bdb76d62cc39582e37f493d03549b7c6cc5129fe7c133df86d75edc20632ccaa52e4c0e72ef1ff581fbe7cb376036be9785ff522c685825ad8e84e75fe1b",
             ); */
          let signatureV = signatureParams |. vGet;
-         let signatureR =
-           "0x" ++ (signatureParams |. rGet |. toString("hex"));
-         let signatureS =
-           "0x" ++ (signatureParams |. sGet |. toString("hex"));
+         let signatureR = "0x" ++ (signatureParams |. rGet |. toHexString);
+         let signatureS = "0x" ++ (signatureParams |. sGet |. toHexString);
          /* let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
             let article_version = 1;
             let category = "kauri";

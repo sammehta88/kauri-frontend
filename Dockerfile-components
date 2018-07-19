@@ -1,21 +1,19 @@
-FROM node:10
-
-# RUN apt-get update && apt upgrade && \
-#   apt install -y bash git openssh-client
-# RUN mkdir -p /usr/src/app
-RUN mkdir -p /usr/src/app/packages/kauri-components
-# RUN mkdir -p /usr/src/app/packages/kauri-components
-WORKDIR /usr/src/app/packages/kauri-components
-RUN apt-get update && apt-get install -y rsync
-RUN npm install -g --unsafe-perm esy@0.1.27
-
-COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/
-COPY packages/kauri-components/esy.lock /usr/src/app/packages/kauri-components/
-RUN esy install
-
-COPY ./packages/kauri-components /usr/src/app/packages/kauri-components
+FROM ocaml/opam:debian-9_ocaml-4.02.3
 
 ENV CI=true
+ENV TERM=dumb
+ENV OCAML_VERSION="4.02.3"
+ENV NPM_CONFIG_PREFIX="~/.npm-global"
+
+RUN  curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+RUN sudo apt-get install -y nodejs
+RUN mkdir -p ~/.npm-global
+RUN npm config set prefix $NPM_CONFIG_PREFIX
+
+COPY . /usr/src/app/
+WORKDIR /usr/src/app/packages/kauri-components
+RUN apt-get update && apt-get install -y rsync
+RUN ~/.npm-global/bin/esy install
 
 EXPOSE 6006
 CMD "npm" "run" "test:chromatic"

@@ -11,7 +11,7 @@ RUN sudo npm install -g --unsafe-perm esy@0.1.27
 
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/packages/kauri-components
-RUN esy install
+RUN sudo esy install
 
 EXPOSE 6006
 CMD "npm" "run" "test:chromatic"

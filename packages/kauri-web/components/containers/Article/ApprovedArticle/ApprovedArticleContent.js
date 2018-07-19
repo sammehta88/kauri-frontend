@@ -12,6 +12,7 @@ import DatePosted from '../../../common/DatePosted'
 import { SubmitArticleFormHeadings, OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
+import { PositiveActionBadge } from '../../../common/ActionButton'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -31,13 +32,13 @@ export default ({ text, username }: { text?: string, username?: ?string }) => {
   const headingsAvailable =
     typeof editorState === 'object' && editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .find(contentBlock => contentBlock.toJS().type.includes('header'))
+          .getBlocksAsArray()
+          .find(contentBlock => contentBlock.toJS().type.includes('header'))
       : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type === 'header-two').length > 0
+          .getCurrentContent()
+          .getBlocksAsArray()
+          .map(block => block.toJS())
+          .filter(block => block.type === 'header-two').length > 0
 
   return (
     <SubmitArticleFormContent>
@@ -57,6 +58,10 @@ export default ({ text, username }: { text?: string, username?: ?string }) => {
           <span>WRITTEN BY</span>
           <Username>{username || 'Unknown writer'}</Username>
         </DatePosted>
+        <Divider style={{ margin: '20px 0' }} />
+        <PositiveActionBadge type='primary' width={'200px'} onClick={() => console.log('clicked')}>
+          Update article
+        </PositiveActionBadge>
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )

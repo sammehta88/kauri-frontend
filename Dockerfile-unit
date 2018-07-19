@@ -7,9 +7,11 @@ RUN mkdir -p /usr/src/app/packages/kauri-web
 # RUN mkdir -p /usr/src/app/packages/kauri-components
 WORKDIR /usr/src/app/packages/kauri-web
 
+RUN npm install -g --unsafe-perm esy@0.1.27
+
 COPY packages/kauri-web/package.json /usr/src/app/packages/kauri-web/
-COPY packages/kauri-web/yarn.lock /usr/src/app/packages/kauri-web/
-RUN yarn
+COPY packages/kauri-web/esy.lock /usr/src/app/packages/kauri-web/
+RUN esy install
 
 COPY ./packages/kauri-web /usr/src/app/packages/kauri-web
 

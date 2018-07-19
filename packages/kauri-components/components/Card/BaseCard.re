@@ -8,7 +8,7 @@ module Styles = {
         {
           display: flexBox;
           flex-direction: column;
-          height: 270px;
+          min-height: 270px;
           width: 290px;
           border-radius: 4px;
           background-color: #FFFFFF;

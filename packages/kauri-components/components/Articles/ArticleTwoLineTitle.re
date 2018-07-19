@@ -1,3 +1,5 @@
+open MomentRe;
+
 let component = ReasonReact.statelessComponent("Greeting");
 
 module Styles = {

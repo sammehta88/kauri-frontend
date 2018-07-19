@@ -26,7 +26,7 @@
   "ppx-flags": ["./bs-ppx-css\\ --as-ppx"],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-css", "vrroom"],
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3
 }

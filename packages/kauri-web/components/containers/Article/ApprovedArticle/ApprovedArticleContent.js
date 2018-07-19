@@ -22,7 +22,17 @@ const Username = styled.strong`
   color: ${props => props.theme.primaryColor};
 `
 
-export default ({ text, username }: { text?: string, username?: ?string }) => {
+export default ({
+  text,
+  username,
+  routeChangeAction,
+  article_id,
+}: {
+  text?: string,
+  username?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
@@ -59,7 +69,11 @@ export default ({ text, username }: { text?: string, username?: ?string }) => {
           <Username>{username || 'Unknown writer'}</Username>
         </DatePosted>
         <Divider style={{ margin: '20px 0' }} />
-        <PositiveActionBadge type='primary' width={'200px'} onClick={() => console.log('clicked')}>
+        <PositiveActionBadge
+          type='primary'
+          width={'200px'}
+          onClick={() => routeChangeAction(`/article/${article_id}/update-article`)}
+        >
           Update article
         </PositiveActionBadge>
       </ApprovedArticleDetails>

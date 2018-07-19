@@ -88,6 +88,7 @@ class SubmitArticleForm extends React.Component<Props> {
             if (typeof article_id === 'string') {
               return editArticleAction({ request_id: data.getArticle.request_id, text, article_id, subject })
             } else {
+              // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
               return submitArticleAction({
                 request_id,
                 text,

@@ -14,6 +14,7 @@ bundles
 .fliphub
 packages/kauri-components/lib/bs
 packages/kauri-web/lib/bs
+packages/kauri-web/lib/kauri-components
 lerna-debug.log
 lerna-error.log
 *.bs.js

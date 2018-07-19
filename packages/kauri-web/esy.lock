@@ -193,6 +193,25 @@
     lodash "^4.17.5"
     to-fast-properties "^2.0.0"
 
+"@esy-ocaml/esy-installer@^0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@esy-ocaml/esy-installer/-/esy-installer-0.0.0.tgz#6b0e2bd4ee43531ac74793fe55cfcc3aca197a66"
+
+"@esy-ocaml/merlin@*":
+  version "3.0.5005"
+  resolved "https://registry.yarnpkg.com/@esy-ocaml/merlin/-/merlin-3.0.5005.tgz#4a9e2b4df20672524603b7b1797b7761d5d0d9ad"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlfind" " >= 1.5.2"
+    "@opam/yojson" "*"
+  peerDependencies:
+    ocaml " >= 4.2.1  < 4.7.0"
+
+"@esy-ocaml/substs@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@esy-ocaml/substs/-/substs-0.0.1.tgz#59ebdbbaedcda123fc7ed8fb2b302b7d819e9a46"
+
 "@octokit/rest@^15.2.6":
   version "15.9.4"
   resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.9.4.tgz#c6cf0f483275d9c798b18419b7c9d417493bb70f"
@@ -205,6 +224,307 @@
     lodash "^4.17.4"
     node-fetch "^2.1.1"
     url-template "^2.0.8"
+
+"@opam/alcotest@^0.8.1":
+  version "0.8.3"
+  uid "8355d676296f1817e4d0fb24588d89b8"
+  resolved "@opam/alcotest@0.8.3-8355d676296f1817e4d0fb24588d89b8.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/astring" "*"
+    "@opam/cmdliner" "*"
+    "@opam/fmt" " >= 0.8.0"
+    "@opam/jbuilder" " >= 1.0.0-beta10"
+    "@opam/result" "*"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/astring@*":
+  version "0.8.3"
+  uid b9d2587455c47bba6216ed0af6785be3
+  resolved "@opam/astring@0.8.3-b9d2587455c47bba6216ed0af6785be3.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/base-bytes" "*"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+    "@opam/topkg" "*"
+  peerDependencies:
+    ocaml " >= 4.1.0"
+
+"@opam/base-bytes@*":
+  version "0.0.0-base"
+  uid bacd2a20f40952db4c545687d27548ab
+  resolved "@opam/base-bytes@0.0.0-base-bacd2a20f40952db4c545687d27548ab.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlfind" " >= 1.5.3"
+  peerDependencies:
+    ocaml " >= 4.2.0"
+
+"@opam/base-unix@*":
+  version "0.0.0-base"
+  uid "04bc004c59f2edca849d38ea6891bb7f"
+  resolved "@opam/base-unix@0.0.0-base-04bc004c59f2edca849d38ea6891bb7f.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/biniou@ >= 1.2.0":
+  version "1.2.0"
+  uid af4880e80be63bbb3043fb7184882eb8
+  resolved "@opam/biniou@1.2.0-af4880e80be63bbb3043fb7184882eb8.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/conf-which" "*"
+    "@opam/easy-format" "*"
+    "@opam/jbuilder" " >= 1.0.0-beta7"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/cmdliner@*":
+  version "1.0.2"
+  uid "4b1c61475a9d1d2451b622ad0f3e58d2"
+  resolved "@opam/cmdliner@1.0.2-4b1c61475a9d1d2451b622ad0f3e58d2.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+    "@opam/result" "*"
+    "@opam/topkg" "*"
+  peerDependencies:
+    ocaml " >= 4.1.0"
+
+"@opam/conf-m4@*":
+  version "1.0.0"
+  uid "97f0966b2e2652d02c0d9125781c31df"
+  resolved "@opam/conf-m4@1.0.0-97f0966b2e2652d02c0d9125781c31df.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/conf-which@*":
+  version "1.0.0"
+  uid b7770c8a3ebbb7f8a80c925753375bb8
+  resolved "@opam/conf-which@1.0.0-b7770c8a3ebbb7f8a80c925753375bb8.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/cppo@*":
+  version "1.6.4"
+  uid a4765150793fe5fb929b45e8ff1006d4
+  resolved "@opam/cppo@1.6.4-a4765150793fe5fb929b45e8ff1006d4.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/base-bytes" "*"
+    "@opam/base-unix" "*"
+    "@opam/jbuilder" " >= 1.0.0-beta17"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/dune@*":
+  version "1.0.0"
+  uid fc5819bde70d90d55729f78343389f5d
+  resolved "@opam/dune@1.0.0-fc5819bde70d90d55729f78343389f5d.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/easy-format@*":
+  version "1.3.1"
+  uid "0c2f9b085eba4175086013e7ef48ba05"
+  resolved "@opam/easy-format@1.3.1-0c2f9b085eba4175086013e7ef48ba05.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/jbuilder" "*"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/fmt@ >= 0.8.0":
+  version "0.8.5"
+  uid e11ffecd1ece76196e4274a6567b935c
+  resolved "@opam/fmt@0.8.5-e11ffecd1ece76196e4274a6567b935c.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+    "@opam/result" "*"
+    "@opam/topkg" " >= 0.9.0"
+    "@opam/uchar" "*"
+  peerDependencies:
+    ocaml " >= 4.1.0"
+
+"@opam/gen@*", "@opam/gen@0.5.0":
+  version "0.5.0"
+  uid b6b803fd9de7d9bdd947967ada9fec8d
+  resolved "@opam/gen@0.5.0-b6b803fd9de7d9bdd947967ada9fec8d.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/jbuilder@ >= 1.0.0-beta10", "@opam/jbuilder@ >= 1.0.0-beta11", "@opam/jbuilder@ >= 1.0.0-beta17", "@opam/jbuilder@ >= 1.0.0-beta7", "@opam/jbuilder@^1.0.0-beta16":
+  version "1.0.0-beta20"
+  uid "1648206284a54407f6eee01ed950fff7"
+  resolved "@opam/jbuilder@1.0.0-beta20-1648206284a54407f6eee01ed950fff7.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlfind" "*"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/jbuilder@*":
+  version "0.0.0-transition"
+  uid "1d4bc6e4e18f9d95e652cc51dc56d62a"
+  resolved "@opam/jbuilder@0.0.0-transition-1d4bc6e4e18f9d95e652cc51dc56d62a.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/dune" "*"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/menhir@20171222":
+  version "20171222.0.0"
+  uid b81a41f2c717acff8029cb6cef93f322
+  resolved "@opam/menhir@20171222.0.0-b81a41f2c717acff8029cb6cef93f322.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" "*"
+  peerDependencies:
+    ocaml " >= 4.2.0"
+
+"@opam/ocaml-migrate-parsetree@ >= 0.5.0", "@opam/ocaml-migrate-parsetree@*", "@opam/ocaml-migrate-parsetree@^1.0.7":
+  version "1.0.11"
+  uid "4d73c258443df240cc726e7b973ab88f"
+  resolved "@opam/ocaml-migrate-parsetree@1.0.11-4d73c258443df240cc726e7b973ab88f.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/dune" "*"
+    "@opam/ocamlfind" "*"
+    "@opam/result" "*"
+  peerDependencies:
+    ocaml " >= 4.2.0"
+
+"@opam/ocamlbuild@*":
+  version "0.11.0"
+  uid abecf9ccce04123ca6924849ce36399c
+  resolved "@opam/ocamlbuild@0.11.0-abecf9ccce04123ca6924849ce36399c.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+  peerDependencies:
+    ocaml "<4.3.0"
+
+"@opam/ocamlfind@ >= 1.5.2", "@opam/ocamlfind@ >= 1.5.3", "@opam/ocamlfind@ >= 1.6.1", "@opam/ocamlfind@*":
+  version "1.8.0"
+  uid a29b9c6ee271e1e86838435ef8a6c366
+  resolved "@opam/ocamlfind@1.8.0-a29b9c6ee271e1e86838435ef8a6c366.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/conf-m4" "*"
+  peerDependencies:
+    ocaml " >= 4.0.0"
+
+"@opam/ppx_tools_versioned@*":
+  version "5.2.0"
+  uid c0cab6417d696279ac938353613ab732
+  resolved "@opam/ppx_tools_versioned@5.2.0-c0cab6417d696279ac938353613ab732.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/jbuilder" " >= 1.0.0-beta17"
+    "@opam/ocaml-migrate-parsetree" " >= 0.5.0"
+  peerDependencies:
+    ocaml " >= 4.2.0"
+
+"@opam/result@*":
+  version "1.3.0"
+  uid "9a01d033485a02ccc143441a46adeb53"
+  resolved "@opam/result@1.3.0-9a01d033485a02ccc143441a46adeb53.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/jbuilder" " >= 1.0.0-beta11"
+  peerDependencies:
+    ocaml "*"
+
+"@opam/sedlex@^1.0.0-beta14":
+  version "1.99.4"
+  uid a8ea25e35e9eb51e2df32e8c308058fb
+  resolved "@opam/sedlex@1.99.4-a8ea25e35e9eb51e2df32e8c308058fb.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/gen" "*"
+    "@opam/ocaml-migrate-parsetree" "*"
+    "@opam/ocamlfind" "*"
+    "@opam/ppx_tools_versioned" "*"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
+
+"@opam/topkg@ >= 0.9.0", "@opam/topkg@*":
+  version "0.9.1"
+  uid "516192416bf683eb7edf2dbd649d014d"
+  resolved "@opam/topkg@0.9.1-516192416bf683eb7edf2dbd649d014d.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+    "@opam/ocamlfind" " >= 1.6.1"
+    "@opam/result" "*"
+  peerDependencies:
+    ocaml " >= 4.1.0"
+
+"@opam/uchar@*":
+  version "0.0.2"
+  uid "234806fdd6b50b459a41e955c67d875d"
+  resolved "@opam/uchar@0.0.2-234806fdd6b50b459a41e955c67d875d.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/ocamlbuild" "*"
+  peerDependencies:
+    ocaml " >= 3.12.0"
+
+"@opam/yojson@*":
+  version "1.4.1"
+  uid "1d23ddc5148ccb2ca2e11f0a854d35dd"
+  resolved "@opam/yojson@1.4.1-1d23ddc5148ccb2ca2e11f0a854d35dd.tgz"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@esy-ocaml/substs" "^0.0.1"
+    "@opam/biniou" " >= 1.2.0"
+    "@opam/cppo" "*"
+    "@opam/easy-format" "*"
+    "@opam/jbuilder" "*"
+  peerDependencies:
+    ocaml " >= 4.2.3000"
 
 "@rej156/react-mde@^5.5.6":
   version "5.5.6"
@@ -824,7 +1144,7 @@ async-eventemitter@^0.2.2:
   dependencies:
     async "^2.4.0"
 
-"async-eventemitter@github:ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c":
+async-eventemitter@ahultgren/async-eventemitter#fa06e39e56786ba541c180061dbf2c0a5bbf951c:
   version "0.2.3"
   resolved "https://codeload.github.com/ahultgren/async-eventemitter/tar.gz/fa06e39e56786ba541c180061dbf2c0a5bbf951c"
   dependencies:
@@ -1745,13 +2065,13 @@ big.js@^3.1.3:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-3.2.0.tgz#a5fc298b81b9e0dca2e458824784b65c52ba588e"
 
+"bignumber.js@git+https://github.com/debris/bignumber.js#master":
+  version "2.0.7"
+  resolved "git+https://github.com/debris/bignumber.js#c7a38de919ed75e6fb6ba38051986e294b328df9"
+
 "bignumber.js@git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2":
   version "2.0.7"
   resolved "git+https://github.com/debris/bignumber.js.git#94d7146671b9719e00a09c29b01a691bc85048c2"
-
-"bignumber.js@git+https://github.com/debris/bignumber.js.git#master":
-  version "2.0.7"
-  resolved "git+https://github.com/debris/bignumber.js.git#c7a38de919ed75e6fb6ba38051986e294b328df9"
 
 "bignumber.js@git+https://github.com/frozeman/bignumber.js-nolookahead.git":
   version "2.0.7"
@@ -2042,6 +2362,12 @@ browserslist@^3.2.6:
   dependencies:
     caniuse-lite "^1.0.30000844"
     electron-to-chromium "^1.3.47"
+
+bs-css@^7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/bs-css/-/bs-css-7.0.1.tgz#3207e4bc8f69b35d6d454c52dd3bf3def355cc29"
+  dependencies:
+    glamor "^2.0.0"
 
 bs-platform@^4.0.0:
   version "4.0.0"
@@ -3337,7 +3663,7 @@ debug@3.1.0, debug@^3.1.0, debug@~3.1.0:
   dependencies:
     ms "2.0.0"
 
-debuglog@*, debuglog@^1.0.1:
+debuglog@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/debuglog/-/debuglog-1.0.1.tgz#aa24ffb9ac3df9a2351837cfb2d279360cd78492"
 
@@ -5263,7 +5589,7 @@ gitconfiglocal@^1.0.0:
   dependencies:
     ini "^1.3.2"
 
-glamor@2.20.40:
+glamor@2.20.40, glamor@^2.0.0:
   version "2.20.40"
   resolved "https://registry.yarnpkg.com/glamor/-/glamor-2.20.40.tgz#f606660357b7cf18dface731ad1a2cfa93817f05"
   dependencies:
@@ -5938,7 +6264,7 @@ import-local@^1.0.0:
     pkg-dir "^2.0.0"
     resolve-cwd "^2.0.0"
 
-imurmurhash@*, imurmurhash@^0.1.4:
+imurmurhash@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/imurmurhash/-/imurmurhash-0.1.4.tgz#9218b9b2b928a238b13dc4fb6b6d576f231453ea"
 
@@ -7420,10 +7746,6 @@ lodash._basecreate@^3.0.0:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/lodash._basecreate/-/lodash._basecreate-3.0.3.tgz#1bc661614daa7fc311b7d03bf16806a0213cf821"
 
-lodash._baseindexof@*:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/lodash._baseindexof/-/lodash._baseindexof-3.1.0.tgz#fe52b53a1c6761e42618d654e4a25789ed61822c"
-
 lodash._baseuniq@~4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash._baseuniq/-/lodash._baseuniq-4.6.0.tgz#0ebb44e456814af7905c6212fa2c9b2d51b841e8"
@@ -7431,25 +7753,11 @@ lodash._baseuniq@~4.6.0:
     lodash._createset "~4.0.0"
     lodash._root "~3.0.0"
 
-lodash._bindcallback@*:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/lodash._bindcallback/-/lodash._bindcallback-3.0.1.tgz#e531c27644cf8b57a99e17ed95b35c748789392e"
-
-lodash._cacheindexof@*:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/lodash._cacheindexof/-/lodash._cacheindexof-3.0.2.tgz#3dc69ac82498d2ee5e3ce56091bafd2adc7bde92"
-
-lodash._createcache@*:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/lodash._createcache/-/lodash._createcache-3.1.2.tgz#56d6a064017625e79ebca6b8018e17440bdcf093"
-  dependencies:
-    lodash._getnative "^3.0.0"
-
 lodash._createset@~4.0.0:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/lodash._createset/-/lodash._createset-4.0.3.tgz#0f4659fbb09d75194fa9e2b88a6644d363c9fe26"
 
-lodash._getnative@*, lodash._getnative@^3.0.0:
+lodash._getnative@^3.0.0:
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/lodash._getnative/-/lodash._getnative-3.9.1.tgz#570bc7dede46d61cdcde687d65d3eecbaa3aaff5"
 
@@ -7516,10 +7824,6 @@ lodash.memoize@^4.1.2:
 lodash.reduce@4.6.0:
   version "4.6.0"
   resolved "https://registry.yarnpkg.com/lodash.reduce/-/lodash.reduce-4.6.0.tgz#f1ab6b839299ad48f784abbf476596f03b914d3b"
-
-lodash.restparam@*:
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/lodash.restparam/-/lodash.restparam-3.6.1.tgz#936a4e309ef330a7645ed4145986c85ae5b20805"
 
 lodash.sortby@^4.7.0:
   version "4.7.0"
@@ -8745,6 +9049,10 @@ obuf@^1.0.0, obuf@^1.1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
 
+ocaml@~4.2.3000:
+  version "4.2.3004"
+  resolved "https://registry.yarnpkg.com/ocaml/-/ocaml-4.2.3004.tgz#4142d03d6c012949c2974c40db3a92edc7981db0"
+
 omit.js@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/omit.js/-/omit.js-1.0.0.tgz#e013cb86a7517b9cf6f7cfb0ddb4297256a99288"
@@ -9417,6 +9725,19 @@ postcss@^6.0.1:
     chalk "^2.4.1"
     source-map "^0.6.1"
     supports-color "^5.4.0"
+
+"ppx_bs_css@github:astrada/ppx_bs_css#36a3675":
+  version "0.1.0"
+  resolved "https://codeload.github.com/astrada/ppx_bs_css/tar.gz/36a3675d1ab03a25cc8866943d943b494b72c464"
+  dependencies:
+    "@esy-ocaml/esy-installer" "^0.0.0"
+    "@opam/alcotest" "^0.8.1"
+    "@opam/jbuilder" "^1.0.0-beta16"
+    "@opam/menhir" "20171222"
+    "@opam/ocaml-migrate-parsetree" "^1.0.7"
+    "@opam/sedlex" "^1.0.0-beta14"
+  peerDependencies:
+    ocaml "~4.2.3"
 
 preact@^8.2.7:
   version "8.2.9"
@@ -10345,7 +10666,7 @@ readable-stream@~2.1.5:
     string_decoder "~0.10.x"
     util-deprecate "~1.0.1"
 
-readdir-scoped-modules@*, readdir-scoped-modules@^1.0.0:
+readdir-scoped-modules@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/readdir-scoped-modules/-/readdir-scoped-modules-1.0.2.tgz#9fafa37d286be5d92cbaebdee030dc9b5f406747"
   dependencies:
@@ -12642,6 +12963,14 @@ vm-browserify@0.0.4:
   resolved "https://registry.yarnpkg.com/vm-browserify/-/vm-browserify-0.0.4.tgz#5d7ea45bbef9e4a6ff65f95438e0a87c357d5a73"
   dependencies:
     indexof "0.0.1"
+
+vrroom@glennsl/vrroom:
+  version "0.3.0"
+  resolved "https://codeload.github.com/glennsl/vrroom/tar.gz/37b054f64b93c685ba7876f13a3240b3062bb090"
+  peerDependencies:
+    react "^16.0.0"
+    react-dom "^16.0.0"
+    reason-react "^0.4.2"
 
 vscode-css-languageservice@^2.1.10:
   version "2.1.11"

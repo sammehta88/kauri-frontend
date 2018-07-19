@@ -9,6 +9,10 @@
       "subdirs": true
     },
     {
+      "dir": "stories",
+      "subdirs": true
+    },
+    {
       "dir": "lib/bs-storybook",
       "subdirs": true
     }
@@ -22,7 +26,7 @@
   "ppx-flags": ["./bs-ppx-css\\ --as-ppx"],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react", "bs-css", "bs-luxon", "vrroom"],
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3
 }

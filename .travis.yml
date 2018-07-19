@@ -42,10 +42,16 @@ jobs:
     - touch secret.env
     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
-  - stage: chromaticqa
+  - stage: chromaticqa-no-auto-accept-changes
+    if: "NOT type IN (branch = master)"
     script:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components .
     - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
+  - stage: chromaticqa-auto-accept-changes
+    if: branch = master
+    script:
+    - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components .
+    - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm run test:chromatic-auto-accept-changes
   - stage: deploy-dev
     if: branch = development
     install:

@@ -4,7 +4,9 @@ ENV CI=true
 ENV TERM=dumb
 ENV OCAML_VERSION="4.02.3"
 
-RUN  curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
+
+RUN sudo apt update
+RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN npm install -g --unsafe-perm esy@0.1.27
 

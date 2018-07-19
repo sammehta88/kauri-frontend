@@ -121,7 +121,7 @@ export const searchApprovedArticles = gql`
     searchArticles(
       size: $size
       dir: DESC
-      filter: { full_text: $text, status_in: [APPROVED], category_in: [$category] }
+      filter: { full_text: $text, status_in: [PUBLISHED], category_in: [$category] }
     ) {
       totalElements
       content {
@@ -151,7 +151,7 @@ export const searchApprovedArticles = gql`
 
 export const globalSearchApprovedCategoryArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $category: String) {
-    searchArticles(size: $size, dir: DESC, filter: { category_in: [$category], status_in: [APPROVED] }) {
+    searchArticles(size: $size, dir: DESC, filter: { category_in: [$category], status_in: [PUBLISHED] }) {
       totalElements
       content {
         article_id
@@ -180,7 +180,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [APPROVED] }) {
+    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED] }) {
       totalElements
       content {
         article_id
@@ -265,7 +265,7 @@ export const searchPendingArticles = gql`
 
 export const getTotalArticlesCount = gql`
   query getTotalArticlesCount($category: String) {
-    searchArticles(filter: { category_in: [$category], status_in: [APPROVED] }) {
+    searchArticles(filter: { category_in: [$category], status_in: [PUBLISHED] }) {
       totalElements
     }
   }

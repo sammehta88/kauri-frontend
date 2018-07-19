@@ -242,7 +242,7 @@ export default class NetworkBanner extends React.Component<
         accountsError: null,
       })
 
-      if (next && userId !== next) {
+      if (next && userId && userId !== next) {
         return this.setState({
           ...this.state,
           accounts,

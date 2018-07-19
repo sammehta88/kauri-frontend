@@ -83,10 +83,15 @@ let publishArticleEpic =
            };
          let contributor = action |. payloadGet |. user_idGet;
          let convertedIPFSHash = convertIpfsHash(content_hash);
+         Js.log(convertedIPFSHash);
          let signatureParams = fromRpcSig(signature);
+         Js.log(signatureParams);
          let signatureV = signatureParams |. vGet;
+         Js.log(signatureV);
          let signatureR = "0x" ++ (signatureParams |. rGet |. toHexString);
+         Js.log(signatureR);
          let signatureS = "0x" ++ (signatureParams |. sGet |. toHexString);
+         Js.log(signatureS);
          /* let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
             let article_version = 1;
             let category = "kauri";

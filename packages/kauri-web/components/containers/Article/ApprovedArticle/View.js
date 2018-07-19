@@ -58,6 +58,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           toggleBanner={this.toggleBanner}
           request_id={props.data.getArticle && props.data.getArticle.request_id}
           article_id={props.data.getArticle && props.data.getArticle.article_id}
+          article_version={props.data.getArticle && props.data.getArticle.article_version}
           user_id={props.data.getArticle && props.data.getArticle.user_id}
         />
         <ApprovedArticle.Header {...props.data.getArticle} />

@@ -89,6 +89,7 @@ export const getArticleForAnalytics = gql`
   query getArticle($article_id: String) {
     getArticle(id: $article_id) {
       article_id
+      article_version
       user_id
       request_id
       date_created
@@ -126,6 +127,7 @@ export const searchApprovedArticles = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -155,6 +157,7 @@ export const globalSearchApprovedCategoryArticles = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -184,6 +187,7 @@ export const globalSearchApprovedArticles = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -212,6 +216,7 @@ export const searchPersonalSubmittedArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: { user_id_eq: $userId }) {
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -238,9 +243,9 @@ export const searchPendingArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: $filter) {
       content {
         article_id
+        article_version
         user_id
         request_id
-        article_version
         date_created
         date_updated
         tip
@@ -292,6 +297,7 @@ export const searchPublishedArticleHistory = gql`
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created

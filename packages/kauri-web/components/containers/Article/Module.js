@@ -43,7 +43,13 @@ export type RejectArticleAction = { type: 'REJECT_ARTICLE', payload: RejectArtic
 
 export type ApproveArticleAction = { type: 'APPROVE_ARTICLE', payload: ApproveArticlePayload }
 
-export type TipArticlePayload = { request_id?: ?string, bounty: number, article_id: string, user_id: string }
+export type TipArticlePayload = {
+  request_id?: ?string,
+  bounty: number,
+  article_id: string,
+  user_id: string,
+  article_version: number,
+}
 
 export type TipArticleAction = { type: 'TIP_ARTICLE', payload: TipArticlePayload, callback: any }
 
@@ -112,31 +118,37 @@ export const submitFinalisedArticleEpic = (
             gasPrice =>
               isCategoryOwnedByTopicOwner
                 ? smartContracts().KauriCore.submitAndAcceptArticle.sendTransaction(
-                  article_id,
-                  request_id,
-                  web3.sha3(content_hash).toString('hex'),
-                  category,
+                    article_id,
+                    request_id,
+                    web3.sha3(content_hash).toString('hex'),
+                    category,
                   {
                     from: web3.eth.accounts[0],
                     gas: 250000,
                     gasPrice,
                   }
-                )
+                  )
                 : smartContracts().KauriCore.submitArticle.sendTransaction(
-                  article_id,
-                  request_id,
-                  web3.sha3(content_hash).toString('hex'),
-                  category,
-                  null, // Creator Address
+                    article_id,
+                    request_id,
+                    web3.sha3(content_hash).toString('hex'),
+                    category,
+                    null, // Creator Address
                   {
                     from: web3.eth.accounts[0],
                     gas: 250000,
                     gasPrice,
                   }
-                )
+                  )
           )
           .do((transactionHash: string) => {
-            dispatch(routeChangeAction(isCategoryOwnedByTopicOwner ? `/article/${article_id}/article-published` : `/article/${article_id}/article-finalised`))
+            dispatch(
+              routeChangeAction(
+                isCategoryOwnedByTopicOwner
+                  ? `/article/${article_id}/article-published`
+                  : `/article/${article_id}/article-finalised`
+              )
+            )
             dispatch(
               showNotificationAction({
                 notificationType: 'info',
@@ -262,60 +274,69 @@ export const tipArticleEpic = (
 ) =>
   action$
     .ofType(TIP_ARTICLE)
-    .switchMap(({ payload: { article_id, request_id, user_id, bounty }, callback }: TipArticleAction) => {
-      const weiBounty = web3.toWei(bounty, 'ether')
+    .switchMap(
+      ({ payload: { article_id, request_id, user_id, bounty, article_version }, callback }: TipArticleAction) => {
+        const weiBounty = web3.toWei(bounty, 'ether')
 
-      return Observable.fromPromise(getGasPrice())
-        .flatMap(gasPrice =>
-          smartContracts().KauriCore.tipArticle.sendTransaction(article_id, request_id || '', user_id, weiBounty, {
-            from: web3.eth.accounts[0],
-            value: weiBounty,
-            gas: 250000,
-            gasPrice,
+        return Observable.fromPromise(getGasPrice())
+          .flatMap(gasPrice =>
+            smartContracts().KauriCore.tipArticle.sendTransaction(
+              article_id,
+              article_version,
+              request_id || '',
+              user_id,
+              weiBounty,
+              {
+                from: web3.eth.accounts[0],
+                value: weiBounty,
+                gas: 250000,
+                gasPrice,
+              }
+            )
+          )
+          .do(() => callback())
+          .do((transactionHash: string) => {
+            dispatch(
+              showNotificationAction({
+                notificationType: 'info',
+                message: 'Waiting for it to be mined',
+                description: 'You will get another notification when the block is mined!',
+              })
+            )
+            dispatch(
+              trackMixpanelAction({
+                event: 'Onchain',
+                metaData: {
+                  resource: 'article',
+                  resourceID: article_id,
+                  resourceAction: 'tip article transaction submitted',
+                  additionalTip: bounty,
+                  transactionHash,
+                },
+              })
+            )
           })
-        )
-        .do(() => callback())
-        .do((transactionHash: string) => {
-          dispatch(
+          .flatMap((transactionHash: string) => apolloSubscriber(transactionHash, 'ArticleTipped'))
+          .do(() => apolloClient.resetStore())
+          .mapTo(
             showNotificationAction({
-              notificationType: 'info',
-              message: 'Waiting for it to be mined',
-              description: 'You will get another notification when the block is mined!',
+              notificationType: 'success',
+              message: 'Article contribution has been mined!',
+              description: `Amount of ${bounty} ETH`,
             })
           )
-          dispatch(
-            trackMixpanelAction({
-              event: 'Onchain',
-              metaData: {
-                resource: 'article',
-                resourceID: article_id,
-                resourceAction: 'tip article transaction submitted',
-                additionalTip: bounty,
-                transactionHash,
-              },
-            })
-          )
-        })
-        .flatMap((transactionHash: string) => apolloSubscriber(transactionHash, 'ArticleTipped'))
-        .do(() => apolloClient.resetStore())
-        .mapTo(
-          showNotificationAction({
-            notificationType: 'success',
-            message: 'Article contribution has been mined!',
-            description: `Amount of ${bounty} ETH`,
+          .catch(err => {
+            console.error(err)
+            return Observable.of(
+              showNotificationAction({
+                notificationType: 'error',
+                message: 'Submission error',
+                description: 'Please try again!',
+              })
+            )
           })
-        )
-        .catch(err => {
-          console.error(err)
-          return Observable.of(
-            showNotificationAction({
-              notificationType: 'error',
-              message: 'Submission error',
-              description: 'Please try again!',
-            })
-          )
-        })
-    })
+      }
+    )
 
 export const rejectArticleEpic = (
   action$: Observable<RejectArticleAction>,

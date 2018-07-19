@@ -5,6 +5,7 @@ import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
+import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 import type { TipArticlePayload } from '../Module'
 
@@ -41,6 +42,7 @@ class ApprovedArticle extends React.Component<Props, State> {
     const props = this.props
     return (
       <section>
+        <ScrollToTopOnMount />
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}
           tipArticleAction={props.tipArticleAction}

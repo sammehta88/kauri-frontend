@@ -14,7 +14,6 @@ COPY packages/kauri-components/esy.lock /usr/src/app/packages/kauri-components/
 RUN esy install
 
 COPY ./packages/kauri-components /usr/src/app/packages/kauri-components
-RUN npm run build
 
 ENV CI=true
 

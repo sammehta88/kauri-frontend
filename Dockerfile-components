@@ -1,4 +1,4 @@
-FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
+FROM node:10
 
 # RUN apt-get update && apt upgrade && \
 #   apt install -y bash git openssh-client

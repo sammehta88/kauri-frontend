@@ -29,12 +29,12 @@ class SubmittedArticles extends Component<Props> {
       this.props.data.searchArticles &&
       Array.isArray(this.props.data.searchArticles.content) &&
       this.props.data.searchArticles.content.length > 0 &&
-      this.props.data.searchArticles.content.filter(({ status }) => status === 'IN_REVIEW' || status === 'SUBMITTED')
+      this.props.data.searchArticles.content.filter(({ status }) => status === 'IN_REVIEW')
     const publishedArticles =
       this.props.data.searchArticles &&
       Array.isArray(this.props.data.searchArticles.content) &&
       this.props.data.searchArticles.content.length > 0 &&
-      this.props.data.searchArticles.content.filter(({ status }) => status === 'APPROVED' || status === 'ACCEPTED')
+      this.props.data.searchArticles.content.filter(({ status }) => status === 'PUBLISHED')
 
     return (
       <SubmittedArticles.Container>

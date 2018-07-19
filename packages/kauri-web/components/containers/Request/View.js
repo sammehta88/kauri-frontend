@@ -484,7 +484,7 @@ class Request extends Component<Props, State> {
                       routeChangeAction(
                         `/article/${searchArticles.content &&
                           searchArticles.content.length > 0 &&
-                          searchArticles.content.find(article => article.status === 'APPROVED').article_id}`
+                          searchArticles.content.find(article => article.status === 'PUBLISHED').article_id}`
                       )
                     }
                     label='View Article'

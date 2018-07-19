@@ -6,7 +6,7 @@ FROM node:10
 RUN mkdir -p /usr/src/app/packages/kauri-components
 # RUN mkdir -p /usr/src/app/packages/kauri-components
 WORKDIR /usr/src/app/packages/kauri-components
-
+RUN apt-get update && apt-get install -y rsync
 RUN npm install -g --unsafe-perm esy@0.1.27
 
 COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/

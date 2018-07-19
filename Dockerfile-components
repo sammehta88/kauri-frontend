@@ -1,0 +1,22 @@
+FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
+
+# RUN apt-get update && apt upgrade && \
+#   apt install -y bash git openssh-client
+# RUN mkdir -p /usr/src/app
+RUN mkdir -p /usr/src/app/packages/kauri-components
+# RUN mkdir -p /usr/src/app/packages/kauri-components
+WORKDIR /usr/src/app/packages/kauri-components
+
+RUN npm install -g --unsafe-perm esy@0.1.27
+
+COPY packages/kauri-components/package.json /usr/src/app/packages/kauri-components/
+COPY packages/kauri-components/esy.lock /usr/src/app/packages/kauri-components/
+RUN esy install
+
+COPY ./packages/kauri-components /usr/src/app/packages/kauri-components
+RUN npm run build
+
+ENV CI=true
+
+EXPOSE 6006
+CMD "npm" "run" "test:chromatic"

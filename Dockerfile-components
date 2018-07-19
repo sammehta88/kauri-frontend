@@ -9,10 +9,11 @@ RUN  curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN mkdir -p ~/.npm-global
 RUN npm config set prefix $NPM_CONFIG_PREFIX
+RUN npm install -g --unsafe-perm esy@0.1.27
+RUN apt-get update && apt-get install -y rsync
 
 COPY . /usr/src/app/
 WORKDIR /usr/src/app/packages/kauri-components
-RUN apt-get update && apt-get install -y rsync
 RUN ~/.npm-global/bin/esy install
 
 EXPOSE 6006

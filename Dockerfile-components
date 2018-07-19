@@ -4,7 +4,6 @@ ENV CI=true
 ENV TERM=dumb
 ENV OCAML_VERSION="4.02.3"
 
-
 RUN curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash -
 RUN sudo apt-get install -y nodejs
 RUN sudo npm install -g --unsafe-perm esy@0.1.27
@@ -14,4 +13,4 @@ WORKDIR /usr/src/app/packages/kauri-components
 RUN sudo esy install
 
 EXPOSE 6006
-CMD "npm" "run" "test:chromatic"
+CMD "sudo" "npm" "run" "test:chromatic"

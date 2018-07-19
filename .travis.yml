@@ -51,7 +51,7 @@ jobs:
     if: branch = master
     script:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components .
-    - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components npm run test:chromatic-auto-accept-changes
+    - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components sudo npm run test:chromatic-auto-accept-changes
   - stage: deploy-dev
     if: branch = development
     install:

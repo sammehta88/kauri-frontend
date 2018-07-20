@@ -63,7 +63,6 @@ jobs:
     - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
     script:
     - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd ../..
     - cd scripts
     - if [ "$AUTHOR_NAME" != "Travis CI User" ]; then bash ./deploy.sh ${FRONTEND_VERSION}-SNAPSHOT;
       fi
@@ -71,7 +70,6 @@ jobs:
     if: "(NOT type IN (pull_request) AND (branch = master))"
     script:
     - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd ../..
     - git config remote.origin.fetch '+refs/tags/*:refs/tags/*'
     - git fetch --all
     - bash ./kauri-ops/versioning/gittag.sh $FRONTEND_VERSION
@@ -95,6 +93,5 @@ jobs:
     - kubectl config set-context $(kubectl config current-context) --namespace=${TARGET_ENV}
     script:
     - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
-    - cd ../..
     - cd scripts
     - "./deploy.sh ${FRONTEND_VERSION}"

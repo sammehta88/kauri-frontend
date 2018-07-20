@@ -200,7 +200,7 @@ export default ({
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
         <SubmittedArticle.Content type={type}>
           <SubmittedArticle.Header>
-            <Link route={`/article/${article_id}$/article_version/${article_version}`}>
+            <Link route={`/article/${article_id}/article_version/${article_version}`}>
               <SubmittedArticle.Subject href={`/article/${article_id}/article_version/${article_version}`}>
                 {subject}
               </SubmittedArticle.Subject>

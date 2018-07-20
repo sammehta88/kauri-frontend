@@ -144,7 +144,8 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
-         |. mergeMap(hash => fromPromise(subscriber(hash)))
+         |. flatMap(hash => fromPromise(subscriber(hash)))
+         |. tap(_ => apolloClient##resetStore())
          |. mergeMap(_hash => {
               let getArticleQuery =
                 Article_Queries.GetArticle.make(
@@ -158,6 +159,7 @@ let approveArticleEpic =
                 "fetchPolicy": Js.Nullable.return("network-only"),
               };
 
+              /* TODO searchApprovedArticles not from cache too */
               fromPromise(apolloClient##query(getArticleQueryMethod));
             })
          |. flatMap(_x => {

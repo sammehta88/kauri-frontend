@@ -153,11 +153,11 @@ let publishArticleEpic =
                 ),
               );
             })
-         |. tap(_ => apolloClient##resetStore())
-         |. mergeMap(transactionHash =>
+         |. flatMap(transactionHash =>
               fromPromise(subscriber(transactionHash, `ArticlePublished))
             )
          |. tap(response => Js.log(response))
+         |. tap(_ => apolloClient##resetStore())
          |. mergeMap(_hash => {
               let getArticleQuery =
                 Article_Queries.GetArticle.make(

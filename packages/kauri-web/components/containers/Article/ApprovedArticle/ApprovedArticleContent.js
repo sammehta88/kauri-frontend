@@ -27,11 +27,13 @@ export default ({
   username,
   routeChangeAction,
   article_id,
+  article_version,
 }: {
   text?: string,
   username?: ?string,
   routeChangeAction: string => void,
   article_id: string,
+  article_version: number,
 }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
@@ -72,7 +74,7 @@ export default ({
         <PositiveActionBadge
           type='primary'
           width={'200px'}
-          onClick={() => routeChangeAction(`/article/${article_id}/update-article`)}
+          onClick={() => routeChangeAction(`/article/${article_id}/article_version/${article_version}/update-article`)}
         >
           Update article
         </PositiveActionBadge>

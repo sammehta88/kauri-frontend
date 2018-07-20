@@ -108,7 +108,11 @@ class Article extends React.Component<ArticleProps> {
   updateUnsubmittedArticle = () => {
     if (this.props.routeChangeAction) {
       if (this.props.data.getArticle && typeof this.props.data.getArticle.article_id === 'string') {
-        this.props.routeChangeAction(`/article/${this.props.data.getArticle.article_id}/update-article`)
+        this.props.routeChangeAction(
+          `/article/${this.props.data.getArticle.article_id}/article_version/${
+            this.props.data.getArticle.article_version
+          }/update-article`
+        )
       }
     }
   }

@@ -183,6 +183,7 @@ export const getRequest = gql`
     searchArticles(size: $size, dir: DESC, filter: { request_id_eq: $request_id }) {
       content {
         article_id
+        article_version
         status
         text
         subject

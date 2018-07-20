@@ -146,22 +146,6 @@ let approveArticleEpic =
             })
          |. flatMap(hash => fromPromise(subscriber(hash)))
          |. tap(_ => apolloClient##resetStore())
-         |. mergeMap(_hash => {
-              let getArticleQuery =
-                Article_Queries.GetArticle.make(
-                  ~article_id=resourceID,
-                  ~article_version,
-                  (),
-                );
-              let getArticleQueryMethod = {
-                "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
-                "variables": getArticleQuery##variables,
-                "fetchPolicy": Js.Nullable.return("network-only"),
-              };
-
-              /* TODO searchApprovedArticles not from cache too */
-              fromPromise(apolloClient##query(getArticleQueryMethod));
-            })
          |. flatMap(_x => {
               open App_Module;
               let approveArticleMetaData = {

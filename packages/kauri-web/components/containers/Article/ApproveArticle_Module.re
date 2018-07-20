@@ -147,7 +147,11 @@ let approveArticleEpic =
          |. mergeMap(hash => fromPromise(subscriber(hash)))
          |. mergeMap(_hash => {
               let getArticleQuery =
-                Article_Queries.GetArticle.make(~article_id=resourceID, ());
+                Article_Queries.GetArticle.make(
+                  ~article_id=resourceID,
+                  ~article_version,
+                  (),
+                );
               let getArticleQueryMethod = {
                 "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
                 "variables": getArticleQuery##variables,

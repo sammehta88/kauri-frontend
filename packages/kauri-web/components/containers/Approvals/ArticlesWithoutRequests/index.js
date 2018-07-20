@@ -35,6 +35,7 @@ export default compose(
           status_in: 'IN_REVIEW',
           category_in: categories,
           request_id_eq: '',
+          latest_version: false,
         },
       },
     }),

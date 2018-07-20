@@ -168,6 +168,7 @@ export default ({
   routeChangeAction,
   article: {
     article_id,
+    article_version,
     date_updated,
     comments,
     date_created,
@@ -189,7 +190,9 @@ export default ({
   <SubmittedArticle>
     <SubmittedArticle.SubmittedArticleDetails>
       <SubmittedArticle.CategoryBadge
-        onClick={() => routeChangeAction(`/article/${article_id}`)}
+        onClick={() =>
+          routeChangeAction(`/article/${article_id}${article_version ? `/article_version/${article_version}` : ''}`)
+        }
         category={category}
         theme={theme}
       >
@@ -199,8 +202,12 @@ export default ({
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
         <SubmittedArticle.Content type={type}>
           <SubmittedArticle.Header>
-            <Link route={`/article/${article_id}`}>
-              <SubmittedArticle.Subject href={`/article/${article_id}`}>{subject}</SubmittedArticle.Subject>
+            <Link route={`/article/${article_id}${article_version ? `/article_version/${article_version}` : ''}`}>
+              <SubmittedArticle.Subject
+                href={`/article/${article_id}${article_version ? `/article_version/${article_version}` : ''}`}
+              >
+                {subject}
+              </SubmittedArticle.Subject>
             </Link>
           </SubmittedArticle.Header>
           <DescriptionRow record={{ text }} />

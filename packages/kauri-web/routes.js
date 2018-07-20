@@ -13,6 +13,7 @@ routes
   .add('submit-article', '/request/:request_id/submit-article')
   .add('suggest-edits', '/article/:article_id/suggest-edits')
   .add('view-article', '/article/:article_id')
+  .add('view-article-version', '/article/:article_id/article_version/:article_version')
   .add('update-article', '/article/:article_id/update-article')
   .add('request', '/request/:request_id')
   .add('update-request', '/request/:request_id/update-request')

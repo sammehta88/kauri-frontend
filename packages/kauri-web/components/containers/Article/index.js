@@ -33,9 +33,10 @@ export default compose(
     }
   ),
   graphql(getArticle, {
-    options: ({ article_id }) => ({
+    options: ({ article_id, article_version }) => ({
       variables: {
         article_id,
+        article_version,
       },
     }),
   }),

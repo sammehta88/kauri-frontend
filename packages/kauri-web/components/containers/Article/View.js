@@ -164,6 +164,7 @@ class Article extends React.Component<ArticleProps> {
           signature,
           request_id,
         } = this.props.data.getArticle
+        // TODO FIX ROUTE MATCHING FOR CONFIRMATION PAGE VS ID
         const publishArticlePayload = {
           article_id,
           article_version,

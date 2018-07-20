@@ -266,6 +266,7 @@ export const searchOpenRequestsWithSubmissions = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created

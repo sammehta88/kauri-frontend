@@ -98,7 +98,21 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (typeof article_id === 'string') {
-            return editArticleAction({ text, article_id, subject, sub_category })
+            const currentArticle: ArticleDTO = this.props.data.getArticle
+            if (currentArticle.status === 'PUBLISHED') {
+              // Here I am really submitting a new article with updates for an already existing article!
+              return submitArticleAction({
+                article_id,
+                text,
+                subject,
+                sub_category: currentArticle.sub_category,
+                category: currentArticle.category,
+                metadata: formatMetadata({ version }),
+              })
+            } else if (currentArticle.status === 'IN_REVIEW') {
+              // If I own the article and it's not already published... I can edit it!
+              return editArticleAction({ text, article_id, subject, sub_category })
+            }
           } else {
             return submitArticleAction({
               request_id,
@@ -152,6 +166,14 @@ class SubmitArticleForm extends React.Component<Props> {
         />
         <SubmitArticleForm.Content
           {...this.props.form}
+          category={
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
+            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+          }
+          subCategory={
+            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
+          }
           article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
         />

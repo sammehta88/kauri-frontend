@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const submitArticle = gql`
   mutation submitArticle(
+    $article_id: String
     $request_id: String
     $text: String
     $subject: String
@@ -11,6 +12,7 @@ export const submitArticle = gql`
     $author_id: String
   ) {
     submitArticle(
+      id: $article_id
       request_id: $request_id
       text: $text
       subject: $subject
@@ -48,8 +50,8 @@ export const commentArticle = gql`
 `
 
 export const getArticle = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
       article_version
       user_id

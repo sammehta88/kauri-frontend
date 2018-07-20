@@ -25,7 +25,7 @@ const Thumbnail = styled.div`
   background-color: #fff;
   height: 170px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme[props.category].borderColor};
+  border: 1px solid ${props => props.theme[props.category] && props.theme[props.category].borderColor};
   cursor: pointer;
   margin-bottom: 7px;
   :hover {

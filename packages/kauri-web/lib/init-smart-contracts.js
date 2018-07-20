@@ -14,6 +14,7 @@ export const initSmartContracts = web3 => {
   if (typeof web3 !== 'undefined') {
     KauriCore.setProvider(web3.currentProvider)
     Wallet.setProvider(web3.currentProvider)
+    TopicModerator.setProvider(web3.currentProvider)
     const smartContractsToDeploy = {
       KauriCore: KauriCore.deployed(),
       Wallet: Wallet.deployed(),

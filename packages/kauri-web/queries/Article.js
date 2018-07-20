@@ -155,7 +155,11 @@ export const searchApprovedArticles = gql`
 
 export const globalSearchApprovedCategoryArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $category: String) {
-    searchArticles(size: $size, dir: DESC, filter: { category_in: [$category], status_in: [PUBLISHED] }) {
+    searchArticles(
+      size: $size
+      dir: DESC
+      filter: { category_in: [$category], status_in: [PUBLISHED], latest_version: true }
+    ) {
       totalElements
       content {
         article_id
@@ -185,7 +189,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED] }) {
+    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
       totalElements
       content {
         article_id

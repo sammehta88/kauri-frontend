@@ -7,7 +7,6 @@ type reduxState = {
 [@bs.deriving abstract]
 type store = {getState: unit => reduxState};
 
-/* TODO: Type action, mehhh */
 open App_Module;
 [@bs.send]
 external dispatch :

@@ -17,6 +17,7 @@ routes
   .add('update-request', '/request/:request_id/update-request')
   .add('request-created', '/request/:request_id/request-created')
   .add('article-submitted', '/article/:article_id/article_version/:article_version/article-submitted')
+  // TODO: Convert the below to use article_version
   .add('article-approved', '/article/:article_id/article-approved')
   .add('article-rejected', '/article/:article_id/article-rejected')
   .add('article-published', '/article/:article_id/article-published')

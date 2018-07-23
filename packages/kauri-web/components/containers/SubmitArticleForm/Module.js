@@ -67,7 +67,6 @@ export const submitArticleEpic = (
             sub_category,
             category,
             metadata,
-            author_id: web3.eth.accounts[0],
           },
         })
       )

@@ -55,27 +55,23 @@ module ApproveArticleMutation = ReasonApollo.CreateMutation(ApproveArticle);
 module DraftArticle = [%graphql
   {|
     mutation submitArticle(
-      $id: String
-      $subject: String
-      $short_description: String
-      $text: String
-      $category: String
-      $sub_category: String
-      $metadata: Map_String_StringScalar
-      $draft: Boolean
-      $author_id: String
+      $id: String!
+      $subject: String!
+      $text: String!
+      $category: String!
+      $sub_category: String!
+      $metadata: Map_String_StringScalar!
+      $draft: Boolean!
       $request_id: String
     ) {
       submitArticle(
         id: $id
         subject: $subject
-        short_description: $short_description
         text: $text
         category: $category
         sub_category: $sub_category
         metadata: $metadata
         draft: $draft
-        author_id: $author_id
         request_id: $request_id
       ) {
         hash

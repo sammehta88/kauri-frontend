@@ -11,13 +11,21 @@ module DraftArticle = {
   let actionType = "DRAFT_ARTICLE";
 
   [@bs.deriving abstract]
+  type metadata = {
+    [@bs.as "FOR_VERSION"]
+    forVersion: string,
+  };
+
+  [@bs.deriving abstract]
   type payload = {
-    article_id: string,
-    article_version: int,
+    id: string,
+    subject: string,
+    text: string,
     category: string,
-    content_hash: string,
+    sub_category: string,
+    metadata,
+    draft: bool,
     request_id: option(string),
-    user_id: string,
   };
 
   [@bs.deriving abstract]
@@ -40,13 +48,62 @@ let draftArticleEpic =
   ReduxObservable.Observable.(
     action
     |. ofType(DraftArticle.actionType)
-    |. switchMap(action => {
+    |. switchMap(draftArticleAction => {
          let (apolloClient, subscriber) =
            dependencies
            |. (
              ReduxObservable.Dependencies.apolloClientGet,
              ReduxObservable.Dependencies.subscribeToOffchainEvent,
            );
-         of1(action);
+
+         let (resourceID, subject, category, text, sub_category) =
+           draftArticleAction
+           |. DraftArticle.payloadGet
+           |. DraftArticle.(
+                idGet,
+                subjectGet,
+                categoryGet,
+                textGet,
+                sub_categoryGet,
+              );
+
+         let request_id =
+           switch (
+             draftArticleAction
+             |. DraftArticle.payloadGet
+             |. DraftArticle.request_idGet
+           ) {
+           | Some(request_id) => request_id
+           | None => ""
+           };
+
+         let forVersion =
+           draftArticleAction
+           |. DraftArticle.payloadGet
+           |. DraftArticle.metadataGet
+           |. DraftArticle.forVersionGet;
+
+         let metadataString = {j|{"FOR_VERSION", $(forVersion)}|j};
+
+         let draftArticleMutation =
+           Article_Queries.DraftArticle.make(
+             ~id=resourceID,
+             ~subject,
+             ~text,
+             ~category,
+             ~sub_category,
+             ~metadata=Js.Json.parseExn(metadataString),
+             ~draft=true,
+             ~request_id,
+             (),
+           );
+
+         fromPromise(
+           apolloClient##mutate({
+             "mutation": Article_Queries.DraftArticleMutation.graphqlMutationAST,
+             "variables": draftArticleMutation##variables,
+             "fetchPolicy": Js.Nullable.undefined,
+           }),
+         );
        })
   );

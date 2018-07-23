@@ -104,6 +104,70 @@ let draftArticleEpic =
              "variables": draftArticleMutation##variables,
              "fetchPolicy": Js.Nullable.undefined,
            }),
-         );
+         )
+         |. map(response => {
+              let possibleResponse = Js.Nullable.toOption(response##data);
+              switch (possibleResponse) {
+              | Some(data) =>
+                let result = Article_Queries.DraftArticle.parse(data);
+                switch (result##submitArticle |? (x => x##hash)) {
+                | Some(hash) => hash
+                | None => raise(NoHashFound)
+                };
+              | _ => raise(NoResponseData)
+              };
+            })
+         |. flatMap(hash => fromPromise(subscriber(hash)))
+         |. tap(_ => apolloClient##resetStore())
+         |. map(
+              (
+                offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
+              ) =>
+              ReduxObservable.Dependencies.OffchainEvent.(
+                dataGet(offchainEventResponse)
+                |. command_outputGet
+                |. submitArticleResponseGet
+                |. versionGet
+              )
+            )
+         |. flatMap(article_version => {
+              open App_Module;
+
+              let trackDraftArticlePayload =
+                trackMixPanelPayload(
+                  ~event="Offchain",
+                  ~metaData={
+                    resource: "article",
+                    resourceID,
+                    resourceAction: "draft article",
+                  },
+                );
+              let trackDraftArticleAction =
+                trackMixPanelAction(trackDraftArticlePayload);
+
+              let notificationType = notificationTypeToJs(`Success);
+              let showDraftArticleNotificationPayload =
+                showNotificationPayload(
+                  ~notificationType,
+                  ~message="Article drafted",
+                  ~description=
+                    "You can revisit your article and continue working on it later on! Find it in 'Profile > My Articles > Drafted Articles'.",
+                );
+
+              let showDraftArticleNotificationAction =
+                showNotificationAction(showDraftArticleNotificationPayload);
+
+              of3(
+                trackDraftArticleAction,
+                showDraftArticleNotificationAction,
+                routeChangeAction(
+                  route(
+                    ~slug1=ArticleId(resourceID),
+                    ~slug2=ArticleVersionId(article_version),
+                    ~routeType=ArticleApproved,
+                  ),
+                ),
+              );
+            });
        })
   );

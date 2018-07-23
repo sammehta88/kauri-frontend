@@ -46,9 +46,32 @@ type dependencies = {
   driverJS,
 };
 
+module OffchainEvent = {
+  [@bs.deriving abstract]
+  type submitArticleResponse = {
+    id: string,
+    version: int,
+  };
+
+  type offchainEventResponseData;
+
+  [@bs.get]
+  external submitArticleResponseGet :
+    offchainEventResponseData => submitArticleResponse =
+    "submitArticle";
+
+  [@bs.deriving abstract]
+  type offchainEventResponseCommandOutput = {
+    command_output: offchainEventResponseData,
+  };
+
+  [@bs.deriving abstract]
+  type response = {data: offchainEventResponseCommandOutput};
+};
+
 [@bs.send]
 external subscribeToOffchainEvent :
-  (dependencies, string) => Js.Promise.t(string) =
+  (dependencies, string) => Js.Promise.t(OffchainEvent.response) =
   "apolloSubscriber";
 
 [@bs.deriving jsConverter]

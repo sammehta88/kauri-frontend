@@ -43,6 +43,12 @@ class SubmittedArticles extends Component<Props> {
       this.props.data.searchArticles.content.length > 0 &&
       this.props.data.searchArticles.content.filter(({ status }) => status === 'PUBLISHED')
 
+    const draftArticles =
+      this.props.data.searchArticles &&
+      Array.isArray(this.props.data.searchArticles.content) &&
+      this.props.data.searchArticles.content.length > 0 &&
+      this.props.data.searchArticles.content.filter(({ status }) => status === 'DRAFT')
+
     return (
       <SubmittedArticles.Container>
         {Array.isArray(awaitingPublicationArticles) && (
@@ -77,6 +83,23 @@ class SubmittedArticles extends Component<Props> {
           ))
         ) : (
           <p>No submitted articles.</p>
+        )}
+        {Array.isArray(draftArticles) && (
+          <Fragment>
+            <SubmittedArticlesHeader>Draft Articles</SubmittedArticlesHeader>
+            <Divider />
+            {draftArticles.length > 0 &&
+              draftArticles.map(article => (
+                <SubmittedArticle
+                  type='personal'
+                  routeChangeAction={routeChangeAction}
+                  key={article.article_id}
+                  userId={userId}
+                  article={article}
+                  ethUsdPrice={ethUsdPrice}
+                />
+              ))}
+          </Fragment>
         )}
         <SubmittedArticlesHeader>Published Articles</SubmittedArticlesHeader>
         <Divider />

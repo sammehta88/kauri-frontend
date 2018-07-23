@@ -159,6 +159,7 @@ let draftArticleEpic =
                   route(
                     ~slug1=ArticleId(resourceID),
                     ~slug2=ArticleVersionId(article_version),
+                    /* TODO ArticleDrafted */
                     ~routeType=ArticleApproved,
                   ),
                 ),

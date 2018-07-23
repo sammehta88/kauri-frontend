@@ -13,7 +13,7 @@ module DraftArticle = {
   [@bs.deriving abstract]
   type metadata = {
     [@bs.as "FOR_VERSION"]
-    forVersion: string,
+    forVersion: option(string),
   };
 
   [@bs.deriving abstract]
@@ -24,7 +24,7 @@ module DraftArticle = {
     category: string,
     sub_category: string,
     metadata,
-    request_id: option(string),
+    request_id: string,
   };
 
   [@bs.deriving abstract]
@@ -55,7 +55,7 @@ let draftArticleEpic =
              ReduxObservable.Dependencies.subscribeToOffchainEvent,
            );
 
-         let (resourceID, subject, category, text, sub_category) =
+         let (resourceID, subject, category, text, sub_category, request_id) =
            draftArticleAction
            |. DraftArticle.payloadGet
            |. DraftArticle.(
@@ -64,25 +64,22 @@ let draftArticleEpic =
                 categoryGet,
                 textGet,
                 sub_categoryGet,
+                request_idGet,
               );
 
-         let request_id =
+         let metaDataResult =
            switch (
              draftArticleAction
              |. DraftArticle.payloadGet
-             |. DraftArticle.request_idGet
+             |. DraftArticle.metadataGet
+             |. DraftArticle.forVersionGet
            ) {
-           | Some(request_id) => request_id
-           | None => ""
+           | Some("") => "{}"
+           | Some(forVersion) => {j|{"FOR_VERSION": $(forVersion)}|j}
+           | None => "{}"
            };
 
-         let forVersion =
-           draftArticleAction
-           |. DraftArticle.payloadGet
-           |. DraftArticle.metadataGet
-           |. DraftArticle.forVersionGet;
-
-         let metadataString = {j|{"FOR_VERSION": $(forVersion)}|j};
+         let metadataString = metaDataResult;
 
          let draftArticleMutation =
            Article_Queries.DraftArticle.make(
@@ -124,7 +121,6 @@ let draftArticleEpic =
               ) =>
               ReduxObservable.Dependencies.OffchainEvent.(
                 dataGet(offchainEventResponse)
-                |. command_outputGet
                 |. submitArticleResponseGet
                 |. versionGet
               )

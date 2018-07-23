@@ -48,7 +48,7 @@ type dependencies = {
 
 module OffchainEvent = {
   [@bs.deriving abstract]
-  type submitArticleResponse = {
+  type submitArticle = {
     id: string,
     version: int,
   };
@@ -57,16 +57,11 @@ module OffchainEvent = {
 
   [@bs.get]
   external submitArticleResponseGet :
-    offchainEventResponseData => submitArticleResponse =
-    "submitArticle";
+    offchainEventResponseData => submitArticle =
+    "command_output";
 
   [@bs.deriving abstract]
-  type offchainEventResponseCommandOutput = {
-    command_output: offchainEventResponseData,
-  };
-
-  [@bs.deriving abstract]
-  type response = {data: offchainEventResponseCommandOutput};
+  type response = {data: offchainEventResponseData};
 };
 
 [@bs.send]

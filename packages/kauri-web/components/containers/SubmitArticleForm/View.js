@@ -88,7 +88,13 @@ class SubmitArticleForm extends React.Component<Props> {
 
             if (typeof request_id === 'string') {
               if (typeof article_id === 'string') {
-                return editArticleAction({ request_id: data.getArticle.request_id, text, article_id, subject })
+                return editArticleAction({
+                  request_id: data.getArticle.request_id,
+                  text,
+                  article_id,
+                  article_version: this.props.data.getArticle.article_version,
+                  subject,
+                })
               } else {
                 // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
                 return submitArticleAction({
@@ -113,10 +119,22 @@ class SubmitArticleForm extends React.Component<Props> {
                 })
               } else if (currentArticle.status === 'IN_REVIEW') {
                 // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({ text, article_id, subject, sub_category })
+                return editArticleAction({
+                  text,
+                  article_id,
+                  article_version: currentArticle.article_version,
+                  subject,
+                  sub_category,
+                })
               } else if (currentArticle.status === 'DRAFT') {
                 // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({ text, article_id, subject, sub_category })
+                return editArticleAction({
+                  text,
+                  article_id,
+                  article_version: currentArticle.article_version,
+                  subject,
+                  sub_category,
+                })
               }
             } else {
               return submitArticleAction({

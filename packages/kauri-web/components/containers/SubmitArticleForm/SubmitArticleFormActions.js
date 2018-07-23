@@ -15,6 +15,7 @@ const SubmitArticleFormActions = styled.section`
 `
 
 const PullRight = styled.div`
+  display: flex;
   align-self: center;
   margin-left: auto;
 `
@@ -32,6 +33,9 @@ export default ({ routeChangeAction, handleSubmit, text }: Props) => (
       <span>Cancel Article</span>
     </ActionBadge>
     <PullRight>
+      <PositiveRequestActionBadge type='secondary' action={() => alert('draftin')}>
+        <span>Draft article</span>
+      </PositiveRequestActionBadge>
       <PositiveRequestActionBadge type='primary' action={handleSubmit}>
         <span>{text ? 'Update Article' : 'Submit for Review'}</span>
       </PositiveRequestActionBadge>

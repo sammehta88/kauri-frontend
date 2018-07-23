@@ -135,7 +135,11 @@ let publishArticleEpic =
               dispatchAction(
                 `RouteChange(
                   routeChangeAction(
-                    route(~slug=resourceID, ~routeType=ArticlePublished),
+                    route(
+                      ~slug1=ArticleId(resourceID),
+                      ~slug2=ArticleVersionId(article_version),
+                      ~routeType=ArticlePublished,
+                    ),
                   ),
                 ),
               );

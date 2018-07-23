@@ -130,7 +130,11 @@ class Article extends React.Component<ArticleProps> {
         }
 
         this.props.addCommentAction(preApproveArticlePayload, () =>
-          this.props.routeChangeAction(`/article/${this.props.data.getArticle.article_id}/article-approved`)
+          this.props.routeChangeAction(
+            `/article/${this.props.data.getArticle.article_id}/article_version/${
+              this.props.data.getArticle.article_version
+            }/article-approved`
+          )
         )
       }
     }

@@ -178,7 +178,11 @@ let approveArticleEpic =
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
                 routeChangeAction(
-                  route(~slug=resourceID, ~routeType=ArticleApproved),
+                  route(
+                    ~slug1=ArticleId(resourceID),
+                    ~slug2=ArticleVersionId(article_version),
+                    ~routeType=ArticleApproved,
+                  ),
                 ),
               );
             })

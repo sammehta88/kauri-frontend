@@ -1,6 +1,6 @@
 import { compose, graphql } from 'react-apollo'
 import { connect } from 'react-redux'
-import { submitFinalisedArticleAction, tipArticleAction, deleteArticleCommentAction } from './Module'
+import { tipArticleAction, deleteArticleCommentAction } from './Module'
 import { approveArticleAction, publishArticleAction } from './Article_Module.bs'
 import { getArticle } from '../../../queries/Article'
 import { toggleModalAction, routeChangeAction } from '../../../lib/Module'
@@ -22,7 +22,6 @@ export default compose(
     {
       toggleModalAction,
       approveArticleAction,
-      submitFinalisedArticleAction,
       routeChangeAction,
       addToBountyAction,
       tipArticleAction,

@@ -30,6 +30,7 @@ import localStorage, {
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
+import { draftArticleEpic } from '../components/containers/SubmitArticleForm/DraftArticle_Module.bs'
 
 export const rootReducer = {
   app,
@@ -69,6 +70,7 @@ const epics = [
   // ReasonML epics
   approveArticleEpic,
   publishArticleEpic,
+  draftArticleEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

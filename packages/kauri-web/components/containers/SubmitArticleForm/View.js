@@ -69,7 +69,7 @@ class SubmitArticleForm extends React.Component<Props> {
       })
     })
 
-  handleSubmit = (e: any) => {
+  handleSubmit = (submissionType: string) => (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll(
       async (formErr, { text, subject, sub_category, category, version }: SubmitArticleVariables) => {
@@ -82,46 +82,50 @@ class SubmitArticleForm extends React.Component<Props> {
           })
         }
         if (!formErr) {
-          const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
+          if (submissionType === 'submit/update') {
+            const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
 
-          if (typeof request_id === 'string') {
-            if (typeof article_id === 'string') {
-              return editArticleAction({ request_id: data.getArticle.request_id, text, article_id, subject })
+            if (typeof request_id === 'string') {
+              if (typeof article_id === 'string') {
+                return editArticleAction({ request_id: data.getArticle.request_id, text, article_id, subject })
+              } else {
+                // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
+                return submitArticleAction({
+                  request_id,
+                  text,
+                  subject,
+                  sub_category: data.getRequest.sub_category,
+                  metadata: formatMetadata({ version }),
+                })
+              }
+            } else if (typeof article_id === 'string') {
+              const currentArticle: ArticleDTO = this.props.data.getArticle
+              if (currentArticle.status === 'PUBLISHED') {
+                // Here I am really submitting a new article with updates for an already existing article!
+                return submitArticleAction({
+                  article_id,
+                  text,
+                  subject,
+                  sub_category: currentArticle.sub_category,
+                  category: currentArticle.category,
+                  metadata: formatMetadata({ version }),
+                })
+              } else if (currentArticle.status === 'IN_REVIEW') {
+                // If I own the article and it's not already published... I can edit it!
+                return editArticleAction({ text, article_id, subject, sub_category })
+              }
             } else {
-              // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
               return submitArticleAction({
                 request_id,
                 text,
                 subject,
-                sub_category: data.getRequest.sub_category,
+                sub_category,
+                category,
                 metadata: formatMetadata({ version }),
               })
             }
-          } else if (typeof article_id === 'string') {
-            const currentArticle: ArticleDTO = this.props.data.getArticle
-            if (currentArticle.status === 'PUBLISHED') {
-              // Here I am really submitting a new article with updates for an already existing article!
-              return submitArticleAction({
-                article_id,
-                text,
-                subject,
-                sub_category: currentArticle.sub_category,
-                category: currentArticle.category,
-                metadata: formatMetadata({ version }),
-              })
-            } else if (currentArticle.status === 'IN_REVIEW') {
-              // If I own the article and it's not already published... I can edit it!
-              return editArticleAction({ text, article_id, subject, sub_category })
-            }
-          } else {
-            return submitArticleAction({
-              request_id,
-              text,
-              subject,
-              sub_category,
-              category,
-              metadata: formatMetadata({ version }),
-            })
+          } else if (submissionType === 'draft') {
+            alert('draftin')
           }
         } else {
           Object.keys(formErr).map(errKey =>

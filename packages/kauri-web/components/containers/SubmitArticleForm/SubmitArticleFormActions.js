@@ -33,10 +33,10 @@ export default ({ routeChangeAction, handleSubmit, text }: Props) => (
       <span>Cancel Article</span>
     </ActionBadge>
     <PullRight>
-      <PositiveRequestActionBadge type='secondary' action={() => alert('draftin')}>
+      <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
         <span>Draft article</span>
       </PositiveRequestActionBadge>
-      <PositiveRequestActionBadge type='primary' action={handleSubmit}>
+      <PositiveRequestActionBadge type='primary' action={handleSubmit('submit/update')}>
         <span>{text ? 'Update Article' : 'Submit for Review'}</span>
       </PositiveRequestActionBadge>
     </PullRight>

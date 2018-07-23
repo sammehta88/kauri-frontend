@@ -10,6 +10,8 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app/packages/kauri-web
 RUN esy install
 
+RUN npm run build
+
 # env settings
 ENV GETH_BLOCKCHAIN=rinkeby.infura.io
 ENV MONOLITH_EXTERNAL_API=api.rinkeby.kauri.io

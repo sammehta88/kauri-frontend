@@ -24,7 +24,6 @@ module DraftArticle = {
     category: string,
     sub_category: string,
     metadata,
-    draft: bool,
     request_id: option(string),
   };
 

@@ -12,6 +12,7 @@ import type { ShowNotificationPayload } from '../../../lib/Module'
 type Props =
   | any
   | {
+      draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
       article_id?: string,
@@ -125,7 +126,17 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            alert('draftin')
+            const draftArticlePayload = {
+              id: this.props.data && this.props.data.getArticle,
+              subject,
+              text,
+              category,
+              sub_category,
+              metadata: formatMetadata({ version }),
+              request_id,
+            }
+            console.log('draftArticlePayload', draftArticlePayload)
+            this.props.draftArticleAction(draftArticlePayload)
           }
         } else {
           Object.keys(formErr).map(errKey =>

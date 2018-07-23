@@ -114,6 +114,9 @@ class SubmitArticleForm extends React.Component<Props> {
               } else if (currentArticle.status === 'IN_REVIEW') {
                 // If I own the article and it's not already published... I can edit it!
                 return editArticleAction({ text, article_id, subject, sub_category })
+              } else if (currentArticle.status === 'DRAFT') {
+                // If I own the article and it's not already published... I can edit it!
+                return editArticleAction({ text, article_id, subject, sub_category })
               }
             } else {
               return submitArticleAction({
@@ -126,17 +129,32 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            const draftArticlePayload = {
-              id: this.props.data && this.props.data.getArticle,
-              subject,
-              text,
-              category,
-              sub_category,
-              metadata: formatMetadata({ version }),
-              request_id: this.props.request_id,
+            if (this.props.data && this.props.data.getArticle.article_id) {
+              const draftArticlePayload = {
+                id: this.props.data.getArticle.article_id,
+                article_version: this.props.data.getArticle.article_version,
+                subject,
+                text,
+                category,
+                sub_category,
+                metadata: formatMetadata({ version }),
+                request_id: this.props.request_id,
+              }
+              console.log('submitForReviewPayload', draftArticlePayload)
+              // TODO submitForReviewEpic
+              // this.props.submitForReviewPayload(draftArticlePayload)
+            } else {
+              const draftArticlePayload = {
+                subject,
+                text,
+                category,
+                sub_category,
+                metadata: formatMetadata({ version }),
+                request_id: this.props.request_id,
+              }
+              console.log('draftArticlePayload', draftArticlePayload)
+              this.props.draftArticleAction(draftArticlePayload)
             }
-            console.log('draftArticlePayload', draftArticlePayload)
-            this.props.draftArticleAction(draftArticlePayload)
           }
         } else {
           Object.keys(formErr).map(errKey =>
@@ -164,6 +182,7 @@ class SubmitArticleForm extends React.Component<Props> {
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

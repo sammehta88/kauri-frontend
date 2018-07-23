@@ -24,21 +24,32 @@ type Props = {
   routeChangeAction: string => void,
   handleSubmit: any => void,
   text?: string,
+  status?: string,
 }
 
-export default ({ routeChangeAction, handleSubmit, text }: Props) => (
+export default ({ routeChangeAction, handleSubmit, text, status }: Props) => (
   <SubmitArticleFormActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction={'left'} />
       <span>Cancel Article</span>
     </ActionBadge>
     <PullRight>
-      <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
-        <span>Draft article</span>
-      </PositiveRequestActionBadge>
-      <PositiveRequestActionBadge type='primary' action={handleSubmit('submit/update')}>
+      {status !== 'DRAFT' && (
+        <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
+          <span>Draft article</span>
+        </PositiveRequestActionBadge>
+      )}
+      <PositiveRequestActionBadge
+        type={status === 'DRAFT' ? 'secondary' : 'primary'}
+        action={handleSubmit('submit/update')}
+      >
         <span>{text ? 'Update Article' : 'Submit for Review'}</span>
       </PositiveRequestActionBadge>
+      {status === 'DRAFT' && (
+        <PositiveRequestActionBadge type='primary' action={handleSubmit('submit/update')}>
+          <span>Submit draft for Review</span>
+        </PositiveRequestActionBadge>
+      )}
     </PullRight>
   </SubmitArticleFormActions>
 )

@@ -144,18 +144,8 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
-         |. mergeMap(hash => fromPromise(subscriber(hash)))
-         |. mergeMap(_hash => {
-              let getArticleQuery =
-                Article_Queries.GetArticle.make(~article_id=resourceID, ());
-              let getArticleQueryMethod = {
-                "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
-                "variables": getArticleQuery##variables,
-                "fetchPolicy": Js.Nullable.return("network-only"),
-              };
-
-              fromPromise(apolloClient##query(getArticleQueryMethod));
-            })
+         |. flatMap(hash => fromPromise(subscriber(hash)))
+         |. tap(_ => apolloClient##resetStore())
          |. flatMap(_x => {
               open App_Module;
               let approveArticleMetaData = {
@@ -188,7 +178,11 @@ let approveArticleEpic =
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
                 routeChangeAction(
-                  route(~slug=resourceID, ~routeType=ArticleApproved),
+                  route(
+                    ~slug1=ArticleId(resourceID),
+                    ~slug2=ArticleVersionId(article_version),
+                    ~routeType=ArticleApproved,
+                  ),
                 ),
               );
             })

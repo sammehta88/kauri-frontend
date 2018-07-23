@@ -59,7 +59,16 @@ export const submitArticleEpic = (
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: submitArticle,
-          variables: { request_id, text, subject, sub_category, category, metadata, author_id: web3.eth.accounts[0] },
+          variables: {
+            article_id,
+            request_id,
+            text,
+            subject,
+            sub_category,
+            category,
+            metadata,
+            author_id: web3.eth.accounts[0],
+          },
         })
       )
         .do(h => console.log(h))
@@ -68,9 +77,9 @@ export const submitArticleEpic = (
         )
         .do(h => console.log(h))
         .do(h => apolloClient.cache.reset())
-        .mergeMap(({ data: { command_output: { id } } }) =>
+        .mergeMap(({ data: { command_output: { id, version } } }) =>
           Observable.of(
-            routeChangeAction(`/article/${id}/article-submitted`),
+            routeChangeAction(`/article/${id}/article-version/${version}/article-submitted`),
             trackMixpanelAction({
               event: 'Offchain',
               metaData: {
@@ -114,9 +123,9 @@ export const editArticleEpic = (
         apolloSubscriber(hash)
       )
       .do(() => apolloClient.resetStore())
-      .flatMap(() =>
+      .flatMap(({ data: { command_output: { id, version } } }) =>
         Observable.of(
-          routeChangeAction(`/article/${article_id}/article-submitted`),
+          routeChangeAction(`/article/${id}/article-version/${version}/article-submitted`),
           trackMixpanelAction({
             event: 'Offchain',
             metaData: {

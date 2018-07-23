@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
 // import faker from 'faker'
 import { Divider } from 'antd'
@@ -30,6 +30,13 @@ class SubmittedArticles extends Component<Props> {
       Array.isArray(this.props.data.searchArticles.content) &&
       this.props.data.searchArticles.content.length > 0 &&
       this.props.data.searchArticles.content.filter(({ status }) => status === 'IN_REVIEW')
+
+    const awaitingPublicationArticles =
+      this.props.data.searchArticles &&
+      Array.isArray(this.props.data.searchArticles.content) &&
+      this.props.data.searchArticles.content.length > 0 &&
+      this.props.data.searchArticles.content.filter(({ status }) => status === 'APPROVED')
+
     const publishedArticles =
       this.props.data.searchArticles &&
       Array.isArray(this.props.data.searchArticles.content) &&
@@ -38,6 +45,23 @@ class SubmittedArticles extends Component<Props> {
 
     return (
       <SubmittedArticles.Container>
+        {Array.isArray(awaitingPublicationArticles) && (
+          <Fragment>
+            <SubmittedArticlesHeader>Awaiting Publication</SubmittedArticlesHeader>
+            <Divider />
+            {awaitingPublicationArticles.length > 0 &&
+              awaitingPublicationArticles.map(article => (
+                <SubmittedArticle
+                  type='personal'
+                  routeChangeAction={routeChangeAction}
+                  key={article.article_id}
+                  userId={userId}
+                  article={article}
+                  ethUsdPrice={ethUsdPrice}
+                />
+              ))}
+          </Fragment>
+        )}
         <SubmittedArticlesHeader>Pending Review</SubmittedArticlesHeader>
         <Divider />
         {Array.isArray(pendingReviewArticles) && pendingReviewArticles.length > 0 ? (

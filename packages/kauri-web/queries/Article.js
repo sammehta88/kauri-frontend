@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const submitArticle = gql`
   mutation submitArticle(
+    $article_id: String
     $request_id: String
     $text: String
     $subject: String
@@ -11,6 +12,7 @@ export const submitArticle = gql`
     $author_id: String
   ) {
     submitArticle(
+      id: $article_id
       request_id: $request_id
       text: $text
       subject: $subject
@@ -48,8 +50,8 @@ export const commentArticle = gql`
 `
 
 export const getArticle = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
       article_version
       user_id
@@ -153,7 +155,11 @@ export const searchApprovedArticles = gql`
 
 export const globalSearchApprovedCategoryArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $category: String) {
-    searchArticles(size: $size, dir: DESC, filter: { category_in: [$category], status_in: [PUBLISHED] }) {
+    searchArticles(
+      size: $size
+      dir: DESC
+      filter: { category_in: [$category], status_in: [PUBLISHED], latest_version: true }
+    ) {
       totalElements
       content {
         article_id
@@ -183,7 +189,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED] }) {
+    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
       totalElements
       content {
         article_id
@@ -285,8 +291,8 @@ export const totalArticlesCount = gql`
 `
 
 export const rejectArticle = gql`
-  mutation rejectArticle($article_id: String, $rejection_cause: String) {
-    rejectArticle(id: $article_id, rejection_cause: $rejection_cause) {
+  mutation rejectArticle($article_id: String, $article_version: Int, $rejection_cause: String) {
+    rejectArticle(id: $article_id, article_version: $article_version, rejection_cause: $rejection_cause) {
       hash
     }
   }

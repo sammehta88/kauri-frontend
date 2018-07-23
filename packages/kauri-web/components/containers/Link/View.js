@@ -22,7 +22,8 @@ class Link extends React.Component<LinkProps> {
         e.preventDefault()
         e.stopPropagation()
         const url = this.props.as || this.props.href || this.props.children.props.href
-        this.props.trackAnalyticsAction({ url })
+        // TODO: REACTIVATE ANALYTICS TRACKING SOON DUE TO NEW ROUTING
+        // this.props.trackAnalyticsAction({ url })
         Router.pushRoute(url)
       },
     })

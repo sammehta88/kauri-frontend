@@ -19,7 +19,6 @@ export default compose(
     mapStateToProps,
     {
       routeChangeAction,
-      rejectArticleAction: article_id => routeChangeAction(`/article/${article_id}/reject-article`),
       approveArticleAction,
     }
   ),

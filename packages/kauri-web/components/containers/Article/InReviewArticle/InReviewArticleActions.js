@@ -72,7 +72,7 @@ export default ({
         )}
     </Middle>
     <PullRight>
-      {status === 'IN_REVIEW' &&
+      {(status === 'IN_REVIEW' || status === 'DRAFT') &&
         isContributor && (
           <ActionBadge onClick={updateUnsubmittedArticle}>
             <ActionIcon />

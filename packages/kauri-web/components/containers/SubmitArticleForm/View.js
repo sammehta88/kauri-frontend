@@ -133,7 +133,7 @@ class SubmitArticleForm extends React.Component<Props> {
               category,
               sub_category,
               metadata: formatMetadata({ version }),
-              request_id,
+              request_id: this.props.request_id,
             }
             console.log('draftArticlePayload', draftArticlePayload)
             this.props.draftArticleAction(draftArticlePayload)

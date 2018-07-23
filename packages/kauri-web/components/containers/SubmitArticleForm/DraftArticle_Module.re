@@ -82,7 +82,7 @@ let draftArticleEpic =
            |. DraftArticle.metadataGet
            |. DraftArticle.forVersionGet;
 
-         let metadataString = {j|{"FOR_VERSION", $(forVersion)}|j};
+         let metadataString = {j|{"FOR_VERSION": $(forVersion)}|j};
 
          let draftArticleMutation =
            Article_Queries.DraftArticle.make(

@@ -37,7 +37,7 @@ export type DeleteArticleCommentPayload = {
 
 export type DeleteArticleCommentAction = { type: string, payload: DeleteArticleCommentPayload, callback: any }
 
-export type RejectArticlePayload = { article_id: string, rejection_cause: string }
+export type RejectArticlePayload = { article_id: string, article_version: string, rejection_cause: string }
 
 export type RejectArticleAction = { type: 'REJECT_ARTICLE', payload: RejectArticlePayload }
 
@@ -343,39 +343,41 @@ export const rejectArticleEpic = (
   { getState }: any,
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
-  action$.ofType(REJECT_ARTICLE).switchMap(({ payload: { article_id, rejection_cause } }: RejectArticleAction) =>
-    Observable.fromPromise(
-      apolloClient.mutate({
-        mutation: rejectArticle,
-        variables: {
-          article_id,
-          rejection_cause,
-        },
-      })
-    )
-      .flatMap(({ data: { rejectArticle: { hash } } }: { data: { rejectArticle: { hash: string } } }) =>
-        apolloSubscriber(hash)
+  action$
+    .ofType(REJECT_ARTICLE)
+    .switchMap(({ payload: { article_id, article_version, rejection_cause } }: RejectArticleAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate({
+          mutation: rejectArticle,
+          variables: {
+            article_id,
+            rejection_cause,
+          },
+        })
       )
-      .do(() => apolloClient.resetStore())
-      .mergeMap(() =>
-        Observable.of(
-          routeChangeAction(`/article/${article_id}/article-rejected`),
-          trackMixpanelAction({
-            event: 'Offchain',
-            metaData: {
-              resource: 'article',
-              resourceID: article_id,
-              resourceAction: 'reject article',
-            },
-          }),
-          showNotificationAction({
-            notificationType: 'success',
-            message: 'Article rejected!',
-            description: `It will not show up in your approvals queue anymore!`,
-          })
+        .flatMap(({ data: { rejectArticle: { hash } } }: { data: { rejectArticle: { hash: string } } }) =>
+          apolloSubscriber(hash)
         )
-      )
-  )
+        .do(() => apolloClient.resetStore())
+        .mergeMap(() =>
+          Observable.of(
+            routeChangeAction(`/article/${article_id}/article-version/${article_version}/article-rejected`),
+            trackMixpanelAction({
+              event: 'Offchain',
+              metaData: {
+                resource: 'article',
+                resourceID: article_id,
+                resourceAction: 'reject article',
+              },
+            }),
+            showNotificationAction({
+              notificationType: 'success',
+              message: 'Article rejected!',
+              description: `It will not show up in your approvals queue anymore!`,
+            })
+          )
+        )
+    )
 
 export type AddCommentPayload = {
   article_id: string,

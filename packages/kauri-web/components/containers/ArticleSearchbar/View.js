@@ -70,14 +70,14 @@ export default class Complete extends React.Component<any, any> {
   onSelect = (articleRoute: string) => {
     const article_version = articleRoute.split('article_version/')[1]
     const article_id = articleRoute.split('/article/')[1].split('/article_version')[0]
-    this.props.routeChangeAction(`/article/${article_id}/article_version/${article_version}`)
+    this.props.routeChangeAction(`/article/${article_id}/article-version/${article_version}`)
   }
 
   renderOption = (article: ArticleDTO) =>
     article.subject !== 'No articles found' ? (
       <Option
-        key={`/article/${article.article_id}/article_version/${article.article_version}`}
-        value={`/article/${article.article_id}/article_version/${article.article_version}`}
+        key={`/article/${article.article_id}/article-version/${article.article_version}`}
+        value={`/article/${article.article_id}/article-version/${article.article_version}`}
       >
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>

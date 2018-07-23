@@ -65,9 +65,9 @@ const RestrictToTwoLines = styled.div`
 const RecentArticle = (article: ArticleDTO) => (
   <ArticleBadge>
     <RestrictToTwoLines>
-      <Link route={`/article/${article.article_id}/article_version/${article.article_version}`}>
+      <Link route={`/article/${article.article_id}/article-version/${article.article_version}`}>
         <ArticleBadge.Subject
-          href={`/article/${article.article_id}/article_version/${article.article_version}`}
+          href={`/article/${article.article_id}/article-version/${article.article_version}`}
           type='topicHomepage'
         >
           {article.subject}

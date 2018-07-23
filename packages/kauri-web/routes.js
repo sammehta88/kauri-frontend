@@ -11,13 +11,13 @@ const routes = (module.exports = nextRoutes({
 
 routes
   .add('submit-article', '/request/:request_id/submit-article')
-  .add('view-article-version', '/article/:article_id/article_version/:article_version')
-  .add('update-article', '/article/:article_id/article_version/:article_version/update-article')
+  .add('view-article-version', '/article/:article_id/article-version/:article_version')
+  .add('update-article', '/article/:article_id/article-version/:article_version/update-article')
   .add('request', '/request/:request_id')
   .add('update-request', '/request/:request_id/update-request')
   .add('request-created', '/request/:request_id/request-created')
-  .add('article-submitted', '/article/:article_id/article_version/:article_version/article-submitted')
-  .add('article-approved', '/article/:article_id/article_version/:article_version/article-approved')
+  .add('article-submitted', '/article/:article_id/article-version/:article_version/article-submitted')
+  .add('article-approved', '/article/:article_id/article-version/:article_version/article-approved')
   // TODO: Convert the below to use article_version
   .add('article-rejected', '/article/:article_id/article-rejected')
   .add('article-published', '/article/:article_id/article-published')

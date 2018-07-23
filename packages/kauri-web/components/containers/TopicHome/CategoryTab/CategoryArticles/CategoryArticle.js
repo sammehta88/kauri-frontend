@@ -68,7 +68,7 @@ export default ({
 }: Props) => (
   <CategoryArticle>
     <TopicArticleBadge
-      onClick={() => routeChangeAction(`/article/${article_id}/article_version/${article_version}`)}
+      onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}`)}
       category={category}
       theme={theme}
     >
@@ -77,8 +77,8 @@ export default ({
     <Details categoryArticle>
       <Header>
         <RestrictToOneLine>
-          <Link route={`/article/${article_id}/article_version/${article_version}`}>
-            <Subject href={`/article/${article_id}/article_version/${article_version}`} type='topicHomepage'>
+          <Link route={`/article/${article_id}/article-version/${article_version}`}>
+            <Subject href={`/article/${article_id}/article-version/${article_version}`} type='topicHomepage'>
               {subject}
             </Subject>
           </Link>

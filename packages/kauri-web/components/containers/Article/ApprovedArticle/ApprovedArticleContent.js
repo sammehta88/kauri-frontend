@@ -74,7 +74,7 @@ export default ({
         <PositiveActionBadge
           type='primary'
           width={'200px'}
-          onClick={() => routeChangeAction(`/article/${article_id}/article_version/${article_version}/update-article`)}
+          onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)}
         >
           Update article
         </PositiveActionBadge>

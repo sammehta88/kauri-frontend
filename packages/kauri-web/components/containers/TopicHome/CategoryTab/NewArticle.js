@@ -82,14 +82,14 @@ const Content = styled.div`
 export default (props: Props) =>
   typeof props.date_updated === 'string' ? (
     <NewArticleContainer>
-      <Link route={`/article/${props.article_id}/article_version/${props.article_version}`}>
+      <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
         <Thumbnail theme={theme} category={props.category}>
           <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
         </Thumbnail>
       </Link>
       <RestrictToTwoLines>
-        <Link route={`/article/${props.article_id}/article_version/${props.article_version}`}>
-          <Subject href={`/article/${props.article_id}/article_version/${props.article_version}`} type='topicHomepage'>
+        <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
+          <Subject href={`/article/${props.article_id}/article-version/${props.article_version}`} type='topicHomepage'>
             {props.subject}
           </Subject>
         </Link>
@@ -111,7 +111,7 @@ export default (props: Props) =>
         category={props.category}
         onClick={() =>
           props.routeChangeAction(
-            `/article/${props.data.searchArticles.content[0].article_id}/article_version/${
+            `/article/${props.data.searchArticles.content[0].article_id}/article-version/${
               props.data.searchArticles.content[0].article_version
             }`
           )
@@ -123,12 +123,12 @@ export default (props: Props) =>
         submitted={props.data.searchArticles.content[0].date_updated}
       />
       <Link
-        route={`/article/${props.data.searchArticles.content[0].article_id}/article_version/${
+        route={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
           props.data.searchArticles.content[0].article_version
         }`}
       >
         <Subject
-          href={`/article/${props.data.searchArticles.content[0].article_id}/article_version/${
+          href={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
             props.data.searchArticles.content[0].article_version
           }`}
           type='topicHomepage'

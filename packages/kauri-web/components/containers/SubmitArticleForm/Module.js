@@ -79,7 +79,7 @@ export const submitArticleEpic = (
         .do(h => apolloClient.cache.reset())
         .mergeMap(({ data: { command_output: { id, version } } }) =>
           Observable.of(
-            routeChangeAction(`/article/${id}/article_version/${version}/article-submitted`),
+            routeChangeAction(`/article/${id}/article-version/${version}/article-submitted`),
             trackMixpanelAction({
               event: 'Offchain',
               metaData: {
@@ -125,7 +125,7 @@ export const editArticleEpic = (
       .do(() => apolloClient.resetStore())
       .flatMap(({ data: { command_output: { id, version } } }) =>
         Observable.of(
-          routeChangeAction(`/article/${id}/article_version/${version}/article-submitted`),
+          routeChangeAction(`/article/${id}/article-version/${version}/article-submitted`),
           trackMixpanelAction({
             event: 'Offchain',
             metaData: {

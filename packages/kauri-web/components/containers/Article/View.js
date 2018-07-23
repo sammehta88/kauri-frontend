@@ -109,7 +109,7 @@ class Article extends React.Component<ArticleProps> {
     if (this.props.routeChangeAction) {
       if (this.props.data.getArticle && typeof this.props.data.getArticle.article_id === 'string') {
         this.props.routeChangeAction(
-          `/article/${this.props.data.getArticle.article_id}/article_version/${
+          `/article/${this.props.data.getArticle.article_id}/article-version/${
             this.props.data.getArticle.article_version
           }/update-article`
         )
@@ -131,7 +131,7 @@ class Article extends React.Component<ArticleProps> {
 
         this.props.addCommentAction(preApproveArticlePayload, () =>
           this.props.routeChangeAction(
-            `/article/${this.props.data.getArticle.article_id}/article_version/${
+            `/article/${this.props.data.getArticle.article_id}/article-version/${
               this.props.data.getArticle.article_version
             }/article-approved`
           )

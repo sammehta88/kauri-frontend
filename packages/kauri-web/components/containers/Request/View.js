@@ -458,7 +458,7 @@ class Request extends Component<Props, State> {
                     <RequestActionBadge
                       action={() =>
                         routeChangeAction(
-                          `/article/${personalSubmittedArticle.article_id}/article_version/${
+                          `/article/${personalSubmittedArticle.article_id}/article-version/${
                             personalSubmittedArticle.article_version
                           }`
                         )
@@ -493,7 +493,7 @@ class Request extends Component<Props, State> {
                         searchArticles.content.length > 0 &&
                         searchArticles.content.find(article => article.status === 'PUBLISHED')
                       routeChangeAction(
-                        `/article/${satisfyingArticle.article_id}/article_version/${satisfyingArticle.article_version}`
+                        `/article/${satisfyingArticle.article_id}/article-version/${satisfyingArticle.article_version}`
                       )
                     }}
                     label='View Article'

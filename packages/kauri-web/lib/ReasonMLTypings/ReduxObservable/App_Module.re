@@ -67,13 +67,13 @@ let route =
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleApproved) =>
     "/article/"
     ++ x
-    ++ "/article_version/"
+    ++ "/article-version/"
     ++ string_of_int(y)
     ++ "/article-approved"
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticlePublished) =>
     "/article/"
     ++ x
-    ++ "/article_version/"
+    ++ "/article-version/"
     ++ string_of_int(y)
     ++ "/article-published"
   | (None, None, Back) => "back"

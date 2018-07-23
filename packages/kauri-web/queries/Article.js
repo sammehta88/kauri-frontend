@@ -291,8 +291,8 @@ export const totalArticlesCount = gql`
 `
 
 export const rejectArticle = gql`
-  mutation rejectArticle($article_id: String, $rejection_cause: String) {
-    rejectArticle(id: $article_id, rejection_cause: $rejection_cause) {
+  mutation rejectArticle($article_id: String, $article_version: Int, $rejection_cause: String) {
+    rejectArticle(id: $article_id, article_version: $article_version, rejection_cause: $rejection_cause) {
       hash
     }
   }

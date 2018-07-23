@@ -14,7 +14,6 @@ import type { ApproveArticlePayload } from '../Article/Module'
 type Props = {
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
 } & ArticleDTO
 
 const Approval = styled.div`

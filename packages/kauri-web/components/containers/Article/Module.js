@@ -351,6 +351,7 @@ export const rejectArticleEpic = (
           mutation: rejectArticle,
           variables: {
             article_id,
+            article_version,
             rejection_cause,
           },
         })

@@ -16,14 +16,12 @@ const PendingPublicationArticles = ({
   userId,
   routeChangeAction,
   approveArticleAction,
-  rejectArticleAction,
 }: {
   articles: Array<ArticleDTO>,
   ethUsdPrice: number,
   userId: string,
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
 }) => (
   <Container>
     {articles.map(article => (
@@ -31,7 +29,6 @@ const PendingPublicationArticles = ({
         type='approved'
         routeChangeAction={routeChangeAction}
         approveArticleAction={approveArticleAction}
-        rejectArticleAction={rejectArticleAction}
         userId={userId}
         ethUsdPrice={ethUsdPrice}
         key={article.article_id}
@@ -47,7 +44,6 @@ type Props = {
   userId: ?string,
   routeChangeAction: string => void,
   approveArticleAction: ApproveArticlePayload => void,
-  rejectArticleAction: string => void,
 }
 
 export default ({
@@ -58,7 +54,6 @@ export default ({
   userId,
   routeChangeAction,
   approveArticleAction,
-  rejectArticleAction,
 }: Props) =>
   content.length > 0 ? (
     <PendingPublicationArticles
@@ -67,7 +62,6 @@ export default ({
       ethUsdPrice={ethUsdPrice}
       userId={userId}
       approveArticleAction={approveArticleAction}
-      rejectArticleAction={rejectArticleAction}
     />
   ) : (
     <NoArticlesApproved />

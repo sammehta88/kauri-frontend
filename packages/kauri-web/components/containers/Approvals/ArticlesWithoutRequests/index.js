@@ -20,7 +20,6 @@ export default compose(
     {
       routeChangeAction,
       approveArticleAction,
-      rejectArticleAction: article_id => routeChangeAction(`/article/${article_id}/reject-article`),
     }
   ),
   graphql(searchOpenRequestsWithSubmissions, {

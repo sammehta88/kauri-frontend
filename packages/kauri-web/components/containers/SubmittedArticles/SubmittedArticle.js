@@ -160,7 +160,6 @@ type Props = {
   userId?: string,
   routeChangeAction: string => void,
   approveArticleAction?: ApproveArticlePayload => void,
-  rejectArticleAction?: string => void,
 }
 
 export default ({
@@ -185,7 +184,6 @@ export default ({
   categoryTab,
   type,
   approveArticleAction,
-  rejectArticleAction,
 }: Props) => (
   <SubmittedArticle>
     <SubmittedArticle.SubmittedArticleDetails>

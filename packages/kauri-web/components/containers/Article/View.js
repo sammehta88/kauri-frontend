@@ -14,7 +14,7 @@ type ArticleProps = {
   approveArticleAction: any => void,
   submitFinalisedArticleAction: SubmitFinalisedArticlePayload => void,
   routeChangeAction: string => void,
-  rejectArticleAction: string => void,
+  rejectArticleAction: (string, string) => void,
   addCommentAction: (AddCommentPayload, callback: any) => void,
   personalUsername: ?string,
   deleteArticleCommentAction: DeleteArticleCommentPayload => void,
@@ -103,7 +103,8 @@ class Article extends React.Component<ArticleProps> {
     }
   }
 
-  rejectArticle = () => this.props.rejectArticleAction(this.props.data.getArticle.article_id)
+  rejectArticle = () =>
+    this.props.rejectArticleAction(this.props.data.getArticle.article_id, this.props.data.getArticle.article_version)
 
   updateUnsubmittedArticle = () => {
     if (this.props.routeChangeAction) {

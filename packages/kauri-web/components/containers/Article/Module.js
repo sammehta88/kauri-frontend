@@ -43,8 +43,6 @@ export type TipArticlePayload = {
 
 export type TipArticleAction = { type: 'TIP_ARTICLE', payload: TipArticlePayload, callback: any }
 
-const SUBMIT_FINALISED_ARTICLE = 'SUBMIT_FINALISED_ARTICLE'
-
 const APPROVE_ARTICLE = 'APPROVE_ARTICLE'
 
 const TIP_ARTICLE = 'TIP_ARTICLE'

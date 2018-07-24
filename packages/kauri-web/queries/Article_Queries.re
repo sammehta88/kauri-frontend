@@ -81,3 +81,21 @@ module DraftArticle = [%graphql
 ];
 
 module DraftArticleMutation = ReasonApollo.CreateMutation(DraftArticle);
+
+module SubmitForReview = [%graphql
+  {|
+      mutation submitForReview(
+        $id: String,
+        $article_version: Int
+      ) {
+          submitForReview(
+            id: $id,
+            article_version: $article_version
+          ) {
+            hash
+          }
+      }
+    |}
+];
+
+module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);

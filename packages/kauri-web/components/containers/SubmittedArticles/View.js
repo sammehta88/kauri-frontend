@@ -49,6 +49,12 @@ class SubmittedArticles extends Component<Props> {
       this.props.data.searchArticles.content.length > 0 &&
       this.props.data.searchArticles.content.filter(({ status }) => status === 'DRAFT')
 
+    const personalArticles =
+      this.props.data.searchArticles &&
+      Array.isArray(this.props.data.searchArticles.content) &&
+      this.props.data.searchArticles.content.length > 0 &&
+      this.props.data.searchArticles.content.filter(({ category }) => !category)
+
     return (
       <SubmittedArticles.Container>
         {Array.isArray(awaitingPublicationArticles) && (
@@ -90,6 +96,23 @@ class SubmittedArticles extends Component<Props> {
             <Divider />
             {draftArticles.length > 0 &&
               draftArticles.map(article => (
+                <SubmittedArticle
+                  type='personal'
+                  routeChangeAction={routeChangeAction}
+                  key={article.article_id}
+                  userId={userId}
+                  article={article}
+                  ethUsdPrice={ethUsdPrice}
+                />
+              ))}
+          </Fragment>
+        )}
+        {Array.isArray(personalArticles) && (
+          <Fragment>
+            <SubmittedArticlesHeader>Personal Articles</SubmittedArticlesHeader>
+            <Divider />
+            {personalArticles.length > 0 &&
+              personalArticles.map(article => (
                 <SubmittedArticle
                   type='personal'
                   routeChangeAction={routeChangeAction}

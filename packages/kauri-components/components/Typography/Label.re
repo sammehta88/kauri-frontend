@@ -1,11 +1,10 @@
-
 let component = ReasonReact.statelessComponent("Heading");
 
 module Styles = {
-    let heading =
-      Css.(
-        [%css
-          {|
+  let label =
+    Css.(
+      [%css
+        {|
           {
               font-size: 0.7em;
               text-transform: uppercase;
@@ -14,11 +13,12 @@ module Styles = {
               margin: 10px;
         }
         |}
-        ]
-      )
-      |> Css.style;
-  };
+      ]
+    )
+    |> Css.style;
+};
 let make = (~text, _children) => {
   ...component, /* spread the template's other defaults into here  */
-  render: _self => <label className=Styles.heading>{ReasonReact.string(text)}</label>
+  render: _self =>
+    <label className=Styles.label> (ReasonReact.string(text)) </label>,
 };

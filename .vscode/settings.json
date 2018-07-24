@@ -16,4 +16,5 @@
   ],
   "reason.path.bsb": "./packages/kauri-components/node_modules/bs-platform/lib/bsb.exe",
   "reason.path.ocamlmerlin": "ocamlmerlin",
+  "editor.formatOnSave": true,
 }

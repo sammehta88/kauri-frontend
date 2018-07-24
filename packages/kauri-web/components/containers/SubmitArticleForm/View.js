@@ -150,19 +150,12 @@ class SubmitArticleForm extends React.Component<Props> {
           } else if (submissionType === 'draft') {
             if (this.props.data && this.props.data.getArticle.status === 'DRAFT') {
               const currentArticle: ArticleDTO = this.props.data.getArticle
-              const draftArticlePayload = {
+              const submitForReviewPayload = {
                 id: currentArticle.article_id,
                 article_version: currentArticle.article_version,
-                subject,
-                text,
-                category,
-                sub_category,
-                metadata: formatMetadata({ version }),
-                request_id: this.props.request_id,
               }
-              console.log('submitForReviewPayload', draftArticlePayload)
-              // TODO submitForReviewEpic
-              // this.props.submitForReviewPayload(draftArticlePayload)
+              console.log('submitForReviewPayload', submitForReviewPayload)
+              this.props.submitForReviewAction(submitForReviewPayload)
             } else if (this.props.data && this.props.data.getArticle.article_id) {
               const currentArticle: ArticleDTO = this.props.data.getArticle
 

@@ -17,7 +17,11 @@ import {
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
 import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic } from '../components/containers/Article/Module'
-import { approveArticleEpic, publishArticleEpic } from '../components/containers/Article/Article_Module.bs'
+import {
+  approveArticleEpic,
+  publishArticleEpic,
+  submitForReviewEpic,
+} from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
 import {
@@ -71,6 +75,7 @@ const epics = [
   approveArticleEpic,
   publishArticleEpic,
   draftArticleEpic,
+  submitForReviewEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

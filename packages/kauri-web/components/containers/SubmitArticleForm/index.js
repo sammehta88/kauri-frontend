@@ -5,6 +5,7 @@ import { getRequest } from '../../../queries/Request'
 import { submitArticleAction, editArticleAction } from './Module'
 import { routeChangeAction, showNotificationAction } from '../../../lib/Module'
 import { draftArticleAction } from './DraftArticle_Module.bs'
+import { submitForReviewAction } from './SubmitForReview_Module.bs'
 import View from './View'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -17,7 +18,14 @@ const mapStateToProps = (state, ownProps) => ({
 export default compose(
   connect(
     mapStateToProps,
-    { submitArticleAction, editArticleAction, routeChangeAction, showNotificationAction, draftArticleAction }
+    {
+      submitArticleAction,
+      editArticleAction,
+      routeChangeAction,
+      showNotificationAction,
+      draftArticleAction,
+      submitForReviewAction,
+    }
   ),
   graphql(getRequest, {
     options: ({ request_id }) => ({

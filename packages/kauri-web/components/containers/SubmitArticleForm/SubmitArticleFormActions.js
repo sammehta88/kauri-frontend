@@ -28,7 +28,7 @@ type Props = {
   getFieldValue: string => ?string,
 }
 
-export default ({ routeChangeAction, handleSubmit, text, status, getFieldValue }: Props) => (
+export default ({ routeChangeAction, handleSubmit, text, status, getFieldValue, category }: Props) => (
   <SubmitArticleFormActions>
     <ActionBadge onClick={() => routeChangeAction('back')}>
       <GreenArrow direction={'left'} />
@@ -44,7 +44,9 @@ export default ({ routeChangeAction, handleSubmit, text, status, getFieldValue }
         type={status === 'DRAFT' ? 'secondary' : 'primary'}
         action={handleSubmit('submit/update')}
       >
-        <span>{getFieldValue('category') ? (text ? 'Update Article' : 'Submit for Review') : 'Publish'}</span>
+        <span>
+          {category || getFieldValue('category') ? (text ? 'Update Article' : 'Submit for Review') : 'Publish'}
+        </span>
       </PositiveRequestActionBadge>
       {status === 'DRAFT' && (
         <PositiveRequestActionBadge type='primary' action={handleSubmit('submit/update')}>

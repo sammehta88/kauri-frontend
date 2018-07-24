@@ -129,7 +129,23 @@ const ChooseTopicSelect = styled(Select)`
   ${props => props.hasErrors && errorBorderCss};
 `
 
-export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, isKauriTopicOwner }) =>
+const renderCategoryOptions = type => {
+  let categoryOptions = type === 'request' ? categories : categories.concat('personal')
+  return categoryOptions.map(
+    category =>
+      category === 'personal' ? (
+        <Option key={category} value={null}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </Option>
+      ) : (
+        <Option key={category} value={category.toLowerCase()}>
+          {category.charAt(0).toUpperCase() + category.slice(1)}
+        </Option>
+      )
+  )
+}
+
+export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, isKauriTopicOwner, type }) =>
   getFieldDecorator('category', {
     rules: [
       {
@@ -148,18 +164,7 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
         showSearch
         placeholder='CHOOSE TOPIC'
       >
-        {categories.concat('personal').map(
-          category =>
-            category === 'personal' ? (
-              <Option key={category} value={null}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Option>
-            ) : (
-              <Option key={category} value={category.toLowerCase()}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </Option>
-            )
-        )}
+        {renderCategoryOptions(type)}
       </ChooseTopicSelect>
     )
   )
@@ -267,6 +272,7 @@ const CreateRequestTopicActions = ({
   <TopicActionsContainer type='createRequest'>
     <ChooseTopicAndSubcategoryContainer>
       <ChooseTopic
+        type='request'
         getFieldError={getFieldError}
         chosenCategory={chosenCategory}
         getFieldDecorator={getFieldDecorator}

@@ -201,6 +201,10 @@ class SubmitArticleForm extends React.Component<Props> {
           routeChangeAction={routeChangeAction}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
+          category={
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
+            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+          }
         />
         <SubmitArticleForm.Header
           {...this.props.form}

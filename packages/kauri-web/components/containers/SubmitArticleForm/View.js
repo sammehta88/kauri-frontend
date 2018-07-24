@@ -149,9 +149,10 @@ class SubmitArticleForm extends React.Component<Props> {
             }
           } else if (submissionType === 'draft') {
             if (this.props.data && this.props.data.getArticle.status === 'DRAFT') {
+              const currentArticle: ArticleDTO = this.props.data.getArticle
               const draftArticlePayload = {
-                id: this.props.data.getArticle.article_id,
-                article_version: this.props.data.getArticle.article_version,
+                id: currentArticle.article_id,
+                article_version: currentArticle.article_version,
                 subject,
                 text,
                 category,
@@ -162,6 +163,19 @@ class SubmitArticleForm extends React.Component<Props> {
               console.log('submitForReviewPayload', draftArticlePayload)
               // TODO submitForReviewEpic
               // this.props.submitForReviewPayload(draftArticlePayload)
+            } else if (this.props.data && this.props.data.getArticle.article_id) {
+              const currentArticle: ArticleDTO = this.props.data.getArticle
+
+              const draftArticlePayload = {
+                subject,
+                text,
+                category: currentArticle.category,
+                sub_category: currentArticle.sub_category,
+                metadata: formatMetadata({ version }),
+                request_id: currentArticle.request_id,
+              }
+              console.log('draftArticlePayload', draftArticlePayload)
+              this.props.draftArticleAction(draftArticlePayload)
             } else {
               const draftArticlePayload = {
                 subject,

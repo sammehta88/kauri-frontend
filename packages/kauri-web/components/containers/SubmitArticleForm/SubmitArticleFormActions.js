@@ -58,7 +58,7 @@ export default ({
       >
         <span>
           {text
-            ? authorId === userId && !category
+            ? authorId === userId
               ? `Update ${status === 'DRAFT' ? 'Draft' : 'Article'}`
               : 'Submit for Review'
             : getFieldValue('category')

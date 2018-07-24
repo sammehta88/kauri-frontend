@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps) => ({
   isKauriTopicOwner: Boolean(
     state.app.user && state.app.user.topics && state.app.user.topics.find(topic => topic === 'kauri')
   ),
+  categories: state.app && state.app.user && state.app.user.topics,
   userId: state.app.user && state.app.userId,
 })
 

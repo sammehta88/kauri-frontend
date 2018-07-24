@@ -15,6 +15,7 @@ type Props =
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
+      categories: Array<?string>,
       userId: string,
       article_id?: string,
       request_id: string,
@@ -149,13 +150,29 @@ class SubmitArticleForm extends React.Component<Props> {
             }
           } else if (submissionType === 'draft') {
             if (this.props.data && this.props.data.getArticle.status === 'DRAFT') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-              const submitForReviewPayload = {
-                id: currentArticle.article_id,
-                article_version: currentArticle.article_version,
+              if (this.props.data && this.props.data.getArticle.category) {
+                const currentArticle: ArticleDTO = this.props.data.getArticle
+
+                const submitForReviewPayload = {
+                  id: currentArticle.article_id,
+                  article_version: currentArticle.article_version,
+                }
+                console.log('submitForReviewPayload', submitForReviewPayload)
+                this.props.submitForReviewAction(submitForReviewPayload)
+              } else {
+                // PERSONAL PUBLISH DRAFT
+                console.log('personal publishing draft article!')
+                const currentArticle: ArticleDTO = this.props.data.getArticle
+
+                return this.props.submitArticleAction({
+                  article_id: currentArticle.article_id,
+                  text,
+                  subject,
+                  sub_category: currentArticle.sub_category,
+                  category: currentArticle.category,
+                  metadata: formatMetadata({ version }),
+                })
               }
-              console.log('submitForReviewPayload', submitForReviewPayload)
-              this.props.submitForReviewAction(submitForReviewPayload)
             } else if (this.props.data && this.props.data.getArticle.article_id) {
               const currentArticle: ArticleDTO = this.props.data.getArticle
 
@@ -205,6 +222,7 @@ class SubmitArticleForm extends React.Component<Props> {
       <Form>
         <SubmitArticleForm.Actions
           {...this.props.form}
+          categories={this.props.categories}
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}

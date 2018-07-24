@@ -109,7 +109,6 @@ export const CategoryBadge = styled.div`
 export const CategoryName = styled.span`
   margin-top: 9px;
   height: 13px;
-  width: 55px;
   font-size: 10px;
   font-weight: 500;
   line-height: 13px;

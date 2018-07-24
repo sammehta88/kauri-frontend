@@ -15,6 +15,7 @@ type Props =
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
+      userId: string,
       article_id?: string,
       request_id: string,
       data: any,
@@ -147,7 +148,7 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            if (this.props.data && this.props.data.getArticle.article_id) {
+            if (this.props.data && this.props.data.getArticle.status === 'DRAFT') {
               const draftArticlePayload = {
                 id: this.props.data.getArticle.article_id,
                 article_version: this.props.data.getArticle.article_version,
@@ -205,6 +206,8 @@ class SubmitArticleForm extends React.Component<Props> {
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
+          userId={this.props.userId}
+          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id}
         />
         <SubmitArticleForm.Header
           {...this.props.form}

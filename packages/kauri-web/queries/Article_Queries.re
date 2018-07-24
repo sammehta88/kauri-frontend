@@ -59,7 +59,7 @@ module DraftArticle = [%graphql
       $subject: String!
       $text: String!
       $category: String
-      $sub_category: String!
+      $sub_category: String
       $metadata: Map_String_StringScalar!
       $draft: Boolean!
       $request_id: String

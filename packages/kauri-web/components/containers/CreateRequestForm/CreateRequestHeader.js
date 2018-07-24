@@ -130,7 +130,10 @@ const ChooseTopicSelect = styled(Select)`
 `
 
 const renderCategoryOptions = type => {
-  let categoryOptions = type === 'request' ? categories : categories.concat('personal')
+  const categoryOptions = categories
+  if (type !== 'request' && !categoryOptions.find(category => category === 'personal')) {
+    categoryOptions.unshift('personal')
+  }
   return categoryOptions.map(
     category =>
       category === 'personal' ? (
@@ -162,7 +165,7 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
         hasErrors={getFieldError('category')}
         style={{ width: 126 }}
         showSearch
-        placeholder='CHOOSE TOPIC'
+        placeholder={'Choose Topic'}
       >
         {renderCategoryOptions(type)}
       </ChooseTopicSelect>

@@ -132,7 +132,7 @@ class Homepage extends Component<Props> {
               this.props.data.searchArticles.content.length > 0 ? (
                 this.props.data.searchArticles.content.map(article => (
                   <Homepage.NewArticle
-                    key={article.article_id}
+                    key={`${article.article_id}-${article.article_version}`}
                     {...article}
                     routeChangeAction={this.props.routeChangeAction}
                   />

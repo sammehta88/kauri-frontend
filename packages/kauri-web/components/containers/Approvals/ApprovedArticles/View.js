@@ -31,7 +31,7 @@ const PendingPublicationArticles = ({
         approveArticleAction={approveArticleAction}
         userId={userId}
         ethUsdPrice={ethUsdPrice}
-        key={article.article_id}
+        key={`${article.article_id}-${article.article_version}`}
         article={article}
       />
     ))}

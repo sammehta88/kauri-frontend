@@ -22,7 +22,7 @@ const NoRequestsWithSubmissions = () => <p>No articles to review found, inbox ze
 const ArticlesWithoutRequests = ({ articles, ethUsdPrice, userId, routeChangeAction, approveArticleAction }: *) =>
   articles.map(article => (
     <SubmittedArticle
-      key={article.article_id}
+      key={`${article.article_id}-${article.article_version}`}
       type='approval'
       routeChangeAction={routeChangeAction}
       approveArticleAction={approveArticleAction}

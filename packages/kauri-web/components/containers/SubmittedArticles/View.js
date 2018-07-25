@@ -64,9 +64,9 @@ class SubmittedArticles extends Component<Props> {
             {awaitingPublicationArticles.length > 0 &&
               awaitingPublicationArticles.map(article => (
                 <SubmittedArticle
+                  key={`${article.article_id}-${article.article_version}`}
                   type='personal'
                   routeChangeAction={routeChangeAction}
-                  key={article.article_id}
                   userId={userId}
                   article={article}
                   ethUsdPrice={ethUsdPrice}
@@ -79,9 +79,9 @@ class SubmittedArticles extends Component<Props> {
         {Array.isArray(pendingReviewArticles) && pendingReviewArticles.length > 0 ? (
           pendingReviewArticles.map(article => (
             <SubmittedArticle
+              key={`${article.article_id}-${article.article_version}`}
               type='personal'
               routeChangeAction={routeChangeAction}
-              key={article.article_id}
               userId={userId}
               article={article}
               ethUsdPrice={ethUsdPrice}
@@ -97,9 +97,9 @@ class SubmittedArticles extends Component<Props> {
             {draftArticles.length > 0 &&
               draftArticles.map(article => (
                 <SubmittedArticle
+                  key={`${article.article_id}-${article.article_version}`}
                   type='personal'
                   routeChangeAction={routeChangeAction}
-                  key={article.article_id}
                   userId={userId}
                   article={article}
                   ethUsdPrice={ethUsdPrice}
@@ -114,9 +114,9 @@ class SubmittedArticles extends Component<Props> {
             {personalArticles.length > 0 &&
               personalArticles.map(article => (
                 <SubmittedArticle
+                  key={`${article.article_id}-${article.article_version}`}
                   type='personal'
                   routeChangeAction={routeChangeAction}
-                  key={article.article_id}
                   userId={userId}
                   article={article}
                   ethUsdPrice={ethUsdPrice}
@@ -129,8 +129,8 @@ class SubmittedArticles extends Component<Props> {
         {Array.isArray(publishedArticles) && publishedArticles.length > 0 ? (
           publishedArticles.map(article => (
             <SubmittedArticle
+              key={`${article.article_id}-${article.article_version}`}
               type='personal'
-              key={article.article_id}
               routeChangeAction={routeChangeAction}
               userId={userId}
               article={article}

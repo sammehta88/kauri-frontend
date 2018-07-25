@@ -67,9 +67,9 @@ export const Mask = styled.div`
   ${props => props.type === 'article' && articleMaskCss};
   border: 1px solid
     ${props =>
-      props.chosenCategory
-        ? props.theme[props.chosenCategory] && props.theme[props.chosenCategory].primaryColor
-        : props.theme.primaryColor};
+    props.chosenCategory
+      ? props.theme[props.chosenCategory] && props.theme[props.chosenCategory].primaryColor
+      : props.theme.primaryColor};
 `
 
 export const CreateRequestLogo = ({ chosenCategory, height, width, avatarWidth, avatarHeight, type }) => (

@@ -88,8 +88,8 @@ export const getArticle = gql`
 `
 
 export const getArticleForAnalytics = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
       article_version
       user_id

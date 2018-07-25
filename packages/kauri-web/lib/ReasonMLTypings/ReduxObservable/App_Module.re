@@ -55,6 +55,7 @@ let showNotificationAction = payload =>
 type routeType =
   | Back
   | ArticleApproved
+  | ArticleDrafted
   | ArticlePublished;
 
 type slug =
@@ -76,6 +77,12 @@ let route =
     ++ "/article-version/"
     ++ string_of_int(y)
     ++ "/article-published"
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleDrafted) =>
+    "/article/"
+    ++ x
+    ++ "/article-version/"
+    ++ string_of_int(y)
+    ++ "/article-drafted"
   | (None, None, Back) => "back"
   | _ => ""
   };

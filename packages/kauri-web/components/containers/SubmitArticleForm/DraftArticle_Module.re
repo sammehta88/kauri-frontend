@@ -120,13 +120,18 @@ let draftArticleEpic =
                 offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
               ) =>
               ReduxObservable.Dependencies.OffchainEvent.(
-                dataGet(offchainEventResponse)
-                |. submitArticleResponseGet
-                |. versionGet
+                dataGet(offchainEventResponse) |. submitArticleResponseGet
               )
             )
-         |. flatMap(article_version => {
+         |. flatMap(draftArticleResponse => {
               open App_Module;
+
+              let (resourceID, articleVersion) =
+                draftArticleResponse
+                |. ReduxObservable.Dependencies.OffchainEvent.(
+                     idGet,
+                     versionGet,
+                   );
 
               let trackDraftArticlePayload =
                 trackMixPanelPayload(
@@ -158,9 +163,8 @@ let draftArticleEpic =
                 routeChangeAction(
                   route(
                     ~slug1=ArticleId(resourceID),
-                    ~slug2=ArticleVersionId(article_version),
-                    /* TODO ArticleDrafted */
-                    ~routeType=ArticleApproved,
+                    ~slug2=ArticleVersionId(articleVersion),
+                    ~routeType=ArticleDrafted,
                   ),
                 ),
               );

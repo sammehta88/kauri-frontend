@@ -75,7 +75,7 @@ let draftArticleEpic =
              |. DraftArticle.forVersionGet
            ) {
            | Some("") => "{}"
-           | Some(forVersion) => {j|{"FOR_VERSION": $(forVersion)}|j}
+           | Some(forVersion) => {j|{"FOR_VERSION": "$(forVersion)"}|j}
            | None => "{}"
            };
 

@@ -21,6 +21,5 @@ routes
   .add('article-approved', '/article/:article_id/article-version/:article_version/article-approved')
   .add('article-rejected', '/article/:article_id/article-version/:article_version/article-rejected')
   .add('article-published', '/article/:article_id/article-version/:article_version/article-published')
-  // TODO: Convert the below to use article_version
   .add('reject-article', '/article/:article_id/article-version/:article_version/reject-article')
   .add('topic-home', '/topic/:category')

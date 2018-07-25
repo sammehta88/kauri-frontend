@@ -56,33 +56,31 @@ type routeType =
   | Back
   | ArticleApproved
   | ArticleDrafted
+  | ArticleSubmitted
   | ArticlePublished;
 
 type slug =
   | ArticleId(string)
   | ArticleVersionId(int);
 
+let createRouteURL = (articleId, articleVersion, confirmationRoute) =>
+  "/article/"
+  ++ articleId
+  ++ "/article-version/"
+  ++ string_of_int(articleVersion)
+  ++ confirmationRoute;
+
 let route =
     (~slug1: option(slug)=?, ~slug2: option(slug)=?, ~routeType: routeType) =>
   switch (slug1, slug2, routeType) {
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleApproved) =>
-    "/article/"
-    ++ x
-    ++ "/article-version/"
-    ++ string_of_int(y)
-    ++ "/article-approved"
+    createRouteURL(x, y, "/article-approved")
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticlePublished) =>
-    "/article/"
-    ++ x
-    ++ "/article-version/"
-    ++ string_of_int(y)
-    ++ "/article-published"
+    createRouteURL(x, y, "/article-published")
   | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleDrafted) =>
-    "/article/"
-    ++ x
-    ++ "/article-version/"
-    ++ string_of_int(y)
-    ++ "/article-drafted"
+    createRouteURL(x, y, "/article-drafted")
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleSubmitted) =>
+    createRouteURL(x, y, "/article-submitted")
   | (None, None, Back) => "back"
   | _ => ""
   };

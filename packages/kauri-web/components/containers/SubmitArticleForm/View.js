@@ -15,6 +15,7 @@ type Props =
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
+      submitForReviewAction: any => void,
       categories: Array<?string>,
       userId: string,
       article_id?: string,

@@ -78,7 +78,11 @@ export const submitArticleEpic = (
         .do(h => apolloClient.cache.reset())
         .mergeMap(({ data: { command_output: { id, version } } }) =>
           Observable.of(
-            routeChangeAction(`/article/${id}/article-version/${version}/article-submitted`),
+            routeChangeAction(
+              `/article/${id}/article-version/${version}/article-${
+                typeof category === 'string' ? 'submitted' : 'published'
+              }`
+            ),
             trackMixpanelAction({
               event: 'Offchain',
               metaData: {
@@ -89,8 +93,11 @@ export const submitArticleEpic = (
             }),
             showNotificationAction({
               notificationType: 'success',
-              message: 'Article submitted',
-              description: 'Waiting for it to be reviewed!',
+              message: `Article ${typeof category === 'string' ? 'submitted' : 'published'}`,
+              description:
+                typeof category === 'string'
+                  ? 'Waiting for it to be reviewed!'
+                  : 'Your personal article has now been published!',
             })
           )
         )

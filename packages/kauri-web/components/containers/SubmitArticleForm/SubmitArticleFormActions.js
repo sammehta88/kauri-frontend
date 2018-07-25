@@ -48,7 +48,7 @@ export default ({
     <PullRight>
       {status !== 'DRAFT' && (
         <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
-          <span>Draft article</span>
+          <span>Save as a draft</span>
         </PositiveRequestActionBadge>
       )}
 

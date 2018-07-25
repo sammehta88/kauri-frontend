@@ -120,18 +120,13 @@ let draftArticleEpic =
                 offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
               ) =>
               ReduxObservable.Dependencies.OffchainEvent.(
-                dataGet(offchainEventResponse) |. submitArticleResponseGet
+                dataGet(offchainEventResponse)
+                |. submitArticleResponseGet
+                |. versionGet
               )
             )
-         |. flatMap(draftArticleResponse => {
+         |. flatMap(articleVersion => {
               open App_Module;
-
-              let (resourceID, articleVersion) =
-                draftArticleResponse
-                |. ReduxObservable.Dependencies.OffchainEvent.(
-                     idGet,
-                     versionGet,
-                   );
 
               let trackDraftArticlePayload =
                 trackMixPanelPayload(
@@ -139,6 +134,7 @@ let draftArticleEpic =
                   ~metaData={
                     resource: "article",
                     resourceID,
+                    resourceVersion: string_of_int(articleVersion),
                     resourceAction: "draft article",
                   },
                 );

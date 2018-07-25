@@ -98,6 +98,7 @@ let submitForReviewEpic =
                   ~metaData={
                     resource: "article",
                     resourceID,
+                    resourceVersion: string_of_int(article_version),
                     resourceAction: "submit for review draft article",
                   },
                 );

@@ -46,7 +46,7 @@ class ArticleApproved extends React.Component<Props> {
         </ConfirmationSubject>
         <ArticleApprovedActionButtons>
           <ActionButton
-            action={() => routeChangeAction(type === 'drafted' ? '/profile?tab=my-articles' : '/approvals')}
+            action={() => routeChangeAction(type === 'drafted' ? '/profile?tab=my articles' : '/approvals')}
             height={40}
             width={183}
             label={type === 'drafted' ? 'My Articles' : 'Back to Approvals'}

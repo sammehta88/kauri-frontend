@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import moment from 'moment'
-import { Subject } from '../../OpenRequests/OpenRequest'
+import { Subject, CategoryName } from '../../OpenRequests/OpenRequest'
 import DescriptionRow from '../../../common/DescriptionRow'
 import { Link } from '../../../../routes'
 import theme from '../../../../lib/theme-config'
@@ -84,7 +84,10 @@ export default (props: Props) =>
     <NewArticleContainer>
       <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
         <Thumbnail theme={theme} category={props.category}>
-          <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
+          {!props.category && <CategoryName>{(props.user && props.user.username) || 'Unknown Writer'}</CategoryName>}
+          {props.category && (
+            <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
+          )}
         </Thumbnail>
       </Link>
       <RestrictToTwoLines>
@@ -109,6 +112,7 @@ export default (props: Props) =>
         avatarWidth='52'
         theme={theme}
         category={props.category}
+        username={props.user && props.user.username}
         onClick={() =>
           props.routeChangeAction(
             `/article/${props.data.searchArticles.content[0].article_id}/article-version/${

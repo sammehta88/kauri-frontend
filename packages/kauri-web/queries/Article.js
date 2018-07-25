@@ -148,6 +148,10 @@ export const searchApprovedArticles = gql`
           anchor_key
           focus_key
         }
+        user {
+          user_id
+          username
+        }
       }
     }
   }

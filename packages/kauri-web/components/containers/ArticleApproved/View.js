@@ -39,17 +39,21 @@ class ArticleApproved extends React.Component<Props> {
       <Container>
         <ArticleApprovedConfirmationLogoBadge
           chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
-          confirmationMessage={`Article ${type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'}`}
+          confirmationMessage={`Article ${
+            type === 'updated' ? 'Updated' : type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'
+          }`}
         />
         <ConfirmationSubject>
           {data && typeof data.getArticle === 'object' && data.getArticle.subject}
         </ConfirmationSubject>
         <ArticleApprovedActionButtons>
           <ActionButton
-            action={() => routeChangeAction(type === 'drafted' ? '/profile?tab=my articles' : '/approvals')}
+            action={() =>
+              routeChangeAction(type === 'drafted' || type === 'updated' ? '/profile?tab=my articles' : '/approvals')
+            }
             height={40}
             width={183}
-            label={type === 'drafted' ? 'My Articles' : 'Back to Approvals'}
+            label={type === 'drafted' || type === 'updated' ? 'My Articles' : 'Back to Approvals'}
             type='alt'
           />
         </ArticleApprovedActionButtons>

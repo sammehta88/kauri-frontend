@@ -18,9 +18,9 @@ routes
   .add('request-created', '/request/:request_id/request-created')
   .add('article-drafted', '/article/:article_id/article-version/:article_version/article-drafted')
   .add('article-submitted', '/article/:article_id/article-version/:article_version/article-submitted')
+  .add('article-updated', '/article/:article_id/article-version/:article_version/article-updated')
   .add('article-approved', '/article/:article_id/article-version/:article_version/article-approved')
   .add('article-rejected', '/article/:article_id/article-version/:article_version/article-rejected')
   .add('article-published', '/article/:article_id/article-version/:article_version/article-published')
   .add('reject-article', '/article/:article_id/article-version/:article_version/reject-article')
-  // TODO article-updated?
   .add('topic-home', '/topic/:category')

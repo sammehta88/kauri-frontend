@@ -48,7 +48,7 @@ jobs:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components .
     - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components
   - stage: chromaticqa-auto-accept-changes
-    if: (branch = master OR branch = development)
+    if: ((branch = master) OR (branch = development) AND (NOT type IN (pull_request)))
     script:
     - docker build -t flow-frontend-boilerplate:kauri-components -f Dockerfile-components .
     - docker run -p 6006:6006 --rm flow-frontend-boilerplate:kauri-components sudo npm run test:chromatic-auto-accept-changes

@@ -25,7 +25,7 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-share": "^2.2.0",
-    "tooltip.js": "^1.2.0"
+    "react-tippy": "^1.2.2"
   },
   "devDependencies": {
     "@esy-ocaml/merlin": "*",

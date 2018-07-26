@@ -23,7 +23,8 @@
     "bs-moment": "^0.3.0",
     "moment": "2.20.1",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "tooltip.js": "^1.2.0"
   },
   "devDependencies": {
     "@esy-ocaml/merlin": "*",

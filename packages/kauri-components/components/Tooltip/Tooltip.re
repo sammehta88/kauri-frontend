@@ -23,20 +23,27 @@ type action =
 [@bs.val]
 external createElement : string => Dom.element = "document.createElement";
 
-[@bs.set] external setInnerHtml : (Dom.element, string) => unit = "innerHTML";
+[@bs.set]
+external setInnerHtml : (Dom.element, string) => unit = "innerHTML";
 
 [@bs.get] external firstChild : Dom.element => Dom.element = "";
 
 let component = ReasonReact.reducerComponent("MyPanel");
 
-let make = _children => {
+let make = children => {
   let setSectionRef = (theRef, {ReasonReact.state}) =>
     state.mySectionRef := Js.Nullable.toOption(theRef);
   {
     ...component,
     didMount: self => {
       let title =
-        ReactDOMServerRe.renderToString(<div> ("wow" |. text) </div>);
+        ReactDOMServerRe.renderToString(
+          ReasonReact.createDomElement(
+            "div",
+            ~props=Js.Obj.empty(),
+            children,
+          ),
+        );
       let divDomNode = createElement("div");
       divDomNode |. setInnerHtml(title);
       switch (self.state.mySectionRef^) {

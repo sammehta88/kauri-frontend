@@ -37,13 +37,13 @@ module TwitterShareButton = {
   [@bs.deriving abstract]
   type jsProps = {
     url: string,
-    quote: string,
+    title: string,
   };
 
-  let make = (~url, ~quote, children) =>
+  let make = (~url, ~title, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=twitterShareButton,
-      ~props=jsProps(~url, ~quote),
+      ~props=jsProps(~url, ~title),
       children,
     );
 };
@@ -55,6 +55,37 @@ module TwitterIcon = {
   let make = children =>
     ReasonReact.wrapJsForReason(
       ~reactClass=twitterIcon,
+      ~props={"size": 32, "round": true},
+      children,
+    );
+};
+
+module LinkedinShareButton = {
+  [@bs.module "react-share"]
+  external linkedInShareButton : ReasonReact.reactClass =
+    "LinkedinShareButton";
+
+  [@bs.deriving abstract]
+  type jsProps = {
+    url: string,
+    title: string,
+  };
+
+  let make = (~title, ~url, children) =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=linkedInShareButton,
+      ~props=jsProps(~url, ~title),
+      children,
+    );
+};
+
+module LinkedinIcon = {
+  [@bs.module "react-share"]
+  external linkedInIcon : ReasonReact.reactClass = "LinkedinIcon";
+
+  let make = children =>
+    ReasonReact.wrapJsForReason(
+      ~reactClass=linkedInIcon,
       ~props={"size": 32, "round": true},
       children,
     );

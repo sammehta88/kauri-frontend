@@ -146,11 +146,23 @@ let approveArticleEpic =
             })
          |. flatMap(hash => fromPromise(subscriber(hash)))
          |. tap(_ => apolloClient##resetStore())
-         |. flatMap(_x => {
+         |. map(
+              (
+                offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
+              ) =>
+              ReduxObservable.Dependencies.OffchainEvent.(
+                dataGet(offchainEventResponse)
+                |. submitArticleResponseGet
+                |. versionGet
+              )
+            )
+         |. flatMap(articleVersion => {
               open App_Module;
+
               let approveArticleMetaData = {
                 resource: "article",
                 resourceID,
+                resourceVersion: string_of_int(articleVersion),
                 resourceAction: "approve article",
               };
 

@@ -1,6 +1,7 @@
 type metaData = {
   resource: string,
   resourceID: string,
+  resourceVersion: string,
   resourceAction: string,
 };
 

@@ -23,11 +23,11 @@ const PublishedArticles = ({
   <Container>
     {articles.map(article => (
       <SubmittedArticle
+        key={`${article.article_id}-${article.article_version}`}
         type='published'
         routeChangeAction={routeChangeAction}
         userId={userId}
         ethUsdPrice={ethUsdPrice}
-        key={article.article_id}
         article={article}
       />
     ))}

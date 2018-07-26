@@ -103,13 +103,15 @@ export const Avatar = styled.img`
 
 const CategoryBadge = props => (
   <CategoryBadge.Container {...props}>
-    <CategoryBadge.Avatar
-      avatarWidth={props.avatarWidth}
-      avatarHeight={props.avatarHeight}
-      src={`/static/images/${props.category}/avatar.png`}
-      alt='logo'
-    />
-    <CategoryBadge.Name>{props.category}</CategoryBadge.Name>
+    {props.category && (
+      <CategoryBadge.Avatar
+        avatarWidth={props.avatarWidth}
+        avatarHeight={props.avatarHeight}
+        src={`/static/images/${props.category}/avatar.png`}
+        alt='logo'
+      />
+    )}
+    <CategoryBadge.Name>{props.category || props.username || 'Unknown Writer'}</CategoryBadge.Name>
   </CategoryBadge.Container>
 )
 

@@ -129,6 +129,7 @@ let publishArticleEpic =
               let publishArticleMetaData = {
                 resource: "article",
                 resourceID,
+                resourceVersion: string_of_int(article_version),
                 resourceAction: "publish article",
               };
 

@@ -192,8 +192,10 @@ export default ({
         category={category}
         theme={theme}
       >
-        <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />
-        <SubmittedArticle.CategoryName>{category}</SubmittedArticle.CategoryName>
+        {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
+        <SubmittedArticle.CategoryName>
+          {category || (user && user.username) || 'Unknown Writer'}
+        </SubmittedArticle.CategoryName>
       </SubmittedArticle.CategoryBadge>
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
         <SubmittedArticle.Content type={type}>

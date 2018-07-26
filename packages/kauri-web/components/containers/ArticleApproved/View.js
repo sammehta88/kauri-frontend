@@ -34,22 +34,26 @@ const ArticleApprovedActionButtons = ActionButtons.extend`
 
 class ArticleApproved extends React.Component<Props> {
   render () {
-    const { data, routeChangeAction, isPublished } = this.props
+    const { data, routeChangeAction, isPublished, type } = this.props
     return (
       <Container>
         <ArticleApprovedConfirmationLogoBadge
           chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
-          confirmationMessage={`Article ${isPublished ? 'Published' : 'Approved'}`}
+          confirmationMessage={`Article ${
+            type === 'updated' ? 'Updated' : type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'
+          }`}
         />
         <ConfirmationSubject>
           {data && typeof data.getArticle === 'object' && data.getArticle.subject}
         </ConfirmationSubject>
         <ArticleApprovedActionButtons>
           <ActionButton
-            action={() => routeChangeAction('/approvals')}
+            action={() =>
+              routeChangeAction(type === 'drafted' || type === 'updated' ? '/profile?tab=my articles' : '/approvals')
+            }
             height={40}
             width={183}
-            label={'Back to Approvals'}
+            label={type === 'drafted' || type === 'updated' ? 'My Articles' : 'Back to Approvals'}
             type='alt'
           />
         </ArticleApprovedActionButtons>

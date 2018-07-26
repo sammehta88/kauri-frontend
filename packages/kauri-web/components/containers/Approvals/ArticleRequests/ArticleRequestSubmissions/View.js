@@ -43,18 +43,18 @@ class ArticleRequestSubmissions extends React.Component<Props> {
           content.map(
             (article, index) =>
               index !== content.length - 1 ? (
-              [
-                <Approval
-                  routeChangeAction={routeChangeAction}
-                  approveArticleAction={approveArticleAction}
-                  key={article.article_id}
-                  {...article}
+                [
+                  <Approval
+                    key={`${article.article_id}-${article.article_version}`}
+                    routeChangeAction={routeChangeAction}
+                    approveArticleAction={approveArticleAction}
+                    {...article}
                   />,
-                <Divider key={article.article_id + 'divider'} />,
-              ]
+                  <Divider key={article.article_id + 'divider'} />,
+                ]
               ) : (
                 <Approval
-                  key={article.article_id}
+                  key={`${article.article_id}-${article.article_version}`}
                   routeChangeAction={routeChangeAction}
                   approveArticleAction={approveArticleAction}
                   {...article}

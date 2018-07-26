@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { Link } from '../../../../../routes'
-import { CategoryBadge, CategoryAvatar, Subject } from '../../../OpenRequests/OpenRequest'
+import { CategoryBadge, CategoryAvatar, CategoryName, Subject } from '../../../OpenRequests/OpenRequest'
 import CategoryBreadcrumbs from '../../../../common/CategoryBreadcrumbs'
 import {
   SubmittedArticle as Container,
@@ -65,6 +65,7 @@ export default ({
   text,
   date_updated,
   ethUsdPrice,
+  user,
 }: Props) => (
   <CategoryArticle>
     <TopicArticleBadge
@@ -72,7 +73,8 @@ export default ({
       category={category}
       theme={theme}
     >
-      <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />
+      {!category && <CategoryName>{(user && user.username) || 'Unknown Writer'}</CategoryName>}
+      {category && <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />}
     </TopicArticleBadge>
     <Details categoryArticle>
       <Header>

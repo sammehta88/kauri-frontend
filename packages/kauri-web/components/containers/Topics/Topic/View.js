@@ -152,7 +152,9 @@ const renderArticles = (
         articles.content.length > 0 && <RecentArticles.Header>RECENT ARTICLES</RecentArticles.Header>}
       <RecentArticles.ArticlesContainer>
         {articles && articles.content && articles.content.length > 0 ? (
-          articles.content.map(article => <RecentArticle key={article.article_id} {...article} />)
+          articles.content.map(article => (
+            <RecentArticle key={`${article.article_id}-${article.article_version}`} {...article} />
+          ))
         ) : (
           <p>No recent articles.</p>
         )}

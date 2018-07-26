@@ -88,8 +88,8 @@ export const getArticle = gql`
 `
 
 export const getArticleForAnalytics = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
       article_version
       user_id
@@ -112,8 +112,8 @@ export const getArticleForAnalytics = gql`
 `
 
 export const editArticle = gql`
-  mutation editArticle($article_id: String, $text: String, $subject: String) {
-    editArticle(id: $article_id, text: $text, subject: $subject) {
+  mutation editArticle($article_id: String, $article_version: Int, $text: String, $subject: String) {
+    editArticle(id: $article_id, article_version: $article_version, text: $text, subject: $subject) {
       hash
     }
   }
@@ -147,6 +147,10 @@ export const searchApprovedArticles = gql`
           highlight_to
           anchor_key
           focus_key
+        }
+        user {
+          user_id
+          username
         }
       }
     }

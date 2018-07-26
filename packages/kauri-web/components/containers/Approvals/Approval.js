@@ -79,7 +79,7 @@ const Username = styled.strong`
 `
 
 export default (props: Props) => (
-  <Approval key={props.article_id}>
+  <Approval key={`${props.article_id}-${props.article_version}`}>
     <Approval.CategoryBadge
       onClick={() => props.routeChangeAction(`/article/${props.article_id}/article-version/${props.article_version}`)}
       category={props.category}

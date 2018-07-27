@@ -2,7 +2,8 @@ open Main;
 
 let _module = [%bs.raw "module"];
 
-let myStory = createStory(~title="Share", ~decorators=[], ~_module, ());
+let myStory =
+  createStory(~title="Share Buttons", ~decorators=[], ~_module, ());
 
 myStory.add("Facebook", () =>
   <ReactShare.FacebookShareButton

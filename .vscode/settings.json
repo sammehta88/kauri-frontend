@@ -16,5 +16,12 @@
   ],
   "reason.path.bsb": "./packages/kauri-components/node_modules/bs-platform/lib/bsb.exe",
   "reason.path.ocamlmerlin": "ocamlmerlin",
-  "editor.formatOnSave": true,
+  "reason_language_server.location": "./bin.native",
+  "reason_language_server.cross_file_as_you_type": true,
+  "reason_language_server.show_debug_errors": true,
+  "reason_language_server.opens_codelens": true,
+  "reason_language_server.dependencies_codelens": true,
+  "reason_language_server.per_value_codelens": true,
+  "reason_language_server.reloadOnChange": true,
+  "editor.codeLens": true
 }

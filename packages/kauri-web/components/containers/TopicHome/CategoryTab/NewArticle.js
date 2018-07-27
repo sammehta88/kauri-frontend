@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import styled, { css } from 'styled-components'
 import moment from 'moment'
-import { Subject } from '../../OpenRequests/OpenRequest'
+import { Subject, CategoryName } from '../../OpenRequests/OpenRequest'
 import DescriptionRow from '../../../common/DescriptionRow'
 import { Link } from '../../../../routes'
 import theme from '../../../../lib/theme-config'
@@ -25,7 +25,7 @@ const Thumbnail = styled.div`
   background-color: #fff;
   height: 170px;
   border-radius: 4px;
-  border: 1px solid ${props => props.theme[props.category].borderColor};
+  border: 1px solid ${props => props.theme[props.category] && props.theme[props.category].borderColor};
   cursor: pointer;
   margin-bottom: 7px;
   :hover {
@@ -82,14 +82,17 @@ const Content = styled.div`
 export default (props: Props) =>
   typeof props.date_updated === 'string' ? (
     <NewArticleContainer>
-      <Link route={`/article/${props.article_id}`}>
+      <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
         <Thumbnail theme={theme} category={props.category}>
-          <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
+          {!props.category && <CategoryName>{(props.user && props.user.username) || 'Unknown Writer'}</CategoryName>}
+          {props.category && (
+            <Avatar avatarWidth={70} avatarHeight={70} src={`/static/images/${props.category}/avatar.png`} alt='logo' />
+          )}
         </Thumbnail>
       </Link>
       <RestrictToTwoLines>
-        <Link route={`/article/${props.article_id}`}>
-          <Subject href={`/article/${props.article_id}`} type='topicHomepage'>
+        <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
+          <Subject href={`/article/${props.article_id}/article-version/${props.article_version}`} type='topicHomepage'>
             {props.subject}
           </Subject>
         </Link>
@@ -109,15 +112,31 @@ export default (props: Props) =>
         avatarWidth='52'
         theme={theme}
         category={props.category}
-        onClick={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)}
+        username={props.user && props.user.username}
+        onClick={() =>
+          props.routeChangeAction(
+            `/article/${props.data.searchArticles.content[0].article_id}/article-version/${
+              props.data.searchArticles.content[0].article_version
+            }`
+          )
+        }
       />
       <Details
         sub_category={props.sub_category}
         category={props.category}
         submitted={props.data.searchArticles.content[0].date_updated}
       />
-      <Link route={`/article/${props.data.searchArticles.content[0].article_id}`}>
-        <Subject href={`/article/${props.data.searchArticles.content[0].article_id}`} type='topicHomepage'>
+      <Link
+        route={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
+          props.data.searchArticles.content[0].article_version
+        }`}
+      >
+        <Subject
+          href={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
+            props.data.searchArticles.content[0].article_version
+          }`}
+          type='topicHomepage'
+        >
           {props.data.searchArticles.content[0].subject}
         </Subject>
       </Link>

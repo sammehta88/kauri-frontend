@@ -31,17 +31,23 @@ type publishArticleAction = {
 let publishArticleAction =
     (payload: publishArticlePayload)
     : publishArticleAction =>
-  publishArticleAction(~type_="publish_ARTICLE", ~payload);
+  publishArticleAction(~type_="PUBLISH_ARTICLE", ~payload);
 
 [@bs.module "../../../lib/generate-approve-article-hash.js"]
 /* (content_hash) => "" */
 external convertIpfsHash : string => string = "convertIpfsHash";
 
+type rs;
+
+[@bs.send] external _toString : (rs, string) => string = "toString";
+
+let toHexString = rs => _toString(rs, "hex");
+
 [@bs.deriving abstract]
 type signatureParameters = {
-  r: string,
-  s: string,
   v: string,
+  r: rs,
+  s: rs,
 };
 [@bs.module "ethereumjs-util"]
 /* Article signature => signature decomposed */
@@ -61,7 +67,8 @@ let publishArticleEpic =
     |. ofType("PUBLISH_ARTICLE")
     |. switchMap(action => {
          let apolloClient = dependencies |. apolloClientGet;
-         /* let subscriber = dependencies |. subscribeToOnchainEvent; */
+         let getGasPrice = dependencies |. getGasPriceGet;
+         let subscriber = dependencies |. subscribeToOnchainEvent;
 
          let resourceID = action |. payloadGet |. article_idGet;
          let article_version = action |. payloadGet |. article_versionGet;
@@ -76,10 +83,15 @@ let publishArticleEpic =
            };
          let contributor = action |. payloadGet |. user_idGet;
          let convertedIPFSHash = convertIpfsHash(content_hash);
+         Js.log(convertedIPFSHash);
          let signatureParams = fromRpcSig(signature);
+         Js.log(signatureParams);
          let signatureV = signatureParams |. vGet;
-         let signatureR = signatureParams |. rGet;
-         let signatureS = signatureParams |. sGet;
+         Js.log(signatureV);
+         let signatureR = "0x" ++ (signatureParams |. rGet |. toHexString);
+         Js.log(signatureR);
+         let signatureS = "0x" ++ (signatureParams |. sGet |. toHexString);
+         Js.log(signatureS);
          /* let resourceID = "a38f4088c7c04e449644d6f25e28bd49";
             let article_version = 1;
             let category = "kauri";
@@ -92,48 +104,43 @@ let publishArticleEpic =
          let publishArticle =
            kauriCoreDeployedContract |. KauriCore.publishArticle;
 
-         fromPromise(
-           publishArticle(
-             resourceID,
-             article_version,
-             request_id,
-             convertedIPFSHash,
-             category,
-             contributor,
-             signatureV,
-             signatureR,
-             signatureS,
-             accounts[0],
-           ),
-         )
+         fromPromise(getGasPrice())
+         |. mergeMap(gasPrice =>
+              publishArticle(
+                resourceID,
+                article_version,
+                request_id,
+                convertedIPFSHash,
+                category,
+                contributor,
+                signatureV,
+                signatureR,
+                signatureS,
+                accounts[0],
+                gasPrice,
+              )
+              |. fromPromise
+            )
          |. tap(transactionHash => {
               Js.log(transactionHash);
               let dispatchAction = store |. ReduxObservable.Store.dispatch;
               open App_Module;
-              let notificationType = notificationTypeToJs(`Success);
-              let showPublishArticleNotificationPayload =
-                showNotificationPayload(
-                  ~notificationType,
-                  ~message="Article published",
-                  ~description=
-                    "Your article is now published and verified by "
-                    ++ String.capitalize(category)
-                    ++ "!",
-                );
-
-              let showPublishArticleNotificationAction =
-                showNotificationAction(showPublishArticleNotificationPayload);
 
               let publishArticleMetaData = {
                 resource: "article",
                 resourceID,
+                resourceVersion: string_of_int(article_version),
                 resourceAction: "publish article",
               };
 
               dispatchAction(
                 `RouteChange(
                   routeChangeAction(
-                    route(~slug=resourceID, ~routeType=ArticlePublished),
+                    route(
+                      ~slug1=ArticleId(resourceID),
+                      ~slug2=ArticleVersionId(article_version),
+                      ~routeType=ArticlePublished,
+                    ),
                   ),
                 ),
               );
@@ -150,7 +157,28 @@ let publishArticleEpic =
                   ),
                 ),
               );
-              transactionHash;
+            })
+         |. flatMap(transactionHash =>
+              fromPromise(subscriber(transactionHash, `ArticlePublished))
+            )
+         |. tap(response => Js.log(response))
+         |. tap(_ => apolloClient##resetStore())
+         |. mergeMap(_ => {
+              open App_Module;
+              let notificationType = notificationTypeToJs(`Success);
+              let showPublishArticleNotificationPayload =
+                showNotificationPayload(
+                  ~notificationType,
+                  ~message="Article published",
+                  ~description=
+                    "Your article is now published and verified by "
+                    ++ String.capitalize(category)
+                    ++ "!",
+                );
+
+              showPublishArticleNotificationPayload
+              |. showNotificationAction
+              |. of1;
             })
          |. catch(err => {
               Js.log(err);

@@ -22,7 +22,7 @@ type web3PersonalSign;
 
 type personalSign = string => Js.Promise.t(string);
 
-type getGasPrice;
+type getGasPrice = unit => Js.Promise.t(int);
 
 type driverJS;
 
@@ -46,7 +46,40 @@ type dependencies = {
   driverJS,
 };
 
-[@bs.splice] [@bs.send]
+module OffchainEvent = {
+  [@bs.deriving abstract]
+  type submitArticle = {
+    id: string,
+    version: int,
+  };
+
+  type offchainEventResponseData;
+
+  [@bs.get]
+  external submitArticleResponseGet :
+    offchainEventResponseData => submitArticle =
+    "command_output";
+
+  [@bs.deriving abstract]
+  type response = {data: offchainEventResponseData};
+};
+
+[@bs.send]
 external subscribeToOffchainEvent :
-  (dependencies, array(string)) => Js.Promise.t(string) =
+  (dependencies, string) => Js.Promise.t(OffchainEvent.response) =
   "apolloSubscriber";
+
+[@bs.deriving jsConverter]
+type smartContractEvent = [ | [@bs.as "ArticlePublished"] `ArticlePublished];
+
+[@bs.send]
+external _subscribeToOnchainEvent :
+  (dependencies, string, string) => Js.Promise.t(string) =
+  "apolloSubscriber";
+
+let subscribeToOnchainEvent = (dependencies, hash, eventFilter) =>
+  _subscribeToOnchainEvent(
+    dependencies,
+    hash,
+    smartContractEventToJs(eventFilter),
+  );

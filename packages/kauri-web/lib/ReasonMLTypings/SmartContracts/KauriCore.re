@@ -1,7 +1,13 @@
-type deployedContract;
+type publishArticle;
+[@bs.deriving abstract]
+type deployedContract = {publishArticle};
 
 [@bs.deriving abstract]
-type fromAccount = {from: string};
+type transactionOptions = {
+  from: string,
+  gas: int,
+  gasPrice: int,
+};
 
 /*
  articleId,
@@ -18,7 +24,7 @@ type fromAccount = {from: string};
 [@bs.send]
 external _publishArticle :
   (
-    deployedContract,
+    publishArticle,
     string,
     int,
     string,
@@ -28,10 +34,10 @@ external _publishArticle :
     string,
     string,
     string,
-    fromAccount
+    transactionOptions
   ) =>
   Js.Promise.t(string) =
-  "publishArticle";
+  "sendTransaction";
 
 let publishArticle =
     (
@@ -46,10 +52,14 @@ let publishArticle =
       signatureR,
       signatureS,
       account,
+      gasPrice,
     ) => {
-  let fromAccount = fromAccount(~from=account);
+  let transactionOptions =
+    transactionOptions(~from=account, ~gas=250000, ~gasPrice);
+
+  /* [%debugger]; */
   _publishArticle(
-    deployedContract,
+    deployedContract |. publishArticleGet,
     articleID,
     articleVersion,
     requestID,
@@ -59,6 +69,6 @@ let publishArticle =
     signatureV,
     signatureR,
     signatureS,
-    fromAccount,
+    transactionOptions,
   );
 };

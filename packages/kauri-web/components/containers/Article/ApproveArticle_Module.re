@@ -144,23 +144,25 @@ let approveArticleEpic =
               | _ => raise(NoResponseData)
               };
             })
-         |. mergeMap(hash => fromPromise(subscriber([|hash|])))
-         |. mergeMap(_hash => {
-              let getArticleQuery =
-                Article_Queries.GetArticle.make(~article_id=resourceID, ());
-              let getArticleQueryMethod = {
-                "query": Article_Queries.GetArticleQuery.graphqlQueryAST,
-                "variables": getArticleQuery##variables,
-                "fetchPolicy": Js.Nullable.return("network-only"),
-              };
-
-              fromPromise(apolloClient##query(getArticleQueryMethod));
-            })
-         |. flatMap(_x => {
+         |. flatMap(hash => fromPromise(subscriber(hash)))
+         |. tap(_ => apolloClient##resetStore())
+         |. map(
+              (
+                offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
+              ) =>
+              ReduxObservable.Dependencies.OffchainEvent.(
+                dataGet(offchainEventResponse)
+                |. submitArticleResponseGet
+                |. versionGet
+              )
+            )
+         |. flatMap(articleVersion => {
               open App_Module;
+
               let approveArticleMetaData = {
                 resource: "article",
                 resourceID,
+                resourceVersion: string_of_int(articleVersion),
                 resourceAction: "approve article",
               };
 
@@ -188,7 +190,11 @@ let approveArticleEpic =
                 trackApproveArticleAction,
                 showApproveArticleNotificationAction,
                 routeChangeAction(
-                  route(~slug=resourceID, ~routeType=ArticleApproved),
+                  route(
+                    ~slug1=ArticleId(resourceID),
+                    ~slug2=ArticleVersionId(article_version),
+                    ~routeType=ArticleApproved,
+                  ),
                 ),
               );
             })

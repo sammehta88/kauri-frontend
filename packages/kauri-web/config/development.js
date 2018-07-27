@@ -8,6 +8,7 @@ module.exports = {
   gethBlockchain: '35.231.60.112:8545',
   KauriCoreArtifact: '../../../../flow/smart-contracts/build/contracts/KauriCore.json',
   WalletArtifact: '../../../../flow/smart-contracts/build/contracts/Wallet.json',
+  TopicModeratorArtifact: '../../../../flow/smart-contracts/build/contracts/TopicModerator.json',
 }
 
 // module.exports = {

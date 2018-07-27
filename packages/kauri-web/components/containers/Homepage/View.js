@@ -9,15 +9,14 @@ import RecentCategoryArticle from './RecentCategoryArticle'
 import RecentCategoryRequests from './RecentCategoryRequests'
 import TotalArticleBadge from '../TotalArticleBadge'
 import RecentArticlesFeed from './RecentArticlesFeed'
-// import MyComponent from '../../../../kauri-components/components/Hello/Index.bs.js'
 
 type Props = {
   data: {
     searchArticles?: {
-      content: Array<?ArticleDTO>
-    }
+      content: Array<?ArticleDTO>,
+    },
   },
-  routeChangeAction: string => void
+  routeChangeAction: string => void,
 }
 
 const Label = styled.strong`
@@ -123,10 +122,9 @@ class Homepage extends Component<Props> {
   static RecentArticlesFeed = RecentArticlesFeed
   static IntroBanner = TopicsHeader
 
-  render() {
+  render () {
     return (
       <section>
-        {/* <MyComponent /> */}
         <Homepage.IntroBanner />
         <Homepage.NewArticlesContainer>
           <Homepage.NewArticles>
@@ -134,7 +132,7 @@ class Homepage extends Component<Props> {
               this.props.data.searchArticles.content.length > 0 ? (
                 this.props.data.searchArticles.content.map(article => (
                   <Homepage.NewArticle
-                    key={article.article_id}
+                    key={`${article.article_id}-${article.article_version}`}
                     {...article}
                     routeChangeAction={this.props.routeChangeAction}
                   />

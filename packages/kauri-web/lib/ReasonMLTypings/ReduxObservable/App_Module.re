@@ -55,15 +55,33 @@ let showNotificationAction = payload =>
 type routeType =
   | Back
   | ArticleApproved
+  | ArticleDrafted
+  | ArticleSubmitted
   | ArticlePublished;
 
-let route = (~slug: option(string)=?, ~routeType: routeType) =>
-  switch (slug, routeType) {
-  | (Some(slug), ArticleApproved) =>
-    "/article/" ++ slug ++ "/article-approved"
-  | (Some(slug), ArticlePublished) =>
-    "/article/" ++ slug ++ "/article-published"
-  | (None, Back) => "back"
+type slug =
+  | ArticleId(string)
+  | ArticleVersionId(int);
+
+let createRouteURL = (articleId, articleVersion, confirmationRoute) =>
+  "/article/"
+  ++ articleId
+  ++ "/article-version/"
+  ++ string_of_int(articleVersion)
+  ++ confirmationRoute;
+
+let route =
+    (~slug1: option(slug)=?, ~slug2: option(slug)=?, ~routeType: routeType) =>
+  switch (slug1, slug2, routeType) {
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleApproved) =>
+    createRouteURL(x, y, "/article-approved")
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticlePublished) =>
+    createRouteURL(x, y, "/article-published")
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleDrafted) =>
+    createRouteURL(x, y, "/article-drafted")
+  | (Some(ArticleId(x)), Some(ArticleVersionId(y)), ArticleSubmitted) =>
+    createRouteURL(x, y, "/article-submitted")
+  | (None, None, Back) => "back"
   | _ => ""
   };
 

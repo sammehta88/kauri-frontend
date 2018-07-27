@@ -2,6 +2,7 @@ import gql from 'graphql-tag'
 
 export const submitArticle = gql`
   mutation submitArticle(
+    $article_id: String
     $request_id: String
     $text: String
     $subject: String
@@ -11,6 +12,7 @@ export const submitArticle = gql`
     $author_id: String
   ) {
     submitArticle(
+      id: $article_id
       request_id: $request_id
       text: $text
       subject: $subject
@@ -48,8 +50,8 @@ export const commentArticle = gql`
 `
 
 export const getArticle = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
       article_version
       user_id
@@ -59,6 +61,7 @@ export const getArticle = gql`
       date_updated
       text
       tip
+      signature
       status
       subject
       sub_category
@@ -85,9 +88,10 @@ export const getArticle = gql`
 `
 
 export const getArticleForAnalytics = gql`
-  query getArticle($article_id: String) {
-    getArticle(id: $article_id) {
+  query getArticle($article_id: String, $article_version: Int) {
+    getArticle(id: $article_id, article_version: $article_version) {
       article_id
+      article_version
       user_id
       request_id
       date_created
@@ -108,8 +112,8 @@ export const getArticleForAnalytics = gql`
 `
 
 export const editArticle = gql`
-  mutation editArticle($article_id: String, $text: String, $subject: String) {
-    editArticle(id: $article_id, text: $text, subject: $subject) {
+  mutation editArticle($article_id: String, $article_version: Int, $text: String, $subject: String) {
+    editArticle(id: $article_id, article_version: $article_version, text: $text, subject: $subject) {
       hash
     }
   }
@@ -120,11 +124,12 @@ export const searchApprovedArticles = gql`
     searchArticles(
       size: $size
       dir: DESC
-      filter: { full_text: $text, status_in: [APPROVED], category_in: [$category] }
+      filter: { full_text: $text, status_in: [PUBLISHED], category_in: [$category] }
     ) {
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -143,6 +148,10 @@ export const searchApprovedArticles = gql`
           anchor_key
           focus_key
         }
+        user {
+          user_id
+          username
+        }
       }
     }
   }
@@ -150,10 +159,15 @@ export const searchApprovedArticles = gql`
 
 export const globalSearchApprovedCategoryArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $category: String) {
-    searchArticles(size: $size, dir: DESC, filter: { category_in: [$category], status_in: [APPROVED] }) {
+    searchArticles(
+      size: $size
+      dir: DESC
+      filter: { category_in: [$category], status_in: [PUBLISHED], latest_version: true }
+    ) {
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -179,10 +193,11 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [APPROVED] }) {
+    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -211,6 +226,7 @@ export const searchPersonalSubmittedArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: { user_id_eq: $userId }) {
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -237,9 +253,9 @@ export const searchPendingArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: $filter) {
       content {
         article_id
+        article_version
         user_id
         request_id
-        article_version
         date_created
         date_updated
         tip
@@ -264,7 +280,7 @@ export const searchPendingArticles = gql`
 
 export const getTotalArticlesCount = gql`
   query getTotalArticlesCount($category: String) {
-    searchArticles(filter: { category_in: [$category], status_in: [APPROVED] }) {
+    searchArticles(filter: { category_in: [$category], status_in: [PUBLISHED] }) {
       totalElements
     }
   }
@@ -279,8 +295,8 @@ export const totalArticlesCount = gql`
 `
 
 export const rejectArticle = gql`
-  mutation rejectArticle($article_id: String, $rejection_cause: String) {
-    rejectArticle(id: $article_id, rejection_cause: $rejection_cause) {
+  mutation rejectArticle($article_id: String, $article_version: Int, $rejection_cause: String) {
+    rejectArticle(id: $article_id, article_version: $article_version, rejection_cause: $rejection_cause) {
       hash
     }
   }
@@ -291,6 +307,7 @@ export const searchPublishedArticleHistory = gql`
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created

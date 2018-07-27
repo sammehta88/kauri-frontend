@@ -9,6 +9,10 @@
       "subdirs": true
     },
     {
+      "dir": "../kauri-components/components",
+      "subdirs": true
+    },
+    {
       "dir": "lib/ReasonMLTypings",
       "subdirs": true
     },
@@ -25,8 +29,8 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": ["reason-react"],
-  "ppx-flags": ["graphql_ppx/ppx"],
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment"],
+  "ppx-flags": ["graphql_ppx/ppx", "./bs-ppx-css\\ --as-ppx"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3
 }

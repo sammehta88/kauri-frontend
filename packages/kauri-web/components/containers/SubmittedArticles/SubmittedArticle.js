@@ -160,7 +160,6 @@ type Props = {
   userId?: string,
   routeChangeAction: string => void,
   approveArticleAction?: ApproveArticlePayload => void,
-  rejectArticleAction?: string => void,
 }
 
 export default ({
@@ -168,6 +167,7 @@ export default ({
   routeChangeAction,
   article: {
     article_id,
+    article_version,
     date_updated,
     comments,
     date_created,
@@ -184,23 +184,26 @@ export default ({
   categoryTab,
   type,
   approveArticleAction,
-  rejectArticleAction,
 }: Props) => (
   <SubmittedArticle>
     <SubmittedArticle.SubmittedArticleDetails>
       <SubmittedArticle.CategoryBadge
-        onClick={() => routeChangeAction(`/article/${article_id}`)}
+        onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}`)}
         category={category}
         theme={theme}
       >
-        <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />
-        <SubmittedArticle.CategoryName>{category}</SubmittedArticle.CategoryName>
+        {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
+        <SubmittedArticle.CategoryName>
+          {category || (user && user.username) || 'Unknown Writer'}
+        </SubmittedArticle.CategoryName>
       </SubmittedArticle.CategoryBadge>
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
         <SubmittedArticle.Content type={type}>
           <SubmittedArticle.Header>
-            <Link route={`/article/${article_id}`}>
-              <SubmittedArticle.Subject href={`/article/${article_id}`}>{subject}</SubmittedArticle.Subject>
+            <Link route={`/article/${article_id}/article-version/${article_version}`}>
+              <SubmittedArticle.Subject href={`/article/${article_id}/article-version/${article_version}`}>
+                {subject}
+              </SubmittedArticle.Subject>
             </Link>
           </SubmittedArticle.Header>
           <DescriptionRow record={{ text }} />

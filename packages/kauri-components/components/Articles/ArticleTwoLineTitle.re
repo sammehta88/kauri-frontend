@@ -1,3 +1,4 @@
+let hey = MomentRe.(momentNow());
 let component = ReasonReact.statelessComponent("Greeting");
 
 module Styles = {

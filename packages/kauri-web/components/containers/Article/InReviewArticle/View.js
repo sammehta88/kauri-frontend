@@ -14,7 +14,6 @@ type Props =
       data: { getArticle?: ArticleDTO },
       topics?: Array<?string>,
       updateUnsubmittedArticle: () => void,
-      submitFinalisedArticle: () => void,
       approveArticle: () => void,
       toggleModalAction: any,
       rejectArticle: () => void,
@@ -22,6 +21,7 @@ type Props =
       addCommentAction: any,
       deleteArticleComment: any,
       personalUsername: ?string,
+      publishArticle: () => void,
     }
   | any
 
@@ -74,10 +74,10 @@ class InReviewArticle extends React.Component<Props, State> {
           }
           isContributor={props.address === props.data.getArticle.user_id}
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
-          submitFinalisedArticle={props.submitFinalisedArticle}
           approveArticle={props.approveArticle}
           rejectArticle={props.rejectArticle}
           preApproveArticle={props.preApproveArticle}
+          publishArticle={props.publishArticle}
         />
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content

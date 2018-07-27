@@ -19,7 +19,7 @@
   ],
   "package-specs": [
     {
-      "module": "es6",
+      "module": "commonjs",
       "in-source": true
     }
   ],
@@ -28,14 +28,7 @@
   ],
   "suffix": ".bs.js",
   "namespace": true,
-  "bs-dependencies": [
-    "reason-react",
-    "bs-css",
-    "bs-luxon",
-    "vrroom"
-  ],
-  "bsc-flags": [
-    "-bs-super-errors"
-  ],
+  "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment"],
+  "bsc-flags": ["-bs-super-errors"],
   "refmt": 3
 }

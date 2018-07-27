@@ -7,11 +7,11 @@ let myStory = createStory(~title="Tooltip", ~decorators=[], ~_module, ());
 
 myStory.add("Hover with children text", () =>
   <ReactTippy
+    position=`Bottom
     trigger=`Hover
     html={
       <ReactShare.FacebookShareButton
-        url="https://www.facebook.com/donate/1937650849680964/"
-        quote="Kauri">
+        url="https://www.facebook.com/donate/1937650849680964/" quote="Kauri">
         <ReactShare.FacebookIcon />
       </ReactShare.FacebookShareButton>
     }>
@@ -20,11 +20,11 @@ myStory.add("Hover with children text", () =>
 );
 myStory.add("Click with facebook share button", () =>
   <ReactTippy
+    position=`Bottom
     trigger=`Click
     html={
       <ReactShare.FacebookShareButton
-        url="https://www.facebook.com/donate/1937650849680964/"
-        quote="Kauri">
+        url="https://www.facebook.com/donate/1937650849680964/" quote="Kauri">
         <ReactShare.FacebookIcon />
       </ReactShare.FacebookShareButton>
     }>
@@ -34,6 +34,7 @@ myStory.add("Click with facebook share button", () =>
 
 myStory.add("Click with facebook and twitter share button", () =>
   <ReactTippy
+    position=`Bottom
     trigger=`Click
     html={
       <div>

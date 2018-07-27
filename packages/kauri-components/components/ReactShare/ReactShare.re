@@ -24,15 +24,14 @@ module FacebookIcon = {
   let make = children =>
     ReasonReact.wrapJsForReason(
       ~reactClass=facebookShareButton,
-      ~props={"size": 32, "round": true},
+      ~props={"size": 26, "round": true},
       children,
     );
 };
 
 module TwitterShareButton = {
   [@bs.module "react-share"]
-  external twitterShareButton : ReasonReact.reactClass =
-    "TwitterShareButton";
+  external twitterShareButton : ReasonReact.reactClass = "TwitterShareButton";
 
   [@bs.deriving abstract]
   type jsProps = {
@@ -55,7 +54,7 @@ module TwitterIcon = {
   let make = children =>
     ReasonReact.wrapJsForReason(
       ~reactClass=twitterIcon,
-      ~props={"size": 32, "round": true},
+      ~props={"size": 26, "round": true},
       children,
     );
 };
@@ -86,7 +85,7 @@ module LinkedinIcon = {
   let make = children =>
     ReasonReact.wrapJsForReason(
       ~reactClass=linkedInIcon,
-      ~props={"size": 32, "round": true},
+      ~props={"size": 26, "round": true},
       children,
     );
 };

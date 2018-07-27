@@ -10,7 +10,7 @@ module Styles = {
               text-transform: uppercase;
               font-weight: 600;
               line-height: 1.6;
-              margin: 10px;
+              margin: 10px 0px 10px 0;
         }
         |}
       ]

@@ -4,11 +4,9 @@ module Styles = {
       [%css
         {|
            {
-               font-size: 1.2em;
-               text-transform: uppercase;
+               font-size: 20px;
                font-weight: 600;
-               line-height: 1.4;
-               margin: 10px;
+               margin: 6px 0px;
          }
          |}
       ]
@@ -18,5 +16,6 @@ module Styles = {
 let component = ReasonReact.statelessComponent("Heading");
 let make = (~text, _children) => {
   ...component, /* spread the template's other defaults into here  */
-  render: _self => <h3> (ReasonReact.string(text)) </h3>,
+  render: _self =>
+    <h3 className=Styles.heading> (ReasonReact.string(text)) </h3>,
 };

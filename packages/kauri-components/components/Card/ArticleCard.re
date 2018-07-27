@@ -18,17 +18,52 @@ module Styles = {
       ]
     )
     |> Css.style;
+  let image =
+    Css.(
+      [%css
+        {|
+      {
+        height: 170px;
+        border-top-left-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+    |}
+      ]
+    )
+    |> Css.style;
+
+  let container =
+    Css.([%css {|
+    {
+      padding: 11px 14px 11px 14px;
+  }
+  |}])
+    |> Css.style;
 };
 
-let make = _children => {
+let make =
+    (
+      ~tags,
+      ~date: string,
+      ~title: string,
+      ~content: string,
+      ~imageURL=?,
+      _children,
+    ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <Label text="Posted 3 June 2018 " />
-      <Heading text="This should be a two line heading" />
-      <Paragraph
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-      />
-      <Separator direction="horizontal" />
+      (
+        switch (imageURL) {
+        | Some(string) => <img className=Styles.image src=string />
+        | None => ReasonReact.null
+        }
+      )
+      <div className=Styles.container>
+        <Label text=("Posted " ++ date) />
+        <Heading text=title />
+        <Paragraph text=content />
+        <TagList tags />
+      </div>
     </BaseCard>,
 };

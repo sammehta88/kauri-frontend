@@ -13,7 +13,6 @@ module Styles = {
           border-radius: 4px;
           background-color: #FFFFFF;
           box-shadow: 0 0 6px 0 rgba(0,0,0,0.11);
-          padding: 11px 14px;
       }
       |}
       ]
@@ -24,7 +23,5 @@ module Styles = {
 let make = _children => {
   ...component,
   render: _self =>
-      <div className=Styles.card>
-        (_children |> ReasonReact.array)
-      </div>
+    <div className=Styles.card> (_children |> ReasonReact.array) </div>,
 };

@@ -8,14 +8,18 @@ module Styles = {
           {
             font-size: 14px;
             margin: 10px 0px;
+            max-height: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
         }
         |}
       ]
     )
     |> Css.style;
 };
-let make = (~text, _children) => {
+let make = (~text, ~className=?, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
-    <p className=Styles.paragraph> (ReasonReact.string(text)) </p>,
+    <div className=Styles.paragraph> (ReasonReact.string(text)) </div>,
 };

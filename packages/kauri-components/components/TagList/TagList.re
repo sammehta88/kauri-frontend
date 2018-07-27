@@ -58,10 +58,20 @@ let make = (~tags, _children) => {
                 <div className=Styles.tag key=tag>
                   (ReasonReact.string(String.uppercase(tag)))
                 </div>,
-              tags,
+              Array.sub(tags, 0, 3),
             ),
           )
         )
+        <div className=Styles.tag>
+          (
+            ReasonReact.string(
+              "+"
+              ++ string_of_int(
+                   Array.length(tags) - Array.length(Array.sub(tags, 0, 3)),
+                 ),
+            )
+          )
+        </div>
       </div>
     </div>,
 };

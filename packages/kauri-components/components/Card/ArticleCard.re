@@ -39,15 +39,32 @@ module Styles = {
   }
   |}])
     |> Css.style;
+
+  let footer =
+    Css.(
+      [%css
+        {|{
+          display: flexBox;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }|}
+      ]
+    )
+    |> Css.style;
 };
 
 let make =
     (
-      ~tags,
+      ~tags=?,
       ~date: string,
       ~title: string,
       ~content: string,
       ~imageURL=?,
+      ~username,
+      ~views,
+      ~upvotes,
+      ~profileImage=?,
       _children,
     ) => {
   ...component,
@@ -63,7 +80,26 @@ let make =
         <Label text=("Posted " ++ date) />
         <Heading text=title />
         <Paragraph text=content />
-        <TagList tags />
+        (
+          switch (tags) {
+          | Some(tags) => <TagList tags />
+          | None => ReasonReact.null
+          }
+        )
+        <Separator direction="horizontal" />
+        <div className=Styles.footer>
+          <UserWidgetSmall
+            username
+            profileImage=(
+              switch (profileImage) {
+              | Some(image) => image
+              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+              }
+            )
+          />
+          <CardCounter value=views label="Views" />
+          <CardCounter value=upvotes label="Upvotes" />
+        </div>
       </div>
     </BaseCard>,
 };

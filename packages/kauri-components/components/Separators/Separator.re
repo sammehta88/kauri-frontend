@@ -9,6 +9,8 @@ module Styles = {
             height: 2px;
             background: #f2f2f2;
             width: 100%;
+            margin-top: 10px;
+            margin-bottom: 10px;
         }
         |}
       ]

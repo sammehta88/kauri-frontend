@@ -36,7 +36,7 @@ let make = (~header, children) => {
     <div className=Styles.container>
       <ProfileHeaderLabel header />
       <div className=Styles.badgesContainer>
-        (children |. ReasonReact.arrayToElement)
+        (children |. ReasonReact.array)
       </div>
     </div>,
 };

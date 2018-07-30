@@ -54,3 +54,30 @@ myStory.add("Profile Contributor Badges", () =>
     />
   </ProfileBadges>
 );
+
+myStory.add("Attributions", () =>
+  <Attributions>
+    <ProfileBadges header="Badges">
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/github.svg"
+      />
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/spotify.svg"
+      />
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/linkedin.svg"
+      />
+    </ProfileBadges>
+    <ProfileBadges header="Contributor">
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/github.svg"
+      />
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/spotify.svg"
+      />
+      <ProfileBadge
+        badgeURL="https://unpkg.com/simple-icons@latest/icons/linkedin.svg"
+      />
+    </ProfileBadges>
+  </Attributions>
+);

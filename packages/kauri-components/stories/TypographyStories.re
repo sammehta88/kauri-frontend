@@ -43,3 +43,4 @@ myStory.add("Updated Date", () =>
     dateType=PostedDate.Updated
   />
 );
+myStory.add("Username handle", () => <Username username="@writereyes" />);

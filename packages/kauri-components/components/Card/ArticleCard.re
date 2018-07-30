@@ -1,23 +1,6 @@
 let component = ReasonReact.statelessComponent("ArticleCard");
 
 module Styles = {
-  let card =
-    Css.(
-      [%css
-        {|
-        {
-          display: flexBox;
-          flex-direction: column;
-          padding-top: 11px;
-          padding-bottom: 11px;
-          border-radius: 4px;
-          box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.11);
-          background: rgb(255, 255, 255);
-      }
-      |}
-      ]
-    )
-    |> Css.style;
   let image =
     Css.(
       [%css
@@ -36,6 +19,9 @@ module Styles = {
     Css.([%css {|
     {
       padding: 11px 14px 11px 14px;
+      display: flexBox;
+      flex-direction: column;
+      flex: 1;
   }
   |}])
     |> Css.style;
@@ -52,6 +38,16 @@ module Styles = {
       ]
     )
     |> Css.style;
+
+  let content =
+  Css.(
+    [%css
+      {|{
+        flex: 1;
+      }|}
+    ]
+  )
+  |> Css.style;
 };
 
 let make =
@@ -77,15 +73,17 @@ let make =
         }
       )
       <div className=Styles.container>
-        <Label text=("Posted " ++ date) />
-        <Heading text=title />
-        <Paragraph text=content />
-        (
-          switch (tags) {
-          | Some(tags) => <TagList tags />
-          | None => ReasonReact.null
-          }
-        )
+        <div className=Styles.content>
+          <Label text=("Posted " ++ date) />
+          <Heading text=title />
+          <Paragraph text=content />
+          (
+            switch (tags) {
+            | Some(tags) => <TagList tags />
+            | None => ReasonReact.null
+            }
+          )
+        </div>
         <Separator direction="horizontal" />
         <div className=Styles.footer>
           <UserWidgetSmall

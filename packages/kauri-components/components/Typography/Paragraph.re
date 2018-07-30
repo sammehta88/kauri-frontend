@@ -8,10 +8,6 @@ module Styles = {
           {
             font-size: 14px;
             margin: 10px 0px;
-            max-height: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap
         }
         |}
       ]

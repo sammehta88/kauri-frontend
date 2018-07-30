@@ -76,26 +76,65 @@ let make =
     ) => {
   ...component,
   render: _self =>
-    Vrroom.(
-      <ReactTippy
-        trigger=`Click
-        html={
-          <div className=Styles.tooltipContainer>
-            <ReactShare.LinkedinShareButton
-              url=linkedInURL title=linkedInTitle>
-              <ReactShare.LinkedinIcon />
-            </ReactShare.LinkedinShareButton>
-            <ReactShare.TwitterShareButton url=twitterURL title=twitterTitle>
-              <ReactShare.TwitterIcon />
-            </ReactShare.TwitterShareButton>
-            <ReactShare.FacebookShareButton
-              url=facebookURL quote=facebookQuote>
-              <ReactShare.FacebookIcon />
-            </ReactShare.FacebookShareButton>
-          </div>
-        }
-        position=`Bottom>
-        <ArticleAction svgIcon text="Share" />
-      </ReactTippy>
-    ),
+    <ReactTippy
+      trigger=`Click
+      html={
+        <div className=Styles.tooltipContainer>
+          <ReactShare.LinkedinShareButton url=linkedInURL title=linkedInTitle>
+            <ReactShare.LinkedinIcon />
+          </ReactShare.LinkedinShareButton>
+          <ReactShare.TwitterShareButton url=twitterURL title=twitterTitle>
+            <ReactShare.TwitterIcon />
+          </ReactShare.TwitterShareButton>
+          <ReactShare.FacebookShareButton url=facebookURL quote=facebookQuote>
+            <ReactShare.FacebookIcon />
+          </ReactShare.FacebookShareButton>
+        </div>
+      }
+      position=`Bottom>
+      <ArticleAction svgIcon text="Share" />
+    </ReactTippy>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  linkedInURL: string,
+  linkedInTitle: string,
+  twitterURL: string,
+  twitterTitle: string,
+  facebookURL: string,
+  facebookQuote: string,
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let (
+        linkedInURL,
+        linkedInTitle,
+        twitterURL,
+        twitterTitle,
+        facebookURL,
+        facebookQuote,
+      ) =
+        jsProps
+        |. (
+          linkedInURLGet,
+          linkedInTitleGet,
+          twitterURLGet,
+          twitterTitleGet,
+          facebookURLGet,
+          facebookQuoteGet,
+        );
+      make(
+        ~linkedInURL,
+        ~linkedInTitle,
+        ~twitterURL,
+        ~twitterTitle,
+        ~facebookURL,
+        ~facebookQuote,
+        [||],
+      );
+    },
+  );

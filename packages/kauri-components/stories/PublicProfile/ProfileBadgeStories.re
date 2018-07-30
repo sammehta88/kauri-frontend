@@ -26,3 +26,17 @@ myStory.add("Spotify", () =>
     badgeURL="https://unpkg.com/simple-icons@latest/icons/spotify.svg"
   />
 );
+
+myStory.add("Profile Badges", () =>
+  <ProfileBadges header="Badges">
+    <ProfileBadge
+      badgeURL="https://unpkg.com/simple-icons@latest/icons/github.svg"
+    />
+    <ProfileBadge
+      badgeURL="https://unpkg.com/simple-icons@latest/icons/spotify.svg"
+    />
+    <ProfileBadge
+      badgeURL="https://unpkg.com/simple-icons@latest/icons/linkedin.svg"
+    />
+  </ProfileBadges>
+);

@@ -64,29 +64,20 @@ let svgIcon =
     />
   </svg>;
 
-let make =
-    (
-      ~linkedInURL,
-      ~linkedInTitle,
-      ~twitterURL,
-      ~twitterTitle,
-      ~facebookURL,
-      ~facebookQuote,
-      _children,
-    ) => {
+let make = (~url, ~title, _children) => {
   ...component,
   render: _self =>
     <ReactTippy
       trigger=`Click
       html={
         <div className=Styles.tooltipContainer>
-          <ReactShare.LinkedinShareButton url=linkedInURL title=linkedInTitle>
+          <ReactShare.LinkedinShareButton url title>
             <ReactShare.LinkedinIcon />
           </ReactShare.LinkedinShareButton>
-          <ReactShare.TwitterShareButton url=twitterURL title=twitterTitle>
+          <ReactShare.TwitterShareButton url title>
             <ReactShare.TwitterIcon />
           </ReactShare.TwitterShareButton>
-          <ReactShare.FacebookShareButton url=facebookURL quote=facebookQuote>
+          <ReactShare.FacebookShareButton url quote=title>
             <ReactShare.FacebookIcon />
           </ReactShare.FacebookShareButton>
         </div>
@@ -98,43 +89,15 @@ let make =
 
 [@bs.deriving abstract]
 type jsProps = {
-  linkedInURL: string,
-  linkedInTitle: string,
-  twitterURL: string,
-  twitterTitle: string,
-  facebookURL: string,
-  facebookQuote: string,
+  url: string,
+  title: string,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(
     ~component,
     jsProps => {
-      let (
-        linkedInURL,
-        linkedInTitle,
-        twitterURL,
-        twitterTitle,
-        facebookURL,
-        facebookQuote,
-      ) =
-        jsProps
-        |. (
-          linkedInURLGet,
-          linkedInTitleGet,
-          twitterURLGet,
-          twitterTitleGet,
-          facebookURLGet,
-          facebookQuoteGet,
-        );
-      make(
-        ~linkedInURL,
-        ~linkedInTitle,
-        ~twitterURL,
-        ~twitterTitle,
-        ~facebookURL,
-        ~facebookQuote,
-        [||],
-      );
+      let (url, title) = jsProps |. (urlGet, titleGet);
+      make(~url, ~title, [||]);
     },
   );

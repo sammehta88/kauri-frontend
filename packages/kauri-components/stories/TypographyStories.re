@@ -53,3 +53,9 @@ myStory.add("User title/Blurb", () =>
 myStory.add("PersonalWebsite", () =>
   <PersonalWebsite website="www.personalwebsite.com" />
 );
+myStory.add("Profile Header Label - Badges", () =>
+  <ProfileHeaderLabel header="Badges" />
+);
+myStory.add("Profile Header Label - Contributor", () =>
+  <ProfileHeaderLabel header="Contributor" />
+);

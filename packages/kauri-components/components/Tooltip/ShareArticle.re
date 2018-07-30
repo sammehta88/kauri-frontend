@@ -1,6 +1,18 @@
 let component = ReasonReact.statelessComponent("ShareArticle");
 
 module Styles = {
+  let referenceContainer =
+    Css.(
+      [%css
+        {|
+        {
+          display: flexBox;
+          width: 200px;
+        }
+         |}
+      ]
+      |> style
+    );
   let container =
     Css.(
       [%css
@@ -29,10 +41,10 @@ module Styles = {
         {
           display: flexBox;
           flex-direction: column;
-          padding-top: 5px;
+          padding-top: 10px;
         }
         > div {
-          margin-bottom: 3px;
+          margin-bottom: 5px;
         }
 
     |}
@@ -46,7 +58,7 @@ module Styles = {
         {|
           {
             color: white;
-            font-size: 11px;
+            font-size: 12px;
             font-weight: 500;
           }
       |}
@@ -67,24 +79,26 @@ let svgIcon =
 let make = (~url, ~title, _children) => {
   ...component,
   render: _self =>
-    <ReactTippy
-      trigger=`Click
-      html={
-        <div className=Styles.tooltipContainer>
-          <ReactShare.LinkedinShareButton url title>
-            <ReactShare.LinkedinIcon />
-          </ReactShare.LinkedinShareButton>
-          <ReactShare.TwitterShareButton url title>
-            <ReactShare.TwitterIcon />
-          </ReactShare.TwitterShareButton>
-          <ReactShare.FacebookShareButton url quote=title>
-            <ReactShare.FacebookIcon />
-          </ReactShare.FacebookShareButton>
-        </div>
-      }
-      position=`Bottom>
-      <ArticleAction svgIcon text="Share" />
-    </ReactTippy>,
+    <div className=Styles.referenceContainer>
+      <ReactTippy
+        trigger=`Click
+        html={
+          <div className=Styles.tooltipContainer>
+            <ReactShare.LinkedinShareButton url title>
+              <ReactShare.LinkedinIcon />
+            </ReactShare.LinkedinShareButton>
+            <ReactShare.TwitterShareButton url title>
+              <ReactShare.TwitterIcon />
+            </ReactShare.TwitterShareButton>
+            <ReactShare.FacebookShareButton url quote=title>
+              <ReactShare.FacebookIcon />
+            </ReactShare.FacebookShareButton>
+          </div>
+        }
+        position=`Bottom>
+        <ArticleAction svgIcon text="Share" />
+      </ReactTippy>
+    </div>,
 };
 
 [@bs.deriving abstract]

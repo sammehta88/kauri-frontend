@@ -8,6 +8,9 @@ module Styles = {
             {
               display: flexBox;
               align-items: center;
+              justify-content: center;
+              width: 200px;
+              cursor: pointer;
             }
             > :first-child {
               margin-right: 9px;
@@ -26,7 +29,6 @@ module Styles = {
       [%css
         {|
           {
-            color: white;
             font-size: 11px;
             font-weight: 500;
           }

@@ -76,7 +76,7 @@ export default ({
         <Divider style={{ margin: '20px 0' }} />
         <PositiveActionBadge
           type='primary'
-          width={'200px'}
+          width={'210px'}
           onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)}
         >
           Update article

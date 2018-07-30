@@ -64,6 +64,7 @@ class ApprovedArticle extends React.Component<Props, State> {
         <ApprovedArticle.Header {...props.data.getArticle} />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.text}
+          subject={props.data.getArticle && props.data.getArticle.subject}
           article_id={props.data.getArticle && props.data.getArticle.article_id}
           article_version={props.data.getArticle && props.data.getArticle.article_version}
           username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}

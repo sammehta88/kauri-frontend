@@ -13,6 +13,7 @@ import { SubmitArticleFormHeadings, OutlineLabel } from '../../SubmitArticleForm
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
 import { PositiveActionBadge } from '../../../common/ActionButton'
+import ShareArticleButton from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -28,11 +29,13 @@ export default ({
   routeChangeAction,
   article_id,
   article_version,
+  subject,
 }: {
   text?: string,
   username?: ?string,
   routeChangeAction: string => void,
   article_id: string,
+  subject?: string,
   article_version: number,
 }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
@@ -44,13 +47,13 @@ export default ({
   const headingsAvailable =
     typeof editorState === 'object' && editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-          .getBlocksAsArray()
-          .find(contentBlock => contentBlock.toJS().type.includes('header'))
+        .getBlocksAsArray()
+        .find(contentBlock => contentBlock.toJS().type.includes('header'))
       : editorState
-          .getCurrentContent()
-          .getBlocksAsArray()
-          .map(block => block.toJS())
-          .filter(block => block.type === 'header-two').length > 0
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS())
+        .filter(block => block.type === 'header-two').length > 0
 
   return (
     <SubmitArticleFormContent>
@@ -78,6 +81,12 @@ export default ({
         >
           Update article
         </PositiveActionBadge>
+        <ShareArticleButton
+          url={`https://${
+            process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
+          }/article/${article_id}/article-version/${article_version}`}
+          title={subject}
+        />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )

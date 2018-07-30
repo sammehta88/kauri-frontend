@@ -23,7 +23,9 @@
     "bs-moment": "^0.3.0",
     "moment": "2.20.1",
     "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "react-dom": "^16.4.1",
+    "react-share": "^2.2.0",
+    "react-tippy": "^1.2.2"
   },
   "devDependencies": {
     "@esy-ocaml/merlin": "*",

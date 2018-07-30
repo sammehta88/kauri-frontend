@@ -15,3 +15,11 @@ myStory.add("Twitter", () =>
 myStory.add("LinkedIn with height prop", () =>
   <SocialWebsiteIcon height=(Js.Nullable.return("30")) brand="linkedin" />
 );
+
+myStory.add("Social Websites", () =>
+  <SocialWebsites>
+    <SocialWebsiteIcon height=Js.Nullable.null brand="linkedin" />
+    <SocialWebsiteIcon height=Js.Nullable.null brand="twitter" />
+    <PersonalWebsite website="www.personalwebsite.com" />
+  </SocialWebsites>
+);

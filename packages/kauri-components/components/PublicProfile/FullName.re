@@ -9,10 +9,12 @@ module Styles = {
       {
         color: #FFFFFF;
         font-size: 24px;
-        font-weight: 300;
+        font-weight: 500;
         font-style: normal;
         text-decoration: none;
         word-wrap: break-word;
+        margin: 0;
+        margin-bottom: 8px;
       }
       |}
     ]
@@ -21,7 +23,7 @@ module Styles = {
 
 let make = (~fullName, _children) => {
   ...component,
-  render: _self => <span className=Styles.fullName> (fullName |. text) </span>,
+  render: _self => <h2 className=Styles.fullName> (fullName |. text) </h2>,
 };
 
 [@bs.deriving abstract]

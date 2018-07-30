@@ -8,11 +8,12 @@ module Styles = {
       {|
       {
         color: #fff;
-        font-size: 12px;
-        font-weight: 300;
+        font-size: 14px;
+        font-weight: 400;
         font-style: normal;
         text-decoration: none;
         word-wrap: break-word;
+        margin-bottom: 5px;
        }
       |}
     ]

@@ -12,7 +12,9 @@ module Styles = {
         font-weight: 300;
         font-style: normal;
         text-decoration: none;
-        word-wrap: break-word;       }
+        word-wrap: break-word;
+        margin-bottom: 15px;
+      }
       |}
     ]
     |. style;

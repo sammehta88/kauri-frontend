@@ -12,7 +12,13 @@ module Styles = {
           width: 290px;
           border-radius: 4px;
           background-color: #FFFFFF;
-          box-shadow: 0 0 6px 0 rgba(0,0,0,0.11);
+          cursor: pointer;
+          box-shadow: 0 0 4px 0 rgba(0,0,0,0.11);
+          transition-property: "all";
+          transition-duration: 300;
+      }
+      :hover {
+        box-shadow: 0 0 10px 0 rgba(0,0,0,0.22);
       }
       |}
       ]
@@ -20,7 +26,7 @@ module Styles = {
     |> Css.style;
 };
 
-let make = _children => {
+let make = (_children) => {
   ...component,
   render: _self =>
     <div className=Styles.card> (_children |> ReasonReact.array) </div>,

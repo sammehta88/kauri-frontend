@@ -64,7 +64,16 @@ let svgIcon =
     />
   </svg>;
 
-let make = _children => {
+let make =
+    (
+      ~linkedInURL,
+      ~linkedInTitle,
+      ~twitterURL,
+      ~twitterTitle,
+      ~facebookURL,
+      ~facebookQuote,
+      _children,
+    ) => {
   ...component,
   render: _self =>
     Vrroom.(
@@ -73,18 +82,14 @@ let make = _children => {
         html={
           <div className=Styles.tooltipContainer>
             <ReactShare.LinkedinShareButton
-              url="https://www.facebook.com/donate/1937650849680964/"
-              title="Kauri">
+              url=linkedInURL title=linkedInTitle>
               <ReactShare.LinkedinIcon />
             </ReactShare.LinkedinShareButton>
-            <ReactShare.TwitterShareButton
-              url="https://www.facebook.com/donate/1937650849680964/"
-              title="Kauri">
+            <ReactShare.TwitterShareButton url=twitterURL title=twitterTitle>
               <ReactShare.TwitterIcon />
             </ReactShare.TwitterShareButton>
             <ReactShare.FacebookShareButton
-              url="https://www.facebook.com/donate/1937650849680964/"
-              quote="Kauri">
+              url=facebookURL quote=facebookQuote>
               <ReactShare.FacebookIcon />
             </ReactShare.FacebookShareButton>
           </div>

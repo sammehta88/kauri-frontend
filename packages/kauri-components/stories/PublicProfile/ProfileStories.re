@@ -14,8 +14,16 @@ myStory.add("Metadata", () =>
       <FullName fullName="Eric Juta" />
       <Blurb blurb="Frontend Software Engineer at Kauri" />
       <SocialWebsites>
-        <SocialWebsiteIcon height=Js.Nullable.null brand="linkedin" />
-        <SocialWebsiteIcon height=Js.Nullable.null brand="twitter" />
+        <SocialWebsiteIcon
+          socialURL="https://twitter.com/rej156"
+          height=None
+          brand="linkedin"
+        />
+        <SocialWebsiteIcon
+          socialURL="https://twitter.com/rej156"
+          height=None
+          brand="twitter"
+        />
         <PersonalWebsite website="www.personalwebsite.com" />
       </SocialWebsites>
       <Attributions>

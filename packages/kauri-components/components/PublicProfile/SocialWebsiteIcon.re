@@ -1,21 +1,23 @@
 let component = ReasonReact.statelessComponent("SocialWebsiteIcon");
 
 let calcHeight = height =>
-  switch (Js.Nullable.toOption(height)) {
+  switch (height) {
   | Some(height) => height
   | None => "20"
   };
 
-let make = (~brand, ~height, _children) => {
+let make = (~socialURL, ~brand, ~height, _children) => {
   ...component,
   render: _self => {
     let height = calcHeight(height);
-    <img
-      style=(ReactDOMRe.Style.make(~filter="invert(100%)", ()))
-      height
-      width=height
-      src={j|https://unpkg.com/simple-icons@latest/icons/$brand.svg|j}
-    />;
+    <a href=socialURL>
+      <img
+        style=(ReactDOMRe.Style.make(~filter="invert(100%)", ()))
+        height
+        width=height
+        src={j|https://unpkg.com/simple-icons@latest/icons/$brand.svg|j}
+      />
+    </a>;
   },
 };
 
@@ -23,9 +25,20 @@ let make = (~brand, ~height, _children) => {
 type jsProps = {
   brand: string,
   height: Js.Nullable.t(string),
+  socialURL: string,
 };
 
 let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~brand=jsProps |. brandGet, ~height=jsProps |. heightGet, [||])
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let height = Js.Nullable.toOption(jsProps |. heightGet);
+
+      make(
+        ~brand=jsProps |. brandGet,
+        ~height,
+        ~socialURL=jsProps |. socialURLGet,
+        [||],
+      );
+    },
   );

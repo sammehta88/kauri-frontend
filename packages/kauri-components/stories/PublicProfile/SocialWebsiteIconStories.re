@@ -6,20 +6,40 @@ let myStory =
   createStory(~title="Social Website Icon", ~decorators=[], ~_module, ());
 
 myStory.add("Github", () =>
-  <SocialWebsiteIcon height=Js.Nullable.undefined brand="github" />
+  <SocialWebsiteIcon
+    socialURL="https://twitter.com/rej156"
+    height=None
+    brand="github"
+  />
 );
 myStory.add("Twitter", () =>
-  <SocialWebsiteIcon height=Js.Nullable.undefined brand="twitter" />
+  <SocialWebsiteIcon
+    socialURL="https://twitter.com/rej156"
+    height=None
+    brand="twitter"
+  />
 );
 
 myStory.add("LinkedIn with height prop", () =>
-  <SocialWebsiteIcon height=(Js.Nullable.return("30")) brand="linkedin" />
+  <SocialWebsiteIcon
+    socialURL="https://twitter.com/rej156"
+    height=(Some("30"))
+    brand="linkedin"
+  />
 );
 
 myStory.add("Social Websites", () =>
   <SocialWebsites>
-    <SocialWebsiteIcon height=Js.Nullable.null brand="linkedin" />
-    <SocialWebsiteIcon height=Js.Nullable.null brand="twitter" />
+    <SocialWebsiteIcon
+      socialURL="https://twitter.com/rej156"
+      height=None
+      brand="linkedin"
+    />
+    <SocialWebsiteIcon
+      socialURL="https://twitter.com/rej156"
+      height=None
+      brand="twitter"
+    />
     <PersonalWebsite website="www.personalwebsite.com" />
   </SocialWebsites>
 );

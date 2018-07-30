@@ -44,3 +44,9 @@ myStory.add("Updated Date", () =>
   />
 );
 myStory.add("Username handle", () => <Username username="@writereyes" />);
+myStory.add("FullName handle", () => <FullName fullName="Name Surname" />);
+myStory.add("User title/Blurb", () =>
+  <Blurb
+    blurb="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sed cursus purus."
+  />
+);

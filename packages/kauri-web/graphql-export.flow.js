@@ -24,25 +24,35 @@ declare type Query = {
   commentArticle: ?MutationResponse;
   createRequest: ?MutationResponse;
   getRequest: ?RequestDTO;
-  getArticle: ?ArticleDTO;
-  deleteRequestComment: ?MutationResponse;
-  editRequest: ?MutationResponse;
+  getAllCuratedList: ?Array<CuratedListDTO>;
+  createCuratedList: ?MutationResponse;
   searchArticles: ?Page_ArticleDTO;
   deleteArticleComment: ?MutationResponse;
-  storeRequestOwnershipSignature: ?MutationResponse;
-  storeArticleOwnershipSignature: ?MutationResponse;
+  searchCollections: ?Page_CollectionDTO;
+  addResourceToCuratedList: ?MutationResponse;
+  composeCollection: ?MutationResponse;
   searchRequests: ?Page_RequestDTO;
-  upvoteArticle: ?MutationResponse;
   storeArticleValidationSignature: ?MutationResponse;
-  submitArticle: ?MutationResponse;
-  upvoteRequest: ?MutationResponse;
   editArticle: ?MutationResponse;
-  commentRequest: ?MutationResponse;
-  rejectArticle: ?MutationResponse;
   downvoteRequest: ?MutationResponse;
   getRequestComment: ?Array<CommentDTO>;
   approveArticle: ?MutationResponse;
+  getArticle: ?ArticleDTO;
+  removeCuratedList: ?MutationResponse;
+  deleteRequestComment: ?MutationResponse;
+  editRequest: ?MutationResponse;
+  collection: ?CollectionDTO;
+  storeRequestOwnershipSignature: ?MutationResponse;
+  getCuratedList: ?CuratedListDTO;
+  storeArticleOwnershipSignature: ?MutationResponse;
+  removeResourceFromCuratedList: ?MutationResponse;
+  upvoteArticle: ?MutationResponse;
+  submitArticle: ?MutationResponse;
+  upvoteRequest: ?MutationResponse;
+  commentRequest: ?MutationResponse;
+  rejectArticle: ?MutationResponse;
   getArticleComment: ?Array<CommentDTO>;
+  createCollection: ?MutationResponse;
 }
 
 declare type MutationResponse = {
@@ -93,6 +103,41 @@ declare type UserDTO = {
 
 declare type RequestStatus = "CLOSED" | "CREATED" | "EXPIRED" | "FULFILLED" | "IN_MODERATION_PERIOD" | "OPENED" | "REFUNDED";
 
+declare type CuratedListDTO = {
+  date_created: ?any;
+  description: ?string;
+  id: ?string;
+  name: ?string;
+  owner_id: ?string;
+  resources: ?Array<ResourceDTO>;
+}
+
+declare type ResourceDTO = {
+  id: ?string;
+  type: ?ResourceType;
+}
+
+declare type ResourceType = "ARTICLE" | "COLLECTION";
+
+declare type ResourceDTOInput = {
+  id: ?string;
+  type: ?ResourceTypeInput;
+}
+
+declare type ResourceTypeInput = "ARTICLE" | "COLLECTION";
+
+declare type Page_ArticleDTO = {
+  content: ?Array<ArticleDTO>;
+  first: ?boolean;
+  last: ?boolean;
+  number: ?number;
+  numberOfElements: ?number;
+  size: ?number;
+  sort: ?Sort;
+  totalElements: ?any;
+  totalPages: ?number;
+}
+
 declare type ArticleDTO = {
   article_id: ?string;
   article_version: ?number;
@@ -119,8 +164,40 @@ declare type ArticleDTO = {
 
 declare type ArticleStatus = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
 
-declare type Page_ArticleDTO = {
-  content: ?Array<ArticleDTO>;
+declare type Sort = {
+
+}
+
+declare type ArticleFilterInput = {
+  date_created_lt: ?any;
+  user_id_eq: ?string;
+  sub_category_in: ?Array<string>;
+  date_updated_gt: ?any;
+  category_in: ?Array<string>;
+  status_in: ?Array<ArticleStatusInput>;
+  total_contribution_lt: ?number;
+  full_text: ?string;
+  total_contribution_gt: ?number;
+  latest_version: ?boolean;
+  total_vote_lt: ?number;
+  moderator_eq: ?string;
+  date_updated_lt: ?any;
+  total_vote_gt: ?number;
+  article_version_eq: ?number;
+  request_id_eq: ?string;
+  date_created_gt: ?any;
+  article_id_eq: ?string;
+  text_ct: ?string;
+  moderator: ?string;
+  subject_ct: ?string;
+}
+
+declare type ArticleStatusInput = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
+
+declare type DirectionInput = "ASC" | "DESC";
+
+declare type Page_CollectionDTO = {
+  content: ?Array<CollectionDTO>;
   first: ?boolean;
   last: ?boolean;
   number: ?number;
@@ -131,37 +208,37 @@ declare type Page_ArticleDTO = {
   totalPages: ?number;
 }
 
-declare type Sort = {
-
+declare type CollectionDTO = {
+  date_created: ?any;
+  description: ?string;
+  id: ?string;
+  name: ?string;
+  owner_id: ?string;
+  sections: ?Array<SectionDTO>;
 }
 
-declare type ArticleFilterInput = {
+declare type SectionDTO = {
+  articles: ?Array<string>;
+  description: ?string;
+  name: ?string;
+}
+
+declare type CollectionFilterInput = {
   date_created_lt: ?any;
-  user_id_eq: ?string;
-  date_updated_gt: ?any;
-  total_contribution_lt: ?number;
-  full_text: ?string;
-  total_contribution_gt: ?number;
-  latest_version: ?boolean;
-  total_vote_lt: ?number;
-  moderator_eq: ?string;
   date_updated_lt: ?any;
-  total_vote_gt: ?number;
-  category_in: ?Array<string>;
-  sub_category_in: ?Array<string>;
-  article_version_eq: ?number;
-  request_id_eq: ?string;
+  name_ct: ?string;
+  date_updated_gt: ?any;
+  description_ct: ?string;
+  owner_id_eq: ?string;
   date_created_gt: ?any;
-  status_in: ?Array<ArticleStatusInput>;
-  article_id_eq: ?string;
-  text_ct: ?string;
-  moderator: ?string;
-  subject_ct: ?string;
+  full_text: ?string;
 }
 
-declare type ArticleStatusInput = "APPROVED" | "DRAFT" | "IN_REVIEW" | "PUBLISHED" | "REJECTED" | "SUBMITTED";
-
-declare type DirectionInput = "ASC" | "DESC";
+declare type SectionDTOInput = {
+  articles: ?Array<string>;
+  description: ?string;
+  name: ?string;
+}
 
 declare type Page_RequestDTO = {
   content: ?Array<RequestDTO>;
@@ -180,19 +257,19 @@ declare type RequestFilterInput = {
   user_id_eq: ?string;
   total_flag_lt: ?number;
   total_submissions_lt: ?number;
+  sub_category_in: ?Array<string>;
   total_submissions_gt: ?number;
   date_updated_gt: ?any;
+  category_in: ?Array<string>;
   total_contribution_lt: ?number;
   full_text: ?string;
   total_contribution_gt: ?number;
+  status_in: ?Array<RequestStatusInput>;
   total_vote_lt: ?number;
   date_updated_lt: ?any;
   dead_line_lt: ?any;
   total_vote_gt: ?number;
-  category_in: ?Array<string>;
   dead_line_gt: ?any;
-  sub_category_in: ?Array<string>;
-  status_in: ?Array<RequestStatusInput>;
   date_created_gt: ?any;
   total_flag_gt: ?number;
   text_ct: ?string;
@@ -209,12 +286,17 @@ declare type Mutation = {
   downvoteArticle: ?MutationResponse;
   commentArticle: ?MutationResponse;
   createRequest: ?MutationResponse;
+  removeCuratedList: ?MutationResponse;
   submitForReview: ?MutationResponse;
   deleteRequestComment: ?MutationResponse;
+  createCuratedList: ?MutationResponse;
   editRequest: ?MutationResponse;
   deleteArticleComment: ?MutationResponse;
   storeRequestOwnershipSignature: ?MutationResponse;
+  addResourceToCuratedList: ?MutationResponse;
   storeArticleOwnershipSignature: ?MutationResponse;
+  removeResourceFromCuratedList: ?MutationResponse;
+  composeCollection: ?MutationResponse;
   upvoteArticle: ?MutationResponse;
   storeArticleValidationSignature: ?MutationResponse;
   submitArticle: ?MutationResponse;
@@ -224,6 +306,7 @@ declare type Mutation = {
   downvoteRequest: ?MutationResponse;
   rejectArticle: ?MutationResponse;
   approveArticle: ?MutationResponse;
+  createCollection: ?MutationResponse;
 }
 
 /**

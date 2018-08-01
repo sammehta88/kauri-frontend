@@ -27,8 +27,12 @@ module Styles = {
     |> Css.style;
 };
 
-let make = (_children) => {
+let make = children => {
   ...component,
   render: _self =>
-    <div className=Styles.card> (_children |> ReasonReact.array) </div>,
+    ReasonReact.createDomElement(
+      "div",
+      ~props={"key": "1", "className": Styles.card},
+      children,
+    ),
 };

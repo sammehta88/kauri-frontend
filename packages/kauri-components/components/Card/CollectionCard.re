@@ -36,7 +36,7 @@ module Styles = {
           display: flexBox;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
+          justify-content: center;
         }|}
       ]
     )
@@ -63,9 +63,9 @@ let make =
         ~heading="collection",
         ~collectionName,
         ~collectionDescription,
-        ~upvotes,
+        /* ~upvotes, */
         ~articles,
-        ~followers,
+        /* ~followers, */
         ~lastUpdated=?,
         ~curatorImage=?,
       _children,
@@ -93,10 +93,30 @@ let make =
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.footer>
-            <CardCounter value=upvotes label="upvotes" />
+            /* <CardCounter value=upvotes label="upvotes" /> */
             <CardCounter value=articles label="Articles" />
-            <CardCounter value=followers label="Followers" />
+            /* <CardCounter value=followers label="Followers" /> */
         </div>
       </div>
     </BaseCard>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  heading: string,
+  collectionName: string ,
+  collectionDescription: string,
+  /* upvotes: string|int, */
+  articles: string,
+  /* followers: string|int, */
+  lastUpdated: string,
+  /* curatorImage: string */
+};
+
+let default = ReasonReact.wrapReasonForJs(~component, jsProps => {
+  let (heading, collectionName, collectionDescription, articles, lastUpdated) = jsProps |. (headingGet, collectionNameGet, collectionDescriptionGet, articlesGet, lastUpdatedGet);
+  make(
+    ~heading, ~collectionName, ~collectionDescription, ~articles, ~lastUpdated,
+    [||]
+    );
+});

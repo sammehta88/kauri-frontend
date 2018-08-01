@@ -155,8 +155,8 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
         whitespace: true,
       },
     ],
-    defaultValue: (chosenCategory && chosenCategory.toLowerCase()) || (type !== 'request' && null),
-    initialValue: (chosenCategory && chosenCategory.toLowerCase()) || (type !== 'request' && null),
+    defaultValue: chosenCategory && chosenCategory.toLowerCase(),
+    initialValue: chosenCategory && chosenCategory.toLowerCase(),
   })(
     chosenCategory ? (
       <ChosenCategory>{chosenCategory}</ChosenCategory>

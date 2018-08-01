@@ -92,7 +92,7 @@ const UnderlineSpan = styled.span`
 `
 
 export const ChosenCategory = styled.h4`
-  margin-top: 10px;
+  margin-top: 5px;
   margin-left: 11px;
   color: #fff;
   font-size: 12px;

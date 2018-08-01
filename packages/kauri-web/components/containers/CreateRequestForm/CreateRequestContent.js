@@ -22,7 +22,7 @@ const displayNoneCss = css`
 
 export const CreateRequestContent = styled.div`
   display: flex;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding: 0 ${props => props.theme.padding};
   min-height: 70vh;
 `
 
@@ -52,6 +52,10 @@ export const CreateRequestContainer = styled.div`
   ${props => props.type === 'in review article' && inReviewArticleContainerCss};
 `
 
+const isSubmittingOutlineHeaderCss = css`
+  padding-top: 4em;
+`
+
 const outlineHeaderCss = css`
   position: sticky;
   top: 30px;
@@ -61,6 +65,7 @@ const outlineHeaderCss = css`
     overflow: auto;
     max-height: 100vh;
   }
+  ${props => props.isSubmitting && isSubmittingOutlineHeaderCss};
 `
 
 export const CreateRequestDetails = styled.section`

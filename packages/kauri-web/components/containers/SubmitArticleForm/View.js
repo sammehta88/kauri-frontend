@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
+import styled from 'styled-components'
 import { Form } from 'antd'
 import SubmitArticleFormActions from './SubmitArticleFormActions'
 import SubmitArticleFormHeader from './SubmitArticleFormHeader'
 import SubmitArticleFormContent from './SubmitArticleFormContent'
+import { formatMetadata } from './Module'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
-import { formatMetadata } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
 type Props =

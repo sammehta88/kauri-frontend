@@ -252,7 +252,6 @@ const CreateRequestDetails = styled.div`
   > :last-child {
     > * {
       color: #fff;
-      opacity: 0.6;
     }
   }
 `

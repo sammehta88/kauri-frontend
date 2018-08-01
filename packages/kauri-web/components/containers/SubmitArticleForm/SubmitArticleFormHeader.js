@@ -210,7 +210,24 @@ const SubmitArticleFormSubject = ({
   </SubmitArticleFormSubjectContainer>
 )
 
-const SubmitArticleFormStatus = ActionBadge
+const SubmitArticleFormStatus = styled.div`
+  display: flex;
+  margin-left: auto;
+  margin-right: 15px;
+  align-items: center;
+  cursor: pointer;
+  > * {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #fff;
+  }
+  > :nth-child(2) {
+    margin-left: 7.5px;
+  }
+  opacity: ${props => typeof props.status !== 'string' && 0.6};
+`
 
 export default ({
   category,
@@ -236,11 +253,9 @@ export default ({
       isKauriTopicOwner={isKauriTopicOwner}
       metadata={metadata}
     />
-    {Boolean(status) && (
-      <SubmitArticleFormStatus>
-        <strong>STATUS</strong>
-        <span>{status}</span>
-      </SubmitArticleFormStatus>
-    )}
+    <SubmitArticleFormStatus status={status}>
+      <strong>STATUS</strong>
+      <span>{status || 'Not submitted'}</span>
+    </SubmitArticleFormStatus>
   </SubmitArticleFormHeader>
 )

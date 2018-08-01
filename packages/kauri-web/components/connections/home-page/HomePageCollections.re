@@ -96,6 +96,7 @@ let renderCollectionCards = response =>
     content
     |> Js.Array.map(collection =>
          <CollectionCard
+           /* onClick={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)} */
            key=(collection |?? (collection => collection##id))
            collectionName=(collection |?? (collection => collection##name))
            collectionDescription=(

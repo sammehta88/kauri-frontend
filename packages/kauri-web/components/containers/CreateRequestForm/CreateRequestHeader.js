@@ -303,7 +303,7 @@ const CreateRequestTopicActions = ({
           <RequestSubject
             onKeyPress={handleKeyPress}
             maxlength={60}
-            placeholder='Request Title'
+            placeholder='Add Request Title'
             hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
             style={{
               width: 850,

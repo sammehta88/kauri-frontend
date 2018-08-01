@@ -255,7 +255,7 @@ export default ({
     />
     <SubmitArticleFormStatus status={status}>
       <strong>STATUS</strong>
-      <span>{status || 'Not submitted'}</span>
+      <span>{(typeof status === 'string' && status.replace(/_/g, ' ')) || 'Not submitted'}</span>
     </SubmitArticleFormStatus>
   </SubmitArticleFormHeader>
 )

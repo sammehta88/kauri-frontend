@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import TopicsHeader, { TopicsHeader as CategoryHeader } from '../Topics/TopicsHeader'
 import { OpenRequestsHeader } from '../OpenRequests/View'
 import CategoryArticles from '../TopicHome/CategoryTab/CategoryArticles'
 import NewArticle from '../TopicHome/CategoryTab/NewArticle'
@@ -24,18 +23,6 @@ const Label = styled.strong`
   text-transform: uppercase;
 `
 
-const Indicator = CategoryHeader.Indicator.extend`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 96px;
-  width: 96px;
-  border-radius: 4px;
-  background-color: white;
-  margin-left: 0px;
-  > :first-child { margin-bottom: 0px; }
-`
-
 const IndicatorContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,9 +38,6 @@ const IndicatorLink = styled.a`
   font-weight: bold;
 `
 
-const Container = CategoryHeader.Container.extend`
-  height: 231px;
-`
 
 const NewArticlesContainer = styled.section`
   height: 421px;
@@ -102,9 +86,6 @@ const RecentCategoryArticles = styled.section`
 const CategoryArticleContent = styled.section``
 
 class Homepage extends Component<Props> {
-  static Container = Container
-  static Indicator = Indicator
-  static IndicatorContainer = IndicatorContainer
   static IndicatorLink = IndicatorLink
   static Label = Label
   static NewArticles = NewArticles
@@ -120,12 +101,10 @@ class Homepage extends Component<Props> {
   static CategoryArticleBadges = RecentCategoryArticles
   static TotalArticleBadge = TotalArticleBadge
   static RecentArticlesFeed = RecentArticlesFeed
-  static IntroBanner = TopicsHeader
 
   render () {
     return (
       <section>
-        <Homepage.IntroBanner />
         <Homepage.NewArticlesContainer>
           <Homepage.NewArticles>
             {typeof this.props.data.searchArticles === 'object' ? (

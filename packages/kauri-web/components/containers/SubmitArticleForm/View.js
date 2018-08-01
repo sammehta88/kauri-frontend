@@ -246,6 +246,7 @@ class SubmitArticleForm extends React.Component<Props> {
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
+          status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
           subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.subject}
           metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.metadata}
           isKauriTopicOwner={isKauriTopicOwner}

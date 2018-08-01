@@ -55,9 +55,14 @@ const inReviewArticleContainerCss = css`
   flex-direction: column;
 `
 
+const approvedArticleContainerCss = css`
+  padding-top: 2.5em;
+`
+
 export const CreateRequestContainer = styled.div`
   width: 74%;
   ${props => props.type === 'in review article' && inReviewArticleContainerCss};
+  ${props => props.type === 'approved article' && approvedArticleContainerCss};
 `
 
 const isSubmittingOutlineHeaderCss = css`
@@ -65,7 +70,6 @@ const isSubmittingOutlineHeaderCss = css`
 `
 
 const outlineHeaderCss = css`
-  padding-top: 2.5em;
   position: sticky;
   top: 30px;
   max-height: 90vh;
@@ -86,6 +90,7 @@ export const CreateRequestDetails = styled.section`
   > :last-child {
     margin-top: 15px;
   }
+  padding-top: 2.5em;
   ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
   padding-top: ${props => props.type === 'createRequest' && '4em'};

@@ -33,7 +33,7 @@ const handleKeyPress = e => {
   if (e.key === 'Enter') e.preventDefault()
 }
 
-const InputWrapper = styled.div`
+export const InputWrapper = styled.div`
   margin-left: 11px;
   position: relative;
   align-self: auto !important;
@@ -77,7 +77,7 @@ const articleUnderlineSpanCss = css`
   font-size: 26px !important;
 `
 
-const UnderlineSpan = styled.span`
+export const UnderlineSpan = styled.span`
   user-select: none;
   border-top: 3px solid ${props => props.theme.primaryColor};
   position: absolute;
@@ -88,7 +88,7 @@ const UnderlineSpan = styled.span`
   color: transparent;
   overflow: hidden;
   font-size: 12px;
-  ${props => props.type === 'article' && articleUnderlineSpanCss};
+  ${props => (props.type === 'article' || props.type === 'request') && articleUnderlineSpanCss};
 `
 
 export const ChosenCategory = styled.h4`

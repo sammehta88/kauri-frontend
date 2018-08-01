@@ -20,6 +20,14 @@ const displayNoneCss = css`
   display: none;
 `
 
+const RandomLineThatGoesAcrossTheContent = styled.div`
+  width: 100%;
+  height: 48px;
+  left: 0;
+  position: absolute;
+  border-bottom: 1px solid #c8ccd0;
+`
+
 export const CreateRequestContent = styled.div`
   display: flex;
   padding: 0 ${props => props.theme.padding};
@@ -80,6 +88,7 @@ export const CreateRequestDetails = styled.section`
   }
   ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
+  padding-top: ${props => props.type === 'createRequest' && '4em'};
 `
 
 const DetailBadge = Badge.extend`
@@ -215,6 +224,7 @@ export default class extends React.Component {
     return (
       <CreateRequestContent>
         <CreateRequestContainer onClick={() => this.setState({ focused: true })}>
+          <RandomLineThatGoesAcrossTheContent />
           <CreateRequestText
             request={request}
             editorState={editorState}

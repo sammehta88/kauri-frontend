@@ -19,6 +19,11 @@
     {
       "dir": "queries",
       "subdirs": true
+    },
+    {
+      "dir": "__tests__",
+      "subdirs": true,
+      "type": "dev"
     }
   ],
   "package-specs": [
@@ -30,6 +35,7 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment"],
+  "bs-dev-dependencies": ["bs-enzyme", "bs-jest"],
   "ppx-flags": ["graphql_ppx/ppx", "./bs-ppx-css\\ --as-ppx"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3

@@ -52,6 +52,7 @@ export const CreateRequestLabel = styled.span`
 
 const inReviewArticleContainerCss = css`
   display: flex;
+  padding-top: 2.5em;
   flex-direction: column;
 `
 

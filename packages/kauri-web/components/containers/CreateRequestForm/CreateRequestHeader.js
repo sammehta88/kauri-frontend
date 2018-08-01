@@ -37,7 +37,7 @@ export const CreateRequestSecondaryHeader = styled.div`
   background-color: ${props =>
     props.chosenCategory
       ? theme[props.chosenCategory] && theme[props.chosenCategory].primaryColor
-      : props.theme.primaryColor};
+      : props.theme.primaryTextColor};
   ${props => props.type === 'article' && articleHeaderCss};
 `
 

@@ -57,3 +57,25 @@ let make = (~dateType, ~date_field: string, _children) => {
       </div>
     ),
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  dateType: string,
+  date_field: string,
+};
+
+let getDateType = dateType =>
+  switch (dateType) {
+  | "Posted" => Posted
+  | "Updated" => Updated
+  | "FromNow" => FromNow
+  | _ => Posted
+  };
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let (dateType, date_field) = jsProps |. (dateTypeGet, date_fieldGet);
+      make(~dateType=getDateType(dateType), ~date_field, [||]);
+    },
+  );

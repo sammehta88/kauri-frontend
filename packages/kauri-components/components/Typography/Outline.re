@@ -1,5 +1,5 @@
 module Styles = {
-  let container = Css.([%css {| { min-width: 300px; } |}]) |> Css.style;
+  let container = Css.([%css {| { width: 300px; } |}]) |> Css.style;
   let heading =
     Css.(
       [%css

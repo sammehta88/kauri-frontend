@@ -17,7 +17,7 @@ let make = (~title, ~handleClick, _children) => {
     <div className="dummy">
       <div id="header"> <h1> (se(title)) </h1> </div>
       <div id="content">
-        <button id="click-me" onClick=(_ => send(Click))>
+        <button id="click-me" onClick=(_ => handleClick())>
           (se(state.clicked ? "I've been clicked!" : "Click Me!"))
         </button>
         <ul id="list">

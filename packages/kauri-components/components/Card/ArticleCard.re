@@ -100,7 +100,7 @@ let make =
                   (() => {
                     if (process.env.STORYBOOK !== 'true') {
                       var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
-                      return React.createElement(DescriptionRow, { record: { text: content$1, type: 'article card' } }, null);
+                      return React.createElement(DescriptionRow, { record: { text: content$1 }, type: 'article card' }, null);
                     }
                   })()
                 |}

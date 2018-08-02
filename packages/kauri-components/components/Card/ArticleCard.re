@@ -93,7 +93,7 @@ let make =
         <div className=Styles.content>
           <Label text=("Posted " ++ date) />
           <Heading text=title />
-          <Paragraph text=content />
+          <DescriptionRow content />
           (
             switch (tags) {
             | Some(tags) => <TagList tags />

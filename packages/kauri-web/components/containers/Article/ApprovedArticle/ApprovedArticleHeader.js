@@ -9,6 +9,7 @@ import {
 } from '../../CreateRequestForm/CreateRequestHeader'
 import { InReviewArticleStatus as ApprovedArticleStatus } from '../InReviewArticle/InReviewArticleHeader'
 import { ChosenCategory, ForVersion } from '../../SubmitArticleForm/SubmitArticleFormHeader'
+import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import theme from '../../../../lib/theme-config'
 
 export const ArticleSubject = styled.h3`
@@ -80,10 +81,7 @@ export default ({ category, sub_category, date_updated, subject, metadata }: *) 
       chosenSubcategory={sub_category}
     />
     <PullRight>
-      <ApprovedArticleStatus>
-        <span>POSTED</span>
-        <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
-      </ApprovedArticleStatus>
+      <PostedDate dateType='FromNow' date_field={date_updated} />
     </PullRight>
   </ApprovedArticleSecondaryHeader>
 )

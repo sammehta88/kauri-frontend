@@ -23,8 +23,6 @@ myStory.add("Paragraph", () =>
 myStory.add("Label", () =>
   <Label text=(Knobs.text(~label="Text", ~defaultValue="Label Text", ())) />
 );
-myStory.add("Outline Header", () => <OutlineHeader />);
-myStory.add("Outline Headings", () => <OutlineHeadings />);
 myStory.add("Posted From Now", () =>
   <PostedDate
     date_field="2018-07-25T14:28:36.532Z"

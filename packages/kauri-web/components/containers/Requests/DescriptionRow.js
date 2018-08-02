@@ -79,11 +79,11 @@ const MaxThreeLines = styled.div`
 `
 
 const truncateArticleCardCss = css`
+  font-size: 14px;
   line-height: 18px;
   max-height: 230px;
   overflow-y: auto;
   text-overflow: ellipsis;
-  word-break: break-all;
   display: -webkit-box;
   -webkit-line-clamp: 10;
   -webkit-box-orient: vertical;

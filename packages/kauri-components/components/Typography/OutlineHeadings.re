@@ -43,15 +43,20 @@ module Styles = {
     |> Css.style;
 };
 let component = ReasonReact.statelessComponent("OutlineHeading");
-let make = _children => {
+let make = (~headings: array(string), _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <ul className=Styles.list>
-      <li className=Styles.listItem>
-        <span className=Styles.heading> ("hey" |. text) </span>
-      </li>
-      <li className=Styles.listItem>
-        <span className=Styles.heading> ("hey2" |. text) </span>
-      </li>
+      (
+        headings
+        |. Belt.Array.mapWithIndex((index, heading) =>
+             <li
+               key=(heading ++ string_of_int(index))
+               className=Styles.listItem>
+               <span className=Styles.heading> (heading |. text) </span>
+             </li>
+           )
+        |. ReasonReact.array
+      )
     </ul>,
 };

@@ -6,5 +6,7 @@ let myStory =
   createStory(~title="Outline Headings", ~decorators=[], ~_module, ());
 
 myStory.add("Outline Header", () => <OutlineHeader />);
-myStory.add("Outline Headings", () => <OutlineHeadings />);
-myStory.add("Outline", () => <Outline />);
+myStory.add("Outline Headings", () =>
+  <OutlineHeadings headings=[|"hey", "ooh"|] />
+);
+myStory.add("Outline", () => <Outline headings=[|"hey", "wow"|] />);

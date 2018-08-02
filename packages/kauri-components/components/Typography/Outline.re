@@ -14,7 +14,7 @@ module Styles = {
     |> Css.style;
 };
 let component = ReasonReact.statelessComponent("Outline");
-let make = _children => {
+let make = (~headings, _children) => {
   ...component, /* spread the template's other defaults into here  */
-  render: _self => <div> <OutlineHeader /> <OutlineHeadings /> </div>,
+  render: _self => <div> <OutlineHeader /> <OutlineHeadings headings /> </div>,
 };

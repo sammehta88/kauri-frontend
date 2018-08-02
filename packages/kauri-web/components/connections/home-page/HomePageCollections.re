@@ -1,3 +1,13 @@
+[@bs.module]
+external homepage : ReasonReact.reactClass =
+  "../../components/containers/Homepage/View";
+
+[@bs.deriving abstract]
+type jsProps = {routeChangeAction: string => unit};
+
+type action =
+  | Any;
+
 let (|?) = (a, b) =>
   switch (a) {
   | None => None
@@ -72,31 +82,34 @@ module GetCollections = [%graphql
 
 module GetCollectionQuery = ReasonApollo.CreateQuery(GetCollections);
 
-let component = ReasonReact.statelessComponent("HomePageCollections");
+let component = ReasonReact.reducerComponent("HomePageCollections");
 
 let sumArticles = sections =>
   switch (sections) {
   | Some(sections) =>
     Js.Array.reduce(
-      (a, b) => {
-        let hey = b |? (b => b##articles);
-        switch (hey) {
-        | Some(a) => Js.Array.length(a)
+      (_current, next) => {
+        let articles = next |? (next => next##articles);
+        switch (articles) {
+        | Some(articles) => Js.Array.length(articles)
         | None => 0
         };
       },
       0,
       sections,
     )
+  | None => 0
   };
 
-let renderCollectionCards = response =>
+let renderCollectionCards = (~response, ~routeChangeAction) =>
   switch (response##searchCollections |? (x => x##content)) {
   | Some(content) =>
     content
     |> Js.Array.map(collection =>
          <CollectionCard
-           /* onClick={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)} */
+           collectionId=(collection |?? (x => x##id))
+           changeRoute=routeChangeAction
+           /* changeRoute={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)} */
            key=(collection |?? (collection => collection##id))
            collectionName=(collection |?? (collection => collection##name))
            collectionDescription=(
@@ -112,8 +125,12 @@ let renderCollectionCards = response =>
   | None => <p> ("No collections found boo" |. ReasonReact.string) </p>
   };
 
-let make = _children => {
+let make = (~routeChangeAction, _children) => {
   ...component,
+  reducer: (action, state) =>
+    switch (action) {
+    | Any => ReasonReact.Update(state)
+    },
   render: _self => {
     let collectionQuery = GetCollections.make(~size=4, ());
     <GetCollectionQuery variables=collectionQuery##variables>
@@ -128,7 +145,7 @@ let make = _children => {
                  <h1 className=Styles.sectionTitle>
                    (ReasonReact.string("Kauri Collections"))
                  </h1>
-                 (renderCollectionCards(response))
+                 (renderCollectionCards(~response, ~routeChangeAction))
                </div>
              }
          )
@@ -136,4 +153,9 @@ let make = _children => {
   },
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make());
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~routeChangeAction=jsProps |. routeChangeActionGet, [||])
+  );
+
+/* make(~user=jsProps, [||]) */

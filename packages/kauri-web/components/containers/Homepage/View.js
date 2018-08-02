@@ -27,8 +27,8 @@ class Homepage extends Component<Props> {
     return (
       <section>
         <Homepage.ContentContainer>
-          <HomePageCollections />
-          <HomePageArticles />
+          <HomePageCollections routeChangeAction={this.props.routeChangeAction} />
+          <HomePageArticles routeChangeAction={this.props.routeChangeAction} />
         </Homepage.ContentContainer>
       </section>
     )

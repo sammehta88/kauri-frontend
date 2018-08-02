@@ -71,12 +71,23 @@ let make =
       /* ~followers, */
       ~lastUpdated=?,
       ~curatorImage=?,
+      ~changeRoute=?,
+      ~collectionId: string,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=Styles.collectionCardContainer>
+      <div
+        onClick=(
+          _ =>
+            switch (changeRoute) {
+            | Some(changeRoute) =>
+              changeRoute({j|/collection/$collectionId|j})
+            | None => ()
+            }
+        )
+        className=Styles.collectionCardContainer>
         <Label text=heading />
         <div className=Styles.collectionCardContent>
           <Heading text=collectionName />
@@ -113,34 +124,38 @@ type jsProps = {
   /* followers: string|int, */
   lastUpdated: string,
   /* curatorImage: string */
+  changeRoute: string => unit,
 };
 
-let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    jsProps => {
-      let (
-        heading,
-        collectionName,
-        collectionDescription,
-        articles,
-        lastUpdated,
-      ) =
-        jsProps
-        |. (
-          headingGet,
-          collectionNameGet,
-          collectionDescriptionGet,
-          articlesGet,
-          lastUpdatedGet,
-        );
-      make(
-        ~heading,
-        ~collectionName,
-        ~collectionDescription,
-        ~articles,
-        ~lastUpdated,
-        [||],
-      );
-    },
-  );
+/* let default =
+   ReasonReact.wrapReasonForJs(
+     ~component,
+     jsProps => {
+       let (
+         heading,
+         collectionName,
+         collectionDescription,
+         articles,
+         lastUpdated,
+         changeRoute,
+       ) =
+         jsProps
+         |. (
+           headingGet,
+           collectionNameGet,
+           collectionDescriptionGet,
+           articlesGet,
+           lastUpdatedGet,
+           changeRouteGet,
+         );
+       make(
+         ~heading,
+         ~collectionName,
+         ~collectionDescription,
+         ~articles,
+         ~lastUpdated,
+         ~changeRoute,
+         [||],
+       );
+     },
+   ); */

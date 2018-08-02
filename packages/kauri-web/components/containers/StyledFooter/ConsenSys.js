@@ -33,7 +33,7 @@ const PrivacyPolicy = styled(ConsenSysLogoIcon)`
   font-size: 10px;
 `
 
-const TermsOfService = PrivacyPolicy.extend`
+const TermsOfService = styled(PrivacyPolicy)`
   margin-left: 0px;
 `
 

@@ -1,3 +1,9 @@
+[@bs.module]
+external homepage : ReasonReact.reactClass =
+  "../../components/containers/Homepage/View";
+
+[@bs.deriving abstract]
+type jsProps = {routeChangeAction: string => unit};
 let (|?) = (a, b) =>
   switch (a) {
   | None => None
@@ -11,6 +17,16 @@ let (|??) = (a, b) =>
     switch (b(a)) {
     | Some(a) => a
     | None => ""
+    }
+  };
+
+let (|???) = (a, b) =>
+  switch (a) {
+  | None => 0
+  | Some(a) =>
+    switch (b(a)) {
+    | Some(a) => a
+    | None => 0
     }
   };
 
@@ -48,6 +64,7 @@ module GetCollections = [%graphql
         searchArticles (filter: { status_in: [PUBLISHED], latest_version: true }) {
             content {
                 article_id
+                article_version
                 subject
                 text
                 date_created
@@ -67,12 +84,15 @@ module GetArticlesQuery = ReasonApollo.CreateQuery(GetCollections);
 
 let component = ReasonReact.statelessComponent("HomePageArticles");
 
-let renderArticleCards = response =>
+let renderArticleCards = (~response, ~routeChangeAction) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     content
     |> Js.Array.map(article =>
          <ArticleCard
+           articleId=(article |?? (x => x##article_id))
+           articleVersion=(article |??? (x => x##article_version))
+           changeRoute=routeChangeAction
            key=(article |?? (article => article##article_id))
            title=(article |?? (article => article##subject))
            content=(article |?? (article => article##text))
@@ -86,7 +106,7 @@ let renderArticleCards = response =>
   | None => <p> ("No articles found boo" |. ReasonReact.string) </p>
   };
 
-let make = _children => {
+let make = (~routeChangeAction, _children) => {
   ...component,
   render: _self => {
     let articlesQuery = GetCollections.make();
@@ -102,7 +122,7 @@ let make = _children => {
                  <h1 className=Styles.sectionTitle>
                    (ReasonReact.string("Latest Articles"))
                  </h1>
-                 (renderArticleCards(response))
+                 (renderArticleCards(~response, ~routeChangeAction))
                </div>
              }
          )
@@ -110,4 +130,7 @@ let make = _children => {
   },
 };
 
-let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make());
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~routeChangeAction=jsProps |. routeChangeActionGet, [||])
+  );

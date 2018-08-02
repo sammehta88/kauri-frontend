@@ -20,7 +20,6 @@ module Styles = {
       [%css
         {|
     {
-      padding: 11px 14px 11px 14px;
       display: flexBox;
       flex-direction: column;
       flex: 1;
@@ -43,9 +42,14 @@ module Styles = {
     )
     |> Css.style;
 
-  let content = Css.([%css {|{
+  let content =
+    Css.(
+      [%css {|{
+    padding: 11px 14px 11px 14px;
         flex: 1;
-      }|}]) |> Css.style;
+      }|}]
+    )
+    |> Css.style;
 };
 
 let make =
@@ -59,18 +63,32 @@ let make =
       ~views,
       ~upvotes,
       ~profileImage=?,
+      ~changeRoute=?,
+      ~articleId: string,
+      ~articleVersion: int,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      (
-        switch (imageURL) {
-        | Some(string) => <img className=Styles.image src=string />
-        | None => ReasonReact.null
-        }
-      )
-      <div className=Styles.container>
+      <div
+        onClick=(
+          _ =>
+            switch (changeRoute) {
+            | Some(changeRoute) =>
+              changeRoute(
+                {j|/article/$articleId/article-version/$articleVersion|j},
+              )
+            | None => ()
+            }
+        )
+        className=Styles.container>
+        (
+          switch (imageURL) {
+          | Some(string) => <img className=Styles.image src=string />
+          | None => ReasonReact.null
+          }
+        )
         <div className=Styles.content>
           <Label text=("Posted " ++ date) />
           <Heading text=title />
@@ -98,4 +116,16 @@ let make =
         </div>
       </div>
     </BaseCard>,
+};
+
+[@bs.deriving abstract]
+type jsProps = {
+  date: string,
+  title: string,
+  content: string,
+  imageURL: string,
+  username: string,
+  profileImage: string,
+  articleVersion: int,
+  changeRoute: string => unit,
 };

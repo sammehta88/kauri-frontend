@@ -9,6 +9,8 @@ module Styles = {
            {
               color: #0BA986;
               font-size: 11px;
+              list-style-position: outside;
+              padding-left: 0px;
            }
         |}
       ]
@@ -20,8 +22,7 @@ module Styles = {
       [%css
         {|
          {
-            list-style-position: inside;
-            padding-left: 0;
+              padding-left: 16px;
          }
       |}
       ]

@@ -7,6 +7,12 @@ let myStory =
 
 myStory.add("Outline Header", () => <OutlineHeader />);
 myStory.add("Outline Headings", () =>
-  <OutlineHeadings headings=[|"hey", "ooh"|] />
+  <OutlineHeadings
+    headings=[|"Intro", "Turning Web3.js functions into JavaScript promises"|]
+  />
 );
-myStory.add("Outline", () => <Outline headings=[|"hey", "wow"|] />);
+myStory.add("Outline", () =>
+  <Outline
+    headings=[|"Intro", "Turning Web3.js functions into JavaScript promises"|]
+  />
+);

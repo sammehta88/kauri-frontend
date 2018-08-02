@@ -7,15 +7,13 @@ module Styles = {
         {|
         {
             height: 2px;
-            background: #f2f2f2;
             width: 100%;
             margin-top: 10px;
             margin-bottom: 10px;
         }
         |}
       ]
-    )
-    |> Css.style;
+    );
 
   let vertical =
     Css.(
@@ -23,23 +21,40 @@ module Styles = {
         {|
       {
           width: 2px;
-          background: #f2f2f2;
           height: 100%;
       }
       |}
       ]
-    )
-    |> Css.style;
+    );
+
+  let whiteColor = Css.([%css {| { background: #f2f2f2; } |}]);
+  let lightGrayColor = Css.([%css {| { background: #ebebeb; } |}]);
 };
 
-let directionStyle = d =>
+let getDirectionStyle = d =>
   switch (d) {
   | "horizontal" => Styles.horizontal
   | "vertical" => Styles.vertical
   | _ => Styles.horizontal
   };
 
-let make = (~direction, _children) => {
+type color =
+  | LightGray
+  | White;
+
+let getColorStyle = color =>
+  switch (color) {
+  | LightGray => Styles.lightGrayColor
+  | White => Styles.whiteColor
+  };
+
+let make = (~direction, ~color=White, _children) => {
   ...component, /* spread the template's other defaults into here  */
-  render: _self => <div className=(directionStyle(direction)) />,
+  render: _self => {
+    let directionStyle = getDirectionStyle(direction);
+    let colorStyle = getColorStyle(color);
+    <div
+      className=(List.append(colorStyle, directionStyle) |> Css.style)
+    />;
+  },
 };

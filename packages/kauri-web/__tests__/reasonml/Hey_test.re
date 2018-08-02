@@ -45,6 +45,17 @@ describe(
     );
 
     test(
+      "initially has its `clicked` state set to false but can be clicked",
+      () => {
+        let wrapper = setup();
+        let hey = wrapper |> Enzyme.find("#click-me");
+        hey |> Enzyme.simulate("click");
+        let {clicked}: DummyComponent.state = Enzyme.state(wrapper);
+        expect(clicked) |> toBe(true);
+      },
+    );
+
+    test(
       "folds left properly",
       () => {
         let items = setup() |> listItems;

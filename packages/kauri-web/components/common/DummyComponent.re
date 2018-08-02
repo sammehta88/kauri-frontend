@@ -11,13 +11,13 @@ let make = (~title, ~handleClick, _children) => {
   initialState: () => {clicked: false},
   reducer: (action, _state) =>
     switch (action) {
-    | Click => ReasonReact.NoUpdate
+    | Click => ReasonReact.Update({clicked: true})
     },
-  render: ({state}) =>
+  render: ({state, send}) =>
     <div className="dummy">
       <div id="header"> <h1> (se(title)) </h1> </div>
       <div id="content">
-        <button id="click-me" onClick=handleClick>
+        <button id="click-me" onClick=(_ => send(Click))>
           (se(state.clicked ? "I've been clicked!" : "Click Me!"))
         </button>
         <ul id="list">

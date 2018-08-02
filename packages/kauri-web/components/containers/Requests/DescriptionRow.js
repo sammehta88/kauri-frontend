@@ -78,6 +78,17 @@ const MaxThreeLines = styled.div`
   ${props => props.openRequest && openRequestCss};
 `
 
+const truncateArticleCardCss = css`
+  line-height: 18px;
+  max-height: 230px;
+  overflow-y: auto;
+  text-overflow: ellipsis;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-line-clamp: 10;
+  -webkit-box-orient: vertical;
+`
+
 const truncateWithEllipsis = css`
   color: ${props => props.theme.primaryTextcolor};
   padding: 0 0;
@@ -128,6 +139,7 @@ const TruncateWithEllipsis = styled.div`
   ${TruncateWithEllipsisCss};
   ${props => !props.fullText && props.type !== 'article card' && truncateWithEllipsis};
   ${props => props.recentRequest && recentRequest};
+  ${props => props.type === 'article card' && truncateArticleCardCss};
 `
 
 const addBreaklines = (children, keys, fullText, recentRequest, type = 'article card') =>

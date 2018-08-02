@@ -43,17 +43,17 @@ describe(
         expect(clicked) |> toBe(false);
       },
     );
+    /*
 
-    test(
-      "initially has its `clicked` state set to false but can be clicked",
-      () => {
+     Commented out since I changed the functionaltiy of the onClick for the latter sleep
+
+      test("initially has its `clicked` state set to false but can be clicked", () => {
         let wrapper = setup();
         let hey = wrapper |> Enzyme.find("#click-me");
         hey |> Enzyme.simulate("click");
         let {clicked}: DummyComponent.state = Enzyme.state(wrapper);
         expect(clicked) |> toBe(true);
-      },
-    );
+      }); */
 
     test(
       "folds left properly",
@@ -66,6 +66,19 @@ describe(
             items,
           );
         expect(result) |> toBe("OneTwoThree");
+      },
+    );
+
+    test(
+      "takes a handleClick and executes it when clicked properly",
+      () => {
+        let spy = ref(0);
+        let incSpy = () => spy := spy^ + 1;
+        let setup = (~title="Test", ~handleClick=_evt => incSpy(), ()) =>
+          Enzyme.shallow(<DummyComponent title handleClick />);
+        let wrapper = setup();
+        wrapper |> Enzyme.find("#click-me") |> Enzyme.simulate("click");
+        expect(spy^) |> toBe(1);
       },
     );
   },

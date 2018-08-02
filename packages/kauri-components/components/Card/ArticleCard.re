@@ -93,7 +93,20 @@ let make =
         <div className=Styles.content>
           <Label text=("Posted " ++ date) />
           <Heading text=title />
-          <DescriptionRow content />
+          (
+            content |. String.sub(0, 2) |. String.contains('{') ?
+              [%raw
+                {|
+                  (() => {
+                    if (process.env.STORYBOOK !== 'true') {
+                      var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
+                      return React.createElement(DescriptionRow, { record: { text: content$1 } }, null);
+                    }
+                  })()
+                |}
+              ] :
+              <Paragraph text=content />
+          )
           (
             switch (tags) {
             | Some(tags) => <TagList tags />

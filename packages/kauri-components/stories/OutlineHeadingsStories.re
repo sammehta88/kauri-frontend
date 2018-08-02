@@ -14,5 +14,6 @@ myStory.add("Outline Headings", () =>
 myStory.add("Outline", () =>
   <Outline
     headings=[|"Intro", "Turning Web3.js functions into JavaScript promises"|]
+    username="rej156"
   />
 );

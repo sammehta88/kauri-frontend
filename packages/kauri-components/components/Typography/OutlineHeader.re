@@ -14,10 +14,10 @@ module Styles = {
     |> Css.style;
 };
 let component = ReasonReact.statelessComponent("OutlineHeading");
-let make = _children => {
+let make = (~text="Outline", _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <h3 className=Styles.heading>
-      (ReasonReact.string("Outline" |. String.uppercase))
+      (ReasonReact.string(text |. String.uppercase))
     </h3>,
 };

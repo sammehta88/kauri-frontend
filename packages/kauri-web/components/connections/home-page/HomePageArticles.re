@@ -67,7 +67,7 @@ module GetCollections = [%graphql
                 article_version
                 subject
                 text
-                date_created
+                date_updated
                 user {
                     user_id
                     username
@@ -98,8 +98,23 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
            content=(article |?? (article => article##text))
            views="10"
            upvotes="10"
-           date="3 days agon"
-           username="kauri"
+           date=(
+             article
+             |? (article => article##date_updated)
+             |?? Js.Json.decodeString
+             |. MomentRe.moment
+             |. MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
+           )
+           username=(
+             switch (
+               article
+               |? (article => article##user)
+               |? (user => user##username)
+             ) {
+             | Some(username) => username
+             | None => "Unknown Writer"
+             }
+           )
          />
        )
     |. ReasonReact.array

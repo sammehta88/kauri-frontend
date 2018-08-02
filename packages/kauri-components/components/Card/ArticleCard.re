@@ -37,6 +37,7 @@ module Styles = {
           flex-direction: row;
           align-items: center;
           justify-content: space-between;
+          padding: 4px 14px;
         }|}
       ]
     )

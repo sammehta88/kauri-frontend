@@ -40,6 +40,7 @@ module Styles = {
           flex-direction: row;
           align-items: center;
           justify-content: center;
+          padding: 4px 14px;
         }|}
       ]
     )

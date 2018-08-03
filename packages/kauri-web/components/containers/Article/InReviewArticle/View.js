@@ -92,6 +92,8 @@ class InReviewArticle extends React.Component<Props, State> {
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}
+          username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
+          userId={props.data.getArticle && props.data.getArticle.user_id}
         />
         <InReviewArticle.Footer
           type='in review article'

@@ -15,6 +15,9 @@ import ArticleAction from '../../../../../kauri-components/components/Articles/A
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
+  > :last-child {
+    margin-top: 0px;
+  }
 `
 
 const UpdateArticleSvgIcon = () => (
@@ -55,17 +58,6 @@ export default ({
     editorState && typeof editorState.markdown === 'string'
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)))
-
-  const headingsAvailable =
-    typeof editorState === 'object' && editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .find(contentBlock => contentBlock.toJS().type.includes('header'))
-      : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type === 'header-two').length > 0
 
   const outlineHeadings =
     typeof editorState === 'object' &&

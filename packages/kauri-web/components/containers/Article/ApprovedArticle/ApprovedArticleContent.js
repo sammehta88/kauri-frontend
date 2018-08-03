@@ -27,6 +27,7 @@ const Username = styled.strong`
 export default ({
   text,
   username,
+  userId,
   routeChangeAction,
   article_id,
   article_version,
@@ -34,6 +35,7 @@ export default ({
 }: {
   text?: string,
   username?: ?string,
+  userId?: ?string,
   routeChangeAction: string => void,
   article_id: string,
   subject?: string,
@@ -67,14 +69,13 @@ export default ({
       : editorState.blocks && editorState.blocks.filter(block => block.type.includes('header'))
     ).map(header => header.text)
 
-  console.log(outlineHeadings)
   return (
     <SubmitArticleFormContent>
       <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
-        {!headingsAvailable && <Outline headings={['WE LIKE TO PARTY']} username={username || 'Unknown Writer'} />}
+        {headingsAvailable && <Outline headings={outlineHeadings} username={username || userId} />}
         <PositiveActionBadge
           type='primary'
           width={'210px'}

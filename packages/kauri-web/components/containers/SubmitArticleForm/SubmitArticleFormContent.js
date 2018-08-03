@@ -1,9 +1,8 @@
 // @flow
 import React, { Fragment } from 'react'
-import { EditorState, convertFromHTML, ContentState } from 'draft-js'
+import { EditorState, ContentState } from 'draft-js'
 import SharedEditor from '../../common/SharedEditor'
 import styled from 'styled-components'
-import { Divider } from 'antd'
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,

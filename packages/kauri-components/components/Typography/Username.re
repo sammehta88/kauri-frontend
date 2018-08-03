@@ -18,5 +18,5 @@ module Styles = {
 let make = (~text, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
-    <div className=Styles.username> (ReasonReact.string(text)) </div>,
+    <span className=Styles.username> (ReasonReact.string(text)) </span>,
 };

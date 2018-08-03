@@ -91,7 +91,7 @@ const OutlineHeader = styled.h5`
   }
 `
 
-export const SubmitArticleFormHeadings = ({ editorState }) => {
+export const SubmitArticleFormHeadings = ({ editorState }: *) => {
   // typeof editorState === 'object' && console.log(contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown)))
   const outlineHeadings =
     typeof editorState === 'object' &&

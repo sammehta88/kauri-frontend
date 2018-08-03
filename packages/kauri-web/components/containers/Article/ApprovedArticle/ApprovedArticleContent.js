@@ -14,6 +14,7 @@ import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
 import { PositiveActionBadge } from '../../../common/ActionButton'
 import ShareArticleButton from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
+import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -55,25 +56,25 @@ export default ({
         .map(block => block.toJS())
         .filter(block => block.type === 'header-two').length > 0
 
+  const outlineHeadings =
+    typeof editorState === 'object' &&
+    (editorState.markdown
+      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+        .getBlocksAsArray()
+        .map(block => block.toJS())
+        .filter(block => block.type.includes('header'))
+        .map(header => header.text)
+      : editorState.blocks && editorState.blocks.filter(block => block.type.includes('header'))
+    ).map(header => header.text)
+
+  console.log(outlineHeadings)
   return (
     <SubmitArticleFormContent>
       <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
-        {Boolean(headingsAvailable) && (
-          <Fragment>
-            <OutlineLabel>Outline</OutlineLabel>
-            <Divider style={{ margin: '20px 0' }} />
-            <SubmitArticleFormHeadings editorState={text && typeof text === 'string' ? JSON.parse(text) : text} />
-          </Fragment>
-        )}
-        <Divider />
-        <DatePosted>
-          <span>WRITTEN BY</span>
-          <Username>{username || 'Unknown writer'}</Username>
-        </DatePosted>
-        <Divider style={{ margin: '20px 0' }} />
+        {!headingsAvailable && <Outline headings={['WE LIKE TO PARTY']} username={username || 'Unknown Writer'} />}
         <PositiveActionBadge
           type='primary'
           width={'210px'}

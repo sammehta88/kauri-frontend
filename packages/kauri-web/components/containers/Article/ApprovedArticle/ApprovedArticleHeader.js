@@ -67,6 +67,7 @@ export const PullRight = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: 11px;
+  align-items: center;
 `
 
 export default ({ category, sub_category, date_updated, subject, metadata }: *) => (

@@ -23,7 +23,7 @@ let make = (~headings, ~username, _children) => {
       <OutlineHeadings headings />
       <Separator direction="horizontal" color=LightGray />
       <OutlineHeader text="Author" />
-      <Username text=username />
+      <Author username />
       <Separator direction="horizontal" color=LightGray />
     </div>,
 };

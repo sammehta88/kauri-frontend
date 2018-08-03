@@ -75,7 +75,6 @@ const outlineHeaderCss = css`
   top: 30px;
   max-height: 90vh;
   > :nth-child(3) {
-    margin-top: 0px;
     overflow: auto;
     max-height: 100vh;
   }

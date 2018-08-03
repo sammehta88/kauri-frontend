@@ -8,8 +8,6 @@ module Styles = {
         {
             height: 2px;
             width: 100%;
-            margin-top: 10px;
-            margin-bottom: 10px;
         }
         |}
       ]
@@ -29,6 +27,11 @@ module Styles = {
 
   let whiteColor = Css.([%css {| { background: #f2f2f2; } |}]);
   let lightGrayColor = Css.([%css {| { background: #ebebeb; } |}]);
+  let getMarginStyle = my =>
+    switch (my) {
+    | Some(my) => Css.[marginTop(px(my)), marginBottom(px(my))]
+    | None => Css.[marginTop(px(10)), marginBottom(px(10))]
+    };
 };
 
 let getDirectionStyle = d =>
@@ -48,11 +51,14 @@ let getColorStyle = color =>
   | White => Styles.whiteColor
   };
 
-let make = (~direction, ~color=White, _children) => {
+let make = (~direction, ~color=White, ~my=?, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self => {
     let directionStyle = getDirectionStyle(direction);
     let colorStyle = getColorStyle(color);
-    <div className=(List.append(colorStyle, directionStyle) |> Css.style) />;
+    let marginStyle = Styles.getMarginStyle(my);
+    let separatedStyles =
+      List.concat([colorStyle, directionStyle, marginStyle]) |. Css.style;
+    <div className=separatedStyles />;
   },
 };

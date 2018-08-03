@@ -26,13 +26,13 @@ let make = (~headings, ~username, _children) => {
           <Vrroom.Fragment>
             <OutlineHeader />
             <OutlineHeadings headings />
-            <Separator direction="horizontal" color=LightGray />
+            <Separator my=20 direction="horizontal" color=LightGray />
           </Vrroom.Fragment>
         }
       )
       <OutlineHeader text="Author" />
       <Author username />
-      <Separator direction="horizontal" color=LightGray />
+      <Separator my=20 direction="horizontal" color=LightGray />
     </div>,
 };
 

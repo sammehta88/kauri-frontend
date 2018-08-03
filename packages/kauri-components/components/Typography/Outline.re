@@ -27,3 +27,18 @@ let make = (~headings, ~username, _children) => {
       <Separator direction="horizontal" color=LightGray />
     </div>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  headings: array(string),
+  username: string,
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let (headings, username) = jsProps |. (headingsGet, usernameGet);
+      make(~headings, ~username, [||]);
+    },
+  );

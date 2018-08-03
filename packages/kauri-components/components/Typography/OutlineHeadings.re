@@ -43,6 +43,11 @@ module Styles = {
     )
     |> Css.style;
 };
+
+let handleClick = event => {
+  ReactEventRe.Mouse.preventDefault(event);
+  ();
+};
 let component = ReasonReact.statelessComponent("OutlineHeading");
 let make = (~headings: array(string), _children) => {
   ...component, /* spread the template's other defaults into here  */
@@ -52,6 +57,7 @@ let make = (~headings: array(string), _children) => {
         headings
         |. Belt.Array.mapWithIndex((index, heading) =>
              <li
+               onClick=handleClick
                key=(heading ++ string_of_int(index))
                className=Styles.listItem>
                <span className=Styles.heading> (heading |. text) </span>

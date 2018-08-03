@@ -19,9 +19,17 @@ let make = (~headings, ~username, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <div className=Styles.container>
-      <OutlineHeader />
-      <OutlineHeadings headings />
-      <Separator direction="horizontal" color=LightGray />
+      (
+        switch (Array.length(headings)) {
+        | 0 => ReasonReact.null
+        | _ =>
+          <Vrroom.Fragment>
+            <OutlineHeader />
+            <OutlineHeadings headings />
+            <Separator direction="horizontal" color=LightGray />
+          </Vrroom.Fragment>
+        }
+      )
       <OutlineHeader text="Author" />
       <Author username />
       <Separator direction="horizontal" color=LightGray />

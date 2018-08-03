@@ -3,17 +3,15 @@ let component = ReasonReact.statelessComponent("Username");
 module Styles = {
   let username =
     Css.(
-      [%css
-        {|
-          {
-            font-size: 12px;
-            font-weight: 700;
-            color: #1E2428;
-        }
-        |}
-      ]
-    )
-    |> Css.style;
+      style([
+        maxWidth(px(250)),
+        overflow(hidden),
+        textOverflow(ellipsis),
+        fontSize(px(12)),
+        fontWeight(700),
+        color(hex("1E2428")),
+      ])
+    );
 };
 let make = (~text, _children) => {
   ...component, /* spread the template's other defaults into here  */

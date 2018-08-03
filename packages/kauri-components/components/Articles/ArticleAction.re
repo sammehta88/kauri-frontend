@@ -1,27 +1,20 @@
 let component = ReasonReact.statelessComponent("ArticleAction");
 
 module Styles = {
-  let container =
+  let getWidth = text =>
+    switch (text) {
+    | "Share" => Css.px(75)
+    | _ => Css.px(200)
+    };
+  let container = textProp =>
     Css.(
-      [%css
-        {|
-            {
-              display: flexBox;
-              align-items: center;
-              justify-content: center;
-              width: 200px;
-              cursor: pointer;
-            }
-            > :first-child {
-              margin-right: 9px;
-            }
-            > svg {
-              width: 16px;
-              height: 16px;
-            }
-        |}
-      ]
-      |> style
+      style([
+        display(flexBox),
+        width(getWidth(textProp)),
+        cursor(`pointer),
+        selector("> :first-child", [marginRight(px(9))]),
+        selector("> svg", [width(px(16)), height(px(16))]),
+      ])
     );
 
   let text =
@@ -42,7 +35,7 @@ let make = (~svgIcon, ~text, ~handleClick=?, _children) => {
   ...component,
   render: _self =>
     <div
-      className=Styles.container
+      className=(Styles.container(text))
       onClick=(
         _event =>
           switch (handleClick) {

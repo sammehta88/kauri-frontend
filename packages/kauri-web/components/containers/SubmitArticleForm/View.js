@@ -28,6 +28,7 @@ type Props =
       routeChangeAction: string => void,
       isKauriTopicOwner: boolean,
       showNotificationAction: ShowNotificationPayload => void,
+      username?: ?string,
     }
 
 type SubmitArticleVariables = { subject: string, text: string, sub_category?: string, version?: string }
@@ -263,6 +264,16 @@ class SubmitArticleForm extends React.Component<Props> {
           }
           article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          username={
+            (this.props.data &&
+              this.props.data.getArticle &&
+              this.props.data.getArticle.user &&
+              this.props.data.getArticle.user.username) ||
+            this.props.username
+          }
+          userId={
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id) || this.props.userId
+          }
         />
       </Form>
     )

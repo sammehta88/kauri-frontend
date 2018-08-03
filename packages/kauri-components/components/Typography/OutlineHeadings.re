@@ -17,6 +17,7 @@ module Styles = {
               font-size: 11px;
               list-style-position: outside;
               padding-left: 0px;
+              cursor: pointer;
            }
         |}
       ]

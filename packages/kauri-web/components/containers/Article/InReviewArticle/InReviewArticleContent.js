@@ -73,7 +73,7 @@ export default ({
         <InReviewArticleGeneralCommentForm addCommentAction={addCommentAction} article_id={article_id} />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>
-        <Outline headings={outlineHeadings} username={username || userId} />
+        <Outline headings={outlineHeadings || []} username={username || userId} />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>
   )

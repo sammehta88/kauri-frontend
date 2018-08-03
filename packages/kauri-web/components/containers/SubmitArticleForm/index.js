@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => ({
   ),
   categories: state.app && state.app.user && state.app.user.topics,
   userId: state.app.user && state.app.userId,
+  username: state.app.user && state.app.user.username,
 })
 
 export default compose(

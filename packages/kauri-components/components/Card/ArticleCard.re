@@ -61,8 +61,8 @@ let make =
       ~content: string,
       ~imageURL=?,
       ~username,
-      ~views,
-      ~upvotes,
+      /* ~views,
+         ~upvotes, */
       ~profileImage=?,
       ~changeRoute=?,
       ~articleId: string,
@@ -116,18 +116,23 @@ let make =
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.footer>
-          <UserWidgetSmall
-            username
-            profileImage=(
-              switch (profileImage) {
-              | Some(image) => image
-              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-              }
-            )
-          />
-          <CardCounter value=views label="Views" />
-          <CardCounter value=upvotes label="Upvotes" />
-        </div>
+
+            <UserWidgetSmall
+              username
+              profileImage=(
+                switch (profileImage) {
+                | Some(image) => image
+                | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+                }
+              )
+            />
+          </div>
+          /* <CardCounter
+               value=views label="Views"
+               />
+             <CardCounter
+             value=upvotes label="Upvotes"
+             /> */
       </div>
     </BaseCard>,
 };

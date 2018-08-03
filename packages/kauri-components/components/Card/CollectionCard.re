@@ -93,12 +93,15 @@ let make =
         <div className=Styles.collectionCardContent>
           <Heading text=collectionName />
           <Paragraph text=collectionDescription />
-          (
-            switch (curatorImage) {
-            | Some(string) => <img className=Styles.image src=string />
-            | None => ReasonReact.null
-            }
-          )
+          <img
+            className=Styles.image
+            src=(
+              switch (curatorImage) {
+              | Some(image) => image
+              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+              }
+            )
+          />
           (
             switch (lastUpdated) {
             | Some(string) => <Label text=string />

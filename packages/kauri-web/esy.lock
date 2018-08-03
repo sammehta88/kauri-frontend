@@ -212,6 +212,18 @@
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@esy-ocaml/substs/-/substs-0.0.1.tgz#59ebdbbaedcda123fc7ed8fb2b302b7d819e9a46"
 
+"@glennsl/bs-revamp@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-revamp/-/bs-revamp-0.1.1.tgz#a246f44779229863b8e4b29cdd4919a1e8e85e78"
+  dependencies:
+    "@glennsl/rebase" "^0.2.0"
+
+"@glennsl/rebase@^0.2.0":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@glennsl/rebase/-/rebase-0.2.1.tgz#e89dff79445565bf871528b5beb3c043150aeaed"
+  peerDependencies:
+    bs-platform "^3.1.4"
+
 "@octokit/rest@^15.2.6":
   version "15.9.4"
   resolved "https://registry.yarnpkg.com/@octokit/rest/-/rest-15.9.4.tgz#c6cf0f483275d9c798b18419b7c9d417493bb70f"

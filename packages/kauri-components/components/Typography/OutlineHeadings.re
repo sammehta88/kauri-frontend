@@ -1,4 +1,10 @@
 open Vrroom;
+open Webapi.Dom;
+[@bs.val] external setTimeout : (unit => unit, int) => unit = "";
+
+type windowLocation;
+[@bs.val] external windowLocation : windowLocation = "window.location";
+[@bs.set] external setLocationHash : (windowLocation, string) => unit = "hash";
 
 module Styles = {
   let hey = `none;
@@ -44,9 +50,33 @@ module Styles = {
     |> Css.style;
 };
 
-let handleClick = event => {
+let handleClick = (event, heading) => {
   ReactEventRe.Mouse.preventDefault(event);
-  ();
+  let headingLowerCasedWithNoSpacesOrSpecialChars =
+    heading
+    |> Revamp.replace({| |}, _ => "")
+    |> Revamp.replace({|\W|_|}, _letter => "")
+    |> String.lowercase;
+  let headerDomElement =
+    Document.getElementById(
+      headingLowerCasedWithNoSpacesOrSpecialChars,
+      document,
+    );
+
+  switch (headerDomElement) {
+  | Some(domElement) =>
+    Element.scrollIntoViewWithOptions(
+      {"behavior": "smooth", "block": "start"},
+      domElement,
+    );
+    setTimeout(
+      () =>
+        windowLocation
+        |. setLocationHash(headingLowerCasedWithNoSpacesOrSpecialChars),
+      700,
+    );
+  | None => ()
+  };
 };
 let component = ReasonReact.statelessComponent("OutlineHeading");
 let make = (~headings: array(string), _children) => {
@@ -57,7 +87,7 @@ let make = (~headings: array(string), _children) => {
         headings
         |. Belt.Array.mapWithIndex((index, heading) =>
              <li
-               onClick=handleClick
+               onClick=(event => handleClick(event, heading))
                key=(heading ++ string_of_int(index))
                className=Styles.listItem>
                <span className=Styles.heading> (heading |. text) </span>

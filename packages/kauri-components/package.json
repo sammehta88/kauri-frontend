@@ -19,6 +19,7 @@
   "license": "MIT",
   "esy": {},
   "dependencies": {
+    "@glennsl/bs-revamp": "^0.1.1",
     "bs-css": "^7.0.1",
     "bs-moment": "^0.3.0",
     "bs-webapi": "^0.11.0",

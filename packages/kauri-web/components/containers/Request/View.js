@@ -51,6 +51,9 @@ const UserBadge = Badge.extend`
   }
   > :last-child {
     text-transform: lowercase;
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
@@ -514,7 +517,7 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <a>{getRequest && getRequest.user && getRequest.user.username}</a>
+                  <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a>
                   {/* </Link> */}
                 </UserBadge>
               </GeneralActions>

@@ -38,13 +38,38 @@ module Styles = {
     );
 };
 
-let make = (~svgIcon, ~text, _children) => {
+let make = (~svgIcon, ~text, ~handleClick=?, _children) => {
   ...component,
   render: _self =>
-    <div className=Styles.container>
+    <div
+      className=Styles.container
+      onClick=(
+        _event =>
+          switch (handleClick) {
+          | Some(handleClick) => handleClick()
+          | None => ()
+          }
+      )>
       svgIcon
       <span className=Styles.text>
         (text |. String.uppercase |. Vrroom.text)
       </span>
     </div>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  handleClick: unit => unit,
+  svgIcon: ReasonReact.reactElement,
+  text: string,
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      let (handleClick, svgIcon, text) =
+        jsProps |. (handleClickGet, svgIconGet, textGet);
+      make(~handleClick, ~svgIcon, ~text, [||]);
+    },
+  );

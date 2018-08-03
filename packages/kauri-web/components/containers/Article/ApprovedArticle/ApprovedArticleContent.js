@@ -13,8 +13,9 @@ import { SubmitArticleFormHeadings, OutlineLabel } from '../../SubmitArticleForm
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
 import { PositiveActionBadge } from '../../../common/ActionButton'
-import ShareArticleButton from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
+import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
+import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
@@ -76,14 +77,16 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
         {headingsAvailable && <Outline headings={outlineHeadings} username={username || userId} />}
-        <PositiveActionBadge
-          type='primary'
-          width={'210px'}
-          onClick={() => routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)}
+        <ArticleAction
+          svgIcon={<span>Hey</span>}
+          text={'Update Article'}
+          handleClick={() =>
+            routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)
+          }
         >
           Update article
-        </PositiveActionBadge>
-        <ShareArticleButton
+        </ArticleAction>
+        <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
           }/article/${article_id}/article-version/${article_version}`}

@@ -53,8 +53,6 @@ let make = (~direction, ~color=White, _children) => {
   render: _self => {
     let directionStyle = getDirectionStyle(direction);
     let colorStyle = getColorStyle(color);
-    <div
-      className=(List.append(colorStyle, directionStyle) |> Css.style)
-    />;
+    <div className=(List.append(colorStyle, directionStyle) |> Css.style) />;
   },
 };

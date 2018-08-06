@@ -71,6 +71,7 @@ const isSubmittingOutlineHeaderCss = css`
 `
 
 const outlineHeaderCss = css`
+  padding-top: 4em;
   position: sticky;
   top: 30px;
   max-height: 90vh;
@@ -90,9 +91,9 @@ export const CreateRequestDetails = styled.section`
   > :last-child {
     margin-top: 15px;
   }
-  ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
   padding-top: ${props => (props.type === 'createRequest' ? '4em' : '2.5em')};
+  ${props => props.type === 'outline' && outlineHeaderCss};
 `
 
 const DetailBadge = Badge.extend`

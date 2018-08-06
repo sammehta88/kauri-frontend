@@ -8,10 +8,9 @@ import {
 import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArticle/ApprovedArticleContent'
 import InReviewArticleGeneralCommentForm from './InReviewArticleGeneralCommentForm'
 import InReviewArticleGeneralComments from './InReviewArticleGeneralComments'
-import {
-  SubmitArticleFormHeadings as InReviewArticleHeadings,
-  OutlineLabel,
-} from '../../SubmitArticleForm/SubmitArticleFormContent'
+import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
+import { OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
+import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import DescriptionRow from '../../../common/DescriptionRow'
 
 type Comments = Array<?CommentDTO>
@@ -28,6 +27,8 @@ export default ({
   personalUsername,
   deleteArticleComment,
   text,
+  username,
+  userId,
 }: {
   editorState: any,
   onEditorChange: any => void,
@@ -40,27 +41,40 @@ export default ({
   personalUsername: ?string,
   deleteArticleComment: any,
   text: string,
-}) => (
-  <InReviewArticleFormContent>
-    <InReviewArticleFormContainer type='in review article'>
-      <DescriptionRow fullText record={{ text }} />
-      {comments &&
-        comments.length > 0 &&
-        comments.filter(comment => typeof comment.anchor_key !== 'string') && (
-          <InReviewArticleGeneralComments
-            comments={
-              comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
-            }
-          />
-        )}
-      <InReviewArticleGeneralCommentForm addCommentAction={addCommentAction} article_id={article_id} />
-    </InReviewArticleFormContainer>
-    <InReviewArticleDetails type='outline'>
-      <OutlineLabel>Outline</OutlineLabel>
-      <Divider style={{ margin: '20px 0' }} />
-      <InReviewArticleHeadings
-        editorState={editorState && typeof editorState === 'string' ? JSON.parse(editorState) : editorState}
-      />
-    </InReviewArticleDetails>
-  </InReviewArticleFormContent>
-)
+  username?: ?string,
+  userId?: ?string,
+}) => {
+  editorState = editorState && typeof editorState === 'string' ? JSON.parse(editorState) : editorState
+
+  const outlineHeadings =
+    typeof editorState === 'object' &&
+    (editorState.markdown
+      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+        .getBlocksAsArray()
+        .map(block => block.toJS())
+        .filter(block => block.type.includes('header'))
+        .map(header => header.text)
+      : editorState.blocks &&
+        editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+
+  return (
+    <InReviewArticleFormContent>
+      <InReviewArticleFormContainer type='in review article'>
+        <DescriptionRow fullText record={{ text }} />
+        {comments &&
+          comments.length > 0 &&
+          comments.filter(comment => typeof comment.anchor_key !== 'string') && (
+            <InReviewArticleGeneralComments
+              comments={
+                comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
+              }
+            />
+          )}
+        <InReviewArticleGeneralCommentForm addCommentAction={addCommentAction} article_id={article_id} />
+      </InReviewArticleFormContainer>
+      <InReviewArticleDetails type='outline'>
+        <Outline headings={outlineHeadings || []} username={username || userId} />
+      </InReviewArticleDetails>
+    </InReviewArticleFormContent>
+  )
+}

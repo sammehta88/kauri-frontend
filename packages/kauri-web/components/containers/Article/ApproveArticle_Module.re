@@ -10,6 +10,12 @@ let (|?) = (a, b) =>
   | Some(a) => b(a)
   };
 
+let default = (a, b) =>
+  switch (b) {
+  | Some(a) => a
+  | None => a
+  };
+
 [@bs.deriving abstract]
 type approveArticlePayload = {
   article_id: string,
@@ -137,10 +143,9 @@ let approveArticleEpic =
               switch (possibleResponse) {
               | Some(data) =>
                 let result = Article_Queries.ApproveArticle.parse(data);
-                switch (result##approveArticle |? (x => x##hash)) {
-                | Some(hash) => hash
-                | None => raise(NoHashFound)
-                };
+                result##approveArticle
+                |? (x => x##hash)
+                |> default(raise(NoHashFound));
               | _ => raise(NoResponseData)
               };
             })

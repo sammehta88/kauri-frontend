@@ -7,7 +7,7 @@ module Styles = {
         {|
         {
           display: flexBox;
-          width: 200px;
+          width: 75px;
         }
          |}
       ]
@@ -41,7 +41,7 @@ module Styles = {
         {
           display: flexBox;
           flex-direction: column;
-          padding-top: 10px;
+          padding-top: 15px;
         }
         > div {
           margin-bottom: 5px;

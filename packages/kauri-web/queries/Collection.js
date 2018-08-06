@@ -1,28 +1,29 @@
 import gql from 'graphql-tag'
 
 export const globalCollectionDetails = gql`
-  mutation submitArticle(
-    $article_id: String
-    $request_id: String
-    $text: String
-    $subject: String
-    $sub_category: String
-    $category: String
-    $metadata: Map_String_StringScalar
-    $author_id: String
-  ) {
-    submitArticle(
-      id: $article_id
-      request_id: $request_id
-      text: $text
-      subject: $subject
-      sub_category: $sub_category
-      category: $category
-      metadata: $metadata
-      author_id: $author_id
-      draft: false
-    ) {
-      hash
+    query collection($id: String) {
+        collection(id: $id) {
+            id,
+            name,
+            date_created,
+            description,
+            owner_id
+            sections {
+                name
+                description
+                article_id
+                articles {
+                    article_id,
+                    article_version,
+                    user_id,
+                    date_created,
+                    request_id,
+                    status,
+                    tip,
+                    text
+                    subject
+                }
+            }
+        }
     }
-  }
 `;

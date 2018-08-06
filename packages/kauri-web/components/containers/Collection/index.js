@@ -14,7 +14,7 @@ export default compose(
   graphql(globalCollectionDetails, {
     options: ({ id }) => ({
       variables: {
-        size: 4,
+        id,
       },
     }),
   }),

@@ -13,7 +13,7 @@ import PostedDate from '../../../../../kauri-components/components/Typography/Po
 import theme from '../../../../lib/theme-config'
 
 export const ArticleSubject = styled.h3`
-  margin-left: 19px;
+  margin-left: 10px;
   margin-bottom: 0px;
   background: none;
   background-color: transparent;

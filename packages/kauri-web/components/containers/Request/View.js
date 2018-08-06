@@ -172,7 +172,6 @@ const AskAQuestion = styled(Button)`
 
 const GeneralActions = BountyActions.extend`
   flex-direction: column;
-  background-color: #ffffff;
   > * {
     margin-bottom: 10px;
   }
@@ -180,13 +179,6 @@ const GeneralActions = BountyActions.extend`
     margin-bottom: 0px;
   }
 `
-
-const RequestActionBadge = ({ label, action }: *) => (
-  <ActionBadge type='action' onClick={action}>
-    {/* <Icon type='trophy' /> */}
-    <span>{label}</span>
-  </ActionBadge>
-)
 
 const RequestHeader = styled.div`
   display: flex;
@@ -411,7 +403,8 @@ class Request extends Component<Props, State> {
                   getRequest.user_id === userId &&
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
-                    <RequestActionBadge
+                    <PositiveRequestActionBadge
+                      type='secondary'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
                       label='Update'
                     />
@@ -458,7 +451,8 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                    <RequestActionBadge
+                    <PositiveRequestActionBadge
+                      type='secondary'
                       action={() =>
                         routeChangeAction(
                           `/article/${personalSubmittedArticle.article_id}/article-version/${
@@ -489,7 +483,8 @@ class Request extends Component<Props, State> {
                     />
                   ))}
                 {getRequest.status === 'CLOSED' && (
-                  <RequestActionBadge
+                  <PositiveRequestActionBadge
+                    type='secondary'
                     action={() => {
                       const satisfyingArticle =
                         searchArticles.content &&

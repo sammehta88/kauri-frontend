@@ -256,6 +256,7 @@ const CreateRequestDetails = styled.div`
 
 const Badges = styled.div`
   display: flex;
+  opacity: 0.6;
   > div {
     margin-left: 15px;
   }

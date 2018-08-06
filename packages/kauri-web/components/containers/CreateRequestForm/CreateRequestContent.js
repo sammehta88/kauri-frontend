@@ -71,7 +71,6 @@ const isSubmittingOutlineHeaderCss = css`
 `
 
 const outlineHeaderCss = css`
-  padding-top: 4em;
   position: sticky;
   top: 30px;
   max-height: 90vh;

@@ -43,7 +43,13 @@ myStory.add("Updated Date", () =>
     dateType=PostedDate.Updated
   />
 );
-myStory.add("Username handle", () => <Username username="@writereyes" />);
+myStory.add("Username handle - Article page type", () =>
+  <Username pageType=Article username="@writereyes" />
+);
+myStory.add("Username handle - PublicProfile page type", () =>
+  <Username pageType=PublicProfile username="@writereyes" />
+);
+
 myStory.add("FullName handle", () => <FullName fullName="Name Surname" />);
 myStory.add("User title/Blurb", () =>
   <Blurb

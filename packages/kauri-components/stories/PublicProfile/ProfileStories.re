@@ -10,7 +10,7 @@ myStory.add("Metadata", () =>
       avatarURL="https://pbs.twimg.com/profile_images/904695589572632576/Wl3HbVK0_400x400.jpg"
     />
     <Profile.Metadata>
-      <Username username="@rej156" />
+      <Username username="@rej156" pageType=PublicProfile />
       <FullName fullName="Eric Juta" />
       <Blurb blurb="Frontend Software Engineer at Kauri" />
       <SocialWebsites>

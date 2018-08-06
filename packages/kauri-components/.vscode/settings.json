@@ -5,7 +5,7 @@
   "reason_language_server.dependencies_codelens": true,
   "reason_language_server.opens_codelens": true,
   "reason_language_server.per_value_codelens": true,
-  "reason_language_server.reloadOnChange": true,
+  "reason_language_server.reloadOnChange": false,
   "reason_language_server.show_debug_errors": false,
   "typescript.validate.enable": false,
   "javascript.format.enable": false

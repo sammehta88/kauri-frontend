@@ -14,5 +14,8 @@ module Styles = {
 let make = (~username, _children) => {
   ...component,
   render: _self =>
-    <div className=Styles.author> <Avatar /> <Username username /> </div>,
+    <div className=Styles.author>
+      <Avatar />
+      <Username username pageType=Article />
+    </div>,
 };

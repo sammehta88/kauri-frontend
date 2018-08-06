@@ -7,7 +7,9 @@ export const globalCollectionDetails = gql`
             name,
             date_created,
             description,
-            owner_id
+            owner {
+                username
+            }
             sections {
                 name
                 description

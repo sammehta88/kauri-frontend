@@ -29,19 +29,20 @@ const HeaderContainer = styled(ContentContainer)`
 class CollectionPage extends Component<Props> {
 
   render () {
-      const { name, description, date_created, owner_id, sections } = this.props.data.collection;
+      const { name, description, date_created, owner, sections } = this.props.data.collection;
       return (
         <div>
           <HeaderContainer>
             <CollectionHeader
               name={name}
               description={description}
-              updated={moment(date_created).fromNow()}
-              owner={owner_id} />
+              updated={"Collection Updated " + moment(date_created).fromNow()}
+              username={owner.username} />
           </HeaderContainer>
           <ContentContainer>
             {sections && sections.map(i => <CollectionSection
               name={i.name}
+              key={i.name}
               description={i.description}
               articles={i.articles} />)}
           </ContentContainer>

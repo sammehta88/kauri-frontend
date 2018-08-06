@@ -8,7 +8,7 @@ myStory.add("Collection Header", () =>
   <CollectionHeader
     name="Test collection"
     description="Test description for a fake collection"
-    owner="0x32048jdwk298he"
+    username="0x32048jdwk298he"
     updated="1 day ago"
   />
 );

@@ -4,6 +4,7 @@ external homepage : ReasonReact.reactClass =
 
 [@bs.deriving abstract]
 type article = {
+  article_id: string,
   date: string,
   subject: string,
   text: string,
@@ -58,8 +59,9 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
           Js.Array.map(
             article =>
               <ArticleCard
-                articleId="HEY"
-                articleVersion=1
+                articleId=(article |. article_idGet)
+                articleVersion=(article |. article_versionGet)
+                key=(article |. article_idGet)
                 changeRoute=routeChangeAction
                 title=(article |. subjectGet)
                 content=(article |. textGet)

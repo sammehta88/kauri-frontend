@@ -92,7 +92,7 @@ export const CreateRequestDetails = styled.section`
   }
   ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
-  padding-top: ${(props => props.type === 'createRequest' && '4em') || '2.5em'};
+  padding-top: ${props => (props.type === 'createRequest' ? '4em' : '2.5em')};
 `
 
 const DetailBadge = Badge.extend`

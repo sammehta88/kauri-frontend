@@ -405,6 +405,7 @@ class Request extends Component<Props, State> {
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
                     <PositiveRequestActionBadge
                       type='secondary'
+                      width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
                       label='Update'
                     />

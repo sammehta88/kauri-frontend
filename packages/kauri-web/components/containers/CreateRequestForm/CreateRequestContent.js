@@ -90,10 +90,9 @@ export const CreateRequestDetails = styled.section`
   > :last-child {
     margin-top: 15px;
   }
-  padding-top: 2.5em;
   ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
-  padding-top: ${props => props.type === 'createRequest' && '4em'};
+  padding-top: ${(props => props.type === 'createRequest' && '4em') || '2.5em'};
 `
 
 const DetailBadge = Badge.extend`

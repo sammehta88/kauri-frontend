@@ -8,6 +8,7 @@ export const globalCollectionDetails = gql`
             date_created,
             description,
             owner {
+                user_id,
                 username
             }
             sections {
@@ -17,7 +18,10 @@ export const globalCollectionDetails = gql`
                 articles {
                     article_id,
                     article_version,
-                    user_id,
+                    user {
+                        user_id,
+                        username
+                    },
                     date_created,
                     request_id,
                     status,

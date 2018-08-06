@@ -43,6 +43,7 @@ class CollectionPage extends Component<Props> {
             {sections && sections.map(i => <CollectionSection
               name={i.name}
               key={i.name}
+              routeChangeAction={this.props.routeChangeAction}
               description={i.description}
               articles={i.articles} />)}
           </ContentContainer>

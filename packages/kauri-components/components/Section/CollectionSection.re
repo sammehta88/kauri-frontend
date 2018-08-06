@@ -3,13 +3,16 @@ external homepage : ReasonReact.reactClass =
   "../../components/containers/Collection/View";
 
 [@bs.deriving abstract]
+type user = {username: string};
+
+[@bs.deriving abstract]
 type article = {
   article_id: string,
-  date: string,
+  date_created: string,
   subject: string,
   text: string,
   imageURL: string,
-  username: string,
+  user,
   profileImage: string,
   article_version: int,
 };
@@ -65,8 +68,8 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                 changeRoute=routeChangeAction
                 title=(article |. subjectGet)
                 content=(article |. textGet)
-                date="HEY"
-                username="Hey"
+                date=(article |. date_createdGet)
+                username=(article |. userGet |. usernameGet)
               />,
             articles,
           )

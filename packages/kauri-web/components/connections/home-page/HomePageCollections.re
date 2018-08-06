@@ -54,8 +54,8 @@ module Styles = {
 
 module GetCollections = [%graphql
   {|
-    query searchCollections ($size: Int) {
-        searchCollections (size: $size) {
+    query searchCollections ($size: Int, $dir: DirectionInput, $sort: String) {
+        searchCollections (size: $size, dir: $dir, sort: $sort) {
             content {
                 id
                 name
@@ -132,7 +132,8 @@ let make = (~routeChangeAction, _children) => {
     | Any => ReasonReact.Update(state)
     },
   render: _self => {
-    let collectionQuery = GetCollections.make(~size=4, ());
+    let collectionQuery =
+      GetCollections.make(~size=4, ~dir=`DESC, ~sort="date_created", ());
     <GetCollectionQuery variables=collectionQuery##variables>
       ...(
            ({result}) =>

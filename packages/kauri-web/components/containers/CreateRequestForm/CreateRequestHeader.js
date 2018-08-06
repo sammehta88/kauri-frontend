@@ -246,7 +246,6 @@ const CreateRequestDetails = styled.div`
   display: flex;
   align-self: auto;
   justify-content: space-between;
-  margin-left: 10px;
   > :last-child {
     > * {
       color: #fff;

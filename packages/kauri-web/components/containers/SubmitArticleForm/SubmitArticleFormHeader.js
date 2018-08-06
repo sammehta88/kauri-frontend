@@ -34,6 +34,7 @@ const handleKeyPress = e => {
 }
 
 export const InputWrapper = styled.div`
+  margin-left: 10px;
   position: relative;
   align-self: auto;
 `
@@ -133,7 +134,6 @@ const ForVersionInput = ({ getFieldDecorator, getFieldError, getFieldValue, forV
           hasErrors={getFieldError('version') && getFieldError('version').length > 0}
           style={{
             width: 100,
-            marginLeft: 10,
             alignSelf: 'flex-start',
           }}
         />
@@ -191,7 +191,6 @@ const SubmitArticleFormSubject = ({
           hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
           style={{
             width: 830,
-            marginLeft: 10,
             alignSelf: 'flex-start',
           }}
         />

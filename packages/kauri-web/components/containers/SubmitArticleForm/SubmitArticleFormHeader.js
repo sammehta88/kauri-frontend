@@ -34,26 +34,25 @@ const handleKeyPress = e => {
 }
 
 export const InputWrapper = styled.div`
-  margin-left: 11px;
   position: relative;
-  align-self: auto !important;
+  align-self: auto;
 `
 
-export const ArticleSubject = styled(Input)`
+export const ArticleSubject = styled.input`
   display: inline-block;
-  margin-left: 0px !important;
+  margin-left: 0px;
   background: none;
   background-color: transparent;
   border: none;
   color: white;
   height: 45px;
-  font-size: 26px !important;
+  font-size: 26px;
   font-weight: 500;
   padding: 0;
   padding-bottom: 2px;
   * {
     border: 1px solid #fff;
-    font-size: 20px !important;
+    font-size: 20px;
     font-weight: 500;
   }
   ::-webkit-input-placeholder {

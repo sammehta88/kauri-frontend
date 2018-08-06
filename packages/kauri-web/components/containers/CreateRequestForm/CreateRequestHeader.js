@@ -1,6 +1,6 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { Select, Input } from 'antd'
+import { Select } from 'antd'
 import theme, { categories } from '../../../lib/theme-config'
 import { ActionBadge, Badge } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
@@ -96,9 +96,6 @@ export const TopicActionsContainer = styled.div`
   flex-direction: column;
   margin-top: 3px;
   margin-left: 12px;
-  > :nth-child(2) {
-    align-self: center;
-  }
   width: ${props => props.type === 'createRequest' && '95%'};
   width: ${props => props.type === 'in review article' && '100%'};
 `
@@ -205,20 +202,20 @@ export const SelectSubCategory = ({ getFieldDecorator, getFieldError, chosenSubC
     )
   )
 
-export const RequestSubject = styled(Input)`
+export const RequestSubject = styled.input`
   display: inline-block;
   background: none;
   background-color: transparent;
   border: none;
   color: white;
   height: 45px;
-  font-size: 26px !important;
+  font-size: 26px;
   font-weight: 500;
   padding: 0;
   padding-bottom: 2px;
   * {
     border: 1px solid #fff;
-    font-size: 20px !important;
+    font-size: 20px;
     font-weight: 500;
   }
   ::-webkit-input-placeholder {
@@ -247,8 +244,9 @@ export const ChooseTopicAndSubcategoryContainer = styled.div`
 
 const CreateRequestDetails = styled.div`
   display: flex;
-  align-self: auto !important;
+  align-self: auto;
   justify-content: space-between;
+  margin-left: 10px;
   > :last-child {
     > * {
       color: #fff;

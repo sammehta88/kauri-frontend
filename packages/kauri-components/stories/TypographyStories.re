@@ -66,5 +66,5 @@ myStory.add("Profile Header Label - Contributor", () =>
   <ProfileHeaderLabel header="Contributor" />
 );
 myStory.add("Statistic Count", () =>
-  <StatisticCount count="3" statistic="Article Views" />
+  <StatisticCount count=3 name="Article Views" />
 );

@@ -53,3 +53,14 @@ myStory.add("Metadata", () =>
     </Profile.Metadata>
   </Profile.Container>
 );
+
+myStory.add("Profile Statistics", () =>
+  <StatisticsContainer
+    statistics=[|
+      {"name": "Articles", "count": 1},
+      {"name": "Article Views", "count": 4832},
+      {"name": "Upvotes", "count": 1000},
+      {"name": "Followers", "count": 4240000},
+    |]
+  />
+);

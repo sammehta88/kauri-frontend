@@ -12,6 +12,7 @@ module Styles = {
         display(flexBox),
         width(getWidth(textProp)),
         marginBottom(px(10)),
+        alignItems(center),
         cursor(`pointer),
         selector("> :first-child", [marginRight(px(9))]),
         selector("> svg", [width(px(16)), height(px(16))]),

@@ -30,6 +30,7 @@ const HeaderContainer = styled(ContentContainer)`
 
 class CollectionPage extends Component<Props> {
   render () {
+    if (!this.props.data || !this.props.data.collection) return null;
     const { name, description, date_created, owner, sections } = this.props.data.collection
     return (
       <div>

@@ -17,7 +17,16 @@ module Styles = {
     |> Css.style;
 
   let username =
-    Css.([%css {|{font-size: 14px; font-weight: 700}|}]) |> Css.style;
+    /* font-size: 14px; font-weight: 700 */
+    Css.(
+      style([
+        fontSize(px(14)),
+        fontWeight(700),
+        overflow(hidden),
+        textOverflow(ellipsis),
+        maxWidth(px(200)),
+      ])
+    );
 };
 
 let make = (~username, ~profileImage, _children) => {

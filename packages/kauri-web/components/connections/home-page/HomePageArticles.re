@@ -20,6 +20,12 @@ let (|??) = (a, b) =>
     }
   };
 
+let default = (a, b) =>
+  switch (b) {
+  | None => a
+  | Some(b) => b
+  };
+
 let (|???) = (a, b) =>
   switch (a) {
   | None => 0
@@ -110,7 +116,11 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
                |? (user => user##username)
              ) {
              | Some(username) => username
-             | None => "Unknown Writer"
+             | None =>
+               article
+               |? (article => article##user)
+               |? (user => user##user_id)
+               |> default("Unknown Writer")
              }
            )
          />

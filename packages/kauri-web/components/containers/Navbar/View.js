@@ -163,7 +163,6 @@ export default class Navbar extends React.Component {
         </StyledMenuItem> */}
 
         <StyledMenuItem key='/profile'>
-        {console.log(user.username)}
           {userId && userId.length ? (
             <Link href='/profile'>
               <ProfileContainer>

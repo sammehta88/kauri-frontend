@@ -79,7 +79,21 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              article |? (x => x##article_version) |> default(1)
            )
            changeRoute=routeChangeAction
-           key=(article |? (article => article##article_id) |> default(""))
+           key=(
+             article
+             |? (article => article##article_id)
+             |> default("")
+             |> (
+               articleId =>
+                 articleId
+                 ++ (
+                   article
+                   |? (x => x##article_version)
+                   |> default(0)
+                   |> string_of_int
+                 )
+             )
+           )
            title=(article |? (article => article##subject) |> default(""))
            content=(article |? (article => article##text) |> default(""))
            date=(getArticleDateUpdated(article))

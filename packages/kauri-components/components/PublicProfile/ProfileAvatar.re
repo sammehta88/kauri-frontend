@@ -13,17 +13,71 @@ module Styles = {
       |}
     ]
     |. style;
+
+  let rinkebyProfileAvatarContaienr =
+    style([
+      display(`flex),
+      alignItems(center),
+      selector("> :last-child", [marginLeft(px(20))]),
+    ]);
+  let rinkebyProfileAvatar =
+    style([
+      display(`flex),
+      justifyContent(center),
+      alignItems(center),
+      height(px(100)),
+      width(px(100)),
+      borderRadius(px(50)),
+      backgroundColor(hex("0BA986")),
+    ]);
+
+  let userInitial =
+    style([color(hex("FFFFFF")), fontSize(px(30)), fontWeight(700)]);
+
+  let username =
+    style([color(hex("FFFFFF")), fontSize(px(24)), fontWeight(500)]);
 };
 
-let make = (~avatarURL, _children) => {
+type pageType =
+  | RinkebyPublicProfile;
+
+let getPageType = (pageType, username, avatarURL) =>
+  switch (pageType, username, avatarURL) {
+  | (Some(RinkebyPublicProfile), Some(username), None) =>
+    <section className=Styles.rinkebyProfileAvatarContaienr>
+      <div className=Styles.rinkebyProfileAvatar>
+        <span className=Styles.userInitial>
+          (
+            String.sub(username, 0, 1)
+            |> String.uppercase
+            |> ReasonReact.string
+          )
+        </span>
+      </div>
+      <span className=Styles.username>
+        (username |> String.lowercase |> ReasonReact.string)
+      </span>
+    </section>
+  | (_, None, Some(avatarURL)) => <img src=avatarURL className=Styles.mask />
+  | (_, _, _) => <img src="" className=Styles.mask />
+  };
+
+let make = (~username=?, ~pageType=?, ~avatarURL=?, _children) => {
   ...component,
-  render: _self => <img src=avatarURL className=Styles.mask />,
+  render: _self => getPageType(pageType, username, avatarURL),
 };
 
 [@bs.deriving abstract]
-type jsProps = {avatarURL: string};
+type jsProps = {
+  avatarURL: string,
+  pageType,
+};
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~avatarURL=jsProps |. avatarURLGet, [||])
+    make(
+      ~pageType=jsProps |> pageTypeGet,
+      ~avatarURL=jsProps |. avatarURLGet,
+      [||],
+    )
   );

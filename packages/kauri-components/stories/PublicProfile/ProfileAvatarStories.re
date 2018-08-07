@@ -18,3 +18,6 @@ myStory.add("With Eric", () =>
 myStory.add("With Craig and his parrot", () =>
   <ProfileAvatar avatarURL="https://kauri.io/img/craig.png" />
 );
+myStory.add("Fat ass Rinkeby one", () =>
+  <ProfileAvatar username="npka212" pageType=RinkebyPublicProfile />
+);

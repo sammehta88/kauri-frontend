@@ -45,7 +45,7 @@ const ActionBadge = styled.div`
     color: #fff;
   }
   > :nth-child(2) {
-    margin-left: 7.5px;
+    margin-left: 8px;
   }
 `
 

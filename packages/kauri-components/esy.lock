@@ -25,6 +25,18 @@
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@esy-ocaml/substs/-/substs-0.0.1.tgz#59ebdbbaedcda123fc7ed8fb2b302b7d819e9a46"
 
+"@glennsl/bs-revamp@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@glennsl/bs-revamp/-/bs-revamp-0.1.1.tgz#a246f44779229863b8e4b29cdd4919a1e8e85e78"
+  dependencies:
+    "@glennsl/rebase" "^0.2.0"
+
+"@glennsl/rebase@^0.2.0":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@glennsl/rebase/-/rebase-0.2.1.tgz#e89dff79445565bf871528b5beb3c043150aeaed"
+  peerDependencies:
+    bs-platform "^3.1.4"
+
 "@opam/alcotest@^0.8.1":
   version "0.8.3"
   uid "8355d676296f1817e4d0fb24588d89b8"
@@ -1962,6 +1974,10 @@ bs-moment@^0.3.0:
 bs-platform@latest:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-4.0.0.tgz#4190460550414eecff92f1e2bbaf4d9c557b60af"
+
+bs-webapi@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/bs-webapi/-/bs-webapi-0.11.0.tgz#b4302be75c8f4b3f88a64febd873da065924b26a"
 
 buffer-from@^1.0.0:
   version "1.1.0"

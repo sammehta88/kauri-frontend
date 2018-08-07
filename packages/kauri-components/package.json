@@ -37,11 +37,11 @@
     "@storybook/react": "3.4.8",
     "babel-core": "^6.0.0",
     "babel-runtime": "^6.0.0",
-    "bs-platform": "latest",
+    "bs-platform": "^4.0.3",
     "concurrently": "^3.6.0",
     "ocaml": "~4.2.3000",
     "ppx_bs_css": "github:astrada/ppx_bs_css#36a3675",
-    "reason-react": ">=0.4.0",
+    "reason-react": ">=0.5.0",
     "storybook-chromatic": "^1.0.0",
     "vrroom": "glennsl/vrroom"
   },

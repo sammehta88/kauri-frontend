@@ -1,12 +1,3 @@
-[@bs.module]
-external homepage : ReasonReact.reactClass =
-  "../../components/containers/Homepage/View";
-
-[@bs.deriving abstract]
-type jsProps = {
-  userId: string,
-  routeChangeAction: string => unit,
-};
 let (|?) = (a, b) =>
   switch (a) {
   | None => None
@@ -141,6 +132,12 @@ let make = (~userId, ~routeChangeAction, _children) => {
          )
     </SearchPersonalArticlesQuery>;
   },
+};
+
+[@bs.deriving abstract]
+type jsProps = {
+  userId: string,
+  routeChangeAction: string => unit,
 };
 
 let default =

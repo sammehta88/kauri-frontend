@@ -75,9 +75,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
     |> Js.Array.map(article =>
          <ArticleCard
            articleId=(article |? (x => x##article_id) |> default(""))
-           articleVersion=(
-             article |? (x => x##article_version) |> default(1)
-           )
+           articleVersion=(article |? (x => x##article_version) |> default(1))
            changeRoute=routeChangeAction
            key=(
              article

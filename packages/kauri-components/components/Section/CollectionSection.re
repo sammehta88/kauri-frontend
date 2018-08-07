@@ -71,7 +71,12 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                   changeRoute=routeChangeAction
                   title=(article |. subjectGet)
                   content=(article |. textGet)
-                  date=(article |. date_createdGet)
+                  date=(
+                    article
+                    |. date_createdGet
+                    |. MomentRe.moment
+                    |. MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
+                  )
                   username=(article |. userGet |. usernameGet)
                 />,
               x,

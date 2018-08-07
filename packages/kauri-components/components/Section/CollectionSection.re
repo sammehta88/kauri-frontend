@@ -54,19 +54,33 @@ let component = ReasonReact.statelessComponent("CollectionSection");
 let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) => {
   ...component,
   render: _self =>
-    <div className=Styles.container>
-      <Paragraph text=name size=22 />
-      <Paragraph text=description />
-      (
-        switch (articles) {
-        | None => ReasonReact.null
-        | Some(x) =>
-          <div className=Styles.section>
-            (ReasonReact.string("Some Articles"))
-          </div>
-        }
-      )
-    </div>,
+    switch (articles) {
+    | None => ReasonReact.null
+    | Some(x) =>
+      <div className=Styles.container>
+        <Paragraph text=name size=22 />
+        <Paragraph text=description />
+        <div className=Styles.section>
+          (
+            Js.Array.map(
+              article =>
+                <ArticleCard
+                  articleId=(article |. article_idGet)
+                  articleVersion=(article |. article_versionGet)
+                  key=(article |. article_idGet)
+                  changeRoute=routeChangeAction
+                  title=(article |. subjectGet)
+                  content=(article |. textGet)
+                  date=(article |. date_createdGet)
+                  username=(article |. userGet |. usernameGet)
+                />,
+              x,
+            )
+            |. ReasonReact.array
+          )
+        </div>
+      </div>
+    },
 };
 
 [@bs.deriving abstract]

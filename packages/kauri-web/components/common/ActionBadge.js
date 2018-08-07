@@ -111,7 +111,7 @@ const CategoryBadge = props => (
         alt='logo'
       />
     )}
-    <CategoryBadge.Name>{props.category || props.username || 'Unknown Writer'}</CategoryBadge.Name>
+    <CategoryBadge.Name>{props.category || props.username || props.userId || 'Unknown Writer'}</CategoryBadge.Name>
   </CategoryBadge.Container>
 )
 

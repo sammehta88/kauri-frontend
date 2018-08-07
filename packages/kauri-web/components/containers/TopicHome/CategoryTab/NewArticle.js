@@ -105,12 +105,12 @@ export default (props: Props) =>
     // </NewArticleContainer>
 
     <CollectionCard
-      heading="hello"
-      collectionName="hello"
-      collectionDescription="hello"
-      articles="1"
-      lastUpdated="Today lolz"
-    ></CollectionCard>
+      heading='hello'
+      collectionName='hello'
+      collectionDescription='hello'
+      articles='1'
+      lastUpdated='Today lolz'
+    />
   ) : props.data.searchArticles && props.data.searchArticles.content && props.data.searchArticles.content.length > 0 ? (
     <NewArticleContainer individualCategory>
       <CategoryBadge
@@ -122,6 +122,7 @@ export default (props: Props) =>
         theme={theme}
         category={props.category}
         username={props.user && props.user.username}
+        userId={props.user && props.user.user_id}
         onClick={() =>
           props.routeChangeAction(
             `/article/${props.data.searchArticles.content[0].article_id}/article-version/${

@@ -1,5 +1,15 @@
 let component = ReasonReact.statelessComponent("ArticleCard");
 
+type article = {
+  date: string,
+  title: string,
+  content: string,
+  imageURL: string,
+  username: string,
+  profileImage: string,
+  articleVersion: int,
+};
+
 module Styles = {
   let image =
     Css.(
@@ -23,6 +33,7 @@ module Styles = {
       display: flexBox;
       flex-direction: column;
       flex: 1;
+      text-align: left;
   }
   |}
       ]
@@ -116,35 +127,22 @@ let make =
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.footer>
-
-            <UserWidgetSmall
-              username
-              profileImage=(
-                switch (profileImage) {
-                | Some(image) => image
-                | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-                }
-              )
-            />
-          </div>
-          /* <CardCounter
-               value=views label="Views"
-               />
-             <CardCounter
-             value=upvotes label="Upvotes"
-             /> */
+          <UserWidgetSmall
+            username
+            profileImage=(
+              switch (profileImage) {
+              | Some(image) => image
+              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+              }
+            )
+          />
+        </div>
       </div>
     </BaseCard>,
 };
 
 [@bs.deriving abstract]
 type jsProps = {
-  date: string,
-  title: string,
-  content: string,
-  imageURL: string,
-  username: string,
-  profileImage: string,
-  articleVersion: int,
+  article,
   changeRoute: string => unit,
 };

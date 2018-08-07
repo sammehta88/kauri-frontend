@@ -52,36 +52,6 @@ module Styles = {
     |> Css.style;
 };
 
-module GetCollections = [%graphql
-  {|
-    query searchCollections ($size: Int) {
-        searchCollections (size: $size) {
-            content {
-                id
-                name
-                description
-                date_created
-                owner_id
-                sections {
-                    name
-                    description
-                    article_id
-                    articles {
-                        article_id,
-                        subject,
-                        article_version
-                    }
-                }
-            }
-            totalPages
-            totalElements
-        }
-    }
-|}
-];
-
-module GetCollectionQuery = ReasonApollo.CreateQuery(GetCollections);
-
 let component = ReasonReact.reducerComponent("HomePageCollections");
 
 let sumArticles = sections =>
@@ -132,8 +102,15 @@ let make = (~routeChangeAction, _children) => {
     | Any => ReasonReact.Update(state)
     },
   render: _self => {
-    let collectionQuery = GetCollections.make(~size=4, ());
-    <GetCollectionQuery variables=collectionQuery##variables>
+    let collectionQuery =
+      Collection_Queries.GetCollections.make(
+        ~size=4,
+        ~dir=`DESC,
+        ~sort="date_created",
+        (),
+      );
+    <Collection_Queries.GetCollectionQuery
+      variables=collectionQuery##variables>
       ...(
            ({result}) =>
              switch (result) {
@@ -149,7 +126,7 @@ let make = (~routeChangeAction, _children) => {
                </div>
              }
          )
-    </GetCollectionQuery>;
+    </Collection_Queries.GetCollectionQuery>;
   },
 };
 

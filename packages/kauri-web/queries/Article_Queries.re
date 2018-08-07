@@ -98,4 +98,50 @@ module SubmitForReview = [%graphql
     |}
 ];
 
-module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);
+module SubmitForReviewMutation =
+  ReasonApollo.CreateMutation(SubmitForReview);
+
+module SearchPersonalArticles = [%graphql
+  {|
+    query searchPersonalArticles($userId: String) {
+      searchArticles(filter: { user_id_eq: $userId }) {
+        content {
+          article_id
+          article_version
+          user_id
+          request_id
+          date_created
+          date_updated
+          text
+          tip
+          status
+          signature
+          subject
+          sub_category
+          category
+          content_hash
+          comments {
+            comment_id
+            date_created
+            comment
+            highlight_from
+            highlight_to
+            anchor_key
+            focus_key
+            user {
+              username
+            }
+          }
+          user {
+            user_id
+            username
+          }
+          metadata
+        }
+      }
+    }
+  |}
+];
+
+module SearchPersonalArticlesQuery =
+  ReasonApollo.CreateQuery(SearchPersonalArticles);

@@ -20,12 +20,12 @@ const ContentContainer = styled.div`
 `
 
 const HeaderContainer = styled(ContentContainer)`
-  background: url('https://images.unsplash.com/photo-1533514174713-2b4bd4f1c7be') center center;
+  background: url('https://source.unsplash.com/collection/1242150') center center;
   background-size: cover;
   margin-top: -76px;
   padding-top: 106px;
   padding-bottom: 50px;
-  box-shadow: inset 0px 0px 140px 90px rgba(0,0,0,0.4);
+  box-shadow: inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5);
 `
 
 const OpaqueContainer = styled(ContentContainer)`

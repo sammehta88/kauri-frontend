@@ -7,7 +7,7 @@ import Collection from '../components/containers/Collection'
 class CollectionPage extends React.Component {
   render () {
     return (
-      <App url={this.props.url}>
+      <App url={this.props.url} navcolor="transparent">
         <Collection id={this.props.url.query.id} />
       </App>
     )

@@ -12,7 +12,7 @@ type Props = {
   routeChangeAction: string => void,
 }
 
-const ContentContainer = styled.section`
+const ContentContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -20,10 +20,16 @@ const ContentContainer = styled.section`
 `
 
 const HeaderContainer = styled(ContentContainer)`
-  background: #1e2428;
-  background: url('https://images.unsplash.com/photo-1533491135387-41e068a8e735') center center;
+  background: url('https://images.unsplash.com/photo-1533514174713-2b4bd4f1c7be') center center;
   background-size: cover;
+  margin-top: -76px;
+  padding-top: 106px;
+  padding-bottom: 50px;
+  box-shadow: inset 0px 0px 140px 90px rgba(0,0,0,0.4);
 `
+
+const OpaqueContainer = styled(ContentContainer)`
+`;
 
 class CollectionPage extends Component<Props> {
   render () {

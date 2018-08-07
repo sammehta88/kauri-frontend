@@ -49,10 +49,9 @@ module Styles = {
     |> Css.style;
 };
 
-let component = ReasonReact.statelessComponent("HomePageArticles");
+let component = ReasonReact.statelessComponent("CollectionSection");
 
-let make =
-    (~routeChangeAction, ~name, ~description="", ~articles=?, _children) => {
+let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
@@ -61,11 +60,10 @@ let make =
       (
         switch (articles) {
         | None => ReasonReact.null
-        | Some(articles) =>
-          Js.log(articles);
+        | Some(x) =>
           <div className=Styles.section>
             (ReasonReact.string("Some Articles"))
-          </div>;
+          </div>
         }
       )
     </div>,
@@ -75,17 +73,21 @@ let make =
 type jsProps = {
   name: string,
   description: string,
-  articles: Js.Nullable.t(Js.Array.t(article)),
+  articles: Js.Nullable.t(array(article)),
   routeChangeAction: string => unit,
 };
 
 let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~routeChangeAction=jsProps |. routeChangeActionGet,
-      ~name=jsProps |. nameGet,
-      ~description=jsProps |. descriptionGet,
-      ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
-      [||],
-    )
+  ReasonReact.wrapReasonForJs(
+    ~component,
+    jsProps => {
+      Js.log(jsProps);
+      make(
+        ~routeChangeAction=jsProps |. routeChangeActionGet,
+        ~name=jsProps |. nameGet,
+        ~description=jsProps |. descriptionGet,
+        ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
+        [||],
+      );
+    },
   );

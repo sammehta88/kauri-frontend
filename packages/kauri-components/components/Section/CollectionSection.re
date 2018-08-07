@@ -51,31 +51,23 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("HomePageArticles");
 
-let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) => {
+let make =
+    (~routeChangeAction, ~name, ~description="", ~articles=?, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
       <Paragraph text=name size=22 />
       <Paragraph text=description />
-      <div className=Styles.section>
-        (
-          Js.Array.map(
-            article =>
-              <ArticleCard
-                articleId=(article |. article_idGet)
-                articleVersion=(article |. article_versionGet)
-                key=(article |. article_idGet)
-                changeRoute=routeChangeAction
-                title=(article |. subjectGet)
-                content=(article |. textGet)
-                date=(article |. date_createdGet)
-                username=(article |. userGet |. usernameGet)
-              />,
-            articles,
-          )
-          |. ReasonReact.array
-        )
-      </div>
+      (
+        switch (articles) {
+        | None => ReasonReact.null
+        | Some(articles) =>
+          Js.log(articles);
+          <div className=Styles.section>
+            (ReasonReact.string("Some Articles"))
+          </div>;
+        }
+      )
     </div>,
 };
 
@@ -83,7 +75,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
 type jsProps = {
   name: string,
   description: string,
-  articles: array(article),
+  articles: Js.Nullable.t(Js.Array.t(article)),
   routeChangeAction: string => unit,
 };
 
@@ -93,7 +85,7 @@ let default =
       ~routeChangeAction=jsProps |. routeChangeActionGet,
       ~name=jsProps |. nameGet,
       ~description=jsProps |. descriptionGet,
-      ~articles=jsProps |. articlesGet,
+      ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
       [||],
     )
   );

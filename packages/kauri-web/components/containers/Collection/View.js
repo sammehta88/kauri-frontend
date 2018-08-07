@@ -28,9 +28,6 @@ const HeaderContainer = styled(ContentContainer)`
   box-shadow: inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5);
 `
 
-const OpaqueContainer = styled(ContentContainer)`
-`;
-
 class CollectionPage extends Component<Props> {
   render () {
     const { name, description, date_created, owner, sections } = this.props.data.collection

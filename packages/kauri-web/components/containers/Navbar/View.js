@@ -94,9 +94,6 @@ class Logo extends React.Component {
 export default class Navbar extends React.Component {
   render () {
     const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props;
-
-    console.log(navcolor);
-
     return (
       <StyledMenu confirmationPage={confirmationPage} selectedKeys={[url.pathname]} theme='dark' mode='horizontal' navcolor={navcolor}>
         <Logo routeChangeAction={routeChangeAction} alt='logo' />

@@ -139,12 +139,6 @@ let make =
         </div>
       </div>
     </BaseCard>,
-  /* <CardCounter
-       value=views label="Views"
-       />
-     <CardCounter
-     value=upvotes label="Upvotes"
-     /> */
 };
 
 [@bs.deriving abstract]

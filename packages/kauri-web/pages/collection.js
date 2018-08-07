@@ -8,7 +8,7 @@ class CollectionPage extends React.Component {
   render () {
     return (
       <App url={this.props.url} navcolor="transparent">
-        <Collection id={this.props.url.query.id} />
+        <Collection id={this.props.url.query.collection_id} />
       </App>
     )
   }

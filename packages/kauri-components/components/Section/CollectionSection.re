@@ -56,7 +56,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
   render: _self =>
     switch (articles) {
     | None => ReasonReact.null
-    | Some(x) =>
+    | Some(articles) =>
       <div className=Styles.container>
         <Paragraph text=name size=22 />
         <Paragraph text=description />
@@ -79,7 +79,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                   )
                   username=(article |. userGet |. usernameGet)
                 />,
-              x,
+              articles,
             )
             |. ReasonReact.array
           )
@@ -97,16 +97,12 @@ type jsProps = {
 };
 
 let default =
-  ReasonReact.wrapReasonForJs(
-    ~component,
-    jsProps => {
-      Js.log(jsProps);
-      make(
-        ~routeChangeAction=jsProps |. routeChangeActionGet,
-        ~name=jsProps |. nameGet,
-        ~description=jsProps |. descriptionGet,
-        ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
-        [||],
-      );
-    },
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~routeChangeAction=jsProps |. routeChangeActionGet,
+      ~name=jsProps |. nameGet,
+      ~description=jsProps |. descriptionGet,
+      ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
+      [||],
+    )
   );

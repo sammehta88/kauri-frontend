@@ -1,32 +1,12 @@
 let component = ReasonReact.statelessComponent("HorizontalSeparator");
 
 module Styles = {
-  let horizontal =
-    Css.(
-      [%css
-        {|
-        {
-            height: 2px;
-            width: 100%;
-        }
-        |}
-      ]
-    );
+  let horizontal = Css.[height(px(2)), width(`percent(100.0))];
 
-  let vertical =
-    Css.(
-      [%css
-        {|
-      {
-          width: 2px;
-          height: 100%;
-      }
-      |}
-      ]
-    );
+  let vertical = Css.[width(px(2)), height(`percent(100.0))];
 
-  let whiteColor = Css.([%css {| { background: #f2f2f2; } |}]);
-  let lightGrayColor = Css.([%css {| { background: #ebebeb; } |}]);
+  let whiteColor = [Css.background(Css.hex("F2F2F2"))];
+  let lightGrayColor = [Css.background(Css.hex("EBEBEB"))];
   let getMarginStyle = my =>
     switch (my) {
     | Some(my) => Css.[marginTop(px(my)), marginBottom(px(my))]

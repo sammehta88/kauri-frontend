@@ -2,21 +2,17 @@ open Vrroom;
 let component = ReasonReact.statelessComponent("PersonalWebsite");
 
 module Styles = {
-  open Css;
   let website =
-    [%css
-      {|
-      {
-        color: #fff;
-        font-size: 13px;
-        font-weight: 300;
-        font-style: normal;
-        text-decoration: none;
-        word-wrap: break-word;
-       }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([
+        color(hex("FFFFFF")),
+        fontSize(px(13)),
+        fontWeight(300),
+        fontStyle(normal),
+        textDecoration(none),
+        wordWrap(breakWord),
+      ])
+    );
 };
 
 let make = (~website, _children) => {

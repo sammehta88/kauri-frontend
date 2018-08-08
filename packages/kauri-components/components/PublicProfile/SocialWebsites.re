@@ -1,20 +1,14 @@
 let component = ReasonReact.statelessComponent("SocialWebsites");
 
 module Styles = {
-  open Css;
   let container =
-    [%css
-      {|
-      {
-        display: flexBox;
-        margin-bottom: 23px;
-      }
-      > * {
-        margin-right: 5px;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([
+        display(`flex),
+        marginBottom(px(23)),
+        selector("> *", [marginRight(px(5))]),
+      ])
+    );
 };
 
 let make = children => {

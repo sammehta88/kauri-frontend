@@ -1,41 +1,41 @@
 let component = ReasonReact.statelessComponent("ProfileAvatar");
 
 module Styles = {
-  open Css;
   let mask =
-    [%css
-      {|
-      {
-        width: 100px;
-        height: 100px;
-        border-radius: 50px;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([width(px(100)), height(px(100)), borderRadius(px(50))])
+    );
 
   let rinkebyProfileAvatarContaienr =
-    style([
-      display(`flex),
-      alignItems(center),
-      selector("> :last-child", [marginLeft(px(20))]),
-    ]);
+    Css.(
+      style([
+        display(`flex),
+        alignItems(center),
+        selector("> :last-child", [marginLeft(px(20))]),
+      ])
+    );
   let rinkebyProfileAvatar =
-    style([
-      display(`flex),
-      justifyContent(center),
-      alignItems(center),
-      height(px(100)),
-      width(px(100)),
-      borderRadius(px(50)),
-      backgroundColor(hex("0BA986")),
-    ]);
+    Css.(
+      style([
+        display(`flex),
+        justifyContent(center),
+        alignItems(center),
+        height(px(100)),
+        width(px(100)),
+        borderRadius(px(50)),
+        backgroundColor(hex("0BA986")),
+      ])
+    );
 
   let userInitial =
-    style([color(hex("FFFFFF")), fontSize(px(30)), fontWeight(700)]);
+    Css.(
+      style([color(hex("FFFFFF")), fontSize(px(30)), fontWeight(700)])
+    );
 
   let username =
-    style([color(hex("FFFFFF")), fontSize(px(24)), fontWeight(500)]);
+    Css.(
+      style([color(hex("FFFFFF")), fontSize(px(24)), fontWeight(500)])
+    );
 };
 
 type pageType =

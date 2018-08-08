@@ -1,33 +1,17 @@
-open Vrroom;
 let component = ReasonReact.statelessComponent("ProfileBadges");
 
 module Styles = {
-  open Css;
-  let container =
-    [%css
-      {|
-      {
-        display: flexBox;
-        flex-direction: column;
-      }
-      |}
-    ]
-    |. style;
+  let container = Css.(style([display(`flex), flexDirection(column)]));
 
   let badgesContainer =
-    [%css
-      {|
-    {
-      display: flexBox;
-      flex-direction: row;
-      margin-top: 11px;
-    }
-    > img {
-      margin-right: 10px;
-    }
-    |}
-    ]
-    |. style;
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(row),
+        marginTop(px(11)),
+        selector("> img", [marginRight(px(10))]),
+      ])
+    );
 };
 
 let make = (~header, children) => {

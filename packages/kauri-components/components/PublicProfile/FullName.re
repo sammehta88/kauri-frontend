@@ -2,23 +2,19 @@ open Vrroom;
 let component = ReasonReact.statelessComponent("FullName");
 
 module Styles = {
-  open Css;
   let fullName =
-    [%css
-      {|
-      {
-        color: #FFFFFF;
-        font-size: 24px;
-        font-weight: 500;
-        font-style: normal;
-        text-decoration: none;
-        word-wrap: break-word;
-        margin: 0;
-        margin-bottom: 8px;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([
+        color(hex("FFFFFF")),
+        fontSize(px(14)),
+        fontWeight(500),
+        fontStyle(normal),
+        textDecoration(none),
+        wordWrap(breakWord),
+        margin(px(0)),
+        marginBottom(px(8)),
+      ])
+    );
 };
 
 let make = (~fullName, _children) => {

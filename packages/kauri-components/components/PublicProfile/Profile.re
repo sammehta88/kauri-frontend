@@ -2,19 +2,13 @@ module Container = {
   let component = ReasonReact.statelessComponent("ProfileContainer");
 
   module Styles = {
-    open Css;
     let container =
-      [%css
-        {|
-      {
-        display: flexBox;
-      }
-      > :first-child {
-        margin-right: 20px;
-      }
-      |}
-      ]
-      |. style;
+      Css.(
+        style([
+          display(`flex),
+          selector("> :first-child", [marginRight(px(20))]),
+        ])
+      );
   };
 
   let make = children => {
@@ -38,17 +32,7 @@ module Metadata = {
   let component = ReasonReact.statelessComponent("ProfileMetaData");
 
   module Styles = {
-    open Css;
-    let container =
-      [%css
-        {|
-      {
-        display: flexBox;
-        flex-direction: column;
-      }
-      |}
-      ]
-      |. style;
+    let container = Css.(style([display(`flex), flexDirection(column)]));
   };
 
   let make = children => {

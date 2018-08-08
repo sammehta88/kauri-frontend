@@ -1,19 +1,15 @@
 let component = ReasonReact.statelessComponent("ProfileBadge");
 
 module Styles = {
-  open Css;
   let mask =
-    [%css
-      {|
-      {
-        background-color: #fff;
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([
+        backgroundColor(hex("FFFFFF")),
+        width(px(30)),
+        height(px(30)),
+        borderRadius(`percent(50.0)),
+      ])
+    );
 };
 
 let make = (~badgeURL, _children) => {

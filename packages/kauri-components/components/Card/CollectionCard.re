@@ -11,7 +11,7 @@ module Styles = {
       ])
     );
 
-  let colllectionCardContainer =
+  let collectionCardContainer =
     Css.(
       style([
         unsafe("padding", "11px 14px 11px 14px"),

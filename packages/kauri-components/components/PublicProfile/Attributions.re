@@ -1,19 +1,10 @@
 let component = ReasonReact.statelessComponent("Attributions");
 
 module Styles = {
-  open Css;
   let container =
-    [%css
-      {|
-      {
-        display: flexBox;
-      }
-      > div {
-        margin-right: 36px;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([display(`flex), selector("> div", [marginRight(px(36))])])
+    );
 };
 
 let make = children => {

@@ -2,22 +2,18 @@ open Vrroom;
 let component = ReasonReact.statelessComponent("Blurb");
 
 module Styles = {
-  open Css;
   let blurb =
-    [%css
-      {|
-      {
-        color: #FFFFFF;
-        font-size: 14px;
-        font-weight: 300;
-        font-style: normal;
-        text-decoration: none;
-        word-wrap: break-word;
-        margin-bottom: 15px;
-      }
-      |}
-    ]
-    |. style;
+    Css.(
+      style([
+        color(hex("FFFFFF")),
+        fontSize(px(14)),
+        fontWeight(300),
+        fontStyle(normal),
+        textDecoration(none),
+        wordWrap(breakWord),
+        marginBottom(px(15)),
+      ])
+    );
 };
 
 let make = (~blurb, _children) => {

@@ -32,13 +32,7 @@ module Styles = {
       ])
     );
   let sectionTitle =
-    Css.([%css {|
-  {
-      width: 100%;
-      text-align: center;
-}
-|}])
-    |> Css.style;
+    Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
 let component = ReasonReact.statelessComponent("RinkebyPublicProfile");

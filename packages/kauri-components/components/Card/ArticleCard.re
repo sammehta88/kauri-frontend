@@ -34,6 +34,8 @@ module Styles = {
       flex-direction: column;
       flex: 1;
       text-align: left;
+      padding: 11px 14px 11px 14px;
+      min-width: 262px;
   }
   |}
       ]
@@ -47,8 +49,8 @@ module Styles = {
           display: flexBox;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
-          padding: 4px 14px;
+          justify-content: center;
+          padding: 7px 14px;
         }|}
       ]
     )

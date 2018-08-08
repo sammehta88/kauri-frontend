@@ -12,6 +12,27 @@ export const HomePageQuery = gql`
                 type
                 id
             }
+            header {
+                ... on TopicDTO {
+                    id
+                    type
+                }
+
+                ... on CollectionDTO {
+                    id
+                    type
+                }
+
+                ... on ArticleDTO {
+                    article_id
+                    type
+                }
+
+                ... on RequestDTO {
+                    request_id
+                    type
+                }
+            }
             resource_id {
                 type
                 id

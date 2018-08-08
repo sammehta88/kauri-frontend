@@ -26,6 +26,7 @@ module Styles = {
       flex-direction: column;
       flex: 1;
       text-align: center;
+      min-width: 262px;
   }
   |}
       ]

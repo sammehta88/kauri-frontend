@@ -3,4 +3,4 @@
 ## Dependencies
 
 - [ ] brew install yarn
-- [ ] yarn global add reason-cli@3.3.2-darwin
+- [ ] npm i -g reason-cli@3.3.2-macos-betabeta

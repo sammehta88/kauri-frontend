@@ -144,5 +144,25 @@ let make =
 [@bs.deriving abstract]
 type jsProps = {
   article,
+  date: string,
+  title: string,
+  content: string,
+  username: string,
+  articleId: string,
+  articleVersion: int,
   changeRoute: string => unit,
 };
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~changeRoute=jsProps |. changeRouteGet,
+      ~date=jsProps |. dateGet,
+      ~title=jsProps |. titleGet,
+      ~content=jsProps |. contentGet,
+      ~username=jsProps |. usernameGet,
+      ~articleId=jsProps |. articleIdGet,
+      ~articleVersion=jsProps |. articleVersionGet,
+      [||],
+    )
+  );

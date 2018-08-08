@@ -53,6 +53,9 @@ export const HomePageQuery = gql`
                     article_id
                     article_version
                     user_id
+                    user {
+                        username
+                    }
                     date_created
                     request_id
                     subject
@@ -66,18 +69,7 @@ export const HomePageQuery = gql`
                     date_created
                     owner_id
                     sections {
-                        name
-                        description
                         article_id
-                        articles {
-                            article_id
-                            article_version
-                            user_id
-                            date_created
-                            request_id
-                            tip
-                            text
-                        }
                     }
                 }
             }

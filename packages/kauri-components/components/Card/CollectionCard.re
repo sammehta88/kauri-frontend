@@ -123,6 +123,7 @@ type jsProps = {
   heading: string,
   collectionName: string,
   collectionDescription: string,
+  collectionId: string,
   /* upvotes: string|int, */
   articles: string,
   /* followers: string|int, */
@@ -130,3 +131,17 @@ type jsProps = {
   /* curatorImage: string */
   changeRoute: string => unit,
 };
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~changeRoute=jsProps |. changeRouteGet,
+      ~heading=jsProps |. headingGet,
+      ~collectionName=jsProps |. collectionNameGet,
+      ~articles=jsProps |. articlesGet,
+      ~lastUpdated=jsProps |. lastUpdatedGet,
+      ~collectionId=jsProps |. collectionIdGet,
+      ~collectionDescription=jsProps |. collectionDescriptionGet,
+      [||],
+    )
+  );

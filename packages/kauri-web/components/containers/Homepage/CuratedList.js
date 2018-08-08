@@ -10,8 +10,7 @@ const Title = styled.h2`
     font-weight: 300;
     font-size: 22px;
     text-transform: capitalize;
-    margin-top: 30px;
-    margin-bottom: 18px;
+    margin-top: 0px;
     color: ${props => props.featured ? 'white' : '#1e2428'};
 `;
 
@@ -19,13 +18,14 @@ const Container = styled.div`
     background: ${ props => props.featured ? '#6552CE' : 'transparent'};
     width: 100%;
     padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
-    text-align: center;
+    text-align: ${props => props.featured ? 'left' : 'center'};
 `;
 
 const Description =styled.div`
     font-size: 16px;
     font-weight: normal;
     color: ${props => props.featured ? 'white' : '#1e2428'};
+    margin-bottom: 18px;
 `;
 
 const Resources = styled.div`

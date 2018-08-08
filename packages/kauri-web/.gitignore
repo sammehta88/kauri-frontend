@@ -18,5 +18,5 @@ lerna-error.log
 *.bs.js
 .merlin
 .bsb.lock
-yarn.lock
 Dockerfile-local
+esy.lock

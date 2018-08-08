@@ -18,7 +18,15 @@ let usernameGet = article =>
        article
        |? (article => article##user)
        |? (user => user##user_id)
-       |> default("Unknown Writer"),
+       |> default("Unknown Writer")
+       |> (
+         userId => {
+           Js.log(userId);
+           String.sub(userId, 0, 11)
+           ++ "..."
+           ++ String.sub(userId, String.length(userId) - 13, 11);
+         }
+       ),
      );
 
 let dateUpdatedGet = article =>
@@ -48,6 +56,9 @@ let titleGet = article =>
 let contentGet = article =>
   article |? (article => article##text) |> default("");
 
+let userIdGet = article =>
+  article |? (article => article##user_id) |> default("");
+
 type articleResource = {
   key: string,
   articleId: string,
@@ -56,21 +67,23 @@ type articleResource = {
   content: string,
   date: string,
   username: string,
+  userId: string,
 };
 
 let make = article => {
-  let (key, articleId, articleVersion, title, content, date, username) =
+  let (key, articleId, articleVersion, title, content, date, username, userId) =
     article
-    |. (
-      keyGet,
-      articleIdGet,
-      articleVersionGet,
-      titleGet,
-      contentGet,
-      dateUpdatedGet,
-      usernameGet,
-    );
-  {key, articleId, articleVersion, title, content, date, username};
+    ->(
+        keyGet,
+        articleIdGet,
+        articleVersionGet,
+        titleGet,
+        contentGet,
+        dateUpdatedGet,
+        usernameGet,
+        userIdGet,
+      );
+  {key, articleId, articleVersion, title, content, date, username, userId};
 };
 
 /* Extra getters  */

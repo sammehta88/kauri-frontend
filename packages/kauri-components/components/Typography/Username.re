@@ -16,7 +16,6 @@ module Styles = {
       style([
         maxWidth(px(250)),
         overflow(hidden),
-        textOverflow(ellipsis),
         fontSize(px(12)),
         fontWeight(700),
         color(hex(getColor(pageType))),

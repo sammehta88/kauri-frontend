@@ -7,10 +7,12 @@ module Styles = {
 
   let whiteColor = [Css.background(Css.hex("F2F2F2"))];
   let lightGrayColor = [Css.background(Css.hex("EBEBEB"))];
-  let getMarginStyle = my =>
-    switch (my) {
-    | Some(my) => Css.[marginTop(px(my)), marginBottom(px(my))]
-    | None => Css.[marginTop(px(10)), marginBottom(px(10))]
+  let getMarginStyle = (my, mt) =>
+    switch (my, mt) {
+    | (None, Some(mt)) => Css.[marginTop(auto), marginBottom(px(10))]
+    | (Some(my), None) => Css.[marginTop(px(my)), marginBottom(px(my))]
+    | (Some(my), Some(mt)) => Css.[marginTop(auto), marginBottom(px(my))]
+    | (None, None) => Css.[marginTop(px(10)), marginBottom(px(10))]
     };
 };
 
@@ -31,14 +33,14 @@ let getColorStyle = color =>
   | White => Styles.whiteColor
   };
 
-let make = (~direction, ~color=White, ~my=?, _children) => {
+let make = (~direction, ~color=White, ~my=?, ~mt=?, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self => {
     let directionStyle = getDirectionStyle(direction);
     let colorStyle = getColorStyle(color);
-    let marginStyle = Styles.getMarginStyle(my);
+    let marginStyle = Styles.getMarginStyle(my, mt);
     let separatedStyles =
-      List.concat([colorStyle, directionStyle, marginStyle]) |. Css.style;
+      List.concat([colorStyle, directionStyle, marginStyle])->Css.style;
     <div className=separatedStyles />;
   },
 };

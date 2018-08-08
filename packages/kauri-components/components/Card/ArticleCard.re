@@ -36,6 +36,9 @@ module Styles = {
     );
 };
 
+type pageType =
+  | RinkebyPublicProfile;
+
 let make =
     (
       ~tags=?,
@@ -43,7 +46,9 @@ let make =
       ~title: string,
       ~content: string,
       ~imageURL=?,
+      ~pageType=?,
       ~username,
+      ~userId,
       /* ~views,
          ~upvotes, */
       ~profileImage=?,
@@ -55,29 +60,29 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        onClick=(
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute(
-                {j|/article/$articleId/article-version/$articleVersion|j},
-              )
-            | None => ()
-            }
-        )
-        className=Styles.container>
+      <div className=Styles.container>
         (
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
         )
-        <div className=Styles.content>
+        <div
+          className=Styles.content
+          onClick=(
+            _ =>
+              switch (changeRoute) {
+              | Some(changeRoute) =>
+                changeRoute(
+                  {j|/article/$articleId/article-version/$articleVersion|j},
+                )
+              | None => Js.log("Lol")
+              }
+          )>
           <Label text=("Posted " ++ date) />
           <Heading text=title />
           (
-            content |. String.sub(0, 2) |. String.contains('{') ?
+            content->(String.sub(0, 2))->(String.contains('{')) ?
               [%raw
                 {|
                   (() => {
@@ -97,8 +102,21 @@ let make =
             }
           )
         </div>
-        <Separator direction="horizontal" />
-        <div className=Styles.footer>
+        <Separator direction="horizontal" mt=`auto />
+        <div
+          className=Styles.footer
+          onClick=(
+            _ =>
+              switch (changeRoute, pageType) {
+              | (Some(_changeRoute), Some(pageType))
+                  when pageType == RinkebyPublicProfile =>
+                ()
+              | (Some(changeRoute), None) =>
+                changeRoute({j|/public-profile/$userId|j})
+              | (None, Some(_)) => ()
+              | (None, None) => ()
+              }
+          )>
           <UserWidgetSmall
             username
             profileImage=(

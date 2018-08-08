@@ -35,7 +35,6 @@ module Styles = {
     Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
-
 let component = ReasonReact.statelessComponent("RinkebyPublicProfile");
 
 let renderArticleCards = (~response, ~routeChangeAction) =>
@@ -43,31 +42,32 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | Some(content) =>
     (
       content
-      |> Js.Array.map(
-           article => {
-             open Article_Resource;
-             let {
-               articleId,
-               articleVersion,
-               key,
-               title,
-               content,
-               date,
-               username,
-             } =
-               make(article);
-             <ArticleCard
-               key
-               articleId
-               articleVersion
-               changeRoute=routeChangeAction
-               title
-               content
-               date
-               username
-             />;
-           },
-         )
+      |> Js.Array.map(article => {
+           open Article_Resource;
+           let {
+             articleId,
+             articleVersion,
+             key,
+             title,
+             content,
+             date,
+             username,
+             userId,
+           } =
+             make(article);
+           <ArticleCard
+             key
+             pageType=RinkebyPublicProfile
+             articleId
+             articleVersion
+             changeRoute=routeChangeAction
+             title
+             content
+             date
+             username
+             userId
+           />;
+         })
     )
     ->ReasonReact.array
   | None => <p> "No articles found boo"->ReasonReact.string </p>
@@ -96,8 +96,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
                      statistics=[|
                        {
                          "name": "Articles",
-                         "count":
-                           Article_Resource.articlesCountGet(response),
+                         "count": Article_Resource.articlesCountGet(response),
                        },
                      |]
                    />

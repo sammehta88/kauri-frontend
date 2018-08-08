@@ -28,7 +28,6 @@ module Styles = {
         fontSize(px(14)),
         fontWeight(700),
         overflow(hidden),
-        textOverflow(ellipsis),
         maxWidth(px(200)),
       ])
     );

@@ -11,10 +11,10 @@ module Styles = {
         borderRadius(px(4)),
         backgroundColor(hex("FFFFFF")),
         cursor(`pointer),
-        unsafe("box-shadow", "0 0 4px 0 rgba(0,0,0,0.11)"),
+        unsafe("boxShadow", "0 0 4px 0 rgba(0,0,0,0.11)"),
         transitionProperty("all"),
         transitionDuration(300),
-        margin(px(15)),
+        margin(px(10)),
       ])
     );
 };

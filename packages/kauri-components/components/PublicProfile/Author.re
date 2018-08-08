@@ -11,10 +11,19 @@ module Styles = {
     );
 };
 
-let make = (~username, _children) => {
+let make = (~userId, ~username, ~routeChangeAction=?, _children) => {
   ...component,
   render: _self =>
-    <div className=Styles.author>
+    <div
+      className=Styles.author
+      onClick=(
+        _event =>
+          switch (routeChangeAction) {
+          | Some(routeChangeAction) =>
+            routeChangeAction({j|/public-profile/$userId|j})
+          | None => ()
+          }
+      )>
       <Avatar />
       <Username username pageType=Article />
     </div>,

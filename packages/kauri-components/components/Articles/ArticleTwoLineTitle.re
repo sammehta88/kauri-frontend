@@ -3,18 +3,14 @@ let component = ReasonReact.statelessComponent("Greeting");
 
 module Styles = {
   open Css;
-  let baseCard = [%css
-    {|
-      {
-        display: flexBox;
-        flex-direction: column;
-        padding-top: 11px;
-        padding-bottom: 11px;
-        border-radius: 4px;
-        box-shadow: 0px 0px 6px 0px rgba(0,0,0,0.11);
-        background: rgb(255, 255, 255);
-    }
-    |}
+  let baseCard = [
+    display(`flex),
+    flexDirection(`column),
+    paddingTop(px(11)),
+    paddingBottom(px(11)),
+    borderRadius(px(4)),
+    unsafe("box-shadow", "0px 0px 6px 0px rgba(0,0,0,0.11)"),
+    background(rgb(255, 255, 255)),
   ];
 
   let calcCardWidth = cardWidth =>
@@ -22,13 +18,10 @@ module Styles = {
     | Some(cardWidth) => cardWidth |. int_of_string |. px
     | None => 15 |. px
     };
-  let blackCard = cardWidth => [%css
-    {|
-    {
-      background-color: black;
-      width: calcCardWidth(cardWidth);
-    }
-  |}
+
+  let blackCard = cardWidth => [
+    backgroundColor(black),
+    width(calcCardWidth(cardWidth)),
   ];
   let card = (~cardWidth: option(string), ~color: string) => {
     let cardCssRules =

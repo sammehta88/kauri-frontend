@@ -3,54 +3,37 @@ let component = ReasonReact.statelessComponent("ArticleCard");
 module Styles = {
   let image =
     Css.(
-      [%css
-        {|
-      {
-        height: 170px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        height(px(170)),
+        borderTopLeftRadius(px(4)),
+        borderTopRightRadius(px(4)),
+      ])
+    );
 
   let container =
-    Css.(
-      [%css
-        {|
-    {
-      display: flexBox;
-      flex-direction: column;
-      flex: 1;
-  }
-  |}
-      ]
-    )
-    |> Css.style;
+    Css.(style([display(`flex), flexDirection(column), flex(1)]));
 
   let footer =
     Css.(
-      [%css
-        {|{
-          display: flexBox;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          padding: 4px 14px;
-        }|}
-      ]
-    )
-    |> Css.style;
-
+      style([
+        display(`flex),
+        flexDirection(row),
+        alignItems(center),
+        justifyContent(spaceBetween),
+        padding2(~v=px(4), ~h=px(14)),
+      ])
+    );
   let content =
     Css.(
-      [%css {|{
-    padding: 11px 14px 11px 14px;
-        flex: 1;
-      }|}]
-    )
-    |> Css.style;
+      style([
+        padding4(
+          ~top=px(11),
+          ~right=px(14),
+          ~bottom=px(11),
+          ~left=px(14),
+        ),
+      ])
+    );
 };
 
 let make =

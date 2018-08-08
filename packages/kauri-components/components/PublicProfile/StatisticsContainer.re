@@ -19,14 +19,12 @@ type statistics = {
 let make = (~statistics, _children) => {
   ...component,
   render: _self =>
-    Vrroom.(
-      <div className=Styles.container>
-        (
-          Belt.Array.map(statistics, statistic =>
-            <StatisticCount name=statistic##name count=statistic##count />
-          )
-          |> ReasonReact.array
+    <div className=Styles.container>
+      (
+        Belt.Array.map(statistics, statistic =>
+          <StatisticCount name=statistic##name count=statistic##count />
         )
-      </div>
-    ),
+        |> ReasonReact.array
+      )
+    </div>,
 };

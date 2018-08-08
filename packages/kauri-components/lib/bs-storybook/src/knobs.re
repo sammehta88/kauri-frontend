@@ -78,8 +78,7 @@ let date = (~label: string, ~defaultValue: option(Js_date.t)=?, ()) =>
 type button;
 
 [@bs.val] [@bs.module "@storybook/addon-knobs/react"]
-external extButton : (string, ReactEventRe.Mouse.t => unit) => button =
-  "button";
+external extButton : (string, ReactEvent.Mouse.t => unit) => button = "button";
 
-let button = (~label: string, ~handler: ReactEventRe.Mouse.t => unit, ()) =>
+let button = (~label: string, ~handler: ReactEvent.Mouse.t => unit, ()) =>
   extButton(label, handler);

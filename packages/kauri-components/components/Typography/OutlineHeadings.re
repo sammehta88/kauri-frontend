@@ -27,7 +27,7 @@ module Styles = {
 };
 
 let handleClick = (event, heading) => {
-  ReactEventRe.Mouse.preventDefault(event);
+  event |> ReactEvent.Mouse.preventDefault;
   let headingLowerCasedWithNoSpacesOrSpecialChars =
     heading
     |> Revamp.replace({| |}, _ => "")

@@ -84,7 +84,7 @@
     "react-tippy": "^1.2.2",
     "react-youtube": "^7.5.0",
     "reason-apollo": "^0.9.1",
-    "reason-react": "^0.4.2",
+    "reason-react": "^0.5.0",
     "recompose": "^0.26.0",
     "redraft": "^0.10.1",
     "redux": "^3.7.2",
@@ -105,7 +105,6 @@
     "web3": "0.20.1"
   },
   "devDependencies": {
-    "@esy-ocaml/merlin": "*",
     "@zeit/next-source-maps": "^0.0.2",
     "babel-core": "^6.26.0",
     "babel-eslint": "8",
@@ -120,7 +119,7 @@
     "body-parser": "^1.18.2",
     "bs-enzyme": "^0.4.0",
     "bs-jest": "^0.3.2",
-    "bs-platform": "^4.0.0",
+    "bs-platform": "^4.0.3",
     "buffer": "^5.1.0",
     "concurrently": "^3.6.0",
     "cors": "^2.8.4",
@@ -155,7 +154,6 @@
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
     "next": "5.1.0",
-    "ocaml": "~4.2.3000",
     "raw-loader": "^0.5.1",
     "regenerator-runtime": "^0.11.0",
     "selenium-webdriver": "^4.0.0-alpha.1",
@@ -168,12 +166,6 @@
     "webdriverio": "^4.13.1",
     "webpack-hot-middleware": "^2.22.1",
     "xmlhttprequest": "^1.8.0"
-  },
-  "peerDependencies": {
-    "ocaml": "~4.2.3000"
-  },
-  "resolutions": {
-    "@opam/gen": "0.5.0"
   },
   "optionalDependencies": {
     "fsevents": "^1.2.4"

@@ -21,10 +21,5 @@ module Styles = {
 
 let make = children => {
   ...component,
-  render: _self =>
-    ReasonReact.createDomElement(
-      "div",
-      ~props={"key": "1", "className": Styles.card},
-      children,
-    ),
+  render: _self => <div className=Styles.card> ...children </div>,
 };

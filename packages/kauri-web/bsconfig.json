@@ -36,7 +36,7 @@
   "namespace": true,
   "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],
   "bs-dev-dependencies": ["bs-enzyme", "bs-jest"],
-  "ppx-flags": ["graphql_ppx/ppx", "./bs-ppx-css\\ --as-ppx"],
+  "ppx-flags": ["graphql_ppx/ppx"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3
 }

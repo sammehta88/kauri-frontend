@@ -17,7 +17,6 @@ lerna-debug.log
 lerna-error.log
 *.bs.js
 .merlin
-bs-ppx-css
 .bsb.lock
 yarn.lock
 Dockerfile-local

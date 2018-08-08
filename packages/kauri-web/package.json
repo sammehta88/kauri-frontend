@@ -26,8 +26,7 @@
     "test:unit": "NODE_ENV=test jest components",
     "test:e2e": "NODE_ENV=test jest --testRegex '(/__tests__/e2e/.*)\\.spec.js?$'",
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
-    "test:integration": "NODE_ENV=test jest integration",
-    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
+    "test:integration": "NODE_ENV=test jest integration"
   },
   "esy": {},
   "dependencies": {
@@ -157,7 +156,6 @@
     "less-loader": "^4.0.5",
     "next": "5.1.0",
     "ocaml": "~4.2.3000",
-    "ppx_bs_css": "github:astrada/ppx_bs_css#36a3675",
     "raw-loader": "^0.5.1",
     "regenerator-runtime": "^0.11.0",
     "selenium-webdriver": "^4.0.0-alpha.1",

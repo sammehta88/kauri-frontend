@@ -25,6 +25,7 @@ declare type Query = {
   createRequest: ?MutationResponse;
   getRequest: ?RequestDTO;
   getAllCuratedList: ?Array<CuratedListDTO>;
+  getUser: ?UserDTO;
   createCuratedList: ?MutationResponse;
   searchArticles: ?Page_ArticleDTO;
   deleteArticleComment: ?MutationResponse;
@@ -47,6 +48,7 @@ declare type Query = {
   storeRequestOwnershipSignature: ?MutationResponse;
   getCuratedList: ?CuratedListDTO;
   storeArticleOwnershipSignature: ?MutationResponse;
+  addHeaderToCuratedList: ?MutationResponse;
   removeResourceFromCuratedList: ?MutationResponse;
   upvoteArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;
@@ -114,6 +116,8 @@ declare type CuratedListDTO = {
   date_created: ?any;
   description: ?string;
   featured: ?boolean;
+  header: ?DTO;
+  header_id: ?ResourceDTO;
   id: ?string;
   name: ?string;
   owner_id: ?string;
@@ -177,26 +181,26 @@ declare type Sort = {
 }
 
 declare type ArticleFilterInput = {
-  date_updated_lt: ?any;
+  status_in: ?Array<ArticleStatusInput>;
   total_contribution_lt: ?number;
   user_id_eq: ?string;
+  date_updated_lt: ?any;
   total_contribution_gt: ?number;
   date_created_gt: ?any;
   full_text: ?string;
   article_version_eq: ?number;
-  date_created_lt: ?any;
   moderator_eq: ?string;
-  category_in: ?Array<string>;
-  article_id_in: ?Array<string>;
   sub_category_in: ?Array<string>;
-  date_updated_gt: ?any;
+  date_created_lt: ?any;
+  article_id_in: ?Array<string>;
+  category_in: ?Array<string>;
   total_vote_lt: ?number;
   article_id_eq: ?string;
-  status_in: ?Array<ArticleStatusInput>;
   request_id_eq: ?string;
   moderator: ?string;
   subject_ct: ?string;
   total_vote_gt: ?number;
+  date_updated_gt: ?any;
   text_ct: ?string;
   latest_version: ?boolean;
 }
@@ -223,10 +227,12 @@ declare type Page_CollectionDTO = {
 }
 
 declare type CollectionDTO = {
+  background: ?string;
   date_created: ?any;
   description: ?string;
   id: ?string;
   name: ?string;
+  owner: ?UserDTO;
   owner_id: ?string;
   sections: ?Array<SectionDTO>;
   type: ?ResourceType;
@@ -241,13 +247,13 @@ declare type SectionDTO = {
 
 declare type CollectionFilterInput = {
   date_updated_lt: ?any;
-  date_created_lt: ?any;
   name_ct: ?string;
+  date_created_lt: ?any;
   description_ct: ?string;
-  owner_id_eq: ?string;
-  date_updated_gt: ?any;
   date_created_gt: ?any;
+  owner_id_eq: ?string;
   full_text: ?string;
+  date_updated_gt: ?any;
 }
 
 declare type SectionDTOInput = {
@@ -269,26 +275,26 @@ declare type Page_RequestDTO = {
 }
 
 declare type RequestFilterInput = {
-  date_updated_lt: ?any;
   total_contribution_lt: ?number;
   user_id_eq: ?string;
-  total_contribution_gt: ?number;
   dead_line_lt: ?any;
+  date_updated_lt: ?any;
+  total_contribution_gt: ?number;
+  status_in: ?Array<RequestStatusInput>;
   total_flag_lt: ?number;
   total_submissions_lt: ?number;
-  dead_line_gt: ?any;
   date_created_gt: ?any;
+  dead_line_gt: ?any;
   full_text: ?string;
   total_submissions_gt: ?number;
+  sub_category_in: ?Array<string>;
+  total_flag_gt: ?number;
   date_created_lt: ?any;
   category_in: ?Array<string>;
-  total_flag_gt: ?number;
-  status_in: ?Array<RequestStatusInput>;
-  sub_category_in: ?Array<string>;
-  date_updated_gt: ?any;
   total_vote_lt: ?number;
   subject_ct: ?string;
   total_vote_gt: ?number;
+  date_updated_gt: ?any;
   text_ct: ?string;
 }
 
@@ -317,6 +323,7 @@ declare type Mutation = {
   removeCollection: ?MutationResponse;
   storeRequestOwnershipSignature: ?MutationResponse;
   storeArticleOwnershipSignature: ?MutationResponse;
+  addHeaderToCuratedList: ?MutationResponse;
   removeResourceFromCuratedList: ?MutationResponse;
   upvoteArticle: ?MutationResponse;
   submitArticle: ?MutationResponse;

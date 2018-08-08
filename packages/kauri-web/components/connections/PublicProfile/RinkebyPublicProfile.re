@@ -88,10 +88,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
              | Data(response) =>
                <div className=Styles.container>
                  <section className=Styles.header>
-                   <ProfileAvatar
-                     username="SOON (TM)"
-                     pageType=RinkebyPublicProfile
-                   />
+                   <ProfileAvatar_Connection userId />
                    <StatisticsContainer
                      statistics=[|
                        {

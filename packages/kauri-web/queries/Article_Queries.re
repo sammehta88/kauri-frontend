@@ -98,8 +98,7 @@ module SubmitForReview = [%graphql
     |}
 ];
 
-module SubmitForReviewMutation =
-  ReasonApollo.CreateMutation(SubmitForReview);
+module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);
 
 module SearchPersonalArticles = [%graphql
   {|
@@ -145,3 +144,16 @@ module SearchPersonalArticles = [%graphql
 
 module SearchPersonalArticlesQuery =
   ReasonApollo.CreateQuery(SearchPersonalArticles);
+
+module GetUser = [%graphql
+  {|
+  query getUser($userId: String) {
+    getUser(id:$userId) {
+      user_id
+      username
+    }
+  }
+|}
+];
+
+module GetUserQuery = ReasonApollo.CreateQuery(GetUser);

@@ -4,12 +4,6 @@ let (|?) = (a, b) =>
   | Some(a) => b(a)
   };
 
-let default = (a, b) =>
-  switch (b) {
-  | None => a
-  | Some(b) => b
-  };
-
 module Styles = {
   let container = Css.(style([]));
 
@@ -47,66 +41,30 @@ module Styles = {
     |> Css.style;
 };
 
-let getArticleUsername = article =>
-  article
-  |? (article => article##user)
-  |? (user => user##username)
-  |> default(
-       article
-       |? (article => article##user)
-       |? (user => user##user_id)
-       |> default("Unknown Writer"),
-     );
-
-let getArticleDateUpdated = article =>
-  article
-  |? (article => article##date_updated)
-  |? (date_updated => Js.Json.decodeString(date_updated))
-  |> default("")
-  |> MomentRe.moment
-  |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));
-
 let component = ReasonReact.statelessComponent("RinkebyPublicProfile");
 
 let renderArticleCards = (~response, ~routeChangeAction) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     content
-    |> Js.Array.map(article =>
+    |> Js.Array.map(article => {
+         open Article_Resource;
+         let {articleId, articleVersion, key, title, content, date, username} =
+           make(article);
          <ArticleCard
-           articleId=(article |? (x => x##article_id) |> default(""))
-           articleVersion=(article |? (x => x##article_version) |> default(1))
+           key
+           articleId
+           articleVersion
            changeRoute=routeChangeAction
-           key=(
-             article
-             |? (article => article##article_id)
-             |> default("")
-             |> (
-               articleId =>
-                 articleId
-                 ++ (
-                   article
-                   |? (x => x##article_version)
-                   |> default(0)
-                   |> string_of_int
-                 )
-             )
-           )
-           title=(article |? (article => article##subject) |> default(""))
-           content=(article |? (article => article##text) |> default(""))
-           date=(getArticleDateUpdated(article))
-           username=(getArticleUsername(article))
-         />
-       )
+           title
+           content
+           date
+           username
+         />;
+       })
     |. ReasonReact.array
   | None => <p> ("No articles found boo" |. ReasonReact.string) </p>
   };
-
-let getArticleCount = response =>
-  response##searchArticles
-  |? (x => x##content)
-  |> default([||])
-  |> Array.length;
 
 let make = (~userId, ~routeChangeAction, _children) => {
   ...component,
@@ -131,7 +89,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
                      statistics=[|
                        {
                          "name": "Articles",
-                         "count": getArticleCount(response),
+                         "count": Article_Resource.articlesCountGet(response),
                        },
                      |]
                    />

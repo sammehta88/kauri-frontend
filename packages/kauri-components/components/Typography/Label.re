@@ -3,19 +3,14 @@ let component = ReasonReact.statelessComponent("Heading");
 module Styles = {
   let label =
     Css.(
-      [%css
-        {|
-          {
-              font-size: 0.7em;
-              text-transform: uppercase;
-              font-weight: 600;
-              line-height: 1.6;
-              margin: 10px 0px 10px 0;
-        }
-        |}
-      ]
-    )
-    |> Css.style;
+      style([
+        fontSize(em(0.7)),
+        textTransform(uppercase),
+        fontWeight(600),
+        lineHeight(1.6),
+        unsafe("margin", "10px 0px 10px 0px"),
+      ])
+    );
 };
 let make = (~text, _children) => {
   ...component, /* spread the template's other defaults into here  */

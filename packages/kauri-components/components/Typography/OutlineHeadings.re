@@ -7,48 +7,23 @@ type windowLocation;
 [@bs.set] external setLocationHash : (windowLocation, string) => unit = "hash";
 
 module Styles = {
-  let hey = `none;
   let listItem =
     Css.(
-      [%css
-        {|
-           {
-              color: #0BA986;
-              font-size: 11px;
-              list-style-position: outside;
-              padding-left: 0px;
-              cursor: pointer;
-           }
-        |}
-      ]
-    )
-    |> Css.style;
+      style([
+        color(hex("0BA986")),
+        fontSize(px(11)),
+        listStylePosition(outside),
+        paddingLeft(px(0)),
+        cursor(`pointer),
+      ])
+    );
 
-  let list =
-    Css.(
-      [%css
-        {|
-         {
-              padding-left: 16px;
-         }
-      |}
-      ]
-    )
-    |> Css.style;
+  let list = Css.(style([paddingLeft(px(16))]));
 
   let heading =
     Css.(
-      [%css
-        {|
-          {
-            color: #1E2428;
-            font-size: 14px;
-            font-weight: 500;
-          }
-       |}
-      ]
-    )
-    |> Css.style;
+      style([color(hex("1E2428")), fontSize(px(14)), fontWeight(500)])
+    );
 };
 
 let handleClick = (event, heading) => {

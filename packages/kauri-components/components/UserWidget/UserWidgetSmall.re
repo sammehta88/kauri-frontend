@@ -3,18 +3,23 @@ let component = ReasonReact.statelessComponent("UserWidgetSmall");
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|{ display: flexBox; flex-direction: row; align-items: center; margin: 10px 0px 10px 0px}|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(row),
+        alignItems(center),
+        unsafe("margin", "10px 0px 10px 0px"),
+      ])
+    );
+
   let image =
     Css.(
-      [%css
-        {|{height: 30px;width: 30px;border-radius: 15px; margin-right: 8px}|}
-      ]
-    )
-    |> Css.style;
+      style([
+        height(px(30)),
+        width(px(30)),
+        borderRadius(px(15)),
+        marginRight(px(8)),
+      ])
+    );
 
   let username =
     /* font-size: 14px; font-weight: 700 */

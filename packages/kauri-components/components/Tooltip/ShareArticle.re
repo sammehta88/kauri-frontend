@@ -1,70 +1,31 @@
 let component = ReasonReact.statelessComponent("ShareArticle");
 
 module Styles = {
-  let referenceContainer =
-    Css.(
-      [%css
-        {|
-        {
-          display: flexBox;
-          width: 75px;
-        }
-         |}
-      ]
-      |> style
-    );
+  let referenceContainer = Css.(style([display(`flex), width(px(75))]));
+
   let container =
     Css.(
-      [%css
-        {|
-            {
-              display: flexBox;
-              justify-content: center;
-              width: 60px;
-            }
-            > :first-child {
-              margin-right: 9px;
-            }
-            > svg {
-              height: 16px;
-              width: 16px;
-            }
-        |}
-      ]
-      |> style
+      style([
+        display(`flex),
+        justifyContent(center),
+        width(px(60)),
+        selector("> :first-child", [marginRight(px(9))]),
+        selector("> svg", [height(px(16)), width(px(16))]),
+      ])
     );
 
   let tooltipContainer =
     Css.(
-      [%css
-        {|
-        {
-          display: flexBox;
-          flex-direction: column;
-          padding-top: 15px;
-        }
-        > div {
-          margin-bottom: 5px;
-        }
-
-    |}
-      ]
-      |> style
+      style([
+        display(`flex),
+        flexDirection(column),
+        paddingTop(px(15)),
+        selector("> div", [marginBottom(px(5))]),
+      ])
     );
 
   let text =
-    Css.(
-      [%css
-        {|
-          {
-            color: white;
-            font-size: 12px;
-            font-weight: 500;
-          }
-      |}
-      ]
-      |> style
-    );
+    Css.(style([color(white), fontSize(px(12)), fontWeight(500)]));
 };
 
 let svgIcon =

@@ -1,17 +1,12 @@
 module Styles = {
   let heading =
     Css.(
-      [%css
-        {|
-           {
-               font-size: 20px;
-               font-weight: 600;
-               margin: 6px 0px;
-         }
-         |}
-      ]
-    )
-    |> Css.style;
+      style([
+        fontSize(px(20)),
+        fontWeight(600),
+        margin2(~v=px(6), ~h=px(0)),
+      ])
+    );
 };
 let component = ReasonReact.statelessComponent("Heading");
 let make = (~text, _children) => {

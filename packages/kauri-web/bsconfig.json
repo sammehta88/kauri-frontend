@@ -35,7 +35,7 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],
-  "bs-dev-dependencies": ["bs-enzyme", "bs-jest"],
+  "bs-dev-dependencies": ["bs-enzyme", "@glennsl/bs-jest"],
   "ppx-flags": ["graphql_ppx/ppx"],
   "bsc-flags": ["-bs-super-errors"],
   "refmt": 3

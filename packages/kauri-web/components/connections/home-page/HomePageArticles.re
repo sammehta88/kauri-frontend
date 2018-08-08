@@ -39,29 +39,18 @@ let (|???) = (a, b) =>
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|
-      {
-          display: flexBox;
-          flex-direction: row;
-          justify-content: flex-start;
-          padding: 10px;
-          flex: 1;
-          flex-wrap: wrap;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(row),
+        justifyContent(flexStart),
+        padding(px(10)),
+        flex(1),
+        flexWrap(wrap),
+      ])
+    );
 
   let sectionTitle =
-    Css.([%css {|
-  {
-      width: 100%;
-      text-align: center;
-}
-|}])
-    |> Css.style;
+    Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
 module GetCollections = [%graphql

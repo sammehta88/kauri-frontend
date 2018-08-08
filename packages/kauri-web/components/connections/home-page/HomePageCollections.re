@@ -25,31 +25,8 @@ let (|??) = (a, b) =>
   };
 
 module Styles = {
-  let container =
-    Css.(
-      [%css
-        {|
-      {
-          display: flexBox;
-          flex-direction: row;
-          justify-content: flex-start;
-          padding: 10px;
-          flex: 1;
-          flex-wrap: wrap;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
-
-  let sectionTitle =
-    Css.([%css {|
-  {
-      width: 100%;
-      text-align: center;
-}
-|}])
-    |> Css.style;
+  let container = HomePageArticles.Styles.container;
+  let sectionTitle = HomePageArticles.Styles.sectionTitle;
 };
 
 module GetCollections = [%graphql

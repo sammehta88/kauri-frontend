@@ -6,7 +6,7 @@ module Styles = {
     );
 };
 let component = ReasonReact.statelessComponent("Outline");
-let make = (~headings, ~username, ~userId, _children) => {
+let make = (~headings, ~username, ~userId, ~routeChangeAction, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <div className=Styles.container>
@@ -22,7 +22,7 @@ let make = (~headings, ~username, ~userId, _children) => {
         }
       )
       <OutlineHeader text="Author" />
-      <Author userId username />
+      <Author userId username routeChangeAction />
       <Separator my=20 direction="horizontal" color=LightGray />
     </div>,
 };
@@ -32,14 +32,15 @@ type jsProps = {
   headings: array(string),
   username: string,
   userId: string,
+  routeChangeAction: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(
     ~component,
     jsProps => {
-      let (headings, username, userId) =
-        jsProps |. (headingsGet, usernameGet, userIdGet);
-      make(~headings, ~username, ~userId, [||]);
+      let (headings, username, userId, routeChangeAction) =
+        jsProps->(headingsGet, usernameGet, userIdGet, routeChangeActionGet);
+      make(~headings, ~username, ~userId, ~routeChangeAction, [||]);
     },
   );

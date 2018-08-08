@@ -82,7 +82,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
       ...(
            ({result}) =>
              switch (result) {
-             | Loading => <div> (ReasonReact.string("Loading")) </div>
+             | Loading => <Loading />
              | Error(error) =>
                <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>

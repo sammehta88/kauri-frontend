@@ -6,6 +6,7 @@ module Styles = {
       style([
         display(flexBox),
         alignItems(center),
+        cursor(`pointer),
         selector("> :last-child", [marginLeft(px(8))]),
       ])
     );

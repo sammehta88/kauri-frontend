@@ -102,9 +102,12 @@ export default (props: Props) => (
               {`${moment(props.date_updated).fromNow()} ${moment(props.date_updated).format('(DD MMM YYYY)')}`}
             </strong>
           </Approval.DatePosted>
-          <Approval.DatePosted>
+          <Approval.DatePosted
+            type='written by'
+            onClick={() => props.routeChangeAction(`/public-profile/${props.user.user_id}`)}
+          >
             <span>WRITTEN BY</span>
-            <Username>{(props.user && props.user.username) || 'Unknown writer'}</Username>
+            <Username>{(props.user && props.user.username) || props.user.user_id}</Username>
           </Approval.DatePosted>
         </Approval.Dates>
       </Approval.Content>

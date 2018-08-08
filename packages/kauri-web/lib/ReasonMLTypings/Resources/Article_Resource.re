@@ -20,12 +20,10 @@ let usernameGet = article =>
        |? (user => user##user_id)
        |> default("Unknown Writer")
        |> (
-         userId => {
-           Js.log(userId);
+         userId =>
            String.sub(userId, 0, 11)
            ++ "..."
-           ++ String.sub(userId, String.length(userId) - 13, 11);
-         }
+           ++ String.sub(userId, String.length(userId) - 13, 11)
        ),
      );
 

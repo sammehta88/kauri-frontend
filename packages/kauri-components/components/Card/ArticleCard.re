@@ -32,6 +32,7 @@ module Styles = {
           ~bottom=px(11),
           ~left=px(14),
         ),
+        height(`percent(100.0)),
       ])
     );
 };
@@ -76,7 +77,7 @@ let make =
                 changeRoute(
                   {j|/article/$articleId/article-version/$articleVersion|j},
                 )
-              | None => Js.log("Lol")
+              | None => ()
               }
           )>
           <Label text=("Posted " ++ date) />

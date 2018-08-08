@@ -109,11 +109,9 @@ let make =
           onClick=(
             _ =>
               switch (changeRoute, pageType) {
-              | (Some(_changeRoute), Some(pageType))
-                  when pageType == RinkebyPublicProfile =>
-                ()
               | (Some(changeRoute), None) =>
                 changeRoute({j|/public-profile/$userId|j})
+              | (Some(_changeRoute), Some(_pageType)) => ()
               | (None, Some(_)) => ()
               | (None, None) => ()
               }

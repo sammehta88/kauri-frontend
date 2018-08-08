@@ -196,7 +196,7 @@ export default class extends React.Component<
           />
         </SubmitArticleFormContainer>
         <SubmitArticleFormDetails isSubmitting type='outline'>
-          <Outline headings={outlineHeadings || []} username={username || userId} />
+          <Outline pageType='SubmittingArticle' headings={outlineHeadings || []} username={username || userId} />
         </SubmitArticleFormDetails>
       </SubmitArticleFormContent>
     )

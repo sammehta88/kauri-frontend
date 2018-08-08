@@ -132,7 +132,7 @@ export default class Navbar extends React.Component {
           </Link>
         </StyledMenuItem>
 
-        <ArticleSearchbar />
+        <ArticleSearchbar key='searchbar' />
 
         <StyledMenuItem key='/write-article'>
           <Link route={userId ? '/write-article' : '/login'}>

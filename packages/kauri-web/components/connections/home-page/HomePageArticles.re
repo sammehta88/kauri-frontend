@@ -10,32 +10,6 @@ let (|?) = (a, b) =>
   | Some(a) => b(a)
   };
 
-let (|??) = (a, b) =>
-  switch (a) {
-  | None => ""
-  | Some(a) =>
-    switch (b(a)) {
-    | Some(a) => a
-    | None => ""
-    }
-  };
-
-let default = (a, b) =>
-  switch (b) {
-  | None => a
-  | Some(b) => b
-  };
-
-let (|???) = (a, b) =>
-  switch (a) {
-  | None => 0
-  | Some(a) =>
-    switch (b(a)) {
-    | Some(a) => a
-    | None => 0
-    }
-  };
-
 module Styles = {
   let container =
     Css.(

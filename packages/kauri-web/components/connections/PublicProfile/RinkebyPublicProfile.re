@@ -57,7 +57,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              make(article);
            <ArticleCard
              key
-             pageType=RinkebyPublicProfile
+             pageType=ArticleCard.RinkebyPublicProfile
              articleId
              articleVersion
              changeRoute=routeChangeAction

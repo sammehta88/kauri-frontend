@@ -6,7 +6,8 @@ module Styles = {
     );
 };
 let component = ReasonReact.statelessComponent("Outline");
-let make = (~headings, ~username, ~userId, ~routeChangeAction, _children) => {
+let make =
+    (~headings, ~username, ~userId, ~routeChangeAction, ~pageType, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <div className=Styles.container>
@@ -22,7 +23,7 @@ let make = (~headings, ~username, ~userId, ~routeChangeAction, _children) => {
         }
       )
       <OutlineHeader text="Author" />
-      <Author userId username routeChangeAction />
+      <Author pageType userId username routeChangeAction />
       <Separator my=20 direction="horizontal" color=LightGray />
     </div>,
 };
@@ -33,14 +34,29 @@ type jsProps = {
   username: string,
   userId: string,
   routeChangeAction: string => unit,
+  pageType: Js.Nullable.t(string),
 };
-
 let default =
   ReasonReact.wrapReasonForJs(
     ~component,
     jsProps => {
-      let (headings, username, userId, routeChangeAction) =
-        jsProps->(headingsGet, usernameGet, userIdGet, routeChangeActionGet);
-      make(~headings, ~username, ~userId, ~routeChangeAction, [||]);
+      let (headings, username, userId, routeChangeAction, pageType) =
+        jsProps
+        ->(
+            headingsGet,
+            usernameGet,
+            userIdGet,
+            routeChangeActionGet,
+            pageTypeGet,
+          );
+      let pageType = pageType->Js.Nullable.toOption;
+      make(
+        ~headings,
+        ~username,
+        ~userId,
+        ~routeChangeAction,
+        ~pageType,
+        [||],
+      );
     },
   );

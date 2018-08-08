@@ -85,6 +85,7 @@ class InReviewArticle extends React.Component<Props, State> {
           category={props.data.getArticle.category}
           text={props.data.getArticle.text}
           comments={props.data.getArticle.comments}
+          routeChangeAction={props.routeChangeAction}
           onEditorChange={this.onEditorChange}
           editorState={this.state.editorState}
           toggleModalAction={this.props.toggleModalAction}

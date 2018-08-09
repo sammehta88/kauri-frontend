@@ -1,5 +1,15 @@
 let component = ReasonReact.statelessComponent("ArticleCard");
 
+type article = {
+  date: string,
+  title: string,
+  content: string,
+  imageURL: string,
+  username: string,
+  profileImage: string,
+  articleVersion: int,
+};
+
 module Styles = {
   let image =
     Css.(
@@ -11,7 +21,15 @@ module Styles = {
     );
 
   let container =
-    Css.(style([display(`flex), flexDirection(column), flex(1)]));
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        minWidth(px(262)),
+        padding2(~v=px(11), ~h=px(14)),
+      ])
+    );
 
   let footer =
     Css.(
@@ -20,9 +38,10 @@ module Styles = {
         flexDirection(row),
         alignItems(center),
         justifyContent(spaceBetween),
-        padding2(~v=px(4), ~h=px(14)),
+        padding2(~v=px(7), ~h=px(14)),
       ])
     );
+
   let content =
     Css.(
       style([
@@ -138,12 +157,26 @@ let make =
 
 [@bs.deriving abstract]
 type jsProps = {
+  article,
   date: string,
   title: string,
   content: string,
-  imageURL: string,
   username: string,
-  profileImage: string,
+  articleId: string,
   articleVersion: int,
   changeRoute: string => unit,
 };
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~changeRoute=jsProps->changeRouteGet,
+      ~date=jsProps->dateGet,
+      ~title=jsProps->titleGet,
+      ~content=jsProps->contentGet,
+      ~username=jsProps->usernameGet,
+      ~articleId=jsProps->articleIdGet,
+      ~articleVersion=jsProps->articleVersionGet,
+      [||],
+    )
+  );

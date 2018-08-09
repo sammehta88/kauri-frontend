@@ -14,7 +14,7 @@ module Styles = {
         unsafe("boxShadow", "0 0 4px 0 rgba(0,0,0,0.11)"),
         transitionProperty("all"),
         transitionDuration(300),
-        margin(px(10)),
+        margin(px(15)),
       ])
     );
 };

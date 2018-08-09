@@ -27,31 +27,6 @@ module Styles = {
     Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
-module GetCollections = [%graphql
-  {|
-    query searchArticles {
-        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true }) {
-            content {
-                article_id
-                article_version
-                subject
-                text
-                date_updated
-                user_id
-                user {
-                    user_id
-                    username
-                }
-            }
-            totalPages
-            totalElements
-        }
-    }
-|}
-];
-
-module GetArticlesQuery = ReasonApollo.CreateQuery(GetCollections);
-
 let component = ReasonReact.statelessComponent("HomePageArticles");
 
 let renderArticleCards = (~response, ~routeChangeAction) =>
@@ -92,8 +67,8 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
 let make = (~routeChangeAction, _children) => {
   ...component,
   render: _self => {
-    let articlesQuery = GetCollections.make();
-    <GetArticlesQuery variables=articlesQuery##variables>
+    let articlesQuery = Article_Queries.GetArticles.make();
+    <Article_Queries.GetArticlesQuery variables=articlesQuery##variables>
       ...(
            ({result}) =>
              switch (result) {
@@ -109,7 +84,7 @@ let make = (~routeChangeAction, _children) => {
                </div>
              }
          )
-    </GetArticlesQuery>;
+    </Article_Queries.GetArticlesQuery>;
   },
 };
 

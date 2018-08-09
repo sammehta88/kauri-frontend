@@ -3,11 +3,11 @@ import { Menu, Button } from 'antd'
 import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
-import ArticleSearchbar from '../ArticleSearchbar'
+// import ArticleSearchbar from '../ArticleSearchbar'
 
-const supportedNetworkIds = [4, 224895]
-const ONE_SECOND = 1000
-const TWENTY_SECONDS = ONE_SECOND * 20
+// const supportedNetworkIds = [4, 224895]
+// const ONE_SECOND = 1000
+// const TWENTY_SECONDS = ONE_SECOND * 20
 
 export const menuHeaderHeight = 76
 
@@ -15,14 +15,17 @@ const StyledMenu = styled(Menu)`
   display: flex;
   height: ${menuHeaderHeight}px !important;
   line-height: ${menuHeaderHeight}px !important;
-  background-color: ${props => props.confirmationPage && props.theme.secondaryColor};
+  background-color: ${props =>
+    props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
+  border-bottom-color: ${props => props.navcolor} !important;
 `
 
 const ProfileContainer = styled.div`
   display: flex;
   flex-direction: row;
+  align-items: center;
   > :first-child {
-    margin-right: 10px;
+    margin-right: 29px;
   }
 `
 
@@ -41,6 +44,7 @@ const StyledMenuItem = styled(Menu.Item)`
 const LogoImage = styled.img`
   height: 30px;
   width: 30px;
+  z-index: 10;
 `
 
 const LogoWrapper = styled.div`
@@ -50,9 +54,13 @@ const LogoWrapper = styled.div`
   cursor: pointer;
 `
 
+const Spacer = styled.div`
+  flex: 1;
+`
+
 const Text = styled.a`
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 400;
   text-transform: uppercase;
   text-decoration: none;
   height: 60px;
@@ -79,6 +87,18 @@ const GlobalCreateRequestButton = styled(Button)`
   }
 `
 
+const ProfileMiniature = styled.div`
+  background: white;
+  color: #1e2428;
+  height: 30px;
+  width: 30px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+`
+
 class Logo extends React.Component {
   render () {
     return (
@@ -91,10 +111,15 @@ class Logo extends React.Component {
 
 export default class Navbar extends React.Component {
   render () {
-    const { userId, routeChangeAction, user, url, confirmationPage } = this.props
-
+    const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
-      <StyledMenu confirmationPage={confirmationPage} selectedKeys={[url.pathname]} theme='dark' mode='horizontal'>
+      <StyledMenu
+        confirmationPage={confirmationPage}
+        selectedKeys={[url.pathname]}
+        theme='dark'
+        mode='horizontal'
+        navcolor={navcolor}
+      >
         <Logo routeChangeAction={routeChangeAction} alt='logo' />
         <StyledMenuItem key='/'>
           <Link href='/'>
@@ -132,33 +157,33 @@ export default class Navbar extends React.Component {
           </Link>
         </StyledMenuItem>
 
-        <ArticleSearchbar key='searchbar' />
+        <Spacer />
 
         <StyledMenuItem key='/write-article'>
           <Link route={userId ? '/write-article' : '/login'}>
-            <GlobalCreateRequestButton type='write article'>WRITE ARTICLE</GlobalCreateRequestButton>
+            <Text href='/write-article' pathname={url.pathname} link='/write-article'>
+              Write Article
+            </Text>
           </Link>
         </StyledMenuItem>
-        <StyledMenuItem key='/create-request'>
+        {/* <StyledMenuItem key='/create-request'>
           <Link route={userId ? '/create-request' : '/login'}>
             <GlobalCreateRequestButton data-test-id='create-request-navbar'>CREATE REQUEST</GlobalCreateRequestButton>
           </Link>
-        </StyledMenuItem>
+        </StyledMenuItem> */}
 
         <StyledMenuItem key='/profile'>
           {userId && userId.length ? (
             <Link href='/profile'>
               <ProfileContainer>
                 <Web3Status />
-                <Text href='/profile' pathname={url.pathname} link='/profile'>
-                  Profile
-                </Text>
+                <ProfileMiniature>{user.username.substring(0, 1)}</ProfileMiniature>
               </ProfileContainer>
             </Link>
           ) : (
             <Link href='/login'>
               <Text href='/login' data-test-id='login-navbar' pathname={url.pathname} link='/login'>
-                Login / Register
+                Sign In
               </Text>
             </Link>
           )}

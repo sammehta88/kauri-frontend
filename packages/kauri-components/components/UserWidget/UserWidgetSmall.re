@@ -2,14 +2,7 @@ let component = ReasonReact.statelessComponent("UserWidgetSmall");
 
 module Styles = {
   let container =
-    Css.(
-      style([
-        display(`flex),
-        flexDirection(row),
-        alignItems(center),
-        unsafe("margin", "10px 0px 10px 0px"),
-      ])
-    );
+    Css.(style([display(`flex), flexDirection(row), alignItems(center)]));
 
   let image =
     Css.(

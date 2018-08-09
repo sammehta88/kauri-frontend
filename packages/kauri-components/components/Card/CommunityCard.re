@@ -12,6 +12,7 @@ module Styles = {
         flexDirection(column),
         flex(1),
         textAlign(center),
+        minWidth(px(262)),
       ])
     );
 
@@ -21,7 +22,8 @@ module Styles = {
         display(`flex),
         flexDirection(row),
         alignItems(center),
-        justifyContent(spaceBetween),
+        justifyContent(center),
+        padding2(~v=px(4), ~h=px(14)),
       ])
     );
 
@@ -47,6 +49,7 @@ let make =
       ~articles,
       ~views,
       ~communityLogo=?,
+      ~changeRoute=?,
       _children,
     ) => {
   ...component,
@@ -69,7 +72,35 @@ let make =
           <CardCounter value=followers label="Followers" />
           <CardCounter value=articles label="Articles" />
           <CardCounter value=views label="Views" />
+          <CardCounter value=articles label="Articles" />
         </div>
       </div>
     </BaseCard>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  heading: string,
+  communityName: string,
+  communityDescription: string,
+  followers: string,
+  articles: string,
+  views: string,
+  communityLogo: string,
+  changeRoute: string => unit,
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~changeRoute=jsProps->changeRouteGet,
+      ~heading=jsProps->headingGet,
+      ~communityName=jsProps->communityNameGet,
+      ~communityDescription=jsProps->communityDescriptionGet,
+      ~followers=jsProps->followersGet,
+      ~articles=jsProps->articlesGet,
+      ~views=jsProps->viewsGet,
+      ~communityLogo=jsProps->communityLogoGet,
+      [||],
+    )
+  );

@@ -100,6 +100,7 @@ class SubmitQuestion extends React.Component {
           const result = this.props.addCommentAction(
             {
               article_id: this.props.article_id,
+              article_version: this.props.article_version,
               comment,
             },
             () => this.props.cancelAskingQuestion()

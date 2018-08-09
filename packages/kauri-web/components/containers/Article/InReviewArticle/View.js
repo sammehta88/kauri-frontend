@@ -89,6 +89,7 @@ class InReviewArticle extends React.Component<Props, State> {
           editorState={this.state.editorState}
           toggleModalAction={this.props.toggleModalAction}
           article_id={props.data.getArticle.article_id}
+          article_version={props.data.getArticle.article_version}
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}

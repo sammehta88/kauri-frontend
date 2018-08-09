@@ -32,7 +32,7 @@ const CommunityLogo = styled.img`
     height: 70px;
     width: 70px;
     padding: 10px;
-    margin: 10px 20px 20px;
+    margin: 10px 20px 20px 0;
 `;
 
 const CommunityName = styled.h3`

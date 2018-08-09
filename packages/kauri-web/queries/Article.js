@@ -242,6 +242,7 @@ export const searchPersonalSubmittedArticles = gql`
         }
         user {
           username
+          user_id
         }
       }
     }

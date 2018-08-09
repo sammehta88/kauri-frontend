@@ -1,17 +1,8 @@
 module Styles = {
   let heading =
     Css.(
-      [%css
-        {|
-           {
-              color: #1E2428;
-              font-size: 11px;
-              font-weight: 700;
-            }
-         |}
-      ]
-    )
-    |> Css.style;
+      style([color(hex("1E2428")), fontSize(px(11)), fontWeight(700)])
+    );
 };
 let component = ReasonReact.statelessComponent("OutlineHeading");
 let make = (~text="Outline", _children) => {

@@ -3,16 +3,13 @@ FROM gcr.io/kauri-197812/kauri-contract-abis:latest-dev
 # setup workspace
 RUN mkdir -p /usr/src/app
 
-RUN apt-get update && apt-get install -y rsync
-RUN npm install -g --unsafe-perm esy@0.1.27
-
 COPY . /usr/src/app
 WORKDIR /usr/src/app/packages/kauri-components
-RUN esy install
+RUN yarn install
 RUN npm run build
-WORKDIR /usr/src/app/packages/kauri-web
-RUN esy install
 
+WORKDIR /usr/src/app/packages/kauri-web
+RUN yarn install
 RUN npm run build
 
 # env settings

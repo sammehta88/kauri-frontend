@@ -1,5 +1,7 @@
+open Infix_Utilities;
+
 [@bs.module]
-external homepage : ReasonReact.reactClass =
+external homepage: ReasonReact.reactClass =
   "../../components/containers/Homepage/View";
 
 [@bs.deriving abstract]
@@ -8,48 +10,9 @@ type jsProps = {routeChangeAction: string => unit};
 type action =
   | Any;
 
-let (|?) = (a, b) =>
-  switch (a) {
-  | None => None
-  | Some(a) => b(a)
-  };
-
-let (|??) = (a, b) =>
-  switch (a) {
-  | None => ""
-  | Some(a) =>
-    switch (b(a)) {
-    | Some(a) => a
-    | None => ""
-    }
-  };
-
 module Styles = {
-  let container =
-    Css.(
-      [%css
-        {|
-      {
-          display: flexBox;
-          flex-direction: row;
-          justify-content: flex-start;
-          padding: 10px;
-          flex: 1;
-          flex-wrap: wrap;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
-
-  let sectionTitle =
-    Css.([%css {|
-  {
-      width: 100%;
-      text-align: center;
-}
-|}])
-    |> Css.style;
+  let container = HomePageArticles.Styles.container;
+  let sectionTitle = HomePageArticles.Styles.sectionTitle;
 };
 
 let component = ReasonReact.reducerComponent("HomePageCollections");
@@ -74,25 +37,30 @@ let sumArticles = sections =>
 let renderCollectionCards = (~response, ~routeChangeAction) =>
   switch (response##searchCollections |? (x => x##content)) {
   | Some(content) =>
-    content
-    |> Js.Array.map(collection =>
-         <CollectionCard
-           collectionId=(collection |?? (x => x##id))
-           changeRoute=routeChangeAction
-           /* changeRoute={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)} */
-           key=(collection |?? (collection => collection##id))
-           collectionName=(collection |?? (collection => collection##name))
-           collectionDescription=(
-             collection |?? (collection => collection##description)
-           )
-           articles=(
-             sumArticles(collection |? (collection => collection##sections))
-             |. string_of_int
-           )
-         />
-       )
-    |. ReasonReact.array
-  | None => <p> ("No collections found boo" |. ReasonReact.string) </p>
+    (
+      content
+      |> Js.Array.map(collection =>
+           <CollectionCard
+             collectionId=(collection |? (x => x##id) |> default(""))
+             changeRoute=routeChangeAction
+             /* changeRoute={() => props.routeChangeAction(`/article/${props.data.searchArticles.content[0].article_id}`)} */
+             key=(collection |? (collection => collection##id) |> default(""))
+             collectionName=(
+               collection |? (collection => collection##name) |> default("")
+             )
+             collectionDescription=(
+               collection
+               |? (collection => collection##description)
+               |> default("")
+             )
+             articles=
+               sumArticles(collection |? (collection => collection##sections))
+               ->string_of_int
+           />
+         )
+    )
+    ->ReasonReact.array
+  | None => <p> "No collections found boo"->ReasonReact.string </p>
   };
 
 let make = (~routeChangeAction, _children) => {
@@ -132,7 +100,5 @@ let make = (~routeChangeAction, _children) => {
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~routeChangeAction=jsProps |. routeChangeActionGet, [||])
+    make(~routeChangeAction=jsProps->routeChangeActionGet, [||])
   );
-
-/* make(~user=jsProps, [||]) */

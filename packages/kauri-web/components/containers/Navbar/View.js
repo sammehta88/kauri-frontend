@@ -15,7 +15,8 @@ const StyledMenu = styled(Menu)`
   display: flex;
   height: ${menuHeaderHeight}px !important;
   line-height: ${menuHeaderHeight}px !important;
-  background-color: ${props => props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
+  background-color: ${props =>
+    props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
   border-bottom-color: ${props => props.navcolor} !important;
 `
 
@@ -54,8 +55,8 @@ const LogoWrapper = styled.div`
 `
 
 const Spacer = styled.div`
-flex: 1;
-`;
+  flex: 1;
+`
 
 const Text = styled.a`
   font-size: 13px;
@@ -88,7 +89,7 @@ const GlobalCreateRequestButton = styled(Button)`
 
 const ProfileMiniature = styled.div`
   background: white;
-  color: #1E2428;
+  color: #1e2428;
   height: 30px;
   width: 30px;
   border-radius: 15px;
@@ -96,7 +97,7 @@ const ProfileMiniature = styled.div`
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
-`;
+`
 
 class Logo extends React.Component {
   render () {
@@ -110,9 +111,15 @@ class Logo extends React.Component {
 
 export default class Navbar extends React.Component {
   render () {
-    const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props;
+    const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
-      <StyledMenu confirmationPage={confirmationPage} selectedKeys={[url.pathname]} theme='dark' mode='horizontal' navcolor={navcolor}>
+      <StyledMenu
+        confirmationPage={confirmationPage}
+        selectedKeys={[url.pathname]}
+        theme='dark'
+        mode='horizontal'
+        navcolor={navcolor}
+      >
         <Logo routeChangeAction={routeChangeAction} alt='logo' />
         <StyledMenuItem key='/'>
           <Link href='/'>
@@ -149,6 +156,7 @@ export default class Navbar extends React.Component {
             </Text>
           </Link>
         </StyledMenuItem>
+
         <Spacer />
 
         <StyledMenuItem key='/write-article'>
@@ -169,7 +177,7 @@ export default class Navbar extends React.Component {
             <Link href='/profile'>
               <ProfileContainer>
                 <Web3Status />
-                <ProfileMiniature>{user.username.substring(0,1)}</ProfileMiniature>
+                <ProfileMiniature>{user.username.substring(0, 1)}</ProfileMiniature>
               </ProfileContainer>
             </Link>
           ) : (

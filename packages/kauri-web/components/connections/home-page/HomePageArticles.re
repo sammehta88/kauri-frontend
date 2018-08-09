@@ -1,61 +1,27 @@
+open Infix_Utilities;
+
 [@bs.module]
-external homepage : ReasonReact.reactClass =
+external homepage: ReasonReact.reactClass =
   "../../components/containers/Homepage/View";
 
 [@bs.deriving abstract]
 type jsProps = {routeChangeAction: string => unit};
-let (|?) = (a, b) =>
-  switch (a) {
-  | None => None
-  | Some(a) => b(a)
-  };
-
-let (|??) = (a, b) =>
-  switch (a) {
-  | None => ""
-  | Some(a) =>
-    switch (b(a)) {
-    | Some(a) => a
-    | None => ""
-    }
-  };
-
-let (|???) = (a, b) =>
-  switch (a) {
-  | None => 0
-  | Some(a) =>
-    switch (b(a)) {
-    | Some(a) => a
-    | None => 0
-    }
-  };
 
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|
-      {
-          display: flexBox;
-          flex-direction: row;
-          justify-content: flex-start;
-          padding: 10px;
-          flex: 1;
-          flex-wrap: wrap;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(row),
+        justifyContent(flexStart),
+        padding(px(10)),
+        flex(1),
+        flexWrap(wrap),
+      ])
+    );
 
   let sectionTitle =
-    Css.([%css {|
-  {
-      width: 100%;
-      text-align: center;
-}
-|}])
-    |> Css.style;
+    Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
 let component = ReasonReact.statelessComponent("HomePageArticles");
@@ -63,36 +29,36 @@ let component = ReasonReact.statelessComponent("HomePageArticles");
 let renderArticleCards = (~response, ~routeChangeAction) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
-    content
-    |> Js.Array.map(article =>
-         <ArticleCard
-           articleId=(article |?? (x => x##article_id))
-           articleVersion=(article |??? (x => x##article_version))
-           changeRoute=routeChangeAction
-           key=(article |?? (article => article##article_id))
-           title=(article |?? (article => article##subject))
-           content=(article |?? (article => article##text))
-           date=(
-             article
-             |? (article => article##date_updated)
-             |?? Js.Json.decodeString
-             |. MomentRe.moment
-             |. MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-           )
-           username=(
-             switch (
-               article
-               |? (article => article##user)
-               |? (user => user##username)
-             ) {
-             | Some(username) => username
-             | None => "Unknown Writer"
-             }
-           )
-         />
-       )
-    |. ReasonReact.array
-  | None => <p> ("No articles found boo" |. ReasonReact.string) </p>
+    (
+      content
+      |> Js.Array.map(article => {
+           open Article_Resource;
+           let {
+             username,
+             articleId,
+             userId,
+             articleVersion,
+             key,
+             title,
+             content,
+             date,
+           } =
+             make(article);
+           <ArticleCard
+             articleId
+             userId
+             articleVersion
+             changeRoute=routeChangeAction
+             key
+             title
+             content
+             date
+             username
+           />;
+         })
+    )
+    ->ReasonReact.array
+  | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
 let make = (~routeChangeAction, _children) => {
@@ -121,5 +87,5 @@ let make = (~routeChangeAction, _children) => {
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~routeChangeAction=jsProps |. routeChangeActionGet, [||])
+    make(~routeChangeAction=jsProps->routeChangeActionGet, [||])
   );

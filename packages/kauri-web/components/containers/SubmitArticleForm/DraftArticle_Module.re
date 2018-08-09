@@ -1,11 +1,7 @@
+open Infix_Utilities;
+
 exception NoHashFound;
 exception NoResponseData;
-
-let (|?) = (a, b) =>
-  switch (a) {
-  | None => None
-  | Some(a) => b(a)
-  };
 
 module DraftArticle = {
   let actionType = "DRAFT_ARTICLE";
@@ -35,7 +31,7 @@ module DraftArticle = {
   };
 };
 
-let draftArticleAction = (payload: DraftArticle.payload) : DraftArticle.action =>
+let draftArticleAction = (payload: DraftArticle.payload): DraftArticle.action =>
   DraftArticle.action(~type_=DraftArticle.actionType, ~payload);
 
 let draftArticleEpic =
@@ -46,19 +42,20 @@ let draftArticleEpic =
     ) =>
   ReduxObservable.Observable.(
     action
-    |. ofType(DraftArticle.actionType)
-    |. switchMap(draftArticleAction => {
-         let (apolloClient, subscriber) =
-           dependencies
-           |. (
-             ReduxObservable.Dependencies.apolloClientGet,
-             ReduxObservable.Dependencies.subscribeToOffchainEvent,
-           );
+    ->(ofType(DraftArticle.actionType))
+    ->(
+        switchMap(draftArticleAction => {
+          let (apolloClient, subscriber) =
+            dependencies
+            ->(
+                ReduxObservable.Dependencies.apolloClientGet,
+                ReduxObservable.Dependencies.subscribeToOffchainEvent,
+              );
 
-         let (resourceID, subject, category, text, sub_category, request_id) =
-           draftArticleAction
-           |. DraftArticle.payloadGet
-           |. DraftArticle.(
+          let (resourceID, subject, category, text, sub_category, request_id) =
+            draftArticleAction
+            ->DraftArticle.payloadGet
+            ->DraftArticle.(
                 idGet,
                 subjectGet,
                 categoryGet,
@@ -67,108 +64,115 @@ let draftArticleEpic =
                 request_idGet,
               );
 
-         let metaDataResult =
-           switch (
-             draftArticleAction
-             |. DraftArticle.payloadGet
-             |. DraftArticle.metadataGet
-             |. DraftArticle.forVersionGet
-           ) {
-           | Some("") => "{}"
-           | Some(forVersion) => {j|{"FOR_VERSION": "$(forVersion)"}|j}
-           | None => "{}"
-           };
+          let metaDataResult =
+            switch (
+              draftArticleAction
+              ->DraftArticle.payloadGet
+              ->DraftArticle.metadataGet
+              ->DraftArticle.forVersionGet
+            ) {
+            | Some("") => "{}"
+            | Some(forVersion) => {j|{"FOR_VERSION": "$(forVersion)"}|j}
+            | None => "{}"
+            };
 
-         let metadataString = metaDataResult;
+          let metadataString = metaDataResult;
 
-         let draftArticleMutation =
-           Article_Queries.DraftArticle.make(
-             ~id=resourceID,
-             ~subject,
-             ~text,
-             ~category,
-             ~sub_category,
-             ~metadata=Js.Json.parseExn(metadataString),
-             ~draft=true,
-             ~request_id,
-             (),
-           );
+          let draftArticleMutation =
+            Article_Queries.DraftArticle.make(
+              ~id=resourceID,
+              ~subject,
+              ~text,
+              ~category,
+              ~sub_category,
+              ~metadata=Js.Json.parseExn(metadataString),
+              ~draft=true,
+              ~request_id,
+              (),
+            );
 
-         fromPromise(
-           apolloClient##mutate({
-             "mutation": Article_Queries.DraftArticleMutation.graphqlMutationAST,
-             "variables": draftArticleMutation##variables,
-             "fetchPolicy": Js.Nullable.undefined,
-           }),
-         )
-         |. map(response => {
-              let possibleResponse = Js.Nullable.toOption(response##data);
-              switch (possibleResponse) {
-              | Some(data) =>
-                let result = Article_Queries.DraftArticle.parse(data);
-                switch (result##submitArticle |? (x => x##hash)) {
-                | Some(hash) => hash
-                | None => raise(NoHashFound)
+          fromPromise(
+            apolloClient##mutate({
+              "mutation": Article_Queries.DraftArticleMutation.graphqlMutationAST,
+              "variables": draftArticleMutation##variables,
+              "fetchPolicy": Js.Nullable.undefined,
+            }),
+          )
+          ->(
+              map(response => {
+                let possibleResponse = Js.Nullable.toOption(response##data);
+                switch (possibleResponse) {
+                | Some(data) =>
+                  let result = Article_Queries.DraftArticle.parse(data);
+                  switch (result##submitArticle |? (x => x##hash)) {
+                  | Some(hash) => hash
+                  | None => raise(NoHashFound)
+                  };
+                | _ => raise(NoResponseData)
                 };
-              | _ => raise(NoResponseData)
-              };
-            })
-         |. flatMap(hash => fromPromise(subscriber(hash)))
-         |. tap(_ => apolloClient##resetStore())
-         |. map(
-              (
-                offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
-              ) =>
-              ReduxObservable.Dependencies.OffchainEvent.(
-                dataGet(offchainEventResponse) |. submitArticleResponseGet
+              })
+            )
+          ->(flatMap(hash => fromPromise(subscriber(hash))))
+          ->(tap(_ => apolloClient##resetStore()))
+          ->(
+              map(
+                (
+                  offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
+                ) =>
+                ReduxObservable.Dependencies.OffchainEvent.(
+                  dataGet(offchainEventResponse)->submitArticleResponseGet
+                )
               )
             )
-         |. flatMap(subscriptionEventResponse => {
-              open App_Module;
+          ->(
+              flatMap(subscriptionEventResponse => {
+                open App_Module;
 
-              let (articleId, articleVersion) =
-                subscriptionEventResponse
-                |. ReduxObservable.Dependencies.OffchainEvent.(
-                     idGet,
-                     versionGet,
-                   );
+                let (articleId, articleVersion) =
+                  subscriptionEventResponse
+                  ->ReduxObservable.Dependencies.OffchainEvent.(
+                      idGet,
+                      versionGet,
+                    );
 
-              let trackDraftArticlePayload =
-                trackMixPanelPayload(
-                  ~event="Offchain",
-                  ~metaData={
-                    resource: "article",
-                    resourceID: articleId,
-                    resourceVersion: string_of_int(articleVersion),
-                    resourceAction: "draft article",
-                  },
-                );
-              let trackDraftArticleAction =
-                trackMixPanelAction(trackDraftArticlePayload);
+                let trackDraftArticlePayload =
+                  trackMixPanelPayload(
+                    ~event="Offchain",
+                    ~metaData={
+                      resource: "article",
+                      resourceID: articleId,
+                      resourceVersion: string_of_int(articleVersion),
+                      resourceAction: "draft article",
+                    },
+                  );
+                let trackDraftArticleAction =
+                  trackMixPanelAction(trackDraftArticlePayload);
 
-              let notificationType = notificationTypeToJs(`Success);
-              let showDraftArticleNotificationPayload =
-                showNotificationPayload(
-                  ~notificationType,
-                  ~message="Article drafted",
-                  ~description=
-                    "You can revisit your article and continue working on it later on! Find it in 'Profile > My Articles > Drafted Articles'.",
-                );
+                let notificationType = notificationTypeToJs(`Success);
+                let showDraftArticleNotificationPayload =
+                  showNotificationPayload(
+                    ~notificationType,
+                    ~message="Article drafted",
+                    ~description=
+                      "You can revisit your article and continue working on it later on! Find it in 'Profile > My Articles > Drafted Articles'.",
+                  );
 
-              let showDraftArticleNotificationAction =
-                showNotificationAction(showDraftArticleNotificationPayload);
+                let showDraftArticleNotificationAction =
+                  showNotificationAction(showDraftArticleNotificationPayload);
 
-              of3(
-                trackDraftArticleAction,
-                showDraftArticleNotificationAction,
-                routeChangeAction(
-                  route(
-                    ~slug1=ArticleId(articleId),
-                    ~slug2=ArticleVersionId(articleVersion),
-                    ~routeType=ArticleDrafted,
+                of3(
+                  trackDraftArticleAction,
+                  showDraftArticleNotificationAction,
+                  routeChangeAction(
+                    route(
+                      ~slug1=ArticleId(articleId),
+                      ~slug2=ArticleVersionId(articleVersion),
+                      ~routeType=ArticleDrafted,
+                    ),
                   ),
-                ),
-              );
-            });
-       })
+                );
+              })
+            );
+        })
+      )
   );

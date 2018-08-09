@@ -26,6 +26,7 @@ export default ({
   addCommentAction,
   personalUsername,
   deleteArticleComment,
+  routeChangeAction,
   text,
   username,
   userId,
@@ -34,6 +35,7 @@ export default ({
   onEditorChange: any => void,
   category: string,
   comments: Comments,
+  routeChangeAction: string => void,
   toggleModalAction: any,
   loaded: () => void,
   article_id: string,
@@ -73,7 +75,12 @@ export default ({
         <InReviewArticleGeneralCommentForm addCommentAction={addCommentAction} article_id={article_id} />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>
-        <Outline headings={outlineHeadings || []} username={username || userId} />
+        <Outline
+          routeChangeAction={routeChangeAction}
+          userId={userId}
+          headings={outlineHeadings || []}
+          username={username || userId}
+        />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>
   )

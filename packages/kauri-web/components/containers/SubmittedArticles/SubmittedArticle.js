@@ -194,7 +194,7 @@ export default ({
       >
         {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
         <SubmittedArticle.CategoryName>
-          {category || (user && user.username) || 'Unknown Writer'}
+          {category || (user && user.username) || (user && user.user_id)}
         </SubmittedArticle.CategoryName>
       </SubmittedArticle.CategoryBadge>
       <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
@@ -212,9 +212,12 @@ export default ({
               <span>POSTED</span>
               <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
             </SubmittedArticle.DatePosted>
-            <SubmittedArticle.WrittenBy>
+            <SubmittedArticle.WrittenBy
+              type='written by'
+              onClick={() => routeChangeAction(`/public-profile/${user && user.user_id}`)}
+            >
               <span>Written by</span>
-              <Username>{(user && user.username) || 'Unknown writer'}</Username>
+              <Username>{(user && user.username) || user.user_id}</Username>
             </SubmittedArticle.WrittenBy>
             {type !== 'approval' && (
               <SubmittedArticle.Contributions>

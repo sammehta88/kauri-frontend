@@ -3,39 +3,20 @@ let component = ReasonReact.statelessComponent("CardCounter");
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|{
-            display: flexBox;
-            flex-direction: column;
-            min-width: 50px;
-            align-items: center;
-        }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(column),
+        minWidth(px(50)),
+        alignItems(center),
+      ])
+    );
 
-  let value =
-    Css.(
-      [%css
-        {|{
-            font-size: 14px;
-            font-weight: 700;
-    }|}
-      ]
-    )
-    |> Css.style;
+  let value = Css.(style([fontSize(px(14)), fontWeight(700)]));
 
   let label =
     Css.(
-      [%css
-        {|{
-        font-size: 10px;
-        text-transform: uppercase;
-        font-weight: 700;
-    }|}
-      ]
-    )
-    |> Css.style;
+      style([fontSize(px(10)), textTransform(uppercase), fontWeight(700)])
+    );
 };
 
 let make = (~value, ~label, _children) => {

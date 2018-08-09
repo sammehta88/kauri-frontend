@@ -3,21 +3,13 @@ let component = ReasonReact.statelessComponent("PostedDate");
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|
-          {
-            color: #FFFFFF;
-            font-size: 12px;
-            font-weight: 500;
-          }
-          > :last-child {
-            margin-left: 12px;
-            font-weight: 700;
-          }
-        |}
-      ]
-    )
-    |> Css.style;
+      style([
+        color(hex("FFFFFF")),
+        fontSize(px(12)),
+        fontWeight(500),
+        selector("> :last-child", [marginLeft(px(12)), fontWeight(700)]),
+      ])
+    );
 };
 
 type dateType =

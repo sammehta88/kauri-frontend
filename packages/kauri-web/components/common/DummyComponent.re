@@ -13,7 +13,7 @@ let make = (~title, ~handleClick, _children) => {
     switch (action) {
     | Click => ReasonReact.Update({clicked: true})
     },
-  render: ({state, send}) =>
+  render: ({state}) =>
     <div className="dummy">
       <div id="header"> <h1> (se(title)) </h1> </div>
       <div id="content">

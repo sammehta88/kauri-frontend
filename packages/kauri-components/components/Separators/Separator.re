@@ -1,36 +1,18 @@
 let component = ReasonReact.statelessComponent("HorizontalSeparator");
 
 module Styles = {
-  let horizontal =
-    Css.(
-      [%css
-        {|
-        {
-            height: 2px;
-            width: 100%;
-        }
-        |}
-      ]
-    );
+  let horizontal = Css.[height(px(2)), width(`percent(100.0))];
 
-  let vertical =
-    Css.(
-      [%css
-        {|
-      {
-          width: 2px;
-          height: 100%;
-      }
-      |}
-      ]
-    );
+  let vertical = Css.[width(px(2)), height(`percent(100.0))];
 
-  let whiteColor = Css.([%css {| { background: #f2f2f2; } |}]);
-  let lightGrayColor = Css.([%css {| { background: #ebebeb; } |}]);
-  let getMarginStyle = my =>
-    switch (my) {
-    | Some(my) => Css.[marginTop(px(my)), marginBottom(px(my))]
-    | None => Css.[marginTop(px(10)), marginBottom(px(10))]
+  let whiteColor = [Css.background(Css.hex("F2F2F2"))];
+  let lightGrayColor = [Css.background(Css.hex("EBEBEB"))];
+  let getMarginStyle = (marginY, marginTopProp) =>
+    switch (marginY, marginTopProp) {
+    | (None, Some(_marginTop)) => Css.[marginTop(auto), marginBottom(px(10))]
+    | (Some(marginY), None) => Css.[marginTop(px(marginY)), marginBottom(px(marginY))]
+    | (Some(marginY), Some(_marginTop)) => Css.[marginTop(auto), marginBottom(px(marginY))]
+    | (None, None) => Css.[marginTop(px(10)), marginBottom(px(10))]
     };
 };
 
@@ -51,14 +33,14 @@ let getColorStyle = color =>
   | White => Styles.whiteColor
   };
 
-let make = (~direction, ~color=White, ~my=?, _children) => {
+let make = (~direction, ~color=White, ~marginY=?, ~marginTop=?, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self => {
     let directionStyle = getDirectionStyle(direction);
     let colorStyle = getColorStyle(color);
-    let marginStyle = Styles.getMarginStyle(my);
+    let marginStyle = Styles.getMarginStyle(marginY, marginTop);
     let separatedStyles =
-      List.concat([colorStyle, directionStyle, marginStyle]) |. Css.style;
+      List.concat([colorStyle, directionStyle, marginStyle])->Css.style;
     <div className=separatedStyles />;
   },
 };

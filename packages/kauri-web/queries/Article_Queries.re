@@ -100,6 +100,64 @@ module SubmitForReview = [%graphql
 
 module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);
 
+module SearchPersonalArticles = [%graphql
+  {|
+    query searchPersonalArticles($userId: String) {
+      searchArticles(filter: { user_id_eq: $userId }) {
+        content {
+          article_id
+          article_version
+          user_id
+          request_id
+          date_created
+          date_updated
+          text
+          tip
+          status
+          signature
+          subject
+          sub_category
+          category
+          content_hash
+          comments {
+            comment_id
+            date_created
+            comment
+            highlight_from
+            highlight_to
+            anchor_key
+            focus_key
+            user {
+              username
+            }
+          }
+          user {
+            user_id
+            username
+          }
+          metadata
+        }
+      }
+    }
+  |}
+];
+
+module SearchPersonalArticlesQuery =
+  ReasonApollo.CreateQuery(SearchPersonalArticles);
+
+module GetUser = [%graphql
+  {|
+  query getUser($userId: String) {
+    getUser(id:$userId) {
+      user_id
+      username
+    }
+  }
+|}
+];
+
+module GetUserQuery = ReasonApollo.CreateQuery(GetUser);
+
 module GetArticles = [%graphql
   {|
     query searchArticles {
@@ -110,9 +168,10 @@ module GetArticles = [%graphql
                 subject
                 text
                 date_updated
+                user_id
                 user {
-                    user_id
-                    username
+                  user_id
+                  username
                 }
             }
             totalPages

@@ -1,19 +1,14 @@
 module Styles = {
   let heading = (~colorProp, ~sizeProp) =>
     Css.(
-      [%css
-        {|
-           {
-               font-size: px(sizeProp);
-               font-weight: 500;
-               margin: 6px 0px;
-               color: hex(colorProp);
-               text-transform: capitalize;
-         }
-         |}
-      ]
-    )
-    |> Css.style;
+      style([
+        fontSize(px(sizeProp)),
+        fontWeight(500),
+        margin2(~v=px(6), ~h=px(0)),
+        color(hex(colorProp)),
+        textTransform(capitalize),
+      ])
+    );
 };
 let component = ReasonReact.statelessComponent("Heading");
 let make = (~text, ~color="#1E2428", ~size=20, _children) => {

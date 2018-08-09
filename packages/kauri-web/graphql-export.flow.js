@@ -22,14 +22,14 @@ declare type GraphQLResponseErrorLocation = {
 declare type Query = {
   downvoteArticle: ?MutationResponse;
   commentArticle: ?MutationResponse;
-  getRequest: ?RequestDTO;
   createRequest: ?MutationResponse;
+  getRequest: ?RequestDTO;
   getAllCuratedList: ?Array<CuratedListDTO>;
   getUser: ?UserDTO;
   createCuratedList: ?MutationResponse;
   searchArticles: ?Page_ArticleDTO;
-  getTopic: ?TopicDTO;
   deleteArticleComment: ?MutationResponse;
+  getTopic: ?TopicDTO;
   searchCollections: ?Page_CollectionDTO;
   addResourceToCuratedList: ?MutationResponse;
   composeCollection: ?MutationResponse;
@@ -181,26 +181,26 @@ declare type Sort = {
 }
 
 declare type ArticleFilterInput = {
+  status_in: ?Array<ArticleStatusInput>;
   total_contribution_lt: ?number;
-  article_id_in: ?Array<string>;
-  date_updated_gt: ?any;
   user_id_eq: ?string;
-  category_in: ?Array<string>;
+  date_updated_lt: ?any;
   total_contribution_gt: ?number;
-  date_created_lt: ?any;
-  sub_category_in: ?Array<string>;
+  date_created_gt: ?any;
   full_text: ?string;
   article_version_eq: ?number;
   moderator_eq: ?string;
-  date_created_gt: ?any;
-  date_updated_lt: ?any;
+  sub_category_in: ?Array<string>;
+  date_created_lt: ?any;
+  article_id_in: ?Array<string>;
+  category_in: ?Array<string>;
   total_vote_lt: ?number;
-  status_in: ?Array<ArticleStatusInput>;
   article_id_eq: ?string;
   request_id_eq: ?string;
   moderator: ?string;
   subject_ct: ?string;
   total_vote_gt: ?number;
+  date_updated_gt: ?any;
   text_ct: ?string;
   latest_version: ?boolean;
 }
@@ -246,14 +246,14 @@ declare type SectionDTO = {
 }
 
 declare type CollectionFilterInput = {
-  date_updated_gt: ?any;
-  name_ct: ?string;
-  date_created_gt: ?any;
   date_updated_lt: ?any;
-  description_ct: ?string;
+  name_ct: ?string;
   date_created_lt: ?any;
+  description_ct: ?string;
+  date_created_gt: ?any;
   owner_id_eq: ?string;
   full_text: ?string;
+  date_updated_gt: ?any;
 }
 
 declare type SectionDTOInput = {
@@ -276,25 +276,25 @@ declare type Page_RequestDTO = {
 
 declare type RequestFilterInput = {
   total_contribution_lt: ?number;
-  date_updated_gt: ?any;
   user_id_eq: ?string;
-  category_in: ?Array<string>;
-  status_in: ?Array<RequestStatusInput>;
+  dead_line_lt: ?any;
+  date_updated_lt: ?any;
   total_contribution_gt: ?number;
+  status_in: ?Array<RequestStatusInput>;
   total_flag_lt: ?number;
   total_submissions_lt: ?number;
-  date_created_lt: ?any;
-  sub_category_in: ?Array<string>;
+  date_created_gt: ?any;
+  dead_line_gt: ?any;
   full_text: ?string;
   total_submissions_gt: ?number;
-  dead_line_gt: ?any;
+  sub_category_in: ?Array<string>;
   total_flag_gt: ?number;
-  date_created_gt: ?any;
-  date_updated_lt: ?any;
+  date_created_lt: ?any;
+  category_in: ?Array<string>;
   total_vote_lt: ?number;
   subject_ct: ?string;
   total_vote_gt: ?number;
-  dead_line_lt: ?any;
+  date_updated_gt: ?any;
   text_ct: ?string;
 }
 

@@ -1,48 +1,21 @@
 let component = ReasonReact.statelessComponent("TagList");
 
 module Styles = {
-  let container =
-    Css.(
-      [%css
-        {|{
-            display: flexBox;
-            flex-direction: column;
-        }|}
-      ]
-    )
-    |> Css.style;
-  let tagContainer =
-    Css.(
-      [%css {|{
-        display: flexBox;
-        flex-direction: row;
-    }|}]
-    )
-    |> Css.style;
+  let container = Css.(style([display(`flex), flexDirection(column)]));
+
+  let tagContainer = Css.(style([display(`flex), flexDirection(row)]));
 
   let tag =
-    Css.(
-      [%css
-        {|{
-        font-size: 10px;
-        font-weight: 700;
-        margin-right: 6px;
-    }|}
-      ]
-    )
-    |> Css.style;
+    Css.(style([fontSize(px(10)), fontWeight(700), marginRight(px(6))]));
 
   let heading =
     Css.(
-      [%css
-        {|{
-        font-size: 10px;
-        text-transform: uppercase;
-        margin-bottom: 6px
-    }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        fontSize(px(10)),
+        textTransform(uppercase),
+        marginBottom(px(6)),
+      ])
+    );
 };
 
 let make = (~tags, _children) => {

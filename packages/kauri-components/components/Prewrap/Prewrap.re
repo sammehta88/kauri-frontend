@@ -2,18 +2,7 @@ open Vrroom;
 let component = ReasonReact.statelessComponent("Greeting");
 
 module Styles = {
-  let preWrap = `preWrap;
-  let card =
-    Css.(
-      [%css
-        {|
-          {
-            white-space: preWrap;
-          }
-      |}
-      ]
-      |> style
-    );
+  let card = Css.(style([whiteSpace(`preWrap)]));
 };
 
 let make = _children => {

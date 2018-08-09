@@ -13,58 +13,51 @@ type article = {
 module Styles = {
   let image =
     Css.(
-      [%css
-        {|
-      {
-        height: 170px;
-        border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        height(px(170)),
+        borderTopLeftRadius(px(4)),
+        borderTopRightRadius(px(4)),
+      ])
+    );
 
   let container =
     Css.(
-      [%css
-        {|
-    {
-      display: flexBox;
-      flex-direction: column;
-      flex: 1;
-      text-align: left;
-      padding: 11px 14px 11px 14px;
-      min-width: 262px;
-  }
-  |}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        minWidth(px(262)),
+        padding2(~v=px(11), ~h=px(14)),
+      ])
+    );
 
   let footer =
     Css.(
-      [%css
-        {|{
-          display: flexBox;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          padding: 7px 14px;
-        }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(row),
+        alignItems(center),
+        justifyContent(spaceBetween),
+        padding2(~v=px(7), ~h=px(14)),
+      ])
+    );
 
   let content =
     Css.(
-      [%css {|{
-    padding: 11px 14px 11px 14px;
-        flex: 1;
-      }|}]
-    )
-    |> Css.style;
+      style([
+        padding4(
+          ~top=px(11),
+          ~right=px(14),
+          ~bottom=px(11),
+          ~left=px(14),
+        ),
+        height(`percent(100.0)),
+      ])
+    );
 };
+
+type pageType =
+  | RinkebyPublicProfile;
 
 let make =
     (
@@ -73,7 +66,9 @@ let make =
       ~title: string,
       ~content: string,
       ~imageURL=?,
+      ~pageType=?,
       ~username,
+      ~userId,
       /* ~views,
          ~upvotes, */
       ~profileImage=?,
@@ -85,29 +80,29 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        onClick=(
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute(
-                {j|/article/$articleId/article-version/$articleVersion|j},
-              )
-            | None => ()
-            }
-        )
-        className=Styles.container>
+      <div className=Styles.container>
         (
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
         )
-        <div className=Styles.content>
+        <div
+          className=Styles.content
+          onClick=(
+            _ =>
+              switch (changeRoute) {
+              | Some(changeRoute) =>
+                changeRoute(
+                  {j|/article/$articleId/article-version/$articleVersion|j},
+                )
+              | None => ()
+              }
+          )>
           <Label text=("Posted " ++ date) />
           <Heading text=title />
           (
-            content |. String.sub(0, 2) |. String.contains('{') ?
+            content->(String.sub(0, 2))->(String.contains('{')) ?
               [%raw
                 {|
                   (() => {
@@ -127,8 +122,19 @@ let make =
             }
           )
         </div>
-        <Separator direction="horizontal" />
-        <div className=Styles.footer>
+        <Separator direction="horizontal" marginTop=`auto />
+        <div
+          className=Styles.footer
+          onClick=(
+            _ =>
+              switch (changeRoute, pageType) {
+              | (Some(changeRoute), None) =>
+                changeRoute({j|/public-profile/$userId|j})
+              | (Some(_changeRoute), Some(_pageType)) => ()
+              | (None, Some(_)) => ()
+              | (None, None) => ()
+              }
+          )>
           <UserWidgetSmall
             username
             profileImage=(
@@ -141,6 +147,12 @@ let make =
         </div>
       </div>
     </BaseCard>,
+  /* <CardCounter
+       value=views label="Views"
+       />
+     <CardCounter
+     value=upvotes label="Upvotes"
+     /> */
 };
 
 [@bs.deriving abstract]
@@ -150,6 +162,7 @@ type jsProps = {
   title: string,
   content: string,
   username: string,
+  userId: string,
   articleId: string,
   articleVersion: int,
   changeRoute: string => unit,
@@ -158,13 +171,14 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps |. changeRouteGet,
-      ~date=jsProps |. dateGet,
-      ~title=jsProps |. titleGet,
-      ~content=jsProps |. contentGet,
-      ~username=jsProps |. usernameGet,
-      ~articleId=jsProps |. articleIdGet,
-      ~articleVersion=jsProps |. articleVersionGet,
+      ~changeRoute=jsProps->changeRouteGet,
+      ~date=jsProps->dateGet,
+      ~title=jsProps->titleGet,
+      ~content=jsProps->contentGet,
+      ~username=jsProps->usernameGet,
+      ~userId=jsProps->userIdGet,
+      ~articleId=jsProps->articleIdGet,
+      ~articleVersion=jsProps->articleVersionGet,
       [||],
     )
   );

@@ -10,8 +10,7 @@
     "storybook:dev": "concurrently \"npm run dev\" \"STORYBOOK=true npm run start:storybook\"",
     "test:chromatic": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006",
     "test:chromatic-auto-accept-changes": "STORYBOOK=true chromatic test --app-code=\"5l3734cfun\" --storybook-port=6006 --auto-accept-changes",
-    "test": "STORYBOOK=true npm run test:chromatic",
-    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
+    "test": "STORYBOOK=true npm run test:chromatic"
   },
   "author": {
     "name": "Eric Juta"
@@ -23,6 +22,7 @@
     "bs-css": "^7.0.1",
     "bs-moment": "^0.3.0",
     "bs-webapi": "^0.11.0",
+    "dependency-env": "^0.1.1",
     "moment": "2.20.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -30,29 +30,22 @@
     "react-tippy": "^1.2.2"
   },
   "devDependencies": {
-    "@esy-ocaml/merlin": "*",
     "@storybook/addon-knobs": "3.4.8",
     "@storybook/addons": "3.4.8",
     "@storybook/core": "3.4.8",
     "@storybook/react": "3.4.8",
     "babel-core": "^6.0.0",
     "babel-runtime": "^6.0.0",
-    "bs-platform": "latest",
+    "bs-platform": "^4.0.3",
     "concurrently": "^3.6.0",
-    "ocaml": "~4.2.3000",
-    "ppx_bs_css": "github:astrada/ppx_bs_css#36a3675",
-    "reason-react": ">=0.4.0",
+    "reason-react": "^0.5.0",
     "storybook-chromatic": "^1.0.0",
     "vrroom": "glennsl/vrroom"
   },
   "peerDependencies": {
     "@storybook/addons": "3.4.8",
     "@storybook/core": "3.4.8",
-    "@storybook/react": "3.4.8",
-    "ocaml": "~4.2.3000"
-  },
-  "resolutions": {
-    "@opam/gen": "0.5.0"
+    "@storybook/react": "3.4.8"
   },
   "_registry": "npm",
   "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",

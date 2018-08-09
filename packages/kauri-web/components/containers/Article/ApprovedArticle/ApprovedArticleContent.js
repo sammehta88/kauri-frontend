@@ -69,7 +69,12 @@ export default ({
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
-        <Outline headings={outlineHeadings || []} username={username || userId} />
+        <Outline
+          headings={outlineHeadings || []}
+          username={username || userId}
+          userId={userId}
+          routeChangeAction={routeChangeAction}
+        />
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}

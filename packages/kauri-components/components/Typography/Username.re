@@ -1,20 +1,31 @@
 let component = ReasonReact.statelessComponent("Username");
 
+type pageType =
+  | Article
+  | PublicProfile;
+
+let getColor = pageType =>
+  switch (pageType) {
+  | PublicProfile => "FFFFFF"
+  | Article => "1E2428"
+  };
+
 module Styles = {
-  let username =
+  let username = pageType =>
     Css.(
       style([
         maxWidth(px(250)),
         overflow(hidden),
-        textOverflow(ellipsis),
         fontSize(px(12)),
         fontWeight(700),
-        color(hex("1E2428")),
+        color(hex(getColor(pageType))),
       ])
     );
 };
-let make = (~text, _children) => {
+let make = (~username, ~pageType, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
-    <span className=Styles.username> (ReasonReact.string(text)) </span>,
+    <span className=(Styles.username(pageType))>
+      (ReasonReact.string(username))
+    </span>,
 };

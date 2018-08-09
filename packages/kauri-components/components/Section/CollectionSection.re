@@ -1,9 +1,12 @@
 [@bs.module]
-external homepage : ReasonReact.reactClass =
+external homepage: ReasonReact.reactClass =
   "../../components/containers/Collection/View";
 
 [@bs.deriving abstract]
-type user = {username: string};
+type user = {
+  username: string,
+  user_id: string,
+};
 
 [@bs.deriving abstract]
 type article = {
@@ -20,33 +23,23 @@ type article = {
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|
-      {
-          display: flexBox;
-          flex-direction: column;
-          width: 100%;
-          text-align: center;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(column),
+        width(`percent(100.0)),
+        textAlign(center),
+      ])
+    );
 
   let section =
     Css.(
-      [%css
-        {|
-  {
-      width: 100%;
-      display: flexBox;
-      flex-direction: row;
-      justify-content: center;
-}
-|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        width(`percent(100.0)),
+        flexDirection(row),
+        justifyContent(center),
+      ])
+    );
 };
 
 let component = ReasonReact.statelessComponent("CollectionSection");
@@ -65,23 +58,23 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
             Js.Array.map(
               article =>
                 <ArticleCard
-                  articleId=(article |. article_idGet)
-                  articleVersion=(article |. article_versionGet)
-                  key=(article |. article_idGet)
+                  articleId=article->article_idGet
+                  articleVersion=article->article_versionGet
+                  key=article->article_idGet
                   changeRoute=routeChangeAction
-                  title=(article |. subjectGet)
-                  content=(article |. textGet)
-                  date=(
+                  title=article->subjectGet
+                  content=article->textGet
+                  date=
                     article
-                    |. date_createdGet
-                    |. MomentRe.moment
-                    |. MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  )
-                  username=(article |. userGet |. usernameGet)
+                    ->date_createdGet
+                    ->MomentRe.moment
+                    ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
+                  username=article->userGet->usernameGet
+                  userId=article->userGet->user_idGet
                 />,
               articles,
             )
-            |. ReasonReact.array
+            |> ReasonReact.array
           )
         </div>
       </div>
@@ -99,9 +92,9 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~routeChangeAction=jsProps |. routeChangeActionGet,
-      ~name=jsProps |. nameGet,
-      ~description=jsProps |. descriptionGet,
+      ~routeChangeAction=jsProps->routeChangeActionGet,
+      ~name=jsProps->nameGet,
+      ~description=jsProps->descriptionGet,
       ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,
       [||],
     )

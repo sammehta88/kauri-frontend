@@ -3,64 +3,48 @@ let component = ReasonReact.statelessComponent("CommunityCard");
 module Styles = {
   let image =
     Css.(
-      [%css
-        {|
-      {
-        height: 30px;
-        width: 30px;
-        border-radius: 15px;
-        margin-top: 6px;
-    }
-    |}
-      ]
-    )
-    |> Css.style;
+      style([
+        height(px(30)),
+        width(px(30)),
+        borderRadius(px(15)),
+        marginTop(px(6)),
+      ])
+    );
 
   let collectionCardContainer =
     Css.(
-      [%css
-        {|
-    {
-      padding: 11px 14px 11px 14px;
-      display: flexBox;
-      flex-direction: column;
-      flex: 1;
-      text-align: center;
-      min-width: 262px;
-  }
-  |}
-      ]
-    )
-    |> Css.style;
+      style([
+        unsafe("padding", "11px 14px 11px 14px"),
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        textAlign(center),
+        minWidth(px(262)),
+      ])
+    );
 
   let collectionCardFooter =
     Css.(
-      [%css
-        {|{
-          display: flexBox;
-          flex-direction: row;
-          align-items: center;
-          justify-content: center;
-          padding: 4px 14px;
-        }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        flexDirection(row),
+        alignItems(center),
+        justifyContent(center),
+        padding2(~v=px(4), ~h=px(14)),
+      ])
+    );
 
   let collectionCardContent =
     Css.(
-      [%css
-        {|{
-          display: flexBox;
-          align-items: center;
-          justify-content: center;
-          flex-direction: column;
-          padding: 7px 7px 0px 7px;
-          flex: 1;
-      }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        alignItems(center),
+        justifyContent(center),
+        flexDirection(column),
+        unsafe("padding", "7px 7px 0px 7px"),
+        flex(1),
+      ])
+    );
 };
 
 let make =
@@ -136,13 +120,13 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps |. changeRouteGet,
-      ~heading=jsProps |. headingGet,
-      ~collectionName=jsProps |. collectionNameGet,
-      ~articles=jsProps |. articlesGet,
-      ~lastUpdated=jsProps |. lastUpdatedGet,
-      ~collectionId=jsProps |. collectionIdGet,
-      ~collectionDescription=jsProps |. collectionDescriptionGet,
+      ~changeRoute=jsProps->changeRouteGet,
+      ~heading=jsProps->headingGet,
+      ~collectionName=jsProps->collectionNameGet,
+      ~articles=jsProps->articlesGet,
+      ~lastUpdated=jsProps->lastUpdatedGet,
+      ~collectionId=jsProps->collectionIdGet,
+      ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],
     )
   );

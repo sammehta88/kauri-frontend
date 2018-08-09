@@ -19,18 +19,7 @@ module Styles = {
       ])
     );
 
-  let text =
-    Css.(
-      [%css
-        {|
-          {
-            font-size: 11px;
-            font-weight: 500;
-          }
-      |}
-      ]
-      |> style
-    );
+  let text = Css.(style([fontSize(px(11)), fontWeight(500)]));
 };
 
 let make = (~svgIcon, ~text, ~handleClick=?, _children) => {

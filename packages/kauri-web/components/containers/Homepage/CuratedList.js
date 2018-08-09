@@ -4,6 +4,7 @@ import ArticleCard from '../../../../kauri-components/components/Card/ArticleCar
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
 import CommunityCard from '../../../../kauri-components/components/Card/CommunityCard.bs'
 import theme from '../../../lib/theme-config';
+import CuratedHeader from './CuratedHeader';
 
 
 const Title = styled.h2`
@@ -15,17 +16,10 @@ const Title = styled.h2`
 `;
 
 const Container = styled.div`
-    background: ${ props => props.featured ? '#6552CE' : 'transparent'};
+    background: ${ props => props.bgColor};
     width: 100%;
     padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
     text-align: center;
-`;
-
-const Description = styled.div`
-    font-size: 16px;
-    font-weight: normal;
-    color: ${props => props.featured ? 'white' : '#1e2428'};
-    margin-bottom: 18px;
 `;
 
 const Resources = styled.div`
@@ -34,19 +28,23 @@ const Resources = styled.div`
     justify-content: center;
 `;
 
-const Header = styled.div`
-flex: 1;
-background: red;
-color: white
-`;
+const getBG = (header, featured) => {
+    if (featured && header && header.type === ("TOPIC" || "COMMUNITY" )) {
+        return theme[header.id].primaryColor;
+    } else if (featured) {
+        return '#0BA986';
+    } else {
+        return 'transparent';
+    }
+}
 
-const CuratedList = ({ routeChangeAction, content: { name, description, resources, featured, header, header_id } } = props) =>
-    <Container featured={featured}>
-        <Title featured={featured}>{name}</Title>
-        {description && <Description featured={featured}>{description}</Description>}
+const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
+    return (
+        <Container bgColor={getBG(header, featured)} featured={featured}>
+        { !header && <Title featured={featured}>{name}</Title>}
         {resources &&
             <Resources>
-                { header && <Header>HEADER GOES HERE</Header>}
+                { header && <CuratedHeader name={name} header={header} />}
                 {resources.map(i => {
                     switch (i.type) {
                         case "ARTICLE":
@@ -91,6 +89,8 @@ const CuratedList = ({ routeChangeAction, content: { name, description, resource
                     }
                 })}
             </Resources>}
-    </Container>;
+    </Container>
+    );
+};
 
 export default CuratedList;

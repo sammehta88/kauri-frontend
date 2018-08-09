@@ -5,29 +5,30 @@ module type StyledConfig = {
 };
 
 /* ReasonReact.createElement(); */
-
-module Div = (Config: StyledConfig) => {
-  let component = ReasonReact.statelessComponent("Div");
-  module MyElement = {
-    let make = (~style, children) => {
-      ...component,
-      render: _self =>
-        ReactDOMRe.createElementVariadic(
-          "div",
-          ~props=ReactDOMRe.objToDOMProps({"className": style}),
-          children,
-        ),
+module Styled = {
+  module Div = (Config: StyledConfig) => {
+    let component = ReasonReact.statelessComponent("Div");
+    module MyElement = {
+      let make = (~style, children) => {
+        ...component,
+        render: _self =>
+          ReactDOMRe.createElementVariadic(
+            "div",
+            ~props=ReactDOMRe.objToDOMProps({"className": style}),
+            children,
+          ),
+      };
     };
+    let make = (~pageType=?, ~style as additionalStyle=[]) =>
+      MyElement.make(
+        ~style=
+          Css.style(List.append(additionalStyle, Config.style(pageType))),
+      );
   };
-  let make = (~pageType=?, ~style as additionalStyle=[]) =>
-    MyElement.make(
-      ~style=
-        Css.style(List.append(additionalStyle, Config.style(pageType))),
-    );
 };
 
 module Wrapper =
-  Div({
+  Styled.Div({
     type pageType = [ | `White | `Black];
 
     let getPageStyle = pageType =>
@@ -48,7 +49,7 @@ module Wrapper =
   });
 
 module BasicWrapper =
-  Div({
+  Styled.Div({
     type pageType = unit;
     let style = _ => Css.[background(black)];
   });

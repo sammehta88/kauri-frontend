@@ -1,14 +1,11 @@
+open Infix_Utilities;
+
 [@bs.module]
 external homepage: ReasonReact.reactClass =
   "../../components/containers/Homepage/View";
 
 [@bs.deriving abstract]
 type jsProps = {routeChangeAction: string => unit};
-let (|?) = (a, b) =>
-  switch (a) {
-  | None => None
-  | Some(a) => b(a)
-  };
 
 module Styles = {
   let container =

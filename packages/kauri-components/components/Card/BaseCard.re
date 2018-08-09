@@ -15,6 +15,10 @@ module Styles = {
         transitionProperty("all"),
         transitionDuration(300),
         margin(px(15)),
+        selector(
+          ":hover",
+          [unsafe("boxShadow", "0 0 10px 0 rgba(0,0,0,0.22)")],
+        ),
       ])
     );
 };

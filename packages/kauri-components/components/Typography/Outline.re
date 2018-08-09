@@ -18,13 +18,13 @@ let make =
           <Vrroom.Fragment>
             <OutlineHeader />
             <OutlineHeadings headings />
-            <Separator my=20 direction="horizontal" color=LightGray />
+            <Separator marginY=20 direction="horizontal" color=LightGray />
           </Vrroom.Fragment>
         }
       )
       <OutlineHeader text="Author" />
       <Author pageType userId username routeChangeAction />
-      <Separator my=20 direction="horizontal" color=LightGray />
+      <Separator marginY=20 direction="horizontal" color=LightGray />
     </div>,
 };
 

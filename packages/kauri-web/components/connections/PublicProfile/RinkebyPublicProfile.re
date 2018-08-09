@@ -1,8 +1,4 @@
-let (|?) = (a, b) =>
-  switch (a) {
-  | None => None
-  | Some(a) => b(a)
-  };
+open Infix_Utilities;
 
 module Styles = {
   let container = Css.(style([]));

@@ -23,7 +23,6 @@
       "in-source": true
     }
   ],
-  "ppx-flags": [],
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],

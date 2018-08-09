@@ -122,7 +122,7 @@ let make =
             }
           )
         </div>
-        <Separator direction="horizontal" mt=`auto />
+        <Separator direction="horizontal" marginTop=`auto />
         <div
           className=Styles.footer
           onClick=(

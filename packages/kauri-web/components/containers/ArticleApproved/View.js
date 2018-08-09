@@ -49,11 +49,13 @@ class ArticleApproved extends React.Component<Props> {
         <ArticleApprovedActionButtons>
           <ActionButton
             action={() =>
-              routeChangeAction(type === 'drafted' || type === 'updated' ? '/profile?tab=my articles' : '/approvals')
+              routeChangeAction(
+                type === 'drafted' || type === 'updated' || isPublished ? '/profile?tab=my articles' : '/approvals'
+              )
             }
             height={40}
             width={183}
-            label={type === 'drafted' || type === 'updated' ? 'My Articles' : 'Back to Approvals'}
+            label={type === 'drafted' || type === 'updated' || isPublished ? 'My Articles' : 'Back to Approvals'}
             type='alt'
           />
         </ArticleApprovedActionButtons>

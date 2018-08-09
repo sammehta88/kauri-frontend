@@ -13,15 +13,12 @@ let component = ReasonReact.statelessComponent("CollectionHeader");
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|{
-            display: flexBox;
-            width: 100%;
-            flex-direction: column;
-        }|}
-      ]
-    )
-    |> Css.style;
+      style([
+        display(`flex),
+        width(`percent(100.0)),
+        flexDirection(column),
+      ])
+    );
 };
 
 let make =
@@ -46,11 +43,11 @@ let make =
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~routeChangeAction=jsProps |. routeChangeActionGet,
-      ~name=jsProps |. nameGet,
-      ~description=jsProps |. descriptionGet,
-      ~username=jsProps |. usernameGet,
-      ~updated=jsProps |. updatedGet,
+      ~routeChangeAction=jsProps->routeChangeActionGet,
+      ~name=jsProps->nameGet,
+      ~description=jsProps->descriptionGet,
+      ~username=jsProps->usernameGet,
+      ~updated=jsProps->updatedGet,
       [||],
     )
   );

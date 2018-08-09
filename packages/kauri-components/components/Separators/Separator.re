@@ -9,9 +9,9 @@ module Styles = {
   let lightGrayColor = [Css.background(Css.hex("EBEBEB"))];
   let getMarginStyle = (my, mt) =>
     switch (my, mt) {
-    | (None, Some(mt)) => Css.[marginTop(auto), marginBottom(px(10))]
+    | (None, Some(_mt)) => Css.[marginTop(auto), marginBottom(px(10))]
     | (Some(my), None) => Css.[marginTop(px(my)), marginBottom(px(my))]
-    | (Some(my), Some(mt)) => Css.[marginTop(auto), marginBottom(px(my))]
+    | (Some(my), Some(_mt)) => Css.[marginTop(auto), marginBottom(px(my))]
     | (None, None) => Css.[marginTop(px(10)), marginBottom(px(10))]
     };
 };

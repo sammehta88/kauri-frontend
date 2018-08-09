@@ -1,10 +1,10 @@
 let component = ReasonReact.statelessComponent("Paragraph");
 
 module Styles = {
-  let paragraph =
+  let paragraph = (~colorProp, ~sizeProp) =>
     Css.(
       style([
-        fontSize(px(14)),
+        fontSize(px(sizeProp)),
         margin2(~v=px(10), ~h=px(0)),
         fontWeight(400),
         color(hex(colorProp)),

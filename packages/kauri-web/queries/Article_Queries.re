@@ -168,9 +168,10 @@ module GetArticles = [%graphql
                 subject
                 text
                 date_updated
+                user_id
                 user {
-                    user_id
-                    username
+                  user_id
+                  username
                 }
             }
             totalPages

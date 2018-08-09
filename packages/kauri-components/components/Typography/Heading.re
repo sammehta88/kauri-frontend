@@ -16,7 +16,7 @@ module Styles = {
     |> Css.style;
 };
 let component = ReasonReact.statelessComponent("Heading");
-let make = (~text, ~color="#333333", ~size=20, _children) => {
+let make = (~text, ~color="#1E2428", ~size=20, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <h3 className=(Styles.heading(~colorProp=color, ~sizeProp=size))>

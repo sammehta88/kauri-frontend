@@ -1,8 +1,8 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import HomePageCollections from '../../connections/home-page/HomePageCollections.bs';
-import HomePageArticles from '../../connections/home-page/HomePageArticles.bs';
+import CuratedList from './CuratedList';
+import ArticleSearchbar from '../ArticleSearchbar'
 
 type Props = {
   data: {
@@ -17,20 +17,44 @@ const ContentContainer = styled.section`
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `
+
+const HomePageHeader = styled.div`
+  background-color: #1E2428;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+`
+const KauriTitle = styled.h1`
+  color: white;
+  font-weight: 300;
+  font-size: 32px;
+  margin-top: 45px;
+  margin-bottom: 12px;
+`;
 
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
 
   render () {
+    if (!this.props.data || !this.props.data.getAllCuratedList) {
+      return null;
+    } //TODO replace with an error message if exists
+
+    const { getAllCuratedList } = this.props.data;
+
     return (
-      <section>
-        <Homepage.ContentContainer>
-          <HomePageCollections routeChangeAction={this.props.routeChangeAction} />
-          <HomePageArticles routeChangeAction={this.props.routeChangeAction} />
-        </Homepage.ContentContainer>
-      </section>
+      <ContentContainer>
+        <HomePageHeader>
+          <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>
+          <div>Articles, tutorials, Documentation and best practices</div>
+          <ArticleSearchbar />
+        </HomePageHeader>
+          {getAllCuratedList.map((i) => <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />)}
+      </ContentContainer>
     )
   }
 }

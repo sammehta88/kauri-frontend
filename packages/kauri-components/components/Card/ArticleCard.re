@@ -34,6 +34,8 @@ module Styles = {
       flex-direction: column;
       flex: 1;
       text-align: left;
+      padding: 11px 14px 11px 14px;
+      min-width: 262px;
   }
   |}
       ]
@@ -47,8 +49,8 @@ module Styles = {
           display: flexBox;
           flex-direction: row;
           align-items: center;
-          justify-content: space-between;
-          padding: 4px 14px;
+          justify-content: center;
+          padding: 7px 14px;
         }|}
       ]
     )
@@ -144,5 +146,25 @@ let make =
 [@bs.deriving abstract]
 type jsProps = {
   article,
+  date: string,
+  title: string,
+  content: string,
+  username: string,
+  articleId: string,
+  articleVersion: int,
   changeRoute: string => unit,
 };
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~changeRoute=jsProps |. changeRouteGet,
+      ~date=jsProps |. dateGet,
+      ~title=jsProps |. titleGet,
+      ~content=jsProps |. contentGet,
+      ~username=jsProps |. usernameGet,
+      ~articleId=jsProps |. articleIdGet,
+      ~articleVersion=jsProps |. articleVersionGet,
+      [||],
+    )
+  );

@@ -6,6 +6,7 @@
   },
   "license": "ISC",
   "scripts": {
+    "getSchema": "yarn send-introspection-query https://api.dev.kauri.io/graphql && node scripts/convertGQLSchemaToFlowTypes.js",
     "clean": "bsb -clean-world",
     "dev": "concurrently \"npm run dev:bs\" \"npm run dev:web\"",
     "dev:bs": "bsb -make-world -w",
@@ -27,7 +28,8 @@
     "test:e2e": "NODE_ENV=test jest --testRegex '(/__tests__/e2e/.*)\\.spec.js?$'",
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
     "test:integration": "NODE_ENV=test jest integration",
-    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css"
+    "postinstall": "esy build && rm -rf bs-ppx-css && ln -s $(esy which bs-ppx-css) bs-ppx-css",
+    "dev:build-css": "BUILD_CSS=true yarn dev"
   },
   "esy": {},
   "dependencies": {

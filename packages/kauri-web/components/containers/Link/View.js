@@ -16,7 +16,6 @@ type LinkProps = {
 
 class Link extends React.Component<LinkProps> {
   render () {
-    // console.log(this.props.children)
     return React.cloneElement(this.props.children, {
       onClick: e => {
         e.preventDefault()

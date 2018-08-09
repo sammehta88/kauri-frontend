@@ -3,9 +3,7 @@ let component = ReasonReact.statelessComponent("UserWidgetSmall");
 module Styles = {
   let container =
     Css.(
-      [%css
-        {|{ display: flexBox; flex-direction: row; align-items: center; margin: 10px 0px 10px 0px}|}
-      ]
+      [%css {|{ display: flexBox; flex-direction: row; align-items: center}|}]
     )
     |> Css.style;
   let image =

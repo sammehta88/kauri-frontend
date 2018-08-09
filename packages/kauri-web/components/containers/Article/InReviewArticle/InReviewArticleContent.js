@@ -23,6 +23,7 @@ export default ({
   toggleModalAction,
   loaded,
   article_id,
+  article_version,
   addCommentAction,
   personalUsername,
   deleteArticleComment,
@@ -39,6 +40,7 @@ export default ({
   toggleModalAction: any,
   loaded: () => void,
   article_id: string,
+  article_version: string,
   addCommentAction: any,
   personalUsername: ?string,
   deleteArticleComment: any,
@@ -72,7 +74,11 @@ export default ({
               }
             />
           )}
-        <InReviewArticleGeneralCommentForm addCommentAction={addCommentAction} article_id={article_id} />
+        <InReviewArticleGeneralCommentForm
+          addCommentAction={addCommentAction}
+          article_id={article_id}
+          article_version={article_version}
+        />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>
         <Outline

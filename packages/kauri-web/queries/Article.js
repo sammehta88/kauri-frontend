@@ -33,6 +33,7 @@ export const commentArticle = gql`
     $highlight_from: Int
     $highlight_to: Int
     $article_id: String
+    $article_version: Int
     $anchor_key: String
     $focus_key: String
   ) {
@@ -41,6 +42,7 @@ export const commentArticle = gql`
       highlight_from: $highlight_from
       highlight_to: $highlight_to
       id: $article_id
+      article_version: $article_version
       anchor_key: $anchor_key
       focus_key: $focus_key
     ) {

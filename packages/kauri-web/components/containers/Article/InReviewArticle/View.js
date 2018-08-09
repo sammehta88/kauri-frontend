@@ -6,6 +6,7 @@ import Header from './InReviewArticleHeader'
 import Content from './InReviewArticleContent'
 import Footer from '../ApprovedArticle/ApprovedArticleFooter'
 import NetworkBanner from '../../StyledFooter/NetworkBanner'
+import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 type Props =
   | {
@@ -61,6 +62,7 @@ class InReviewArticle extends React.Component<Props, State> {
     const props = this.props
     return (
       <section>
+        <ScrollToTopOnMount />
         <NetworkBanner type='withActionsHeader' />
         <InReviewArticle.Actions
           {...props.data.getArticle}
@@ -90,6 +92,7 @@ class InReviewArticle extends React.Component<Props, State> {
           editorState={this.state.editorState}
           toggleModalAction={this.props.toggleModalAction}
           article_id={props.data.getArticle.article_id}
+          article_version={props.data.getArticle.article_version}
           addCommentAction={props.addCommentAction}
           deleteArticleComment={props.deleteArticleComment}
           personalUsername={props.personalUsername}

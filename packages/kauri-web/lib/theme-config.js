@@ -1,8 +1,8 @@
 // @flow
 
 export const metamask = {
-  primaryColor: '#F7861C',
-  borderColor: '#F7861C',
+  primaryColor: '#93949D',
+  borderColor: '#93949D',
   homepageURL: 'https://metamask.io',
   description: `MetaMask is a bridge that allows you to visit the distributed web of tomorrow in your browser today. It allows you to run Ethereum dApps right in your browser without running a full Ethereum node.`,
 }

@@ -20,3 +20,13 @@ myStory.add("Outline", () =>
     username="rej156"
   />
 );
+
+myStory.add("Outline on SubmittingArticle page", () =>
+  <Outline
+    pageType=(Some("SubmittingArticle"))
+    routeChangeAction=(_ => ())
+    userId="0x1337"
+    headings=[||]
+    username="rej156"
+  />
+);

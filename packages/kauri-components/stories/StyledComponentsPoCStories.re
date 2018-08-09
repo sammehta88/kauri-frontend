@@ -57,7 +57,13 @@ open Main;
 
 let _module = [%bs.raw "module"];
 
-let myStory = createStory(~title="WOO", ~decorators=[], ~_module, ());
+let myStory =
+  createStory(
+    ~title="StyledComponents Functor PoC",
+    ~decorators=[],
+    ~_module,
+    (),
+  );
 
 myStory.add("With Base Style", () =>
   <div> <Wrapper> <p> "White"->ReasonReact.string </p> </Wrapper> </div>

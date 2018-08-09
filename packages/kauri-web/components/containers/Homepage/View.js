@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import CuratedList from './CuratedList';
+import ArticleSearchbar from '../ArticleSearchbar'
 
 type Props = {
   data: {
@@ -18,7 +19,7 @@ const ContentContainer = styled.section`
   flex-direction: column;
 `
 
-const SearchPlaceholder = styled.div`
+const HomePageHeader = styled.div`
   background-color: #1E2428;
   width: 100%;
   display: flex;
@@ -33,15 +34,6 @@ const KauriTitle = styled.h1`
   font-size: 32px;
   margin-top: 45px;
   margin-bottom: 12px;
-`
-
-const FakeSearchBox = styled.div`
-  border-radius: 4px;
-  border: 1px solid white;
-  height: 40px;
-  width: 300px;
-  margin-top: 25px;
-  margin-bottom: 64px;
 `;
 
 class Homepage extends Component<Props> {
@@ -58,11 +50,11 @@ class Homepage extends Component<Props> {
 
     return (
       <ContentContainer>
-        <SearchPlaceholder>
+        <HomePageHeader>
           <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>
           <div>Articles, tutorials, Documentation and best practices</div>
-          <FakeSearchBox />
-        </SearchPlaceholder>
+          <ArticleSearchbar />
+        </HomePageHeader>
           {getAllCuratedList.map((i) => <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />)}
       </ContentContainer>
     )

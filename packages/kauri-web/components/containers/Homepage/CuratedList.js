@@ -45,44 +45,44 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
         {resources &&
             <Resources>
                 { header && <CuratedHeader name={name} header={header} />}
-                {resources.map(i => {
-                    switch (i.type) {
+                {resources.map(card => {
+                    switch (card.type) {
                         case "ARTICLE":
                             return <ArticleCard
                                 changeRoute={routeChangeAction}
-                                key={i.article_id}
-                                date={moment(i.date_created).fromNow()}
-                                title={i.subject}
-                                content={i.text}
-                                username={i.user.username}
-                                articleId={i.article_id}
-                                articleVersion={i.article_version}
+                                key={card.article_id}
+                                date={moment(card.date_created).fromNow()}
+                                title={card.subject}
+                                content={card.text}
+                                username={card.user.username}
+                                articleId={card.article_id}
+                                articleVersion={card.article_version}
                             />
                         case "COLLECTION":
-                            const articles = i.sections.reduce((a, b) => {
-                                a += b.article_id.length;
-                                return a;
+                            const articles = card.sections.reduce((acc, item) => {
+                                acc += item.article_id.length;
+                                return acc;
                             }, 0);
                             return <CollectionCard
                                 changeRoute={routeChangeAction}
-                                key={i.id}
-                                collectionName={i.name}
+                                key={card.id}
+                                collectionName={card.name}
                                 articles={articles}
-                                lastUpdated={moment(i.date_created).fromNow()}
-                                collectionId={i.id}
-                                collectionDescription={i.description}
+                                lastUpdated={moment(card.date_created).fromNow()}
+                                collectionId={card.id}
+                                collectionDescription={card.description}
                             />
                         case ("TOPIC" || "COMMUNITY"):
-                            const topic = theme[i.id];
+                            const topic = theme[card.id];
                             if (!topic) return null;
 
                             return <CommunityCard
                                 changeRoute={routeChangeAction}
-                                key={i.id}
-                                communityName={i.name || i.id}
+                                key={card.id}
+                                communityName={card.name || card.id}
                                 articles={8}
-                                communityId={i.id}
-                                communityLogo={`/static/images/${i.id}/avatar.png`}
+                                communityId={card.id}
+                                communityLogo={`/static/images/${card.id}/avatar.png`}
                             />
                         default:
                             return null;

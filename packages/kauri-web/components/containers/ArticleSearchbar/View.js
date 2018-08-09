@@ -32,6 +32,12 @@ const SearchInput = styled(Input)`
   }
 `
 
+const SearchWrapper = styled.div`
+width: 300px;
+margin-bottom: 64px;
+margin-top: 25px;
+`;
+
 const handleSearch$ = new Subject()
 
 export default class Complete extends React.Component<any, any> {
@@ -68,7 +74,7 @@ export default class Complete extends React.Component<any, any> {
   }
 
   onSelect = (articleRoute: string) => {
-    const article_version = articleRoute.split('article_version/')[1]
+    const article_version = articleRoute.split('article-version/')[1]
     const article_id = articleRoute.split('/article/')[1].split('/article_version')[0]
     this.props.routeChangeAction(`/article/${article_id}/article-version/${article_version}`)
   }
@@ -91,18 +97,7 @@ export default class Complete extends React.Component<any, any> {
     const { dataSource } = this.state
 
     return (
-      <div
-        className='global-search-wrapper'
-        style={{
-          height: 40,
-          width: 300,
-          marginLeft: 'auto',
-          marginRight: 15,
-          alignSelf: 'center',
-          backgroundColor: 'transparent',
-          display: 'flex',
-        }}
-      >
+      <SearchWrapper className="global-search-wrapper">
         <AutoComplete
           className='global-search'
           size='large'
@@ -116,7 +111,7 @@ export default class Complete extends React.Component<any, any> {
             suffix={<Icon type='search' className='certain-category-icon' />}
           />
         </AutoComplete>
-      </div>
+      </SearchWrapper>
     )
   }
 }

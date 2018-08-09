@@ -19759,6 +19759,10 @@ div#driver-highlighted-element-stage {
   will-change: unset !important;
 }
 
+body,
+html {
+  -webkit-font-smoothing: antialiased;
+}
 .editor {
   font-family: Roboto;
   font-size: 14px !important;

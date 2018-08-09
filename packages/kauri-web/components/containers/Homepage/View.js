@@ -46,8 +46,6 @@ class Homepage extends Component<Props> {
 
     const { getAllCuratedList } = this.props.data;
 
-    console.log(getAllCuratedList);
-
     return (
       <ContentContainer>
         <HomePageHeader>

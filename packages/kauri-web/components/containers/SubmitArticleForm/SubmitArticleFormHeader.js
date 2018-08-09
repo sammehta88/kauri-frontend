@@ -213,7 +213,6 @@ const SubmitArticleFormStatus = styled.div`
   margin-left: auto;
   margin-right: 15px;
   align-items: center;
-  cursor: pointer;
   > * {
     text-transform: uppercase;
     font-size: 12px;

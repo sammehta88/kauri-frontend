@@ -8,8 +8,9 @@
       "url": "https://bucklescript.github.io/bucklescript/docson/build-schema.json"
     }
   ],
-  "reason.diagnostics.tools": ["merlin", "bsb"],
+  "reason.diagnostics.tools": ["bsb", "merlin"],
   "reason.path.ocamlmerlin": "ocamlmerlin",
-  "reason.codelens.enabled": true,
-  "reason.codelens.unicode": true
+  "reason_language_server.cross_file_as_you_type": true,
+  "reason_language_server.opens_codelens": true,
+  "reason_language_server.per_value_codelens": true
 }

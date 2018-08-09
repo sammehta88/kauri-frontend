@@ -10,6 +10,7 @@ myStory.add("Base Card", () =>
 
 myStory.add("Article Card", () =>
   <ArticleCard
+    userId="0x"
     articleVersion=1
     articleId="1"
     date="3 June 2099"
@@ -24,6 +25,7 @@ myStory.add("Article Card with Image", () =>
   <ArticleCard
     articleVersion=1
     articleId="1"
+    userId="1"
     date="3 June 2099"
     title="Debugging a Dapp using Remix - Mist - Geth"
     content="The ultimate goal of this tutorial is to debug transactions that have been created by a dapp front end.

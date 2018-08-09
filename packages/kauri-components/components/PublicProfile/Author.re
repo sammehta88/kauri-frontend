@@ -1,21 +1,18 @@
 let component = ReasonReact.statelessComponent("Avatar");
 
 type pageType =
-  | SubmittingArticle
-  | Default;
+  | SubmittingArticle;
 
 let getPageType = pageType =>
   switch (pageType) {
-  | "SubmittingArticle" => SubmittingArticle
-  | _ => Default
+  | _ => SubmittingArticle
   };
 
 let getCursor = pageType =>
   switch (pageType) {
   | Some(pageType) =>
     switch (getPageType(pageType)) {
-    | SubmittingArticle => `default
-    | _ => `pointer
+    | _ => `default
     }
   | None => `pointer
   };

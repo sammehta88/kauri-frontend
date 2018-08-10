@@ -66,7 +66,6 @@ export default class Complete extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    console.log('search bar mounted');
     const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>

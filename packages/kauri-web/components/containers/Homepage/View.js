@@ -39,7 +39,7 @@ const KauriTitle = styled.h1`
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
 
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.getAllCuratedList) {
       return null;
     } //TODO replace with an error message if exists
@@ -53,7 +53,7 @@ class Homepage extends Component<Props> {
           <div>Articles, tutorials, Documentation and best practices</div>
           <ArticleSearchbar />
         </HomePageHeader>
-          {getAllCuratedList.map((i) => <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />)}
+        {getAllCuratedList.map((i) => <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />)}
       </ContentContainer>
     )
   }

@@ -3,7 +3,7 @@ import { Menu, Button } from 'antd'
 import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
-// import ArticleSearchbar from '../ArticleSearchbar'
+import ArticleSearchbar from '../ArticleSearchbar'
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -100,7 +100,7 @@ const ProfileMiniature = styled.div`
 `
 
 class Logo extends React.Component {
-  render () {
+  render() {
     return (
       <LogoWrapper>
         <LogoImage onClick={() => this.props.routeChangeAction('/')} src='/static/images/logo.svg' />
@@ -110,7 +110,7 @@ class Logo extends React.Component {
 }
 
 export default class Navbar extends React.Component {
-  render () {
+  render() {
     const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu
@@ -158,11 +158,11 @@ export default class Navbar extends React.Component {
         </StyledMenuItem>
 
         <Spacer />
-
+        <ArticleSearchbar collapsible />
         <StyledMenuItem key='/write-article'>
           <Link route={userId ? '/write-article' : '/login'}>
             <Text href='/write-article' pathname={url.pathname} link='/write-article'>
-              Write Article
+              Create
             </Text>
           </Link>
         </StyledMenuItem>
@@ -181,12 +181,12 @@ export default class Navbar extends React.Component {
               </ProfileContainer>
             </Link>
           ) : (
-            <Link href='/login'>
-              <Text href='/login' data-test-id='login-navbar' pathname={url.pathname} link='/login'>
-                Sign In
+              <Link href='/login'>
+                <Text href='/login' data-test-id='login-navbar' pathname={url.pathname} link='/login'>
+                  Sign In
               </Text>
-            </Link>
-          )}
+              </Link>
+            )}
         </StyledMenuItem>
         <StyledMenuItem key='/help'>
           <Link href='/help'>

@@ -33,9 +33,29 @@ const SearchInput = styled(Input)`
 `
 
 const SearchWrapper = styled.div`
-width: 300px;
-margin-bottom: 64px;
-margin-top: 25px;
+  width: 300px;
+  margin-bottom: 64px;
+  margin-top: 19px;
+  display: grid;
+  position: relative;
+  > *:not(.certain-category-icon) {
+    opacity: ${props => props.collapsible ? '0' : '1'}; 
+    transition: all 0.3s;
+  }
+  &: hover {
+    > * {
+      opacity: 1;
+    }
+  }
+`;
+
+const IconOverlay = styled(Icon)`
+  position: absolute;
+  top: 12.5px;
+  right: 12px;
+  height: 17px;
+  width: 17px;
+  font-size: 17px;
 `;
 
 const handleSearch$ = new Subject()
@@ -45,7 +65,7 @@ export default class Complete extends React.Component<any, any> {
     dataSource: [],
   }
 
-  componentDidMount () {
+  componentDidMount() {
     handleSearch$
       .debounceTime(300)
       .flatMap(text =>
@@ -88,16 +108,16 @@ export default class Complete extends React.Component<any, any> {
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-      <Option disabled key={'No articles found'} value={'No articles found'}>
-        No articles found
+        <Option disabled key={'No articles found'} value={'No articles found'}>
+          No articles found
       </Option>
-    )
+      )
 
-  render () {
+  render() {
     const { dataSource } = this.state
 
     return (
-      <SearchWrapper className="global-search-wrapper">
+      <SearchWrapper collapsible={this.props.collapsible} className="global-search-wrapper">
         <AutoComplete
           className='global-search'
           size='large'
@@ -111,6 +131,7 @@ export default class Complete extends React.Component<any, any> {
             suffix={<Icon type='search' className='certain-category-icon' />}
           />
         </AutoComplete>
+        <IconOverlay type='search' className='certain-category-icon' />
       </SearchWrapper>
     )
   }

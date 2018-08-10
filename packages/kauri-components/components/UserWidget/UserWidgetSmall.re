@@ -14,23 +14,36 @@ module Styles = {
       ])
     );
 
-  let username =
-    /* font-size: 14px; font-weight: 700 */
-    Css.(
-      style([
-        fontSize(px(14)),
-        fontWeight(700),
-        overflow(hidden),
-        maxWidth(px(200)),
-      ])
-    );
+  let baseUsernameStyle =
+    Css.[
+      fontSize(px(14)),
+      fontWeight(700),
+      overflow(hidden),
+      maxWidth(px(200)),
+    ];
+
+  let username = pageType =>
+    switch (pageType) {
+    | Some(_pageType) => Css.style(baseUsernameStyle)
+    | None =>
+      Css.(
+        style(
+          List.append(
+            [selector(":hover", [color(hex("0BA986"))])],
+            baseUsernameStyle,
+          ),
+        )
+      )
+    };
 };
 
-let make = (~username, ~profileImage, _children) => {
+let make = (~username, ~profileImage, ~pageType, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
       <img className=Styles.image src=profileImage />
-      <div className=Styles.username> (ReasonReact.string(username)) </div>
+      <span className=(Styles.username(pageType))>
+        (ReasonReact.string(username))
+      </span>
     </div>,
 };

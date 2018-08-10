@@ -14,10 +14,4 @@
     ],
     ['styled-components', { ssr: true, displayName: true, preprocess: false }],
   ],
-  env: {
-    test: {
-      plugins: [],
-      presets: [['@babel/preset-env', { modules: 'commonjs' }], 'next/babel'],
-    },
-  },
 }

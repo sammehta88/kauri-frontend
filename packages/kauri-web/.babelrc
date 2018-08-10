@@ -1,7 +1,11 @@
 {
-  presets: [['env', { modules: 'commonjs' }], 'flow', 'next/babel'],
+  presets: [
+    '@babel/preset-stage-0',
+    ['@babel/preset-env', { modules: 'commonjs' }],
+    '@babel/preset-flow',
+    'next/babel',
+  ],
   plugins: [
-    'transform-decorators-legacy',
     [
       'import',
       {
@@ -13,7 +17,7 @@
   env: {
     test: {
       plugins: [],
-      presets: [['env', { modules: 'commonjs' }], 'next/babel'],
+      presets: [['@babel/preset-env', { modules: 'commonjs' }], 'next/babel'],
     },
   },
 }

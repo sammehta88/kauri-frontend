@@ -202,7 +202,7 @@ export default class Navbar extends React.Component {
             <Link href='/profile'>
               <ProfileContainer>
                 <Web3Status />
-                <ProfileMiniature>{user.username.substring(0, 1)}</ProfileMiniature>
+                <ProfileMiniature>{user && user.username.substring(0, 1)}</ProfileMiniature>
               </ProfileContainer>
             </Link>
           ) : (

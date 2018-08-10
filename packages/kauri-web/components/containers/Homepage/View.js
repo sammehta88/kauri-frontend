@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import CuratedList from './CuratedList';
+import CuratedList from './CuratedList'
 import ArticleSearchbar from '../ArticleSearchbar'
 
 type Props = {
@@ -20,7 +20,7 @@ const ContentContainer = styled.section`
 `
 
 const HomePageHeader = styled.div`
-  background-color: #1E2428;
+  background-color: #1e2428;
   width: 100%;
   display: flex;
   align-items: center;
@@ -34,17 +34,17 @@ const KauriTitle = styled.h1`
   font-size: 32px;
   margin-top: 45px;
   margin-bottom: 12px;
-`;
+`
 
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getAllCuratedList) {
-      return null;
-    } //TODO replace with an error message if exists
+      return null
+    } // TODO replace with an error message if exists
 
-    const { getAllCuratedList } = this.props.data;
+    const { getAllCuratedList } = this.props.data
 
     return (
       <ContentContainer>
@@ -53,7 +53,9 @@ class Homepage extends Component<Props> {
           <div>Articles, tutorials, Documentation and best practices</div>
           <ArticleSearchbar />
         </HomePageHeader>
-        {getAllCuratedList.map((i) => <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />)}
+        {getAllCuratedList.map(i => (
+          <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />
+        ))}
       </ContentContainer>
     )
   }

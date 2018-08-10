@@ -105,16 +105,19 @@ const TooltipItem = styled.div`
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 600;
-  width: 250px;
+  width: 190px;
   line-height: 15px;
-  padding: 10px;
   text-align: center;
+  margin: 20px;
 
   &: hover {
     color: #267765;
     text-decoration: underline;
   }
 `;
+
+const TooltipItemContainer = styled.div`
+padding: 10px`;
 
 class Logo extends React.Component {
   render() {
@@ -180,16 +183,18 @@ export default class Navbar extends React.Component {
 
         <StyledMenuItem>
           <Tooltip header={<Text link='/dropdown-selector-null'>Create</Text>}>
-            <Link route={userId ? '/write-article' : '/login'}>
-              <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
-                Write Article
+            <TooltipItemContainer>
+              <Link route={userId ? '/write-article' : '/login'}>
+                <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                  Write Article
             </TooltipItem>
-            </Link>
-            <Link route={userId ? '/create-request' : '/login'}>
-              <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
-                Write Request
+              </Link>
+              <Link route={userId ? '/create-request' : '/login'}>
+                <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                  Write Request
             </TooltipItem>
-            </Link>
+              </Link>
+            </TooltipItemContainer>
           </Tooltip>
         </StyledMenuItem>
 

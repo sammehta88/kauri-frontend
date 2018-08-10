@@ -4,6 +4,7 @@ import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
+import Tooltip from '../../common/Tooltip';
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -99,6 +100,22 @@ const ProfileMiniature = styled.div`
   text-transform: uppercase;
 `
 
+const TooltipItem = styled.div`
+  color:#0BA986;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: 600;
+  width: 250px;
+  line-height: 15px;
+  padding: 10px;
+  text-align: center;
+
+  &: hover {
+    color: #267765;
+    text-decoration: underline;
+  }
+`;
+
 class Logo extends React.Component {
   render() {
     return (
@@ -111,6 +128,7 @@ class Logo extends React.Component {
 
 export default class Navbar extends React.Component {
   render() {
+    console.log(Tooltip);
     const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu
@@ -159,18 +177,21 @@ export default class Navbar extends React.Component {
 
         <Spacer />
         <ArticleSearchbar collapsible />
-        <StyledMenuItem key='/write-article'>
-          <Link route={userId ? '/write-article' : '/login'}>
-            <Text href='/write-article' pathname={url.pathname} link='/write-article'>
-              Create
-            </Text>
-          </Link>
+
+        <StyledMenuItem>
+          <Tooltip header={<Text link='/dropdown-selector-null'>Create</Text>}>
+            <Link route={userId ? '/write-article' : '/login'}>
+              <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                Write Article
+            </TooltipItem>
+            </Link>
+            <Link route={userId ? '/create-request' : '/login'}>
+              <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                Write Request
+            </TooltipItem>
+            </Link>
+          </Tooltip>
         </StyledMenuItem>
-        {/* <StyledMenuItem key='/create-request'>
-          <Link route={userId ? '/create-request' : '/login'}>
-            <GlobalCreateRequestButton data-test-id='create-request-navbar'>CREATE REQUEST</GlobalCreateRequestButton>
-          </Link>
-        </StyledMenuItem> */}
 
         <StyledMenuItem key='/profile'>
           {userId && userId.length ? (

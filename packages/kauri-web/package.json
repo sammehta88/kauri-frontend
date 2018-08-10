@@ -27,8 +27,7 @@
     "test:unit": "NODE_ENV=test jest components",
     "test:e2e": "NODE_ENV=test jest --testRegex '(/__tests__/e2e/.*)\\.spec.js?$'",
     "test:bs": "NODE_ENV=test jest --testRegex '(/__tests__/reasonml/.*)\\.bs.js?$'",
-    "test:integration": "NODE_ENV=test jest integration",
-    "dev:build-css": "BUILD_CSS=true yarn dev"
+    "test:integration": "NODE_ENV=test jest integration"
   },
   "dependencies": {
     "@glennsl/bs-revamp": "^0.1.1",

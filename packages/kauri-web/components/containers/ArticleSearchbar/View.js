@@ -39,7 +39,7 @@ const SearchWrapper = styled.div`
   display: grid;
   position: relative;
   > *:not(.certain-category-icon) {
-    opacity: ${props => props.collapsible ? '0' : '1'}; 
+    opacity: ${props => (props.collapsible ? '0' : '1')};
     transition: all 0.3s;
   }
   &: hover {
@@ -47,7 +47,7 @@ const SearchWrapper = styled.div`
       opacity: 1;
     }
   }
-`;
+`
 
 const IconOverlay = styled(Icon)`
   position: absolute;
@@ -56,7 +56,7 @@ const IconOverlay = styled(Icon)`
   height: 17px;
   width: 17px;
   font-size: 17px;
-`;
+`
 
 const handleSearch$ = new Subject()
 
@@ -65,7 +65,7 @@ export default class Complete extends React.Component<any, any> {
     dataSource: [],
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>
@@ -86,12 +86,12 @@ export default class Complete extends React.Component<any, any> {
           dataSource = [{ article_id: 'No articles found', text: 'No articles found', subject: 'No articles found' }]
         }
         this.setState({ dataSource })
-      });
-    this.setState({ sub });
+      })
+    this.setState({ sub })
   }
 
-  componentWillUnmount() {
-    this.state.sub.unsubscribe();
+  componentWillUnmount () {
+    this.state.sub.unsubscribe()
   }
 
   handleSearch = (text: string) => {
@@ -111,16 +111,16 @@ export default class Complete extends React.Component<any, any> {
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-        <Option disabled key={'No articles found'} value={'No articles found'}>
-          No articles found
+      <Option disabled key={'No articles found'} value={'No articles found'}>
+        No articles found
       </Option>
-      )
+    )
 
-  render() {
+  render () {
     const { dataSource } = this.state
 
     return (
-      <SearchWrapper collapsible={this.props.collapsible} className="global-search-wrapper">
+      <SearchWrapper collapsible={this.props.collapsible} className='global-search-wrapper'>
         <AutoComplete
           className='global-search'
           size='large'

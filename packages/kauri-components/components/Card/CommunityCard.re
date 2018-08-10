@@ -69,11 +69,10 @@ let make =
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.footer>
-          <CardCounter value=followers label="Followers" />
-          <CardCounter value=articles label="Articles" />
-          <CardCounter value=views label="Views" />
-          <CardCounter value=articles label="Articles" />
-        </div>
+           <CardCounter value=articles label="Articles" /> </div>
+          /* <CardCounter value=followers label="Followers" />
+             <CardCounter value=views label="Views" />
+             <CardCounter value=articles label="Articles" /> */
       </div>
     </BaseCard>,
 };

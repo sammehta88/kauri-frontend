@@ -66,7 +66,8 @@ export default class Complete extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    handleSearch$
+    console.log('search bar mounted');
+    const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>
         this.props.client.query({
@@ -86,7 +87,12 @@ export default class Complete extends React.Component<any, any> {
           dataSource = [{ article_id: 'No articles found', text: 'No articles found', subject: 'No articles found' }]
         }
         this.setState({ dataSource })
-      })
+      });
+    this.setState({ sub });
+  }
+
+  componentWillUnmount() {
+    this.state.sub.unsubscribe();
   }
 
   handleSearch = (text: string) => {
@@ -94,9 +100,7 @@ export default class Complete extends React.Component<any, any> {
   }
 
   onSelect = (articleRoute: string) => {
-    const article_version = articleRoute.split('article-version/')[1]
-    const article_id = articleRoute.split('/article/')[1].split('/article_version')[0]
-    this.props.routeChangeAction(`/article/${article_id}/article-version/${article_version}`)
+    this.props.routeChangeAction(articleRoute)
   }
 
   renderOption = (article: ArticleDTO) =>

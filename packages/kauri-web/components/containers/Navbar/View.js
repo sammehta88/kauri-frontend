@@ -131,7 +131,6 @@ class Logo extends React.Component {
 
 export default class Navbar extends React.Component {
   render() {
-    console.log(Tooltip);
     const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu

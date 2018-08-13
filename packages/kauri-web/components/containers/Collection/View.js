@@ -32,7 +32,6 @@ class CollectionPage extends Component<Props> {
   render() {
     if (!this.props.data || !this.props.data.collection) return null;
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
-    console.log(background);
     return (
       <div>
         <HeaderContainer background={background}>

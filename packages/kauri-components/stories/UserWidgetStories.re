@@ -12,6 +12,7 @@ let myStory =
 
 myStory.add("Small", () =>
   <UserWidgetSmall
+    pageType=None
     username="davodesign84"
     profileImage="https://randomuser.me/api/portraits/women/51.jpg"
   />

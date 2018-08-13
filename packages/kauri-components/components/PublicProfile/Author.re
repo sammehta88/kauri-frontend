@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("Avatar");
+let component = ReasonReact.statelessComponent("Author");
 
 type pageType =
   | SubmittingArticle;

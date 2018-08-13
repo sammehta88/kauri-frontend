@@ -65,6 +65,10 @@ let make = (~community, ~website, _children) => {
       <CommunityWebsite href=website>
         website->getWebsite->ReasonReact.string
       </CommunityWebsite>
-      <ShareArticle pageType=CommunityProfile url="lol" title="lol" />
+      <ShareArticle
+        pageType=CommunityProfile
+        url=website
+        title=community->String.capitalize
+      />
     </Container>,
 };

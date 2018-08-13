@@ -1,5 +1,9 @@
 open Infix_Utilities;
 
+/* TODO: Probs a good use for redux or the new react context provider */
+[@bs.module "../../../lib/theme-config.js"]
+external themeConfig: ThemeConfig.themeConfig = "default";
+
 module Styles = {
   let container = Css.(style([]));
 
@@ -68,7 +72,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~userId, ~routeChangeAction, ~category, _children) => {
+let make = (~routeChangeAction, ~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -82,6 +86,15 @@ let make = (~userId, ~routeChangeAction, ~category, _children) => {
                <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>
                <div className=Styles.container>
+                 <CommunityHeader>
+                   <CommunityProfile
+                     community=category
+                     website=
+                       themeConfig
+                       ->ThemeConfig.getCommunityConfig(category)
+                       ->ThemeConfig.homepageURLGet
+                   />
+                 </CommunityHeader>
                  <section className=Styles.articlesContainer>
                    (renderArticleCards(~response, ~routeChangeAction))
                  </section>
@@ -102,7 +115,6 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~userId=jsProps->userIdGet,
       ~routeChangeAction=jsProps->routeChangeActionGet,
       ~category=jsProps->categoryGet,
       [||],

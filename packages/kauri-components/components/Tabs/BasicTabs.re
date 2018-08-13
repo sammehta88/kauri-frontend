@@ -1,25 +1,63 @@
 module TabList = {
   let component = ReasonReact.statelessComponent("TabList");
 
-  let className = Css.(style([display(`flex), flexDirection(row)]));
-  let make = (~setCurrentTabIndex, children) => {
+  module Style = {
+    let tabList = colorProp =>
+      Css.(
+        style([
+          display(`flex),
+          height(px(60)),
+          flexDirection(row),
+          alignItems(center),
+          backgroundColor(hex(colorProp)),
+          listStyleType(`none),
+          unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
+          selector(
+            "> *",
+            [cursor(`pointer), marginRight(px(20)), height(px(35))],
+          ),
+        ])
+      );
+
+    let activeTab = isActive =>
+      isActive ?
+        Css.(
+          style([
+            selector(
+              ":after",
+              [
+                unsafe("content", "''"),
+                background(hex("FFFFFF")),
+                height(px(2)),
+                marginTop(px(9)),
+                display(`block),
+              ],
+            ),
+          ])
+        ) :
+        Css.(style([]));
+  };
+  let make =
+      (~setCurrentTabIndex, ~currentTabIndex, ~color="1e3d3b", children) => {
     ...component,
-    didMount: _ => Js.log(children[0]),
     render: _self =>
-      <div className>
+      <ul className=(Style.tabList(color))>
         (
           children
           ->Belt.Array.mapWithIndex(
               (i, child) =>
                 ReasonReact.cloneElement(
-                  <div key=i->string_of_int />,
+                  <li
+                    className=(Style.activeTab(currentTabIndex == i))
+                    key=i->string_of_int
+                  />,
                   ~props={"onClick": _ => setCurrentTabIndex(i)},
                   [|child|],
                 ),
             )
           |> ReasonReact.array
         )
-      </div>,
+      </ul>,
   };
 };
 
@@ -45,7 +83,8 @@ module Tabs = {
     | SetCurrentTabIndex(int);
 
   let component = ReasonReact.reducerComponent("Tabs");
-  let make = (~tabs: 'a => ReasonReact.reactElement, ~content, _children) => {
+  let make =
+      (~tabs: ('a, int) => ReasonReact.reactElement, ~content, _children) => {
     ...component,
     initialState: () => {currentTabIndex: 0},
     reducer: (action, _state) =>
@@ -55,7 +94,12 @@ module Tabs = {
       },
     render: self =>
       <div>
-        ((index => self.send(SetCurrentTabIndex(index))) |> tabs)
+        (
+          tabs(
+            index => self.send(SetCurrentTabIndex(index)),
+            self.state.currentTabIndex,
+          )
+        )
         (self.state.currentTabIndex |> content)
       </div>,
   };
@@ -64,17 +108,27 @@ module Tabs = {
 module Tab = {
   let component = ReasonReact.statelessComponent("Tab");
 
+  module Style = {
+    open Css;
+    let text = [fontSize(px(13)), fontWeight(700), color(hex("FFFFFF"))];
+    let tab = style([selector("> *", text), ...text]);
+  };
+
   let make = children => {
     ...component,
-    render: _self => <div> ...children </div>,
+    render: _self => <span className=Style.tab> ...children </span>,
   };
 };
 
 module Panel = {
+  module Style = {
+    let panel =
+      Css.(style([unsafe("padding", "0px calc((100vw - 1280px) / 2)")]));
+  };
   let component = ReasonReact.statelessComponent("Panel");
 
   let make = children => {
     ...component,
-    render: _self => <div> ...children </div>,
+    render: _self => <div className=Style.panel> ...children </div>,
   };
 };

@@ -8,10 +8,13 @@ myStory.add("Basic", () =>
   BasicTabs.(
     <Tabs
       tabs=(
-        setCurrentTabIndex =>
-          <TabList setCurrentTabIndex>
-            <Tab> <p> "Tab Name"->ReasonReact.string </p> </Tab>
-            <Tab> <p> "Tab Name2"->ReasonReact.string </p> </Tab>
+        (setCurrentTabIndex, currentTabIndex) =>
+          <TabList currentTabIndex setCurrentTabIndex>
+            <Tab> "All"->String.uppercase->ReasonReact.string </Tab>
+            <Tab>
+              "General Articles"->String.uppercase->ReasonReact.string
+            </Tab>
+            <Tab> "Tutorials"->String.uppercase->ReasonReact.string </Tab>
           </TabList>
       )
       content=(
@@ -19,6 +22,7 @@ myStory.add("Basic", () =>
           <PanelList currentTabIndex>
             <Panel> <p> "Content"->ReasonReact.string </p> </Panel>
             <Panel> <p> "Content2"->ReasonReact.string </p> </Panel>
+            <Panel> <p> "Content3"->ReasonReact.string </p> </Panel>
           </PanelList>
       )
     />

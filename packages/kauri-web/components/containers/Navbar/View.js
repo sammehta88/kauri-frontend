@@ -225,8 +225,8 @@ export default class Navbar extends React.Component {
         </StyledMenuItem>
 
         <StyledMenuItem key='/profile'>
-          {user && userId && userId.length ? (
-            <Tooltip header={<ProfileMiniature>{user.username && user.username.substring(0, 1)}</ProfileMiniature>}>
+          {userId && userId.length ? (
+            <Tooltip header={<ProfileMiniature>{user && user.username ? user.username.substring(0, 1) : <Icon type="user" />}</ProfileMiniature>}>
               <TooltipItemContainer>
                 <Link route={'/profile'}>
                   <TooltipItem>

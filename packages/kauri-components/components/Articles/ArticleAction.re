@@ -23,7 +23,7 @@ module Styles = {
       ])
     );
 
-  let baseTextStyle = Css.[fontSize(px(11)), fontWeight(500)];
+  let baseTextStyle = Css.[fontSize(px(11)), fontWeight(700)];
 
   let text = pageType =>
     switch (pageType) {

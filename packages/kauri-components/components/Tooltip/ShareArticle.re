@@ -23,9 +23,6 @@ module Styles = {
         selector("> div", [marginBottom(px(5))]),
       ])
     );
-
-  let text =
-    Css.(style([color(white), fontSize(px(12)), fontWeight(500)]));
 };
 
 let svgIcon =

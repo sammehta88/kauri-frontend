@@ -53,7 +53,6 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              make(article);
            <ArticleCard
              key
-             pageType=ArticleCard.RinkebyPublicProfile
              articleId
              articleVersion
              changeRoute=routeChangeAction
@@ -69,12 +68,12 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~userId, ~routeChangeAction, _children) => {
+let make = (~userId, ~routeChangeAction, ~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
-    let articlesQuery = SearchPersonalArticles.make(~userId, ());
-    <SearchPersonalArticlesQuery variables=articlesQuery##variables>
+    let articlesQuery = SearchCommunityArticles.make(~category, ());
+    <SearchCommunityArticlesQuery variables=articlesQuery##variables>
       ...(
            ({result}) =>
              switch (result) {
@@ -83,30 +82,20 @@ let make = (~userId, ~routeChangeAction, _children) => {
                <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>
                <div className=Styles.container>
-                 <section className=Styles.header>
-                   <ProfileAvatar_Connection userId />
-                   <StatisticsContainer
-                     statistics=[|
-                       {
-                         "name": "Articles",
-                         "count": Article_Resource.articlesCountGet(response),
-                       },
-                     |]
-                   />
-                 </section>
                  <section className=Styles.articlesContainer>
                    (renderArticleCards(~response, ~routeChangeAction))
                  </section>
                </div>
              }
          )
-    </SearchPersonalArticlesQuery>;
+    </SearchCommunityArticlesQuery>;
   },
 };
 
 [@bs.deriving abstract]
 type jsProps = {
   userId: string,
+  category: string,
   routeChangeAction: string => unit,
 };
 
@@ -115,6 +104,7 @@ let default =
     make(
       ~userId=jsProps->userIdGet,
       ~routeChangeAction=jsProps->routeChangeActionGet,
+      ~category=jsProps->categoryGet,
       [||],
     )
   );

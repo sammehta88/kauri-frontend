@@ -1,5 +1,5 @@
 import React from 'react'
-import { Menu, Button } from 'antd'
+import { Menu, Button, Icon } from 'antd'
 import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
@@ -19,15 +19,6 @@ const StyledMenu = styled(Menu)`
   background-color: ${props =>
     props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
   border-bottom-color: ${props => props.navcolor} !important;
-`
-
-const ProfileContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  > :first-child {
-    margin-right: 29px;
-  }
 `
 
 const StyledMenuItem = styled(Menu.Item)`
@@ -97,7 +88,13 @@ const ProfileMiniature = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   text-transform: uppercase;
+  margin-top: 23px;
+
+  .anticon {
+    margin: 0;
+  }
 `
 
 const TooltipItem = styled.div`
@@ -118,6 +115,32 @@ const TooltipItem = styled.div`
 
 const TooltipItemContainer = styled.div`
 padding: 10px`;
+
+
+const deleteAllCookies = callback => {
+  let cookies = document.cookie.split(';')
+  for (let i = 0; i < cookies.length; i++) {
+    let cookie = cookies[i]
+    let eqPos = cookie.indexOf('=')
+    let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
+    eraseCookieFromAllPaths(name)
+  }
+  callback && setTimeout(() => callback(), 700)
+}
+
+const logout = () => {
+  deleteAllCookies(() => {
+    window.location.href = '/'
+  })
+}
+
+const eraseCookieFromAllPaths = name => {
+  // This function will attempt to remove a cookie from all paths.
+
+  // do a simple pathless delete first.
+  document.cookie = name + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;'
+  document.cookie = name + `=; expires=Thu, 01-Jan-1970 00:00:01 GMT; path=/; domain=.${window.location.hostname}`
+}
 
 class Logo extends React.Component {
   render() {
@@ -197,20 +220,39 @@ export default class Navbar extends React.Component {
           </Tooltip>
         </StyledMenuItem>
 
+        <StyledMenuItem>
+          <Web3Status />
+        </StyledMenuItem>
+
         <StyledMenuItem key='/profile'>
           {userId && userId.length ? (
-            <Link href='/profile'>
-              <ProfileContainer>
-                <Web3Status />
-                <ProfileMiniature>{user && user.username.substring(0, 1)}</ProfileMiniature>
-              </ProfileContainer>
-            </Link>
+            <Tooltip header={<ProfileMiniature>{user && user.username.substring(0, 1)}</ProfileMiniature>}>
+              <TooltipItemContainer>
+                <Link route={'/profile'}>
+                  <TooltipItem>
+                    Account
+                    </TooltipItem>
+                </Link>
+                <TooltipItem onClick={logout}>
+                  Logout
+                </TooltipItem>
+              </TooltipItemContainer>
+            </Tooltip>
           ) : (
-              <Link href='/login'>
-                <Text href='/login' data-test-id='login-navbar' pathname={url.pathname} link='/login'>
-                  Sign In
-              </Text>
-              </Link>
+              <Tooltip header={<ProfileMiniature><Icon type="user" /></ProfileMiniature>}>
+                <TooltipItemContainer>
+                  <Link route={'/login'}>
+                    <TooltipItem>
+                      Login
+                    </TooltipItem>
+                  </Link>
+                  <Link route={'/login'}>
+                    <TooltipItem>
+                      Register
+                    </TooltipItem>
+                  </Link>
+                </TooltipItemContainer>
+              </Tooltip>
             )}
         </StyledMenuItem>
         <StyledMenuItem key='/help'>

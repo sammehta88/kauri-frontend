@@ -4,6 +4,7 @@ const Container = styled.div`
     flex-direction: column;
     display: flex;
     align-items: center;
+    z-index: 999;
 
     > *:not(.header) {
         opacity: 0;
@@ -37,6 +38,7 @@ const TooltipBody = styled.div`
     position: absolute;
     top: 80%;
     display: none;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
 `;
 
 const Tooltip = (props) =>

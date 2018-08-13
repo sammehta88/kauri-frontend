@@ -31,7 +31,7 @@ const HeaderContainer = styled(ContentContainer)`
 class CollectionPage extends Component<Props> {
   render() {
     if (!this.props.data || !this.props.data.collection) return null;
-    const { name, background, description, date_created, dated_updated, owner, sections } = this.props.data.collection
+    const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
     console.log(background);
     return (
       <div>
@@ -39,7 +39,7 @@ class CollectionPage extends Component<Props> {
           <CollectionHeader
             name={name}
             description={description}
-            updated={dated_updated || date_created}
+            updated={date_updated || date_created}
             username={owner.username}
             profileImage={owner.profileImage}
           />

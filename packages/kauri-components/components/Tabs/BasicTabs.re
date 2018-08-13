@@ -1,35 +1,19 @@
-module Tabs = {
-  let component = ReasonReact.statelessComponent("Tabs");
-
-  let make = children => {
-    ...component,
-    render: self => <div> ...children </div>,
-  };
-};
-
 module TabList = {
-  type state = {currentTabIndex: int};
-  type action =
-    | SetCurrentTabIndex(int);
-  let component = ReasonReact.reducerComponent("TabList");
+  let component = ReasonReact.statelessComponent("TabList");
 
-  let make = children => {
+  let className = Css.(style([display(`flex), flexDirection(row)]));
+  let make = (~setCurrentTabIndex, children) => {
     ...component,
-    initialState: () => {currentTabIndex: 0},
-    reducer: (action, _state) =>
-      switch (action) {
-      | SetCurrentTabIndex(index) =>
-        ReasonReact.Update({currentTabIndex: index})
-      },
-    render: self =>
-      <div>
+    didMount: _ => Js.log(children[0]),
+    render: _self =>
+      <div className>
         (
           children
           ->Belt.Array.mapWithIndex(
               (i, child) =>
                 ReasonReact.cloneElement(
                   <div key=i->string_of_int />,
-                  ~props={"onClick": _ => self.send(SetCurrentTabIndex(i))},
+                  ~props={"onClick": _ => setCurrentTabIndex(i)},
                   [|child|],
                 ),
             )
@@ -39,17 +23,46 @@ module TabList = {
   };
 };
 
-module Tab = {
-  let component = ReasonReact.statelessComponent("Tab");
+module PanelList = {
+  let component = ReasonReact.statelessComponent("PanelList");
 
-  let make = children => {
+  let make = (~currentTabIndex, children) => {
     ...component,
-    render: _self => <div> ...children </div>,
+    render: _self =>
+      <div>
+        (
+          children
+          |> Js.Array.filteri((_panel, i) => i === currentTabIndex)
+          |> ReasonReact.array
+        )
+      </div>,
   };
 };
 
-module PanelList = {
-  let component = ReasonReact.statelessComponent("PanelList");
+module Tabs = {
+  type state = {currentTabIndex: int};
+  type action =
+    | SetCurrentTabIndex(int);
+
+  let component = ReasonReact.reducerComponent("Tabs");
+  let make = (~tabs: 'a => ReasonReact.reactElement, ~content, _children) => {
+    ...component,
+    initialState: () => {currentTabIndex: 0},
+    reducer: (action, _state) =>
+      switch (action) {
+      | SetCurrentTabIndex(index) =>
+        ReasonReact.Update({currentTabIndex: index})
+      },
+    render: self =>
+      <div>
+        ((index => self.send(SetCurrentTabIndex(index))) |> tabs)
+        (self.state.currentTabIndex |> content)
+      </div>,
+  };
+};
+
+module Tab = {
+  let component = ReasonReact.statelessComponent("Tab");
 
   let make = children => {
     ...component,

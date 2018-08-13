@@ -14,7 +14,22 @@ module Styles = {
       ])
     );
 
-  let username =
+  let imagePlaceholder =
+    Css.(
+      style([
+        height(px(30)),
+        width(px(30)),
+        borderRadius(px(15)),
+        marginRight(px(8)),
+        display(`flex),
+        alignItems(`center),
+        justifyContent(`center),
+        background(white),
+        textTransform(`capitalize),
+      ])
+    );
+
+  let username = (~colorProp) =>
     /* font-size: 14px; font-weight: 700 */
     Css.(
       style([
@@ -22,15 +37,27 @@ module Styles = {
         fontWeight(700),
         overflow(hidden),
         maxWidth(px(200)),
+        color(hex(colorProp)),
+        textTransform(`capitalize),
       ])
     );
 };
 
-let make = (~username, ~profileImage, _children) => {
+let make = (~username, ~profileImage=?, ~color="#1E2428", _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      <img className=Styles.image src=profileImage />
-      <div className=Styles.username> (ReasonReact.string(username)) </div>
+      {
+        switch (profileImage) {
+        | Some(string) => <img className=Styles.image src=string />
+        | _ =>
+          <div className=Styles.imagePlaceholder>
+            {ReasonReact.string(String.sub(username, 0, 1))}
+          </div>
+        }
+      }
+      <div className={Styles.username(~colorProp=color)}>
+        {ReasonReact.string(username)}
+      </div>
     </div>,
 };

@@ -91,7 +91,13 @@ let make = (~routeChangeAction, ~category, _children) => {
         <Tabs
           defaultTabName=(tabNames[0])
           tabs=(
-            (setCurrentTabName, currentTabName) =>
+            (setCurrentTabName, currentTabName) => {
+              let articlesCountQuery =
+                switch (currentTabName) {
+                | "all" => CommunityArticlesCount.make(~category, ())
+                | _ => CommunityArticlesCount.make(~category, ())
+                };
+
               <TabList>
                 <Tab setCurrentTabName currentTabName name=(tabNames[0])>
                   "All"->String.uppercase->ReasonReact.string
@@ -104,10 +110,31 @@ let make = (~routeChangeAction, ~category, _children) => {
                 </Tab>
                 <PullRight>
                   <Badge>
-                    "X Total Articles"->String.uppercase->ReasonReact.string
+                    <CommunityArticlesCountQuery
+                      variables=articlesCountQuery##variables>
+                      ...(
+                           ({result}) =>
+                             switch (result) {
+                             | Loading => <Loading />
+                             | Error(error) =>
+                               <div>
+                                 (ReasonReact.string(error##message))
+                               </div>
+                             | Data(response) =>
+                               let totalArticles =
+                                 response
+                                 ->Article_Resource.articlesCountGet
+                                 ->string_of_int;
+                               (totalArticles ++ " Total Articles")
+                               ->String.uppercase
+                               ->ReasonReact.string;
+                             }
+                         )
+                    </CommunityArticlesCountQuery>
                   </Badge>
                 </PullRight>
-              </TabList>
+              </TabList>;
+            }
           )
           content=(
             currentTabName => {

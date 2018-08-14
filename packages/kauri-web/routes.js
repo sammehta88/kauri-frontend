@@ -25,6 +25,4 @@ routes
   .add('reject-article', '/article/:article_id/article-version/:article_version/reject-article')
   .add('public-profile', '/public-profile/:user_id')
   .add('collection', '/collection/:collection_id')
-  // TODO: Deprecate
-  .add('topic-home', '/topic/:category')
   .add('community', '/community/:category')

@@ -208,3 +208,19 @@ module SearchCommunityArticles = [%graphql
 
 module SearchCommunityArticlesQuery =
   ReasonApollo.CreateQuery(SearchCommunityArticles);
+
+module CommunityArticlesCount = [%graphql
+  {|
+    query communityArticlesCount($category: String) {
+        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category] }) {
+            content {
+              article_id
+            }
+            totalElements
+        }
+    }
+  |}
+];
+
+module CommunityArticlesCountQuery =
+  ReasonApollo.CreateQuery(CommunityArticlesCount);

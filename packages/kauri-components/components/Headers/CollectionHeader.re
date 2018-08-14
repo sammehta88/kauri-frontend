@@ -51,7 +51,7 @@ let make =
       </div>
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
-        <UserWidgetSmall username color="ffffff" />
+        <UserWidgetSmall pageType=None username color="ffffff" />
       </div>
     </div>,
 };

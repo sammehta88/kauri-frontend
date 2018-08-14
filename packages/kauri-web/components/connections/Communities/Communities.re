@@ -1,5 +1,3 @@
-open Infix_Utilities;
-
 [@bs.module "../../../lib/theme-config.js"]
 external themeConfig: ThemeConfig.themeConfig = "default";
 [@bs.module "../../../lib/theme-config.js"]
@@ -33,19 +31,37 @@ let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
         let description =
           ThemeConfig.getCommunityConfig(themeConfig, community)
           ->ThemeConfig.descriptionGet;
-        /* Article_Queries.(getCommunityArticlesCount) */
-        <CommunityCard
-          key=community
-          communityName=community
-          communityDescription=description
-          changeRoute=routeChangeAction
-          articles="1"
-          followers="1"
-          views="1"
-        />;
-      },
-    )
-  ->ReasonReact.array;
+        open Article_Queries;
+
+        let articlesCountQuery =
+          CommunityArticlesCount.make(~category=community, ());
+
+        <CommunityArticlesCountQuery 
+          variables=articlesCountQuery##variables>
+            ...(
+              ({result}) =>
+                switch (result) {
+                | Loading => <Loading />
+                | Error(error) =>
+                  <div>
+                    (ReasonReact.string(error##message))
+                  </div>
+                | Data(response) => {
+                    let totalArticles = response ->Article_Resource.articlesCountGet ->string_of_int; 
+                    <CommunityCard
+                      key=community
+                      communityName=community
+                      communityDescription=description
+                      changeRoute=routeChangeAction
+                      articles=totalArticles
+                      followers="1"
+                      views="1"
+                    />
+                }
+            })
+        </CommunityArticlesCountQuery>
+      })
+      |> ReasonReact.array
 
 let make = (~routeChangeAction, _children) => {
   ...component,

@@ -34,7 +34,7 @@ module Styles = {
     Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
-let component = ReasonReact.statelessComponent("RinkebyPublicProfile");
+let component = ReasonReact.statelessComponent("Community");
 
 let renderArticleCards = (~response, ~routeChangeAction) =>
   switch (response##searchArticles |? (x => x##content)) {

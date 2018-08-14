@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const bsconfigPath = require.resolve('./bsconfig.json')
+const bsconfigPath = require.resolve('../bsconfig.json')
 const originalConfig = require(bsconfigPath)
 
 let modifiedConfig = Object.assign({}, originalConfig, {

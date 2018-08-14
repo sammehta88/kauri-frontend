@@ -1,4 +1,5 @@
 type themeConfig;
+type communities = array(string);
 [@bs.deriving abstract]
 type communityConfig = {
   primaryColor: string,
@@ -8,3 +9,4 @@ type communityConfig = {
 };
 [@bs.get_index]
 external getCommunityConfig: (themeConfig, string) => communityConfig = "";
+external getCommunities: themeConfig => communityConfig = "";

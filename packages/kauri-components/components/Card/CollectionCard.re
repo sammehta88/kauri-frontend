@@ -52,11 +52,12 @@ module Styles = {
       style([
         display(`flex),
         flexDirection(column),
-        justifyContent(center),
-        alignItems(center),
+        justifyContent(`flexStart),
+        alignItems(`center),
         flexDirection(column),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
+        flex(1),
         unsafe("padding", "11px 14px 11px 14px"),
         unsafe(
           "background",
@@ -79,7 +80,7 @@ let make =
       ~curatorImage=?,
       ~changeRoute=?,
       ~collectionId: string,
-      ~imageURL=?,
+      ~imageURL,
       _children,
     ) => {
   ...component,

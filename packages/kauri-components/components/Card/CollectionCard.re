@@ -113,7 +113,15 @@ let make =
           }>
           <div className={Styles.darkLayer(~image=imageURL)}>
             <Label text=heading />
-            <Heading text=collectionName />
+            <Heading
+              text=collectionName
+              color={
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              }
+            />
             <Paragraph text=collectionDescription />
             <img
               className=Styles.image
@@ -148,7 +156,7 @@ type jsProps = {
   collectionId: string,
   articles: string,
   lastUpdated: string,
-  imageURL: string,
+  imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
 };
 
@@ -161,7 +169,7 @@ let default =
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
-      ~imageURL=jsProps->imageURLGet,
+      ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],
     )

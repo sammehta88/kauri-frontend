@@ -70,6 +70,7 @@ myStory.add("Community Card With Image", () =>
 myStory.add("Collection Card", () =>
   <CollectionCard
     collectionId="1"
+    imageURL=None
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
     articles="58"
@@ -86,6 +87,10 @@ myStory.add("Collection Card With Image", () =>
     articles="58"
     lastUpdated="Last Updated 3 June 2099"
     curatorImage="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
-    imageURL="https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
+    imageURL={
+      Some(
+        "https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
+      )
+    }
   />
 );

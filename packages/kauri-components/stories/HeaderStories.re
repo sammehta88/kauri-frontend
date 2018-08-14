@@ -12,3 +12,9 @@ myStory.add("Collection Header", () =>
     updated="1 day ago"
   />
 );
+
+myStory.add("Community Header", () =>
+  <CommunityHeader>
+    <CommunityProfile community="metamask" website="https://metamask.io" />
+  </CommunityHeader>
+);

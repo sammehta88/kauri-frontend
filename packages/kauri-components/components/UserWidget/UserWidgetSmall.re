@@ -29,21 +29,31 @@ module Styles = {
       ])
     );
 
-  let username = (~colorProp) =>
-    /* font-size: 14px; font-weight: 700 */
-    Css.(
-      style([
-        fontSize(px(14)),
-        fontWeight(700),
-        overflow(hidden),
-        maxWidth(px(200)),
-        color(hex(colorProp)),
-        textTransform(`lowercase),
-      ])
-    );
+  let baseUsername = colorProp =>
+    Css.[
+      fontSize(px(14)),
+      fontWeight(700),
+      overflow(hidden),
+      maxWidth(px(200)),
+      color(hex(colorProp)),
+      textTransform(`capitalize),
+    ];
+
+  let username = (~colorProp, ~pageType) =>
+    switch (pageType) {
+    | Some(_) => Css.style(baseUsername(colorProp))
+    | None =>
+      Css.style(
+        List.append(
+          Css.[selector(":hover", [color(hex("0BA986"))])],
+          baseUsername(colorProp),
+        ),
+      )
+    };
 };
 
-let make = (~username, ~profileImage=?, ~color="#1E2428", _children) => {
+let make =
+    (~username, ~profileImage=?, ~color="#1E2428", ~pageType, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
@@ -56,7 +66,7 @@ let make = (~username, ~profileImage=?, ~color="#1E2428", _children) => {
           </div>
         }
       }
-      <div className={Styles.username(~colorProp=color)}>
+      <div className={Styles.username(~colorProp=color, ~pageType)}>
         {ReasonReact.string(username)}
       </div>
     </div>,

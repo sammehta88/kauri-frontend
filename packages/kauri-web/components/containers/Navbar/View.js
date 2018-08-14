@@ -4,7 +4,7 @@ import styled, { css } from 'styled-components'
 import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
-import Tooltip from '../../common/Tooltip';
+import Tooltip from '../../common/Tooltip'
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -98,7 +98,7 @@ const ProfileMiniature = styled.div`
 `
 
 const TooltipItem = styled.div`
-  color:#0BA986;
+  color: #0ba986;
   font-size: 11px;
   text-transform: uppercase;
   font-weight: 600;
@@ -111,11 +111,11 @@ const TooltipItem = styled.div`
     color: #267765;
     text-decoration: underline;
   }
-`;
+`
 
 const TooltipItemContainer = styled.div`
-padding: 10px`;
-
+  padding: 10px;
+`
 
 const deleteAllCookies = callback => {
   let cookies = document.cookie.split(';')
@@ -143,7 +143,7 @@ const eraseCookieFromAllPaths = name => {
 }
 
 class Logo extends React.Component {
-  render() {
+  render () {
     return (
       <LogoWrapper>
         <LogoImage onClick={() => this.props.routeChangeAction('/')} src='/static/images/logo.svg' />
@@ -153,7 +153,7 @@ class Logo extends React.Component {
 }
 
 export default class Navbar extends React.Component {
-  render() {
+  render () {
     const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu
@@ -184,10 +184,10 @@ export default class Navbar extends React.Component {
             </StyledMenuItem>
           )}
 
-        <StyledMenuItem key='/topics'>
-          <Link href='/topics'>
-            <Text href='/topics' pathname={url.pathname} link='/topics'>
-              Topics
+        <StyledMenuItem key='/communities'>
+          <Link href='/communities'>
+            <Text href='/communities' pathname={url.pathname} link='/communities'>
+              Communities
             </Text>
           </Link>
         </StyledMenuItem>
@@ -209,12 +209,12 @@ export default class Navbar extends React.Component {
               <Link route={userId ? '/write-article' : '/login'}>
                 <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
                   Write Article
-            </TooltipItem>
+                </TooltipItem>
               </Link>
               <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
                   Write Request
-            </TooltipItem>
+                </TooltipItem>
               </Link>
             </TooltipItemContainer>
           </Tooltip>
@@ -226,34 +226,38 @@ export default class Navbar extends React.Component {
 
         <StyledMenuItem key='/profile'>
           {userId && userId.length ? (
-            <Tooltip header={<ProfileMiniature>{user && user.username ? user.username.substring(0, 1) : <Icon type="user" />}</ProfileMiniature>}>
+            <Tooltip
+              header={
+                <ProfileMiniature>
+                  {user && user.username ? user.username.substring(0, 1) : <Icon type='user' />}
+                </ProfileMiniature>
+              }
+            >
               <TooltipItemContainer>
                 <Link route={'/profile'}>
-                  <TooltipItem>
-                    Account
-                    </TooltipItem>
+                  <TooltipItem>Account</TooltipItem>
                 </Link>
-                <TooltipItem onClick={logout}>
-                  Logout
-                </TooltipItem>
+                <TooltipItem onClick={logout}>Logout</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>
           ) : (
-              <Tooltip header={<ProfileMiniature><Icon type="user" /></ProfileMiniature>}>
-                <TooltipItemContainer>
-                  <Link route={'/login'}>
-                    <TooltipItem>
-                      Login
-                    </TooltipItem>
-                  </Link>
-                  <Link route={'/login'}>
-                    <TooltipItem>
-                      Register
-                    </TooltipItem>
-                  </Link>
-                </TooltipItemContainer>
-              </Tooltip>
-            )}
+            <Tooltip
+              header={
+                <ProfileMiniature>
+                  <Icon type='user' />
+                </ProfileMiniature>
+              }
+            >
+              <TooltipItemContainer>
+                <Link route={'/login'}>
+                  <TooltipItem>Login</TooltipItem>
+                </Link>
+                <Link route={'/login'}>
+                  <TooltipItem>Register</TooltipItem>
+                </Link>
+              </TooltipItemContainer>
+            </Tooltip>
+          )}
         </StyledMenuItem>
         <StyledMenuItem key='/help'>
           <Link href='/help'>

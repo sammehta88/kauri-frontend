@@ -23,7 +23,7 @@ export type TrackAnalyticsPayload = {
 
 type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
-type Resource = 'request' | 'article' | 'topic' | 'kauri'
+type Resource = 'request' | 'article' | 'community' | 'kauri'
 
 type Classification =
   | {
@@ -151,12 +151,12 @@ const handleClassification = (apolloClient: any) => (classification: *): Observa
     }
     return Observable.of(trackMixpanelAction(mixpanelPayload))
   } else if (typeof classification.resource === 'string') {
-    // Convert topic homepage visit to View event
-    if (classification.resource === 'topic') {
+    // Convert community homepage visit to View event
+    if (classification.resource === 'community') {
       const mixpanelPayload: TrackMixpanelPayload = {
         event: 'View',
         metaData: {
-          page: `${classification.resourceID} topic homepage`,
+          page: `${classification.resourceID} community homepage`,
         },
       }
       return Observable.of(mixpanelPayload)

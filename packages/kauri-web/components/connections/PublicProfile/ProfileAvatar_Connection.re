@@ -19,7 +19,11 @@ let make = (~userId, _children) => {
                  username=(
                    response##getUser
                    |? (user => user##username)
-                   |> default("")
+                   |> default(
+                        response##getUser
+                        |? (user => user##user_id)
+                        |> default("Unknown Writer"),
+                      )
                  )
                  pageType=RinkebyPublicProfile
                />

@@ -52,9 +52,7 @@ let make =
       ~heading="collection",
       ~collectionName,
       ~collectionDescription,
-      /* ~upvotes, */
       ~articles,
-      /* ~followers, */
       ~lastUpdated=?,
       ~curatorImage=?,
       ~changeRoute=?,
@@ -65,14 +63,14 @@ let make =
   render: _self =>
     <BaseCard>
       <div
-        onClick=(
+        onClick={
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/collection/$collectionId|j})
             | None => ()
             }
-        )
+        }
         className=Styles.collectionCardContainer>
         <Label text=heading />
         <div className=Styles.collectionCardContent>
@@ -80,27 +78,26 @@ let make =
           <Paragraph text=collectionDescription />
           <img
             className=Styles.image
-            src=(
+            src={
               switch (curatorImage) {
               | Some(image) => image
               | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
               }
-            )
+            }
           />
-          (
+          {
             switch (lastUpdated) {
             | Some(string) => <Label text=string />
             | None => ReasonReact.null
             }
-          )
+          }
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.collectionCardFooter>
-          /* <CardCounter value=upvotes label="upvotes" /> */
-           <CardCounter value=articles label="Articles" /> </div>
+          <CardCounter value=articles label="Articles" />
+        </div>
       </div>
     </BaseCard>,
-  /* <CardCounter value=followers label="Followers" /> */
 };
 
 [@bs.deriving abstract]
@@ -109,11 +106,8 @@ type jsProps = {
   collectionName: string,
   collectionDescription: string,
   collectionId: string,
-  /* upvotes: string|int, */
   articles: string,
-  /* followers: string|int, */
   lastUpdated: string,
-  /* curatorImage: string */
   changeRoute: string => unit,
 };
 

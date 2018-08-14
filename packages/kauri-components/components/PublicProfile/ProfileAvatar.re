@@ -48,7 +48,7 @@ let getPageType = (pageType, username, avatarURL) =>
       <div className=Styles.rinkebyProfileAvatar>
         <span className=Styles.userInitial>
           (
-            String.sub(username, 0, 1)
+            username->String.sub(0, 1)
             |> String.uppercase
             |> ReasonReact.string
           )
@@ -77,7 +77,7 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~pageType=jsProps |> pageTypeGet,
-      ~avatarURL=jsProps |. avatarURLGet,
+      ~avatarURL=jsProps->avatarURLGet,
       [||],
     )
   );

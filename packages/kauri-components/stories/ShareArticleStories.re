@@ -10,6 +10,7 @@ myStory.add("Click for dropdown", () =>
     className="DummyContainerForTippy"
     style=(ReactDOMRe.Style.make(~display="flex", ~width="100%", ()))>
     <ShareArticle
+      pageType=PublishedArticle
       url="https://www.facebook.com/donate/1937650849680964/"
       title="Kauri"
     />

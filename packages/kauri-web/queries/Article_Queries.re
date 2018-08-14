@@ -182,3 +182,45 @@ module GetArticles = [%graphql
 ];
 
 module GetArticlesQuery = ReasonApollo.CreateQuery(GetArticles);
+
+module SearchCommunityArticles = [%graphql
+  {|
+    query searchCommunityArticles($category: String, $sub_category: String) {
+        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category], sub_category_in:[$sub_category] }) {
+            content {
+                article_id
+                article_version
+                subject
+                text
+                date_updated
+                user_id
+                user {
+                  user_id
+                  username
+                }
+            }
+            totalPages
+            totalElements
+        }
+    }
+  |}
+];
+
+module SearchCommunityArticlesQuery =
+  ReasonApollo.CreateQuery(SearchCommunityArticles);
+
+module CommunityArticlesCount = [%graphql
+  {|
+    query communityArticlesCount($category: String) {
+        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category] }) {
+            content {
+              article_id
+            }
+            totalElements
+        }
+    }
+  |}
+];
+
+module CommunityArticlesCountQuery =
+  ReasonApollo.CreateQuery(CommunityArticlesCount);

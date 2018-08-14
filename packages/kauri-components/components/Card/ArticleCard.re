@@ -131,6 +131,7 @@ let make =
               }
           }>
           <UserWidgetSmall
+            pageType
             username
             profileImage={
               switch (profileImage) {

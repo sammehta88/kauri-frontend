@@ -55,7 +55,16 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=Styles.container>
+      <div
+        className=Styles.container
+        onClick=(
+          _ =>
+            switch (changeRoute) {
+            | Some(changeRoute) =>
+              changeRoute({j|/community/$communityName|j})
+            | None => Js.log("NOOO")
+            }
+        )>
         <Label text=heading />
         <div className=Styles.content>
           (

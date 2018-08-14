@@ -9,6 +9,7 @@ RUN yarn install
 RUN npm run build
 
 WORKDIR /usr/src/app/packages/kauri-web
+RUN node scripts/remove-bsc-debug-flag.js
 RUN yarn install
 RUN npm run build
 

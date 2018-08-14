@@ -26,6 +26,6 @@
   "suffix": ".bs.js",
   "namespace": true,
   "bs-dependencies": ["reason-react", "bs-css", "vrroom", "bs-moment", "bs-webapi", "@glennsl/bs-revamp"],
-  "bsc-flags": ["-bs-super-errors"],
+  "bsc-flags": ["-bs-super-errors", "-bs-g"],
   "refmt": 3
 }

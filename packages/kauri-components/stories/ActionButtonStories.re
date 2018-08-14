@@ -22,9 +22,9 @@ let upvoteIcon =
   </svg>;
 
 myStory.add("Article action with icon", () =>
-  <ArticleAction svgIcon text="This is lovely!" />
+  <ArticleAction pageType=PublishedArticle svgIcon text="This is lovely!" />
 );
 
 myStory.add("Upvote action with icon", () =>
-  <ArticleAction svgIcon=upvoteIcon text="Upvote" />
+  <ArticleAction pageType=PublishedArticle svgIcon=upvoteIcon text="Upvote" />
 );

@@ -1,5 +1,9 @@
 let component = ReasonReact.statelessComponent("ArticleAction");
 
+type pageType =
+  | CommunityProfile
+  | PublishedArticle;
+
 module Styles = {
   let getWidth = text =>
     switch (text) {
@@ -19,10 +23,18 @@ module Styles = {
       ])
     );
 
-  let text = Css.(style([fontSize(px(11)), fontWeight(500)]));
+  let baseTextStyle = Css.[fontSize(px(11)), fontWeight(700)];
+
+  let text = pageType =>
+    switch (pageType) {
+    | CommunityProfile =>
+      List.append(Css.[color(hex("FFFFFF"))], baseTextStyle)->Css.style
+    | _ => baseTextStyle->Css.style
+    };
 };
 
-let make = (~svgIcon, ~text, ~handleClick=?, _children) => {
+let make =
+    (~svgIcon, ~text, ~handleClick=?, ~pageType=PublishedArticle, _children) => {
   ...component,
   render: _self =>
     <div
@@ -35,8 +47,8 @@ let make = (~svgIcon, ~text, ~handleClick=?, _children) => {
           }
       )>
       svgIcon
-      <span className=Styles.text>
-        (text |. String.uppercase |. Vrroom.text)
+      <span className=(Styles.text(pageType))>
+        text->String.uppercase->Vrroom.text
       </span>
     </div>,
 };
@@ -53,7 +65,7 @@ let default =
     ~component,
     jsProps => {
       let (handleClick, svgIcon, text) =
-        jsProps |. (handleClickGet, svgIconGet, textGet);
+        jsProps->(handleClickGet, svgIconGet, textGet);
       make(~handleClick, ~svgIcon, ~text, [||]);
     },
   );

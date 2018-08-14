@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("Avatar");
+let component = ReasonReact.statelessComponent("Author");
 
 type pageType =
   | SubmittingArticle;
@@ -24,7 +24,13 @@ module Styles = {
         display(flexBox),
         alignItems(center),
         cursor(getCursor(pageType)),
-        selector("> :last-child", [marginLeft(px(8))]),
+        selector(
+          "> :last-child",
+          [
+            marginLeft(px(8)),
+            selector(":hover", [color(hex("0BA986"))]),
+          ],
+        ),
       ])
     );
 };

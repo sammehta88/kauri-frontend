@@ -114,8 +114,8 @@ const ViewAll = styled.a`
 const Count = ({ count, category }: { count: ?number, category: string }) => (
   <Count.Container>
     <Count.Label>{`${count} Articles`}</Count.Label>
-    <Link route={`/topic/${category}`}>
-      <ViewAll href={`/topic/${category}`}>VIEW ALL</ViewAll>
+    <Link route={`/community/${category}`}>
+      <ViewAll href={`/community/${category}`}>VIEW ALL</ViewAll>
     </Link>
   </Count.Container>
 )
@@ -138,7 +138,7 @@ const renderArticles = (
 ) => (
   <Topic.WidgetContainer>
     <RecentArticles.CategoryBadge
-      onClick={() => routeChangeAction(`/topic/${category}`)}
+      onClick={() => routeChangeAction(`/community/${category}`)}
       theme={theme}
       category={category}
       height='120'

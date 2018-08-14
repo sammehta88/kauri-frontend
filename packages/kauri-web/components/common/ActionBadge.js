@@ -135,14 +135,14 @@ const ViewAll = styled.a`
 const TotalArticleBadge = props =>
   props.data && props.data.searchArticles ? (
     <Container
-      onClick={() => props.routeChangeAction(`/topic/${props.category}`)}
+      onClick={() => props.routeChangeAction(`/community/${props.category}`)}
       theme={theme}
       category={props.category}
       totalArticles
     >
       <Name>{props.category}</Name>
       <Count>{props.data.searchArticles.totalElements} Articles</Count>
-      <ViewAll href={`/topic/${props.category}`}>VIEW ALL</ViewAll>
+      <ViewAll href={`/community/${props.category}`}>VIEW ALL</ViewAll>
     </Container>
   ) : (
     <Container totalArticles {...props}>

@@ -23,9 +23,6 @@ module Styles = {
         selector("> div", [marginBottom(px(5))]),
       ])
     );
-
-  let text =
-    Css.(style([color(white), fontSize(px(12)), fontWeight(500)]));
 };
 
 let svgIcon =
@@ -37,7 +34,7 @@ let svgIcon =
     />
   </svg>;
 
-let make = (~url, ~title, _children) => {
+let make = (~url, ~title, ~pageType=ArticleAction.PublishedArticle, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.referenceContainer>
@@ -57,7 +54,7 @@ let make = (~url, ~title, _children) => {
           </div>
         }
         position=`Bottom>
-        <ArticleAction svgIcon text="Share" />
+        <ArticleAction pageType svgIcon text="Share" />
       </ReactTippy>
     </div>,
 };
@@ -72,7 +69,7 @@ let default =
   ReasonReact.wrapReasonForJs(
     ~component,
     jsProps => {
-      let (url, title) = jsProps |. (urlGet, titleGet);
+      let (url, title) = jsProps->(urlGet, titleGet);
       make(~url, ~title, [||]);
     },
   );

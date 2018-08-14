@@ -55,26 +55,28 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=Styles.container>
-        <Label text=heading />
-        <div className=Styles.content>
-          (
-            switch (communityLogo) {
-            | Some(string) => <img className=Styles.image src=string />
-            | None => ReasonReact.null
-            }
-          )
-          <Heading text=communityName />
-          <Paragraph text=communityDescription />
+
+        <div className=Styles.container>
+          <Label text=heading />
+          <div className=Styles.content>
+            (
+              switch (communityLogo) {
+              | Some(string) => <img className=Styles.image src=string />
+              | None => ReasonReact.null
+              }
+            )
+            <Heading text=communityName />
+            <Paragraph text=communityDescription />
+          </div>
+          <Separator direction="horizontal" />
+          <div className=Styles.footer>
+            <CardCounter value=articles label="Articles" />
+          </div>
         </div>
-        <Separator direction="horizontal" />
-        <div className=Styles.footer>
-           <CardCounter value=articles label="Articles" /> </div>
-          /* <CardCounter value=followers label="Followers" />
-             <CardCounter value=views label="Views" />
-             <CardCounter value=articles label="Articles" /> */
-      </div>
-    </BaseCard>,
+      </BaseCard>,
+      /* <CardCounter value=followers label="Followers" />
+         <CardCounter value=views label="Views" />
+         <CardCounter value=articles label="Articles" /> */
 };
 
 [@bs.deriving abstract]

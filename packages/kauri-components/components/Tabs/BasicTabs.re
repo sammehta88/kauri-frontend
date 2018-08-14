@@ -123,9 +123,9 @@ module Panel = {
   let make = (~name, ~currentTabName, children) => {
     ...component,
     render: _self =>
-      <div className=(Style.panel(name == currentTabName))>
+      <section className=(Style.panel(name == currentTabName))>
         ...children
-      </div>,
+      </section>,
   };
 };
 

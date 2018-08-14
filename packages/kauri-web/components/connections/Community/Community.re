@@ -27,7 +27,6 @@ module Styles = {
         justifyContent(center),
         flex(1),
         flexWrap(wrap),
-        unsafe("padding", "2.5em calc((100vw - 1280px) / 2)"),
         paddingBottom(px(0)),
       ])
     );
@@ -76,32 +75,92 @@ let make = (~routeChangeAction, ~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
-    let articlesQuery = SearchCommunityArticles.make(~category, ());
-    <SearchCommunityArticlesQuery variables=articlesQuery##variables>
-      ...(
-           ({result}) =>
-             switch (result) {
-             | Loading => <Loading />
-             | Error(error) =>
-               <div> (ReasonReact.string(error##message)) </div>
-             | Data(response) =>
-               <div className=Styles.container>
-                 <CommunityHeader>
-                   <CommunityProfile
-                     community=category
-                     website=
-                       themeConfig
-                       ->ThemeConfig.getCommunityConfig(category)
-                       ->ThemeConfig.homepageURLGet
-                   />
-                 </CommunityHeader>
-                 <section className=Styles.articlesContainer>
-                   (renderArticleCards(~response, ~routeChangeAction))
-                 </section>
-               </div>
-             }
-         )
-    </SearchCommunityArticlesQuery>;
+    let tabNames = [|"all", "general", "tutorials"|];
+
+    <div className=Styles.container>
+      <CommunityHeader>
+        <CommunityProfile
+          community=category
+          website=
+            themeConfig
+            ->ThemeConfig.getCommunityConfig(category)
+            ->ThemeConfig.homepageURLGet
+        />
+      </CommunityHeader>
+      BasicTabs.(
+        <Tabs
+          defaultTabName=(tabNames[0])
+          tabs=(
+            (setCurrentTabName, currentTabName) =>
+              <TabList>
+                <Tab setCurrentTabName currentTabName name=(tabNames[0])>
+                  "All"->String.uppercase->ReasonReact.string
+                </Tab>
+                <Tab setCurrentTabName currentTabName name=(tabNames[1])>
+                  "General Articles"->String.uppercase->ReasonReact.string
+                </Tab>
+                <Tab setCurrentTabName currentTabName name=(tabNames[2])>
+                  "Tutorials"->String.uppercase->ReasonReact.string
+                </Tab>
+                <PullRight>
+                  <Badge>
+                    "X Total Articles"->String.uppercase->ReasonReact.string
+                  </Badge>
+                </PullRight>
+              </TabList>
+          )
+          content=(
+            currentTabName => {
+              let articlesQuery =
+                switch (currentTabName) {
+                | "all" => SearchCommunityArticles.make(~category, ())
+                | _ =>
+                  SearchCommunityArticles.make(
+                    ~category,
+                    ~sub_category=currentTabName,
+                    (),
+                  )
+                };
+
+              <PanelList>
+                (
+                  tabNames
+                  ->Belt.Array.map(
+                      name =>
+                        <Panel key=name name currentTabName>
+                          <SearchCommunityArticlesQuery
+                            variables=articlesQuery##variables>
+                            ...(
+                                 ({result}) =>
+                                   switch (result) {
+                                   | Loading => <Loading />
+                                   | Error(error) =>
+                                     <div>
+                                       (ReasonReact.string(error##message))
+                                     </div>
+                                   | Data(response) =>
+                                     <section
+                                       className=Styles.articlesContainer>
+                                       (
+                                         renderArticleCards(
+                                           ~response,
+                                           ~routeChangeAction,
+                                         )
+                                       )
+                                     </section>
+                                   }
+                               )
+                          </SearchCommunityArticlesQuery>
+                        </Panel>,
+                    )
+                  |> ReasonReact.array
+                )
+              </PanelList>;
+            }
+          )
+        />
+      )
+    </div>;
   },
 };
 

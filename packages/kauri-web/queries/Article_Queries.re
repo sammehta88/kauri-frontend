@@ -185,8 +185,8 @@ module GetArticlesQuery = ReasonApollo.CreateQuery(GetArticles);
 
 module SearchCommunityArticles = [%graphql
   {|
-    query searchCommunityArticles($category: String) {
-        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category] }) {
+    query searchCommunityArticles($category: String, $sub_category: String) {
+        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category], sub_category_in:[$sub_category] }) {
             content {
                 article_id
                 article_version

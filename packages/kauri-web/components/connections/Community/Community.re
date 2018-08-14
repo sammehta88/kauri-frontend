@@ -75,7 +75,7 @@ let make = (~routeChangeAction, ~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
-    let tabNames = [|"all", "general", "tutorials"|];
+    let tabNames = [|"all", "general", "tutorial"|];
 
     <div className=Styles.container>
       <CommunityHeader>

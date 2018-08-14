@@ -38,7 +38,7 @@ module Styles = {
         overflow(hidden),
         maxWidth(px(200)),
         color(hex(colorProp)),
-        textTransform(`capitalize),
+        textTransform(`lowercase),
       ])
     );
 };

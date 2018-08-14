@@ -26,6 +26,7 @@ myStory.add("Article Card with Image", () =>
     articleVersion=1
     articleId="1"
     userId="1"
+    cardHeight=500
     date="3 June 2099"
     title="Debugging a Dapp using Remix - Mist - Geth"
     content="The ultimate goal of this tutorial is to debug transactions that have been created by a dapp front end.

@@ -54,7 +54,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
         <Paragraph text=name size=22 />
         <Paragraph text=description />
         <div className=Styles.section>
-          (
+          {
             Js.Array.map(
               article =>
                 <ArticleCard
@@ -64,6 +64,8 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                   changeRoute=routeChangeAction
                   title=article->subjectGet
                   content=article->textGet
+                  cardHeight=400
+                  imageURL=article->imageURLGet
                   date=
                     article
                     ->date_createdGet
@@ -75,7 +77,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
               articles,
             )
             |> ReasonReact.array
-          )
+          }
         </div>
       </div>
     },

@@ -6,21 +6,10 @@ external themeConfig: ThemeConfig.themeConfig = "default";
 external communities: ThemeConfig.communities = "categories";
 
 module Styles = {
-  let container = Css.(style([]));
+  let container =
+    Css.(style([unsafe("padding", "30px calc((100vw - 1280px) / 2)")]));
 
-  let header =
-    Css.(
-      style([
-        height(px(190)),
-        backgroundColor(hex("1E2428")),
-        display(`flex),
-        alignItems(center),
-        justifyContent(spaceBetween),
-        unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
-        selector("> :last-child", [marginRight(px(136))]),
-      ])
-    );
-  let articlesContainer =
+  let communitiesContainer =
     Css.(
       style([
         display(flexBox),
@@ -62,7 +51,9 @@ let make = (~routeChangeAction, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      (renderCommunitiyCards(~communities, ~routeChangeAction))
+      <div className=Styles.communitiesContainer>
+        (renderCommunitiyCards(~communities, ~routeChangeAction))
+      </div>
     </div>,
 };
 

@@ -90,6 +90,7 @@ export const HomePageQuery = gql`
           name
           description
           date_created
+          background
           owner_id
           sections {
             article_id

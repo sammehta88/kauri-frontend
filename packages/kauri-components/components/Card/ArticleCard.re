@@ -20,16 +20,19 @@ module Styles = {
       ])
     );
 
-  let container =
-    Css.(
-      style([
-        display(`flex),
-        flexDirection(column),
-        flex(1),
-        minWidth(px(262)),
-        padding2(~v=px(11), ~h=px(14)),
-      ])
-    );
+  let container = (~heightProp) =>
+    switch (heightProp) {
+    | Some(heightProp) =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          maxHeight(px(heightProp)),
+        ])
+      )
+    | None => Css.(style([display(`flex), flexDirection(column), flex(1)]))
+    };
 
   let footer =
     Css.(
@@ -38,21 +41,14 @@ module Styles = {
         flexDirection(row),
         alignItems(center),
         justifyContent(spaceBetween),
-        padding2(~v=px(7), ~h=px(14)),
+        padding2(~v=px(11), ~h=px(14)),
+        marginBottom(px(10)),
       ])
     );
 
   let content =
     Css.(
-      style([
-        padding4(
-          ~top=px(11),
-          ~right=px(14),
-          ~bottom=px(11),
-          ~left=px(14),
-        ),
-        height(`percent(100.0)),
-      ])
+      style([padding2(~v=px(11), ~h=px(14)), flex(1), overflow(hidden)])
     );
 };
 
@@ -69,27 +65,26 @@ let make =
       ~pageType=?,
       ~username,
       ~userId,
-      /* ~views,
-         ~upvotes, */
       ~profileImage=?,
       ~changeRoute=?,
       ~articleId: string,
       ~articleVersion: int,
+      ~cardHeight=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=Styles.container>
-        (
+      <div className={Styles.container(~heightProp=cardHeight)}>
+        {
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
-        )
+        }
         <div
           className=Styles.content
-          onClick=(
+          onClick={
             _ =>
               switch (changeRoute) {
               | Some(changeRoute) =>
@@ -98,10 +93,10 @@ let make =
                 )
               | None => ()
               }
-          )>
-          <Label text=("Posted " ++ date) />
+          }>
+          <Label text={"Posted " ++ date} />
           <Heading text=title />
-          (
+          {
             content->(String.sub(0, 2))->(String.contains('{')) ?
               [%raw
                 {|
@@ -114,18 +109,18 @@ let make =
                 |}
               ] :
               <Paragraph text=content />
-          )
-          (
+          }
+          {
             switch (tags) {
             | Some(tags) => <TagList tags />
             | None => ReasonReact.null
             }
-          )
+          }
         </div>
         <Separator direction="horizontal" marginTop=`auto />
         <div
           className=Styles.footer
-          onClick=(
+          onClick={
             _ =>
               switch (changeRoute, pageType) {
               | (Some(changeRoute), None) =>
@@ -134,26 +129,20 @@ let make =
               | (None, Some(_)) => ()
               | (None, None) => ()
               }
-          )>
+          }>
           <UserWidgetSmall
             pageType
             username
-            profileImage=(
+            profileImage={
               switch (profileImage) {
               | Some(image) => image
               | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
               }
-            )
+            }
           />
         </div>
       </div>
     </BaseCard>,
-  /* <CardCounter
-       value=views label="Views"
-       />
-     <CardCounter
-     value=upvotes label="Upvotes"
-     /> */
 };
 
 [@bs.deriving abstract]
@@ -166,6 +155,7 @@ type jsProps = {
   userId: string,
   articleId: string,
   articleVersion: int,
+  cardHeight: int,
   changeRoute: string => unit,
 };
 

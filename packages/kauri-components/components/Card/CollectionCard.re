@@ -14,7 +14,6 @@ module Styles = {
   let collectionCardContainer =
     Css.(
       style([
-        unsafe("padding", "11px 14px 11px 14px"),
         display(`flex),
         flexDirection(column),
         flex(1),
@@ -30,19 +29,43 @@ module Styles = {
         flexDirection(row),
         alignItems(center),
         justifyContent(center),
-        padding2(~v=px(4), ~h=px(14)),
+        paddingBottom(px(10)),
       ])
     );
 
-  let collectionCardContent =
+  let collectionCardContent = (~imageURL, ~colorProp) =>
     Css.(
       style([
         display(`flex),
-        alignItems(center),
-        justifyContent(center),
-        flexDirection(column),
-        unsafe("padding", "7px 7px 0px 7px"),
         flex(1),
+        color(hex(colorProp)),
+        backgroundSize(`cover),
+        unsafe("background", {j|url($imageURL) center center|j}),
+        marginBottom(px(-10)),
+        borderTopLeftRadius(px(4)),
+        borderTopRightRadius(px(4)),
+      ])
+    );
+
+  let darkLayer = (~image) =>
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        justifyContent(`flexStart),
+        alignItems(`center),
+        flexDirection(column),
+        borderTopLeftRadius(px(4)),
+        borderTopRightRadius(px(4)),
+        flex(1),
+        unsafe("padding", "11px 14px 11px 14px"),
+        unsafe(
+          "background",
+          switch (image) {
+          | Some(_) => "rgba(0,0,0,0.4)"
+          | _ => "transparent"
+          },
+        ),
       ])
     );
 };
@@ -52,55 +75,77 @@ let make =
       ~heading="collection",
       ~collectionName,
       ~collectionDescription,
-      /* ~upvotes, */
       ~articles,
-      /* ~followers, */
       ~lastUpdated=?,
       ~curatorImage=?,
       ~changeRoute=?,
       ~collectionId: string,
+      ~imageURL,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
       <div
-        onClick=(
+        onClick={
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/collection/$collectionId|j})
             | None => ()
             }
-        )
+        }
         className=Styles.collectionCardContainer>
-        <Label text=heading />
-        <div className=Styles.collectionCardContent>
-          <Heading text=collectionName />
-          <Paragraph text=collectionDescription />
-          <img
-            className=Styles.image
-            src=(
-              switch (curatorImage) {
-              | Some(image) => image
-              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-              }
+        <div
+          className={
+            Styles.collectionCardContent(
+              ~imageURL=
+                switch (imageURL) {
+                | Some(url) => url
+                | _ => "transparent"
+                },
+              ~colorProp=
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | _ => "1E2428"
+                },
             )
-          />
-          (
-            switch (lastUpdated) {
-            | Some(string) => <Label text=string />
-            | None => ReasonReact.null
+          }>
+          <div className={Styles.darkLayer(~image=imageURL)}>
+            <Label text=heading />
+            <Heading
+              text=collectionName
+              color={
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              }
+            />
+            <Paragraph text=collectionDescription />
+            <img
+              className=Styles.image
+              src={
+                switch (curatorImage) {
+                | Some(image) => image
+                | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+                }
+              }
+            />
+            {
+              switch (lastUpdated) {
+              | Some(string) => <Label text=string />
+              | None => ReasonReact.null
+              }
             }
-          )
+          </div>
         </div>
         <Separator direction="horizontal" />
         <div className=Styles.collectionCardFooter>
-          /* <CardCounter value=upvotes label="upvotes" /> */
-           <CardCounter value=articles label="Articles" /> </div>
+          <CardCounter value=articles label="Articles" />
+        </div>
       </div>
     </BaseCard>,
-  /* <CardCounter value=followers label="Followers" /> */
 };
 
 [@bs.deriving abstract]
@@ -109,11 +154,9 @@ type jsProps = {
   collectionName: string,
   collectionDescription: string,
   collectionId: string,
-  /* upvotes: string|int, */
   articles: string,
-  /* followers: string|int, */
   lastUpdated: string,
-  /* curatorImage: string */
+  imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
 };
 
@@ -126,6 +169,7 @@ let default =
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
+      ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],
     )

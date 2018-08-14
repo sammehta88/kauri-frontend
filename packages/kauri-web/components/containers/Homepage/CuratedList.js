@@ -73,6 +73,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     articles={articles}
                     lastUpdated={moment(card.date_created).fromNow()}
                     collectionId={card.id}
+                    imageURL={card.background}
                     collectionDescription={card.description}
                   />
                 )

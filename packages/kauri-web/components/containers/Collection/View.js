@@ -44,6 +44,7 @@ class CollectionPage extends Component<Props> {
           />
         </HeaderContainer>
         <ContentContainer>
+
           {sections &&
             sections.map(i => (
               <CollectionSection

@@ -36,7 +36,7 @@ module Styles = {
       overflow(hidden),
       maxWidth(px(200)),
       color(hex(colorProp)),
-      textTransform(`capitalize),
+      textTransform(`lowercase),
     ];
 
   let username = (~colorProp, ~pageType) =>
@@ -57,17 +57,17 @@ let make =
   ...component,
   render: _self =>
     <div className=Styles.container>
-      (
+      {
         switch (profileImage) {
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
           <div className=Styles.imagePlaceholder>
-            (ReasonReact.string(String.sub(username, 0, 1)))
+            {ReasonReact.string(String.sub(username, 0, 1))}
           </div>
         }
-      )
-      <div className=(Styles.username(~colorProp=color, ~pageType))>
-        (ReasonReact.string(username))
+      }
+      <div className={Styles.username(~colorProp=color, ~pageType)}>
+        {ReasonReact.string(username)}
       </div>
     </div>,
 };

@@ -1,8 +1,20 @@
 let component = ReasonReact.statelessComponent("CommunityCard");
 
 module Styles = {
-  let image =
-    Css.(style([height(px(80)), width(px(80)), borderRadius(px(4))]));
+  let image = Css.(style([width(px(46))]));
+
+  let imageContainer = (~communityColor) =>
+    Css.(
+      style([
+        display(`flex),
+        justifyContent(center),
+        alignItems(center),
+        height(px(80)),
+        width(px(80)),
+        borderRadius(px(4)),
+        unsafe("border", {j|1px solid $communityColor|j}),
+      ])
+    );
 
   let container =
     Css.(
@@ -32,7 +44,7 @@ module Styles = {
       style([
         display(`flex),
         alignItems(center),
-        justifyContent(center),
+        justifyContent(`flexStart),
         flexDirection(column),
         padding(px(7)),
         flex(1),
@@ -49,6 +61,7 @@ let make =
       ~articles,
       ~views,
       ~communityLogo=?,
+      ~communityColor=?,
       ~changeRoute=?,
       _children,
     ) => {
@@ -62,14 +75,17 @@ let make =
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/community/$communityName|j})
-            | None => Js.log("NOOO")
+            | None => ()
             }
         )>
         <Label text=heading />
         <div className=Styles.content>
           (
             switch (communityLogo) {
-            | Some(string) => <img className=Styles.image src=string />
+            | Some(string) =>
+              <div className=(Styles.imageContainer(~communityColor))>
+                <img className=Styles.image src=string />
+              </div>
             | None => ReasonReact.null
             }
           )

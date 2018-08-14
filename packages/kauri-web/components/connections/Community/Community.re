@@ -78,6 +78,7 @@ let make = (~routeChangeAction, ~category, _children) => {
     let tabNames = [|"all", "general", "tutorial"|];
 
     <div className=Styles.container>
+      <ScrollToTopOnMount />
       <CommunityHeader>
         <CommunityProfile
           community=category

@@ -65,7 +65,6 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   acc += item.article_id.length
                   return acc
                 }, 0)
-                console.log(card.background);
                 return (
                   <CollectionCard
                     changeRoute={routeChangeAction}

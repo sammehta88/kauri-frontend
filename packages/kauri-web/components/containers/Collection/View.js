@@ -20,7 +20,7 @@ const ContentContainer = styled.div`
 `
 
 const HeaderContainer = styled(ContentContainer)`
-  background: url('https://source.unsplash.com/collection/1242150') center center;
+  background: url(${props => props.background}) center center;
   background-size: cover;
   margin-top: -76px;
   padding-top: 106px;
@@ -29,17 +29,18 @@ const HeaderContainer = styled(ContentContainer)`
 `
 
 class CollectionPage extends Component<Props> {
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.collection) return null;
-    const { name, description, date_created, owner, sections } = this.props.data.collection
+    const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
     return (
       <div>
-        <HeaderContainer>
+        <HeaderContainer background={background}>
           <CollectionHeader
             name={name}
             description={description}
-            updated={'Collection Updated ' + moment(date_created).fromNow()}
+            updated={date_updated || date_created}
             username={owner.username}
+            profileImage={owner.profileImage}
           />
         </HeaderContainer>
         <ContentContainer>

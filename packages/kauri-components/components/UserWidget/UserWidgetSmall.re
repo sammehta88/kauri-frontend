@@ -14,36 +14,60 @@ module Styles = {
       ])
     );
 
-  let baseUsernameStyle =
+  let imagePlaceholder =
+    Css.(
+      style([
+        height(px(30)),
+        width(px(30)),
+        borderRadius(px(15)),
+        marginRight(px(8)),
+        display(`flex),
+        alignItems(`center),
+        justifyContent(`center),
+        background(white),
+        textTransform(`capitalize),
+      ])
+    );
+
+  let baseUsername = colorProp =>
     Css.[
       fontSize(px(14)),
       fontWeight(700),
       overflow(hidden),
       maxWidth(px(200)),
+      color(hex(colorProp)),
+      textTransform(`capitalize),
     ];
 
-  let username = pageType =>
+  let username = (~colorProp, ~pageType) =>
     switch (pageType) {
-    | Some(_pageType) => Css.style(baseUsernameStyle)
+    | Some(_) => Css.style(baseUsername(colorProp))
     | None =>
-      Css.(
-        style(
-          List.append(
-            [selector(":hover", [color(hex("0BA986"))])],
-            baseUsernameStyle,
-          ),
-        )
+      Css.style(
+        List.append(
+          Css.[selector(":hover", [color(hex("0BA986"))])],
+          baseUsername(colorProp),
+        ),
       )
     };
 };
 
-let make = (~username, ~profileImage, ~pageType, _children) => {
+let make =
+    (~username, ~profileImage=?, ~color="#1E2428", ~pageType, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      <img className=Styles.image src=profileImage />
-      <span className=(Styles.username(pageType))>
+      (
+        switch (profileImage) {
+        | Some(string) => <img className=Styles.image src=string />
+        | _ =>
+          <div className=Styles.imagePlaceholder>
+            (ReasonReact.string(String.sub(username, 0, 1)))
+          </div>
+        }
+      )
+      <div className=(Styles.username(~colorProp=color, ~pageType))>
         (ReasonReact.string(username))
-      </span>
+      </div>
     </div>,
 };

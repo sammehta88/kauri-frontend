@@ -5,6 +5,8 @@ export const globalCollectionDetails = gql`
         collection(id: $id) {
             id,
             name,
+            background,
+            date_updated,
             date_created,
             description,
             owner {

@@ -128,3 +128,24 @@ module Panel = {
       </div>,
   };
 };
+
+module Badge = {
+  let component = ReasonReact.statelessComponent("Badge");
+
+  module Style = {
+    let text =
+      Css.(
+        style([
+          fontSize(px(13)),
+          fontWeight(700),
+          color(hex("FFFFFF")),
+          cursor(`text),
+        ])
+      );
+  };
+
+  let make = children => {
+    ...component,
+    render: _self => <span className=Style.text> ...children </span>,
+  };
+};

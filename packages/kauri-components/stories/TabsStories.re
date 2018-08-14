@@ -22,6 +22,11 @@ myStory.add("Basic", () =>
             <Tab setCurrentTabName currentTabName name=(tabNames[2])>
               "Tutorials"->String.uppercase->ReasonReact.string
             </Tab>
+            <PullRight>
+              <Badge>
+                "X Total Articles"->String.uppercase->ReasonReact.string
+              </Badge>
+            </PullRight>
           </TabList>
       )
       content=(

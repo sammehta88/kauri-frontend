@@ -43,10 +43,9 @@ module Styles = {
         flexDirection(column),
         alignItems(center),
         justifyContent(center),
-        paddingBottom(px(16)),
-        paddingTop(px(2)),
-        paddingRight(px(14)),
+        height(px(50)),
         paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -158,8 +157,13 @@ let make =
             )
           </div>
         </div>
+        (
+          switch (imageURL) {
+          | Some(_) => ReasonReact.null
+          | None => <Separator marginX=14 marginY=0 direction="horizontal" />
+          }
+        )
         <div className=Styles.collectionCardFooter>
-          <Separator marginTop=0 direction="horizontal" />
           <CardCounter value=articles label="Articles" />
         </div>
       </div>

@@ -21,7 +21,6 @@ module Styles = {
     | Some(heightProp) =>
       Css.(
         style([
-          unsafe("padding", "11px 14px 11px 14px"),
           display(`flex),
           flexDirection(column),
           flex(1),
@@ -33,7 +32,6 @@ module Styles = {
     | None =>
       Css.(
         style([
-          unsafe("padding", "11px 14px 11px 14px"),
           display(`flex),
           flexDirection(column),
           flex(1),
@@ -50,7 +48,9 @@ module Styles = {
         flexDirection(row),
         alignItems(center),
         justifyContent(center),
-        padding2(~v=px(4), ~h=px(14)),
+        height(px(50)),
+        paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -61,7 +61,7 @@ module Styles = {
         alignItems(center),
         justifyContent(`flexStart),
         flexDirection(column),
-        padding(px(7)),
+        unsafe("padding", "11px 14px 11px 14px"),
         flex(1),
       ])
     );
@@ -94,8 +94,8 @@ let make =
             | None => ()
             }
         }>
-        <Label text=heading />
         <div className=Styles.content>
+          <Label text=heading />
           {
             switch (communityLogo) {
             | Some(string) =>
@@ -108,15 +108,12 @@ let make =
           <Heading text=communityName />
           <Paragraph text=communityDescription />
         </div>
-        <Separator direction="horizontal" />
+        <Separator marginX=14 marginY=0 direction="horizontal" />
         <div className=Styles.footer>
           <CardCounter value=articles label="Articles" />
         </div>
       </div>
     </BaseCard>,
-  /* <CardCounter value=followers label="Followers" />
-     <CardCounter value=views label="Views" />
-     <CardCounter value=articles label="Articles" /> */
 };
 
 [@bs.deriving abstract]

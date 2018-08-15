@@ -40,9 +40,10 @@ module Styles = {
         display(`flex),
         flexDirection(column),
         alignItems(flexStart),
-        justifyContent(spaceBetween),
-        padding2(~v=px(4), ~h=px(14)),
-        marginBottom(px(10)),
+        justifyContent(center),
+        height(px(50)),
+        paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -117,6 +118,7 @@ let make =
             }
           }
         </div>
+        <Separator marginX=14 marginY=0 direction="horizontal" />
         <div
           className=Styles.footer
           onClick={
@@ -129,7 +131,6 @@ let make =
               | (None, None) => ()
               }
           }>
-          <Separator direction="horizontal" marginTop=`auto />
           <UserWidgetSmall
             pageType
             username

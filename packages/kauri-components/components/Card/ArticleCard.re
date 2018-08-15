@@ -169,6 +169,7 @@ let default =
       ~username=jsProps->usernameGet,
       ~userId=jsProps->userIdGet,
       ~articleId=jsProps->articleIdGet,
+      ~cardHeight=jsProps->cardHeightGet,
       ~articleVersion=jsProps->articleVersionGet,
       [||],
     )

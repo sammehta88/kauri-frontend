@@ -46,16 +46,21 @@ const CuratedHeader = ({ header, name } = props) => {
     const topic = theme[header.id];
     const imageURL = `/static/images/${header.id}/avatar.png`;
 
-    return(
-        <Header>
-            <ListTitle>{name}</ListTitle>
-            <CommunityHeading>
-                <CommunityLogo src={imageURL} />
-                <CommunityName>{header.id}</CommunityName>
-            </CommunityHeading>
-            <div>{topic.description}</div>
-        </Header>
-    );
+    switch (header && header.type) {
+        case ("TOPIC" || "COMMUNITY"):
+            return (
+                <Header>
+                    <ListTitle>{name}</ListTitle>
+                    <CommunityHeading>
+                        <CommunityLogo src={imageURL} />
+                        <CommunityName>{header.id}</CommunityName>
+                    </CommunityHeading>
+                    <div>{topic.description}</div>
+                </Header>
+            );
+        default:
+            return null;
+    }
 }
 
 export default CuratedHeader;

@@ -2,6 +2,7 @@
 import { Observable } from 'rxjs'
 import { getRequestForAnalytics } from '../../../queries/Request'
 import { getArticleForAnalytics } from '../../../queries/Article'
+import { getCollectionForAnalytics } from '../../../queries/Collection'
 import mixpanelBrowser from 'mixpanel-browser'
 
 import type { Dependencies } from '../../../lib/Module'
@@ -23,7 +24,7 @@ export type TrackAnalyticsPayload = {
 
 type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
-type Resource = 'request' | 'article' | 'community' | 'kauri'
+type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection'
 
 type Classification =
   | {
@@ -104,6 +105,13 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
         article_version: parseInt(classification.resourceVersion),
       },
     })
+  } else if (resource === 'collection') {
+    return apolloClient.query({
+      query: getCollectionForAnalytics,
+      variables: {
+        id: classification.resourceID,
+      },
+    })
   } else {
     throw new Error('Unknown resource tracking attempt')
   }
@@ -111,7 +119,11 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
 
 const handleFetchedResource = (
   classification: Classification,
-  { getArticle, getRequest }: { getArticle?: ArticleDTO, getRequest?: RequestDTO },
+  {
+    getArticle,
+    getRequest,
+    collection,
+  }: { getArticle?: ArticleDTO, getRequest?: RequestDTO, collection?: CollectionDTO },
   event?: TrackingEvent
 ): TrackMixpanelAction | TrackMixpanelPayload =>
   typeof classification.resourceAction === 'string'
@@ -121,6 +133,7 @@ const handleFetchedResource = (
         ...classification,
         ...getArticle,
         ...getRequest,
+        ...collection,
         resource: classification.resource,
         resourceID: classification.resourceID,
         resourceVersion: classification.resourceVersion,
@@ -133,6 +146,7 @@ const handleFetchedResource = (
         ...classification,
         ...getArticle,
         ...getRequest,
+        ...collection,
         resource: classification.resource,
         resourceID: classification.resourceID,
         resourceVersion: classification.resourceVersion,

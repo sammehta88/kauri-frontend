@@ -181,26 +181,26 @@ declare type Sort = {
 }
 
 declare type ArticleFilterInput = {
-  status_in: ?Array<ArticleStatusInput>;
+  date_updated_gt: ?any;
   total_contribution_lt: ?number;
   user_id_eq: ?string;
-  date_updated_lt: ?any;
   total_contribution_gt: ?number;
-  date_created_gt: ?any;
+  article_id_in: ?Array<string>;
+  category_in: ?Array<string>;
+  date_created_lt: ?any;
+  sub_category_in: ?Array<string>;
+  status_in: ?Array<ArticleStatusInput>;
   full_text: ?string;
   article_version_eq: ?number;
   moderator_eq: ?string;
-  sub_category_in: ?Array<string>;
-  date_created_lt: ?any;
-  article_id_in: ?Array<string>;
-  category_in: ?Array<string>;
+  date_created_gt: ?any;
+  date_updated_lt: ?any;
   total_vote_lt: ?number;
   article_id_eq: ?string;
   request_id_eq: ?string;
   moderator: ?string;
   subject_ct: ?string;
   total_vote_gt: ?number;
-  date_updated_gt: ?any;
   text_ct: ?string;
   latest_version: ?boolean;
 }
@@ -229,6 +229,7 @@ declare type Page_CollectionDTO = {
 declare type CollectionDTO = {
   background: ?string;
   date_created: ?any;
+  date_updated: ?any;
   description: ?string;
   id: ?string;
   name: ?string;
@@ -246,19 +247,19 @@ declare type SectionDTO = {
 }
 
 declare type CollectionFilterInput = {
-  date_updated_lt: ?any;
+  date_updated_gt: ?any;
+  date_created_gt: ?any;
   name_ct: ?string;
   date_created_lt: ?any;
   description_ct: ?string;
-  date_created_gt: ?any;
   owner_id_eq: ?string;
+  date_updated_lt: ?any;
   full_text: ?string;
-  date_updated_gt: ?any;
 }
 
 declare type SectionDTOInput = {
-  article_id: ?Array<string>;
   description: ?string;
+  article_id: ?Array<string>;
   name: ?string;
 }
 
@@ -275,26 +276,26 @@ declare type Page_RequestDTO = {
 }
 
 declare type RequestFilterInput = {
+  date_updated_gt: ?any;
   total_contribution_lt: ?number;
   user_id_eq: ?string;
-  dead_line_lt: ?any;
-  date_updated_lt: ?any;
   total_contribution_gt: ?number;
-  status_in: ?Array<RequestStatusInput>;
+  category_in: ?Array<string>;
+  date_created_lt: ?any;
   total_flag_lt: ?number;
   total_submissions_lt: ?number;
-  date_created_gt: ?any;
-  dead_line_gt: ?any;
+  sub_category_in: ?Array<string>;
   full_text: ?string;
   total_submissions_gt: ?number;
-  sub_category_in: ?Array<string>;
+  status_in: ?Array<RequestStatusInput>;
+  dead_line_gt: ?any;
+  date_created_gt: ?any;
   total_flag_gt: ?number;
-  date_created_lt: ?any;
-  category_in: ?Array<string>;
+  date_updated_lt: ?any;
   total_vote_lt: ?number;
+  dead_line_lt: ?any;
   subject_ct: ?string;
   total_vote_gt: ?number;
-  date_updated_gt: ?any;
   text_ct: ?string;
 }
 

@@ -12,7 +12,7 @@ module.exports = {
       'warn',
       {
         env: 'apollo',
-        schemaJson: require('./schema.json'),
+        schemaJson: require('./graphql_schema.json'),
       },
     ],
     'comma-dangle': ['error', 'always-multiline'],

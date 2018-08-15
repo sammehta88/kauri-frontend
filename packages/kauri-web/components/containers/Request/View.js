@@ -50,6 +50,7 @@ const UserBadge = Badge.extend`
     margin-bottom: 0px;
   }
   > :last-child {
+    text-align: center;
     text-transform: lowercase;
     width: 100%;
     overflow: hidden;
@@ -242,7 +243,10 @@ const RequestDates = ({ date_created, dead_line }) => (
       <strong>{moment(date_created).format('DD/MM/YYYY')}</strong>
     </DatePosted>
     <DatePosted>
-      <span>EXPIRE{moment(dead_line).isBefore() ? 'D' : 'S'}</span>
+      <span>
+        EXPIRE
+        {moment(dead_line).isBefore() ? 'D' : 'S'}
+      </span>
       <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
     </DatePosted>
   </RequestDatesContainer>
@@ -404,6 +408,7 @@ class Request extends Component<Props, State> {
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
                     <PositiveRequestActionBadge
+                      alone
                       type='secondary'
                       width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
@@ -452,39 +457,41 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                    <PositiveRequestActionBadge
+                      <PositiveRequestActionBadge
                       type='secondary'
                       action={() =>
-                        routeChangeAction(
-                          `/article/${personalSubmittedArticle.article_id}/article-version/${
-                            personalSubmittedArticle.article_version
-                          }`
-                        )
-                      }
+                          routeChangeAction(
+                            `/article/${personalSubmittedArticle.article_id}/article-version/${
+                              personalSubmittedArticle.article_version
+                            }`
+                          )
+                        }
                       label='View Article'
-                    />
-                  ) : (
-                    <PositiveRequestActionBadge
-                      alone
-                      type={!getRequest.is_flagged ? 'secondary' : ''}
-                      width='auto'
-                      action={() =>
-                        typeof personalSubmittedArticle === 'object' &&
+                      />
+                    ) : (
+                      <PositiveRequestActionBadge
+                        alone
+                        type={!getRequest.is_flagged ? 'secondary' : ''}
+                        width='auto'
+                        action={() =>
+                          typeof personalSubmittedArticle === 'object' &&
                         personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
-                          ? submitArticleAction({
-                            article_id: personalSubmittedArticle.article_id,
-                            request_id: personalSubmittedArticle.request_id,
-                            text: personalSubmittedArticle.text,
-                            subject: personalSubmittedArticle.subject,
-                            sub_category: personalSubmittedArticle.sub_category,
-                          })
-                          : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
-                      }
-                      label='Write Article'
-                    />
-                  ))}
+                            ? submitArticleAction({
+                              article_id: personalSubmittedArticle.article_id,
+                              request_id: personalSubmittedArticle.request_id,
+                              text: personalSubmittedArticle.text,
+                              subject: personalSubmittedArticle.subject,
+                              sub_category: personalSubmittedArticle.sub_category,
+                            })
+                            : routeChangeAction(`/request/${getRequest.request_id}/submit-article`)
+                        }
+                        label='Write Article'
+                      />
+                    ))}
                 {getRequest.status === 'CLOSED' && (
                   <PositiveRequestActionBadge
+                    width='auto'
+                    alone
                     type='secondary'
                     action={() => {
                       const satisfyingArticle =

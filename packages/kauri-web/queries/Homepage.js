@@ -21,6 +21,10 @@ export const HomePageQuery = gql`
         ... on CollectionDTO {
           id
           type
+          name
+          description
+          date_created
+          background
         }
 
         ... on ArticleDTO {

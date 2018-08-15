@@ -11,25 +11,41 @@ module Styles = {
       ])
     );
 
-  let collectionCardContainer =
-    Css.(
-      style([
-        display(`flex),
-        flexDirection(column),
-        flex(1),
-        textAlign(center),
-        minWidth(px(262)),
-      ])
-    );
+  let collectionCardContainer = (~heightProp) =>
+    switch (heightProp) {
+    | Some(heightProp) =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+          maxHeight(px(heightProp)),
+        ])
+      )
+    | None =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+        ])
+      )
+    };
 
   let collectionCardFooter =
     Css.(
       style([
         display(`flex),
-        flexDirection(row),
+        flexDirection(column),
         alignItems(center),
         justifyContent(center),
-        paddingBottom(px(10)),
+        height(px(50)),
+        paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -41,9 +57,9 @@ module Styles = {
         color(hex(colorProp)),
         backgroundSize(`cover),
         unsafe("background", {j|url($imageURL) center center|j}),
-        marginBottom(px(-10)),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
+        overflow(hidden),
       ])
     );
 
@@ -81,6 +97,7 @@ let make =
       ~changeRoute=?,
       ~collectionId: string,
       ~imageURL,
+      ~cardHeight=?,
       _children,
     ) => {
   ...component,
@@ -95,7 +112,7 @@ let make =
             | None => ()
             }
         }
-        className=Styles.collectionCardContainer>
+        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
         <div
           className={
             Styles.collectionCardContent(
@@ -140,7 +157,12 @@ let make =
             }
           </div>
         </div>
-        <Separator direction="horizontal" />
+        {
+          switch (imageURL) {
+          | Some(_) => ReasonReact.null
+          | None => <Separator marginX=14 marginY=0 direction="horizontal" />
+          }
+        }
         <div className=Styles.collectionCardFooter>
           <CardCounter value=articles label="Articles" />
         </div>
@@ -158,6 +180,7 @@ type jsProps = {
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
+  cardHeight: int,
 };
 
 let default =
@@ -170,6 +193,7 @@ let default =
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
+      ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],
     )

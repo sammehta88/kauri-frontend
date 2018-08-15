@@ -29,6 +29,7 @@ module Styles = {
           flexDirection(column),
           flex(1),
           maxHeight(px(heightProp)),
+          minWidth(px(262)),
         ])
       )
     | None => Css.(style([display(`flex), flexDirection(column), flex(1)]))
@@ -38,11 +39,12 @@ module Styles = {
     Css.(
       style([
         display(`flex),
-        flexDirection(row),
-        alignItems(center),
-        justifyContent(spaceBetween),
-        padding2(~v=px(11), ~h=px(14)),
-        marginBottom(px(10)),
+        flexDirection(column),
+        alignItems(flexStart),
+        justifyContent(center),
+        height(px(50)),
+        paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -117,7 +119,7 @@ let make =
             }
           }
         </div>
-        <Separator direction="horizontal" marginTop=`auto />
+        <Separator marginX=14 marginY=0 direction="horizontal" />
         <div
           className=Styles.footer
           onClick={
@@ -169,6 +171,7 @@ let default =
       ~username=jsProps->usernameGet,
       ~userId=jsProps->userIdGet,
       ~articleId=jsProps->articleIdGet,
+      ~cardHeight=jsProps->cardHeightGet,
       ~articleVersion=jsProps->articleVersionGet,
       [||],
     )

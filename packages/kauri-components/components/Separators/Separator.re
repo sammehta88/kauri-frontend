@@ -7,12 +7,30 @@ module Styles = {
 
   let whiteColor = [Css.background(Css.hex("F2F2F2"))];
   let lightGrayColor = [Css.background(Css.hex("EBEBEB"))];
-  let getMarginStyle = (marginY, marginTopProp) =>
-    switch (marginY, marginTopProp) {
-    | (None, Some(_marginTop)) => Css.[marginTop(auto), marginBottom(px(10))]
-    | (Some(marginY), None) => Css.[marginTop(px(marginY)), marginBottom(px(marginY))]
-    | (Some(marginY), Some(_marginTop)) => Css.[marginTop(auto), marginBottom(px(marginY))]
-    | (None, None) => Css.[marginTop(px(10)), marginBottom(px(10))]
+  let getMarginStyle = (marginY, marginX) =>
+    switch (marginY, marginX) {
+    | (None, Some(marginX)) =>
+      Css.[
+        paddingTop(px(0)),
+        paddingBottom(px(0)),
+        paddingRight(px(marginX)),
+        paddingLeft(px(marginX)),
+      ]
+    | (Some(marginY), None) =>
+      Css.[
+        paddingTop(px(marginY)),
+        paddingBottom(px(marginY)),
+        paddingLeft(px(0)),
+        paddingRight(px(0)),
+      ]
+    | (Some(marginY), Some(marginX)) =>
+      Css.[
+        paddingTop(px(marginY)),
+        paddingBottom(px(marginY)),
+        paddingLeft(px(marginX)),
+        paddingRight(px(marginX)),
+      ]
+    | (None, None) => Css.[margin(px(10))]
     };
 };
 
@@ -33,14 +51,16 @@ let getColorStyle = color =>
   | White => Styles.whiteColor
   };
 
-let make = (~direction, ~color=White, ~marginY=?, ~marginTop=?, _children) => {
+let make = (~direction, ~color=White, ~marginY=?, ~marginX=?, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self => {
     let directionStyle = getDirectionStyle(direction);
     let colorStyle = getColorStyle(color);
-    let marginStyle = Styles.getMarginStyle(marginY, marginTop);
+    let marginStyle = Styles.getMarginStyle(marginY, marginX);
     let separatedStyles =
-      List.concat([colorStyle, directionStyle, marginStyle])->Css.style;
-    <div className=separatedStyles />;
+      List.concat([colorStyle, directionStyle])->Css.style;
+    <div className=marginStyle->Css.style>
+      <div className=separatedStyles />
+    </div>;
   },
 };

@@ -16,17 +16,30 @@ module Styles = {
       ])
     );
 
-  let container =
-    Css.(
-      style([
-        unsafe("padding", "11px 14px 11px 14px"),
-        display(`flex),
-        flexDirection(column),
-        flex(1),
-        textAlign(center),
-        minWidth(px(262)),
-      ])
-    );
+  let container = (~heightProp) =>
+    switch (heightProp) {
+    | Some(heightProp) =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+          maxHeight(px(heightProp)),
+        ])
+      )
+    | None =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+        ])
+      )
+    };
 
   let footer =
     Css.(
@@ -35,7 +48,9 @@ module Styles = {
         flexDirection(row),
         alignItems(center),
         justifyContent(center),
-        padding2(~v=px(4), ~h=px(14)),
+        height(px(50)),
+        paddingLeft(px(14)),
+        paddingRight(px(14)),
       ])
     );
 
@@ -46,7 +61,7 @@ module Styles = {
         alignItems(center),
         justifyContent(`flexStart),
         flexDirection(column),
-        padding(px(7)),
+        unsafe("padding", "11px 14px 11px 14px"),
         flex(1),
       ])
     );
@@ -63,44 +78,42 @@ let make =
       ~communityLogo=?,
       ~communityColor=?,
       ~changeRoute=?,
+      ~cardHeight=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
       <div
-        className=Styles.container
-        onClick=(
+        className={Styles.container(~heightProp=cardHeight)}
+        onClick={
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/community/$communityName|j})
             | None => ()
             }
-        )>
-        <Label text=heading />
+        }>
         <div className=Styles.content>
-          (
+          <Label text=heading />
+          {
             switch (communityLogo) {
             | Some(string) =>
-              <div className=(Styles.imageContainer(~communityColor))>
+              <div className={Styles.imageContainer(~communityColor)}>
                 <img className=Styles.image src=string />
               </div>
             | None => ReasonReact.null
             }
-          )
+          }
           <Heading text=communityName />
           <Paragraph text=communityDescription />
         </div>
-        <Separator direction="horizontal" />
+        <Separator marginX=14 marginY=0 direction="horizontal" />
         <div className=Styles.footer>
           <CardCounter value=articles label="Articles" />
         </div>
       </div>
     </BaseCard>,
-  /* <CardCounter value=followers label="Followers" />
-     <CardCounter value=views label="Views" />
-     <CardCounter value=articles label="Articles" /> */
 };
 
 [@bs.deriving abstract]
@@ -113,6 +126,7 @@ type jsProps = {
   views: string,
   communityLogo: string,
   changeRoute: string => unit,
+  cardHeight: int,
 };
 
 let default =
@@ -125,6 +139,7 @@ let default =
       ~followers=jsProps->followersGet,
       ~articles=jsProps->articlesGet,
       ~views=jsProps->viewsGet,
+      ~cardHeight=jsProps->cardHeightGet,
       ~communityLogo=jsProps->communityLogoGet,
       [||],
     )

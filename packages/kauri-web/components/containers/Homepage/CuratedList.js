@@ -37,6 +37,8 @@ const getBG = (header, featured) => {
   }
 }
 
+const HOMEPAGE_CARD_HEIGHT = 500;
+
 const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
   return (
     <Container bgColor={getBG(header, featured)} featured={featured}>
@@ -58,6 +60,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     username={card.user.username}
                     articleId={card.article_id}
                     articleVersion={card.article_version}
+                    cardHeight={HOMEPAGE_CARD_HEIGHT}
                   />
                 )
               case 'COLLECTION':
@@ -74,6 +77,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     lastUpdated={moment(card.date_created).fromNow()}
                     collectionId={card.id}
                     imageURL={card.background}
+                    cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
                   />
                 )
@@ -88,6 +92,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     communityName={card.name || card.id}
                     articles={8}
                     communityId={card.id}
+                    cardHeight={HOMEPAGE_CARD_HEIGHT}
                     communityLogo={`/static/images/${card.id}/avatar.png`}
                   />
                 )

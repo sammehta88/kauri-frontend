@@ -15,7 +15,9 @@ const Title = styled.h2`
 `
 
 const Container = styled.div`
-  background: ${props => props.bgColor};
+  background: ${props => props.background ? `url(${props.background}) center center` : props.bgColor};
+  background-size: cover;
+  box-shadow: ${props => props.background ? 'inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5)' : 'none'};
   width: 100%;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   text-align: center;
@@ -41,7 +43,7 @@ const HOMEPAGE_CARD_HEIGHT = 500;
 
 const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
   return (
-    <Container bgColor={getBG(header, featured)} featured={featured}>
+    <Container bgColor={getBG(header, featured)} featured={featured} background={header && header.background}>
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
         <Resources>

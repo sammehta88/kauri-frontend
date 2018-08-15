@@ -58,6 +58,15 @@ const CuratedHeader = ({ header, name } = props) => {
                     <div>{topic.description}</div>
                 </Header>
             );
+        case "COLLECTION":
+            return (
+                <Header background={header.background}>
+                    <ListTitle>{name}</ListTitle>
+                    <CommunityHeading>
+                        <CommunityName>{header.name}</CommunityName>
+                    </CommunityHeading>
+                    <div>{header.description}</div>
+                </Header>);
         default:
             return null;
     }

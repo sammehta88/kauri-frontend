@@ -56,7 +56,14 @@ module Styles = {
         flex(1),
         color(hex(colorProp)),
         backgroundSize(`cover),
-        unsafe("background", {j|url($imageURL) center center|j}),
+        /* unsafe("background", {j|url($imageURL) center center|j}), */
+        unsafe(
+          "background",
+          switch (imageURL) {
+          | Some(string) => {j|url($string) center center|j}
+          | _ => "transparent"
+          },
+        ),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
         overflow(hidden),
@@ -116,11 +123,7 @@ let make =
         <div
           className={
             Styles.collectionCardContent(
-              ~imageURL=
-                switch (imageURL) {
-                | Some(url) => url
-                | _ => "transparent"
-                },
+              ~imageURL,
               ~colorProp=
                 switch (imageURL) {
                 | Some(_) => "FFFFFF"

@@ -3,12 +3,13 @@ import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
 import Community from '../components/connections/Community'
+import { withRouter } from 'next/router';
 
 class TopicsPage extends React.Component {
-  render () {
+  render() {
     return (
-      <App url={this.props.url}>
-        <Community category={this.props.url && this.props.url.query['category']} />
+      <App url={this.props.router}>
+        <Community category={this.props.router && this.props.router.query['category']} />
       </App>
     )
   }
@@ -17,5 +18,6 @@ class TopicsPage extends React.Component {
 export default compose(
   // withData gives us server-side graphql queries before rendering
   withData,
-  withApollo
+  withApollo,
+  withRouter,
 )(TopicsPage)

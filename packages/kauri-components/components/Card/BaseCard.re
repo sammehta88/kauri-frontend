@@ -17,7 +17,10 @@ module Styles = {
         margin(px(15)),
         selector(
           ":hover",
-          [unsafe("boxShadow", "0 0 10px 0 rgba(0,0,0,0.22)")],
+          [
+            unsafe("boxShadow", "0 0 10px 0 rgba(0,0,0,0.22)"),
+            unsafe("transform", "translateY(-5px)"),
+          ],
         ),
       ])
     );

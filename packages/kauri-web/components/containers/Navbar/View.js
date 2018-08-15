@@ -5,6 +5,7 @@ import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
 import Tooltip from '../../common/Tooltip'
+import { withRouter } from 'next/router';
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -143,7 +144,7 @@ const eraseCookieFromAllPaths = name => {
 }
 
 class Logo extends React.Component {
-  render () {
+  render() {
     return (
       <LogoWrapper>
         <LogoImage onClick={() => this.props.routeChangeAction('/')} src='/static/images/logo.svg' />
@@ -152,13 +153,13 @@ class Logo extends React.Component {
   }
 }
 
-export default class Navbar extends React.Component {
-  render () {
-    const { userId, routeChangeAction, user, url, confirmationPage, navcolor } = this.props
+class Navbar extends React.Component {
+  render() {
+    const { userId, router, routeChangeAction, user, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu
         confirmationPage={confirmationPage}
-        selectedKeys={[url.pathname]}
+        selectedKeys={[router.pathname]}
         theme='dark'
         mode='horizontal'
         navcolor={navcolor}
@@ -166,7 +167,7 @@ export default class Navbar extends React.Component {
         <Logo routeChangeAction={routeChangeAction} alt='logo' />
         <StyledMenuItem key='/'>
           <Link href='/'>
-            <Text href='/' pathname={url.pathname} link='/'>
+            <Text href='/' pathname={router.pathname} link='/'>
               HOME
             </Text>
           </Link>
@@ -177,7 +178,7 @@ export default class Navbar extends React.Component {
           user.topics.length > 0 && (
             <StyledMenuItem key='/approvals'>
               <Link href={'/approvals'}>
-                <Text href='/approvals' pathname={url.pathname} link='/approvals'>
+                <Text href='/approvals' pathname={router.pathname} link='/approvals'>
                   Approvals
                 </Text>
               </Link>
@@ -186,7 +187,7 @@ export default class Navbar extends React.Component {
 
         <StyledMenuItem key='/communities'>
           <Link href='/communities'>
-            <Text href='/communities' pathname={url.pathname} link='/communities'>
+            <Text href='/communities' pathname={router.pathname} link='/communities'>
               Communities
             </Text>
           </Link>
@@ -194,7 +195,7 @@ export default class Navbar extends React.Component {
 
         <StyledMenuItem key='/requests'>
           <Link href='/requests'>
-            <Text href='/requests' pathname={url.pathname} link='/requests'>
+            <Text href='/requests' pathname={router.pathname} link='/requests'>
               Requests
             </Text>
           </Link>
@@ -207,12 +208,12 @@ export default class Navbar extends React.Component {
           <Tooltip header={<Text link='/dropdown-selector-null'>Create</Text>}>
             <TooltipItemContainer>
               <Link route={userId ? '/write-article' : '/login'}>
-                <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Article
                 </TooltipItem>
               </Link>
               <Link route={userId ? '/create-request' : '/login'}>
-                <TooltipItem href='/write-article' pathname={url.pathname} link='/write-article'>
+                <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request
                 </TooltipItem>
               </Link>
@@ -241,27 +242,27 @@ export default class Navbar extends React.Component {
               </TooltipItemContainer>
             </Tooltip>
           ) : (
-            <Tooltip
-              header={
-                <ProfileMiniature>
-                  <Icon type='user' />
-                </ProfileMiniature>
-              }
-            >
-              <TooltipItemContainer>
-                <Link route={'/login'}>
-                  <TooltipItem>Login</TooltipItem>
-                </Link>
-                <Link route={'/login'}>
-                  <TooltipItem>Register</TooltipItem>
-                </Link>
-              </TooltipItemContainer>
-            </Tooltip>
-          )}
+              <Tooltip
+                header={
+                  <ProfileMiniature>
+                    <Icon type='user' />
+                  </ProfileMiniature>
+                }
+              >
+                <TooltipItemContainer>
+                  <Link route={'/login'}>
+                    <TooltipItem>Login</TooltipItem>
+                  </Link>
+                  <Link route={'/login'}>
+                    <TooltipItem>Register</TooltipItem>
+                  </Link>
+                </TooltipItemContainer>
+              </Tooltip>
+            )}
         </StyledMenuItem>
         <StyledMenuItem key='/help'>
           <Link href='/help'>
-            <Text href='/help' pathname={url.pathname} link='/help'>
+            <Text href='/help' pathname={router.pathname} link='/help'>
               Help
             </Text>
           </Link>
@@ -270,3 +271,5 @@ export default class Navbar extends React.Component {
     )
   }
 }
+
+export default withRouter(Navbar);

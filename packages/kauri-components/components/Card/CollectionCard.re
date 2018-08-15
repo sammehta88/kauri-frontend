@@ -40,10 +40,13 @@ module Styles = {
     Css.(
       style([
         display(`flex),
-        flexDirection(row),
+        flexDirection(column),
         alignItems(center),
         justifyContent(center),
-        paddingBottom(px(10)),
+        paddingBottom(px(16)),
+        paddingTop(px(2)),
+        paddingRight(px(14)),
+        paddingLeft(px(14)),
       ])
     );
 
@@ -55,7 +58,6 @@ module Styles = {
         color(hex(colorProp)),
         backgroundSize(`cover),
         unsafe("background", {j|url($imageURL) center center|j}),
-        marginBottom(px(-10)),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
         overflow(hidden),
@@ -103,17 +105,17 @@ let make =
   render: _self =>
     <BaseCard>
       <div
-        onClick={
+        onClick=(
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/collection/$collectionId|j})
             | None => ()
             }
-        }
-        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+        )
+        className=(Styles.collectionCardContainer(~heightProp=cardHeight))>
         <div
-          className={
+          className=(
             Styles.collectionCardContent(
               ~imageURL=
                 switch (imageURL) {
@@ -126,38 +128,38 @@ let make =
                 | _ => "1E2428"
                 },
             )
-          }>
-          <div className={Styles.darkLayer(~image=imageURL)}>
+          )>
+          <div className=(Styles.darkLayer(~image=imageURL))>
             <Label text=heading />
             <Heading
               text=collectionName
-              color={
+              color=(
                 switch (imageURL) {
                 | Some(_) => "FFFFFF"
                 | None => "1E2428"
                 }
-              }
+              )
             />
             <Paragraph text=collectionDescription />
             <img
               className=Styles.image
-              src={
+              src=(
                 switch (curatorImage) {
                 | Some(image) => image
                 | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
                 }
-              }
+              )
             />
-            {
+            (
               switch (lastUpdated) {
               | Some(string) => <Label text=string />
               | None => ReasonReact.null
               }
-            }
+            )
           </div>
         </div>
-        <Separator direction="horizontal" />
         <div className=Styles.collectionCardFooter>
+          <Separator marginTop=0 direction="horizontal" />
           <CardCounter value=articles label="Articles" />
         </div>
       </div>

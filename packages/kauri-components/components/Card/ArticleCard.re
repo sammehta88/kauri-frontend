@@ -38,10 +38,10 @@ module Styles = {
     Css.(
       style([
         display(`flex),
-        flexDirection(row),
-        alignItems(center),
+        flexDirection(column),
+        alignItems(flexStart),
         justifyContent(spaceBetween),
-        padding2(~v=px(11), ~h=px(14)),
+        padding2(~v=px(4), ~h=px(14)),
         marginBottom(px(10)),
       ])
     );
@@ -117,7 +117,6 @@ let make =
             }
           }
         </div>
-        <Separator direction="horizontal" marginTop=`auto />
         <div
           className=Styles.footer
           onClick={
@@ -130,6 +129,7 @@ let make =
               | (None, None) => ()
               }
           }>
+          <Separator direction="horizontal" marginTop=`auto />
           <UserWidgetSmall
             pageType
             username

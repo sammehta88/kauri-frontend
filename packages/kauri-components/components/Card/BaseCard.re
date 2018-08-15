@@ -18,8 +18,8 @@ module Styles = {
         selector(
           ":hover",
           [
-            unsafe("boxShadow", "0 0 10px 0 rgba(0,0,0,0.22)"),
-            unsafe("transform", "translateY(-5px)"),
+            unsafe("boxShadow", "0 6px 10px 0 rgba(0,0,0,0.22)"),
+            unsafe("transform", "translateY(-6px)"),
           ],
         ),
       ])

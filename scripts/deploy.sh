@@ -35,7 +35,13 @@ cd ..
 BUILD_TAG_VERSION="${BUILD_TAG}/flow-frontend:${TAG}"
 BUILD_TAG_LATEST="${BUILD_TAG}/flow-frontend:latest-${TARGET_ENV}"
 docker build -t $BUILD_TAG_VERSION -f $DOCKERFILE .
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 docker build -t $BUILD_TAG_LATEST -f $DOCKERFILE .
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 cd scripts
 # Push docker image to registry

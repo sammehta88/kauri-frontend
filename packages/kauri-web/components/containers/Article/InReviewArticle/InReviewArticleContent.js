@@ -29,6 +29,7 @@ export default ({
   deleteArticleComment,
   routeChangeAction,
   text,
+  status,
   username,
   userId,
 }: {
@@ -45,6 +46,7 @@ export default ({
   personalUsername: ?string,
   deleteArticleComment: any,
   text: string,
+  status: string,
   username?: ?string,
   userId?: ?string,
 }) => {
@@ -78,6 +80,7 @@ export default ({
           addCommentAction={addCommentAction}
           article_id={article_id}
           article_version={article_version}
+          status={status}
         />
       </InReviewArticleFormContainer>
       <InReviewArticleDetails type='outline'>

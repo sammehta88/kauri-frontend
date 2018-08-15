@@ -27,14 +27,14 @@ type Resource = 'request' | 'article' | 'community' | 'kauri'
 
 type Classification =
   | {
-      page: string,
-    }
+    page: string,
+  }
   | {
-      resource: Resource | string,
-      resourceID: string,
-      resourceVersion: string,
-      resourceAction: ?string,
-    }
+    resource: Resource | string,
+    resourceID: string,
+    resourceVersion: string,
+    resourceAction: ?string,
+  }
 
 export type TrackMixpanelPayload = {
   event: TrackingEvent,

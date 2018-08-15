@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import theme from '../../../lib/theme-config';
+import { Link } from '../../../routes';
 
 const Header = styled.div`
     flex: 1;
@@ -42,6 +43,23 @@ const CommunityName = styled.h3`
     font-size: 30px;
 `;
 
+const Button = styled.div`
+    padding: 10px 20px;
+    border: 1px solid white;
+    font-weight: 600;
+    border-radius: 4px;
+    text-transform: uppercase;
+    font-size: 11px;
+    margin-top: 10px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition : all 0.3s;
+
+    &:hover {
+        opacity: 1;
+    }
+`;
+
 const CuratedHeader = ({ header, name } = props) => {
     const topic = theme[header.id];
     const imageURL = `/static/images/${header.id}/avatar.png`;
@@ -56,7 +74,8 @@ const CuratedHeader = ({ header, name } = props) => {
                         <CommunityName>{header.id}</CommunityName>
                     </CommunityHeading>
                     <div>{topic.description}</div>
-                </Header>
+                    <Link link={`/communities/${header.id}`} href={`/communities/${header.id}`}><Button>View Community</Button></Link>
+                </Header >
             );
         case "COLLECTION":
             return (
@@ -66,6 +85,7 @@ const CuratedHeader = ({ header, name } = props) => {
                         <CommunityName>{header.name}</CommunityName>
                     </CommunityHeading>
                     <div>{header.description}</div>
+                    <Link link={`/collections/${header.id}`} href={`/collections/${header.id}`}><Button>View Community</Button></Link>
                 </Header>);
         default:
             return null;

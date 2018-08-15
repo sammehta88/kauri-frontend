@@ -11,16 +11,30 @@ module Styles = {
       ])
     );
 
-  let collectionCardContainer =
-    Css.(
-      style([
-        display(`flex),
-        flexDirection(column),
-        flex(1),
-        textAlign(center),
-        minWidth(px(262)),
-      ])
-    );
+  let collectionCardContainer = (~heightProp) =>
+    switch (heightProp) {
+    | Some(heightProp) =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+          maxHeight(px(heightProp)),
+        ])
+      )
+    | None =>
+      Css.(
+        style([
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+        ])
+      )
+    };
 
   let collectionCardFooter =
     Css.(
@@ -44,6 +58,7 @@ module Styles = {
         marginBottom(px(-10)),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
+        overflow(hidden),
       ])
     );
 
@@ -81,6 +96,7 @@ let make =
       ~changeRoute=?,
       ~collectionId: string,
       ~imageURL,
+      ~cardHeight=?,
       _children,
     ) => {
   ...component,
@@ -95,7 +111,7 @@ let make =
             | None => ()
             }
         }
-        className=Styles.collectionCardContainer>
+        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
         <div
           className={
             Styles.collectionCardContent(
@@ -158,6 +174,7 @@ type jsProps = {
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
+  cardHeight: int,
 };
 
 let default =
@@ -170,6 +187,7 @@ let default =
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
+      ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,
       [||],
     )

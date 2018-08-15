@@ -16,17 +16,32 @@ module Styles = {
       ])
     );
 
-  let container =
-    Css.(
-      style([
-        unsafe("padding", "11px 14px 11px 14px"),
-        display(`flex),
-        flexDirection(column),
-        flex(1),
-        textAlign(center),
-        minWidth(px(262)),
-      ])
-    );
+  let container = (~heightProp) =>
+    switch (heightProp) {
+    | Some(heightProp) =>
+      Css.(
+        style([
+          unsafe("padding", "11px 14px 11px 14px"),
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+          maxHeight(px(heightProp)),
+        ])
+      )
+    | None =>
+      Css.(
+        style([
+          unsafe("padding", "11px 14px 11px 14px"),
+          display(`flex),
+          flexDirection(column),
+          flex(1),
+          textAlign(center),
+          minWidth(px(262)),
+        ])
+      )
+    };
 
   let footer =
     Css.(
@@ -63,32 +78,33 @@ let make =
       ~communityLogo=?,
       ~communityColor=?,
       ~changeRoute=?,
+      ~cardHeight=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
       <div
-        className=Styles.container
-        onClick=(
+        className={Styles.container(~heightProp=cardHeight)}
+        onClick={
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/community/$communityName|j})
             | None => ()
             }
-        )>
+        }>
         <Label text=heading />
         <div className=Styles.content>
-          (
+          {
             switch (communityLogo) {
             | Some(string) =>
-              <div className=(Styles.imageContainer(~communityColor))>
+              <div className={Styles.imageContainer(~communityColor)}>
                 <img className=Styles.image src=string />
               </div>
             | None => ReasonReact.null
             }
-          )
+          }
           <Heading text=communityName />
           <Paragraph text=communityDescription />
         </div>
@@ -113,6 +129,7 @@ type jsProps = {
   views: string,
   communityLogo: string,
   changeRoute: string => unit,
+  cardHeight: int,
 };
 
 let default =
@@ -125,6 +142,7 @@ let default =
       ~followers=jsProps->followersGet,
       ~articles=jsProps->articlesGet,
       ~views=jsProps->viewsGet,
+      ~cardHeight=jsProps->cardHeightGet,
       ~communityLogo=jsProps->communityLogoGet,
       [||],
     )

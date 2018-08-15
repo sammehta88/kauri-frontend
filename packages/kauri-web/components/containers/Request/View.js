@@ -50,6 +50,7 @@ const UserBadge = Badge.extend`
     margin-bottom: 0px;
   }
   > :last-child {
+    text-align: center;
     text-transform: lowercase;
     width: 100%;
     overflow: hidden;

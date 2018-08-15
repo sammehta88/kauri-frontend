@@ -84,6 +84,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
                <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>
                <div className=Styles.container>
+                 <ScrollToTopOnMount />
                  <section className=Styles.header>
                    <ProfileAvatar_Connection userId />
                    <StatisticsContainer

@@ -5,6 +5,7 @@ import withData from '../lib/with-data'
 import { routeChangeAction } from '../lib/Module'
 import App from '../layouts/App'
 import Community from '../components/connections/Community/index'
+import { withRouter } from 'next/router';
 
 const ConnectedCommunity = connect(
   () => ({}),
@@ -12,9 +13,9 @@ const ConnectedCommunity = connect(
 )(Community)
 
 class HelpPage extends React.Component {
-  render () {
+  render() {
     return (
-      <App url={this.props.url}>
+      <App url={this.props.router}>
         <ConnectedCommunity routeChangeAction={this.props.routeChangeAction} category={'kauri'} />
       </App>
     )
@@ -23,5 +24,6 @@ class HelpPage extends React.Component {
 
 export default compose(
   withData,
-  withApollo
+  withApollo,
+  withRouter,
 )(HelpPage)

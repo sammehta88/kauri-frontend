@@ -3,18 +3,19 @@ import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
 import Article from '../components/containers/Article'
+import { withRouter } from 'next/router';
 
 class ViewArticle extends React.Component {
-  static async getInitialProps (context, apolloClient) {
+  static async getInitialProps(context, apolloClient) {
     return {}
   }
 
-  render () {
+  render() {
     return (
-      <App url={this.props.url}>
+      <App url={this.props.router}>
         <Article
-          article_id={this.props.url.query['article_id']}
-          article_version={this.props.url.query['article_version']}
+          article_id={this.props.router.query['article_id']}
+          article_version={this.props.router.query['article_version']}
         />
       </App>
     )
@@ -23,5 +24,6 @@ class ViewArticle extends React.Component {
 
 export default compose(
   withData,
-  withApollo
+  withApollo,
+  withRouter,
 )(ViewArticle)

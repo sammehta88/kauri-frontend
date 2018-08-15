@@ -49,14 +49,21 @@ module Styles = {
       ])
     );
 
-  let collectionCardContent = (~background, ~colorProp) =>
+  let collectionCardContent = (~imageURL, ~colorProp) =>
     Css.(
       style([
         display(`flex),
         flex(1),
         color(hex(colorProp)),
         backgroundSize(`cover),
-        unsafe("background", {j| $(background) |j}),
+        /* unsafe("background", {j|url($imageURL) center center|j}), */
+        unsafe(
+          "background",
+          switch (imageURL) {
+          | Some(string) => {j|url($string) center center|j}
+          | _ => "transparent"
+          },
+        ),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
         overflow(hidden),
@@ -116,11 +123,7 @@ let make =
         <div
           className={
             Styles.collectionCardContent(
-              ~background=
-                switch (imageURL) {
-                | Some(url) => {j|url($imageURL) center center|j}
-                | _ => "transparent"
-                },
+              ~imageURL,
               ~colorProp=
                 switch (imageURL) {
                 | Some(_) => "FFFFFF"

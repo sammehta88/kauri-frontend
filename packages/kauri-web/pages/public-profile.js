@@ -5,6 +5,7 @@ import withData from '../lib/with-data'
 import App from '../layouts/App'
 import { routeChangeAction } from '../lib/Module'
 import RinkebyPublicProfile from '../components/connections/PublicProfile/RinkebyPublicProfile.bs'
+import { withRouter } from 'next/router';
 
 const ConnectedRinkebyPublicProfile = connect(
   () => ({}),
@@ -12,9 +13,9 @@ const ConnectedRinkebyPublicProfile = connect(
 )(RinkebyPublicProfile)
 
 class PublicProfile extends React.Component {
-  render () {
+  render() {
     return (
-      <App url={this.props.url}>
+      <App url={this.props.router}>
         <ConnectedRinkebyPublicProfile
           userId={this.props.url && this.props.url.query && this.props.url.query['user_id']}
           routeChangeAction={this.props.routeChangAction}
@@ -28,4 +29,5 @@ class PublicProfile extends React.Component {
 export default compose(
   // withData gives us server-side graphql queries before rendering
   withData,
+  withRouter,
 )(PublicProfile)

@@ -4,13 +4,14 @@ import withData from '../lib/with-data'
 import App from '../layouts/App'
 import { TopicOwnerProfile } from '../components/containers/Profile'
 // import { currentUser } from '../queries/Profile'
+import { withRouter } from 'next/router';
 
 class ProfilePage extends React.Component {
-  render () {
+  render() {
     const mockTopicOwner = 'topic owner'
 
     return (
-      <App url={this.props.url}>
+      <App url={this.props.router}>
         {(() => {
           // switch (this.props.data && this.props.data.currentUser && this.props.data.currentuser.role) {
           switch (mockTopicOwner) {
@@ -27,5 +28,6 @@ class ProfilePage extends React.Component {
 
 export default compose(
   // withData gives us server-side graphql queries before rendering
-  withData
+  withData,
+  withRouter,
 )(ProfilePage)

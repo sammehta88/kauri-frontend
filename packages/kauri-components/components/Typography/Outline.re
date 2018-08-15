@@ -23,7 +23,7 @@ let make =
         }
       )
       <OutlineHeader text="Author" />
-      <Author pageType userId username routeChangeAction />
+      <UserWidgetSmall pageType=None userId username routeChangeAction />
       <Separator marginY=20 direction="horizontal" color=LightGray />
     </div>,
 };

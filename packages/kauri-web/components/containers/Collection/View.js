@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from '../../../../kauri-components/components/Section/CollectionSection.bs'
+import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 type Props = {
   data: {
@@ -29,22 +30,25 @@ const HeaderContainer = styled(ContentContainer)`
 `
 
 class CollectionPage extends Component<Props> {
-  render() {
-    if (!this.props.data || !this.props.data.collection) return null;
+  render () {
+    if (!this.props.data || !this.props.data.collection) return null
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
+    const { routeChangeAction } = this.props
     return (
       <div>
+        <ScrollToTopOnMount />
         <HeaderContainer background={background}>
           <CollectionHeader
             name={name}
             description={description}
             updated={date_updated || date_created}
             username={owner.username}
+            userId={owner.user_id}
             profileImage={owner.profileImage}
+            routeChangeAction={routeChangeAction}
           />
         </HeaderContainer>
         <ContentContainer>
-
           {sections &&
             sections.map(i => (
               <CollectionSection

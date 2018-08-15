@@ -54,6 +54,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
            <ArticleCard
              key
              pageType=ArticleCard.RinkebyPublicProfile
+             cardHeight=500
              articleId
              articleVersion
              changeRoute=routeChangeAction
@@ -83,6 +84,7 @@ let make = (~userId, ~routeChangeAction, _children) => {
                <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>
                <div className=Styles.container>
+                 <ScrollToTopOnMount />
                  <section className=Styles.header>
                    <ProfileAvatar_Connection userId />
                    <StatisticsContainer

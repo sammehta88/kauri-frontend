@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
 import CollectionCard from '../../../../kauri-components/components/Card/CollectionCard.bs'
-import CommunityCard from '../../../../kauri-components/components/Card/CommunityCard.bs'
+import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 
@@ -39,7 +39,7 @@ const getBG = (header, featured) => {
   }
 }
 
-const HOMEPAGE_CARD_HEIGHT = 500;
+const HOMEPAGE_CARD_HEIGHT = 500
 
 const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
   return (
@@ -88,11 +88,10 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 if (!topic) return null
 
                 return (
-                  <CommunityCard
+                  <CommunityCardConnection
                     changeRoute={routeChangeAction}
                     key={card.id}
                     communityName={card.name || card.id}
-                    articles={8}
                     communityId={card.id}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     communityLogo={`/static/images/${card.id}/avatar.png`}

@@ -4,6 +4,7 @@ type jsProps = {
   name: string,
   description: string,
   username: string,
+  userId: string,
   profileImage: string,
   updated: string,
   routeChangeAction: string => unit,
@@ -37,6 +38,7 @@ let make =
       ~name,
       ~description,
       ~username,
+      ~userId,
       ~profileImage=?,
       ~updated,
       _children,
@@ -51,7 +53,14 @@ let make =
       </div>
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
-        <UserWidgetSmall pageType=None username color="ffffff" />
+        <UserWidgetSmall
+          routeChangeAction=
+            routeChangeAction->Belt.Option.getWithDefault(_ => ())
+          pageType=None
+          userId
+          username
+          color="ffffff"
+        />
       </div>
     </div>,
 };
@@ -63,6 +72,7 @@ let default =
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet,
+      ~userId=jsProps->userIdGet,
       ~profileImage=jsProps->profileImageGet,
       ~updated=jsProps->updatedGet,
       [||],

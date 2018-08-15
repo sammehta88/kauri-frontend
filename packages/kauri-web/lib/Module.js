@@ -4,6 +4,7 @@ import { notification, Modal } from 'antd'
 import cookie from 'cookie'
 import { Router } from '../routes'
 import { categories } from './theme-config'
+import { trackAnalyticsAction } from '../components/containers/Link/Module'
 import { SET_WALLET_AVAILABLE_FUNDS } from '../components/containers/Profile/TopicOwnerProfile/Module'
 import createReducer from './createReducer'
 
@@ -308,7 +309,7 @@ export const routeChangeEpic = (
   action$
     .ofType(ROUTE_CHANGE)
     .do(({ payload }) => routeChange(payload))
-    .ignoreElements()
+    .map(({ payload }) => trackAnalyticsAction({ url: payload }))
 
 export const hideIntroBannerEpic = (action$: Observable<HideIntroBannerAction>, _: any, dependencies: Dependencies) =>
   action$

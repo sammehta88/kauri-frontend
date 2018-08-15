@@ -85,24 +85,20 @@ let make =
           | None => ReasonReact.null
           }
         )
-        <div
-          className=Styles.content
-          onClick=(
-            _ =>
-              switch (changeRoute) {
-              | Some(changeRoute) =>
-                changeRoute(
-                  {j|/article/$articleId/article-version/$articleVersion|j},
-                )
-              | None => ()
-              }
-          )>
+        <div className=Styles.content>
           <Label text=("Posted " ++ date) />
-          <Heading text=title />
-          (
-            content->(String.sub(0, 2))->(String.contains('{')) ?
-              [%raw
-                {|
+          <Link
+            className=Css.[
+              selector("> div:first-child", [height(`percent(100.0))]),
+            ]
+            removeHoverColor=true
+            href={j|/article/$articleId/article-version/$articleVersion|j}
+            routeChangeAction=changeRoute>
+            <Heading text=title />
+            (
+              content->(String.sub(0, 2))->(String.contains('{')) ?
+                [%raw
+                  {|
                   (() => {
                     if (process.env.STORYBOOK !== 'true') {
                       var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
@@ -110,9 +106,10 @@ let make =
                     }
                   })()
                 |}
-              ] :
-              <Paragraph text=content />
-          )
+                ] :
+                <Paragraph text=content />
+            )
+          </Link>
           (
             switch (tags) {
             | Some(tags) => <TagList tags />
@@ -121,30 +118,25 @@ let make =
           )
         </div>
         <Separator marginX=14 marginY=0 direction="horizontal" />
-        <div
-          className=Styles.footer
-          onClick=(
-            _ =>
-              switch (changeRoute, pageType) {
-              | (Some(changeRoute), None) =>
-                changeRoute({j|/public-profile/$userId|j})
-              | (Some(_changeRoute), Some(_pageType)) => ()
-              | (None, Some(_)) => ()
-              | (None, None) => ()
-              }
-          )>
-          <UserWidgetSmall
-            pageType
-            username
-            userId
-            routeChangeAction=changeRoute->Belt.Option.getWithDefault(_ => ())
-            profileImage=(
-              switch (profileImage) {
-              | Some(image) => image
-              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-              }
-            )
-          />
+        <div className=Styles.footer>
+          <Link
+            removeHoverColor=true
+            href={j|/public-profile/$userId|j}
+            routeChangeAction=changeRoute>
+            <UserWidgetSmall
+              pageType
+              username
+              userId
+              routeChangeAction=
+                changeRoute->Belt.Option.getWithDefault(_ => ())
+              profileImage=(
+                switch (profileImage) {
+                | Some(image) => image
+                | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+                }
+              )
+            />
+          </Link>
         </div>
       </div>
     </BaseCard>,

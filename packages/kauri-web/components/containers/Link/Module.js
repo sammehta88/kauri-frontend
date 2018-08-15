@@ -182,6 +182,22 @@ const handleClassification = (apolloClient: any) => (classification: *): Observa
           })
         })
         .ignoreElements()
+    } else if (classification.resource === 'public-profile') {
+      const mixpanelPayload: TrackMixpanelPayload = {
+        event: 'View',
+        metaData: {
+          page: `${classification.resourceID} public profile`,
+        },
+      }
+      return Observable.of(mixpanelPayload)
+        .do((payload: TrackMixpanelPayload) => mixpanel.track(payload.event, payload.metaData))
+        .catch(err => {
+          console.error(err)
+          return Observable.of({
+            type: 'INVALID_TRACKING_RESOURCE',
+          })
+        })
+        .ignoreElements()
     }
     // Fetch resource via apolloClient
     // Track in mixpanel

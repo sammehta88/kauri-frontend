@@ -14,7 +14,7 @@ class ViewArticle extends React.Component {
       <App url={this.props.url}>
         <Article
           article_id={this.props.url.query['article_id']}
-          article_version={this.props.url.query['article_version']}
+          article_version={this.props.url.query['article_version'] && parseInt(this.props.url.query['article_version'])}
         />
       </App>
     )

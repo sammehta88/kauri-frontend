@@ -54,6 +54,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
            <ArticleCard
              key
              pageType=ArticleCard.RinkebyPublicProfile
+             cardHeight=500
              articleId
              articleVersion
              changeRoute=routeChangeAction

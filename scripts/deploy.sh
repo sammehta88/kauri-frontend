@@ -28,6 +28,9 @@ else
 fi
 
 ${DOCKER_PULL_COMMAND}
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 # kubectl delete -f frontend-service.yml || true
 
 # Build docker image
@@ -35,12 +38,24 @@ cd ..
 BUILD_TAG_VERSION="${BUILD_TAG}/flow-frontend:${TAG}"
 BUILD_TAG_LATEST="${BUILD_TAG}/flow-frontend:latest-${TARGET_ENV}"
 docker build -t $BUILD_TAG_VERSION -f $DOCKERFILE .
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 docker build -t $BUILD_TAG_LATEST -f $DOCKERFILE .
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 
 cd scripts
 # Push docker image to registry
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG_VERSION
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 ${DOCKER_PUSH_COMMAND} $BUILD_TAG_LATEST
+if [ $? -ne 0 ]; then
+  exit 1
+fi
 # Create app if not exists
 #kubectl apply -f frontend-service.yml || true
 #kubectl delete -f frontend-deployment-${TARGET_ENV}.yml || true

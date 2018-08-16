@@ -17,15 +17,9 @@ type LinkProps = {
 }
 
 const A = styled.a`
-  color: ${props => props.theme.primaryTextColor};
+  color: inherit;
   :hover {
-    color: ${props => props.theme.primaryTextColor};
-  }
-  > * {
-    color: ${props => props.theme.primaryTextColor};
-    :hover {
-      color: ${props => props.theme.primaryTextColor};
-    }
+    color: inherit;
   }
 `
 

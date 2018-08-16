@@ -62,7 +62,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              title
              content
              date
-             username
+             username=(Some(username))
              userId
              linkComponent=(
                childrenProps =>

@@ -50,7 +50,12 @@ module Styles = {
 
   let content =
     Css.(
-      style([padding2(~v=px(11), ~h=px(14)), flex(1), overflow(hidden)])
+      style([
+        padding2(~v=px(11), ~h=px(14)),
+        flex(1),
+        overflow(hidden),
+        selector("> a > div", [height(`percent(100.0))]),
+      ])
     );
 };
 
@@ -134,7 +139,7 @@ let make =
           )>
           <UserWidgetSmall
             pageType
-            username
+            username=username->Belt.Option.getWithDefault(userId)
             userId
             routeChangeAction=changeRoute->Belt.Option.getWithDefault(_ => ())
             profileImage=(
@@ -156,7 +161,7 @@ type jsProps = {
   title: string,
   content: string,
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
-  username: string,
+  username: Js.Nullable.t(string),
   userId: string,
   cardHeight: int,
   changeRoute: string => unit,
@@ -169,7 +174,7 @@ let default =
       ~date=jsProps->dateGet,
       ~title=jsProps->titleGet,
       ~content=jsProps->contentGet,
-      ~username=jsProps->usernameGet,
+      ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~linkComponent=jsProps->linkComponentGet,

@@ -1,10 +1,10 @@
 open Vrroom;
 open Webapi.Dom;
-[@bs.val] external setTimeout : (unit => unit, int) => unit = "";
+[@bs.val] external setTimeout: (unit => unit, int) => unit = "";
 
 type windowLocation;
-[@bs.val] external windowLocation : windowLocation = "window.location";
-[@bs.set] external setLocationHash : (windowLocation, string) => unit = "hash";
+[@bs.val] external windowLocation: windowLocation = "window.location";
+[@bs.set] external setLocationHash: (windowLocation, string) => unit = "hash";
 
 module Styles = {
   let listItem =
@@ -22,7 +22,12 @@ module Styles = {
 
   let heading =
     Css.(
-      style([color(hex("1E2428")), fontSize(px(14)), fontWeight(500)])
+      style([
+        color(hex("1E2428")),
+        fontSize(px(14)),
+        fontWeight(500),
+        selector(":hover", [color(hex("0BA986"))]),
+      ])
     );
 };
 
@@ -48,7 +53,7 @@ let handleClick = (event, heading) => {
     setTimeout(
       () =>
         windowLocation
-        |. setLocationHash(headingLowerCasedWithNoSpacesOrSpecialChars),
+        ->(setLocationHash(headingLowerCasedWithNoSpacesOrSpecialChars)),
       700,
     );
   | None => ()
@@ -59,17 +64,17 @@ let make = (~headings: array(string), _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <ul className=Styles.list>
-      (
-        headings
-        |. Belt.Array.mapWithIndex((index, heading) =>
-             <li
-               onClick=(event => handleClick(event, heading))
-               key=(heading ++ string_of_int(index))
-               className=Styles.listItem>
-               <span className=Styles.heading> (heading |. text) </span>
-             </li>
-           )
-        |. ReasonReact.array
-      )
+      headings
+      ->(
+          Belt.Array.mapWithIndex((index, heading) =>
+            <li
+              onClick=(event => handleClick(event, heading))
+              key=(heading ++ string_of_int(index))
+              className=Styles.listItem>
+              <span className=Styles.heading> heading->text </span>
+            </li>
+          )
+        )
+      ->ReasonReact.array
     </ul>,
 };

@@ -3,7 +3,7 @@ type jsProps = {
   date: string,
   name: string,
   description: string,
-  username: string,
+  username: Js.Nullable.t(string),
   userId: string,
   profileImage: string,
   updated: string,
@@ -58,7 +58,7 @@ let make =
             routeChangeAction->Belt.Option.getWithDefault(_ => ())
           pageType=None
           userId
-          username
+          username=username->Belt.Option.getWithDefault(userId)
           color="ffffff"
         />
       </div>
@@ -71,7 +71,7 @@ let default =
       ~routeChangeAction=jsProps->routeChangeActionGet,
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
-      ~username=jsProps->usernameGet,
+      ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
       ~profileImage=jsProps->profileImageGet,
       ~updated=jsProps->updatedGet,

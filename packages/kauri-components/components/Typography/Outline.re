@@ -9,7 +9,8 @@ let component = ReasonReact.statelessComponent("Outline");
 let make =
     (~headings, ~username, ~userId, ~routeChangeAction, ~pageType, _children) => {
   ...component, /* spread the template's other defaults into here  */
-  render: _self =>
+  render: _self => {
+    Js.log(headings);
     <div className=Styles.container>
       (
         switch (Array.length(headings)) {
@@ -25,7 +26,8 @@ let make =
       <OutlineHeader text="Author" />
       <UserWidgetSmall pageType=None userId username routeChangeAction />
       <Separator marginY=20 direction="horizontal" color=LightGray />
-    </div>,
+    </div>;
+  },
 };
 
 [@bs.deriving abstract]

@@ -1,10 +1,9 @@
-[@bs.module]
-external homepage: ReasonReact.reactClass =
-  "../../components/containers/Collection/View";
+[@bs.module "../../../routes"]
+external linkComponent: Link.linkComponent = "Link";
 
 [@bs.deriving abstract]
 type user = {
-  username: string,
+  username: Js.Nullable.t(string),
   user_id: string,
 };
 
@@ -56,10 +55,21 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
         <div className=Styles.section>
           (
             Js.Array.map(
-              article =>
+              article => {
+                let (articleId, articleVersion) =
+                  article->(article_idGet, article_versionGet);
                 <ArticleCard
                   key=article->article_idGet
                   changeRoute=routeChangeAction
+                  linkComponent=(
+                    childrenProps =>
+                      <Link
+                        useAnchorTag=true
+                        linkComponent
+                        route={j|/article/$articleId/article-version/$articleVersion|j}>
+                        ...childrenProps
+                      </Link>
+                  )
                   title=article->subjectGet
                   content=article->textGet
                   cardHeight=400
@@ -69,9 +79,10 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                     ->date_createdGet
                     ->MomentRe.moment
                     ->MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)))
-                  username=article->userGet->usernameGet
+                  username=article->userGet->usernameGet->Js.Nullable.toOption
                   userId=article->userGet->user_idGet
-                />,
+                />;
+              },
               articles,
             )
             |> ReasonReact.array

@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import moment from 'moment'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
-import CollectionSection from '../../../../kauri-components/components/Section/CollectionSection.bs'
+import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 type Props = {

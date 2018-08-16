@@ -111,17 +111,17 @@ let make =
   render: _self =>
     <BaseCard>
       <div
-        onClick={
+        onClick=(
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/collection/$collectionId|j})
             | None => ()
             }
-        }
-        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+        )
+        className=(Styles.collectionCardContainer(~heightProp=cardHeight))>
         <div
-          className={
+          className=(
             Styles.collectionCardContent(
               ~imageURL,
               ~colorProp=
@@ -130,42 +130,58 @@ let make =
                 | _ => "1E2428"
                 },
             )
-          }>
-          <div className={Styles.darkLayer(~image=imageURL)}>
-            <Label text=heading />
-            <Heading
-              text=collectionName
-              color={
+          )>
+          <div className=(Styles.darkLayer(~image=imageURL))>
+            <Label
+              color=(
                 switch (imageURL) {
                 | Some(_) => "FFFFFF"
                 | None => "1E2428"
                 }
-              }
+              )
+              text=heading
             />
-            <Paragraph text=collectionDescription />
+            <Heading
+              text=collectionName
+              color=(
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              )
+            />
+            <Paragraph
+              color=(
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              )
+              text=collectionDescription
+            />
             <img
               className=Styles.image
-              src={
+              src=(
                 switch (curatorImage) {
                 | Some(image) => image
                 | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
                 }
-              }
+              )
             />
-            {
+            (
               switch (lastUpdated) {
               | Some(string) => <Label text=string />
               | None => ReasonReact.null
               }
-            }
+            )
           </div>
         </div>
-        {
+        (
           switch (imageURL) {
           | Some(_) => ReasonReact.null
           | None => <Separator marginX=14 marginY=0 direction="horizontal" />
           }
-        }
+        )
         <div className=Styles.collectionCardFooter>
           <CardCounter value=articles label="Articles" />
         </div>

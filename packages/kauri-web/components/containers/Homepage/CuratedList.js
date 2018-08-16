@@ -57,7 +57,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     changeRoute={routeChangeAction}
                     key={card.article_id}
                     linkComponent={childrenProps => (
-                      <Link useAnchorTag route={`/article/${card.article_id}/article-version/${card.article_version}`}>
+                      <Link toSlug={card.subject} useAnchorTag route={`/article/${card.article_id}/article-version/${card.article_version}`}>
                         {childrenProps}
                       </Link>
                     )}
@@ -87,6 +87,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     imageURL={card.background}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
+                    linkComponent={childrenProps => (
+                      <Link toSlug={card.name} useAnchorTag route={`/collection/${card.id}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                   />
                 )
               case 'TOPIC' || 'COMMUNITY':

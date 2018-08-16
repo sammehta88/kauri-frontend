@@ -12,7 +12,6 @@ const routes = (module.exports = nextRoutes({
 routes
   .add('submit-article', '/request/:request_id/submit-article')
   .add('view-article-version', '/article/:article_id/article-version/:article_version')
-  .add('view-article-version-with-slug', '/article/:article_id/article-version/:article_version/:slug', 'view-article-version')
   .add('update-article', '/article/:article_id/article-version/:article_version/update-article')
   .add('request', '/request/:request_id')
   .add('update-request', '/request/:request_id/update-request')
@@ -26,5 +25,6 @@ routes
   .add('reject-article', '/article/:article_id/article-version/:article_version/reject-article')
   .add('public-profile', '/public-profile/:user_id')
   .add('collection', '/collection/:collection_id')
-  .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')
   .add('community', '/community/:category')
+  .add('view-article-version-with-slug', '/article/:article_id/article-version/:article_version/:slug', 'view-article-version')
+  .add('collection-with-slug', '/collection/:collection_id/:slug', 'collection')

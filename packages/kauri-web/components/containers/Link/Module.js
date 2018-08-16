@@ -28,14 +28,14 @@ type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection'
 
 type Classification =
   | {
-      page: string,
-    }
+    page: string,
+  }
   | {
-      resource: Resource | string,
-      resourceID: string,
-      resourceVersion: string,
-      resourceAction: ?string,
-    }
+    resource: Resource | string,
+    resourceID: string,
+    resourceVersion: string,
+    resourceAction: ?string,
+  }
 
 export type TrackMixpanelPayload = {
   event: TrackingEvent,
@@ -77,7 +77,16 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
     const resource = urlSplit[0]
     const resourceID = urlSplit[1]
     const resourceVersion = urlSplit[3]
-    const resourceAction = urlSplit[4]
+    const resourceAction = urlSplit[4] === (
+      'update-article' ||
+      'article-drafted' ||
+      'article-submitted' ||
+      'article-updated' ||
+      'article-approved' ||
+      'article-rejected' ||
+      'article-published' ||
+      'reject-article'
+    ) ? urlSplit[4] : urlSplit[5];
     // console.log(urlSplit)
     // console.log('classifyURL', {
     //   resource,

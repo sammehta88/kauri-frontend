@@ -20,7 +20,7 @@ myStory.add("Article Card", () =>
     title="This is a title, possibly should support two lines"
     content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
     tags=[|"test", "foo", "bar", "ethereum"|]
-    username="nelsonpimieeeenta"
+    username=(Some("nelsonpimieeeenta"))
   />
 );
 
@@ -42,7 +42,7 @@ myStory.add("Article Card with Image", () =>
     Any code editor you want - in order to write your front end :)"
     imageURL="https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
     tags=[|"test", "foo", "bar", "ethereum"|]
-    username="etherealcoder"
+    username=(Some("etherealcoder"))
     profileImage="https://randomuser.me/api/portraits/women/51.jpg"
   />
 );
@@ -154,7 +154,7 @@ Remix - this is the Ethereum IDE. We will use it to develop our Solidity contrac
 Any code editor you want - in order to write your front end :)"
       imageURL="https://images.unsplash.com/photo-1532562327126-3fac59f74a62?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=0401fb7403da3c3224101c11cb34969b&auto=format&fit=crop&w=1268&q=80"
       tags=[|"test", "foo", "bar", "ethereum"|]
-      username="etherealcoder"
+      username=(Some("etherealcoder"))
       profileImage="https://randomuser.me/api/portraits/women/51.jpg"
     />
     <ArticleCard
@@ -163,7 +163,7 @@ Any code editor you want - in order to write your front end :)"
       title="This is a title, possibly should support two lines"
       content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
       tags=[|"test", "foo", "bar", "ethereum"|]
-      username="nelsonpimieeeenta"
+      username=(Some("nelsonpimieeeenta"))
     />
   </div>
 );

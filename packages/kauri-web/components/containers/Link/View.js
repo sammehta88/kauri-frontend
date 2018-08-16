@@ -2,6 +2,7 @@
 import React, { Fragment } from 'react'
 import styled from 'styled-components'
 import nextRoutes from 'next-routes'
+import slugify from 'slugify';
 
 import type { TrackAnalyticsPayload } from './Module'
 
@@ -29,25 +30,26 @@ const A = styled.a`
 `
 
 class Link extends React.Component<LinkProps> {
-  handleClick = e => {
+  handleClick = (e, url) => {
     e.preventDefault()
     e.stopPropagation()
-    const url = this.props.as || this.props.href || this.props.children.props.href
     this.props.trackAnalyticsAction({ url })
     Router.pushRoute(url)
   }
 
-  render () {
-    const url = this.props.as || this.props.href || this.props.children.props.href
+  render() {
+    let url = this.props.as || this.props.href || this.props.children.props.href
+    const slug = this.props.toSlug ? slugify(this.props.toSlug, { lower: true }) : null;
+    if (slug) url += `/${slug}`;
     if (this.props.useAnchorTag) {
       return (
-        <A href={url} onClick={this.handleClick}>
+        <A href={url} onClick={(e) => this.handleClick(e, url)}>
           {this.props.children}
         </A>
       )
     }
     return React.cloneElement(this.props.children, {
-      onClick: this.handleClick,
+      onClick: (e) => this.handleClick(e, url),
     })
   }
 }

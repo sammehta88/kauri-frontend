@@ -1,5 +1,8 @@
 open Infix_Utilities;
 
+[@bs.module "../../../routes"]
+external linkComponent: Link.linkComponent = "Link";
+
 module Styles = {
   let container = Css.(style([]));
 
@@ -55,14 +58,21 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              key
              pageType=ArticleCard.RinkebyPublicProfile
              cardHeight=500
-             articleId
-             articleVersion
              changeRoute=routeChangeAction
              title
              content
              date
              username
              userId
+             linkComponent=(
+               childrenProps =>
+                 <Link
+                   useAnchorTag=true
+                   linkComponent
+                   route={j|/article/$articleId/article-version/$articleVersion|j}>
+                   ...childrenProps
+                 </Link>
+             )
            />;
          })
     )

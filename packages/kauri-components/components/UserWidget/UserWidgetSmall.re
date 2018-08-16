@@ -60,7 +60,7 @@ let make =
       ~userId,
       ~routeChangeAction=?,
       ~profileImage=?,
-      ~color="#1E2428",
+      ~color="1E2428",
       ~pageType,
       _children,
     ) => {

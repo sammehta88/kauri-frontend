@@ -13,7 +13,7 @@ module Styles = {
       ])
     );
 };
-let make = (~text, ~color="#1E2428", _children) => {
+let make = (~text, ~color="1E2428", _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <label className=(Styles.label(~colorProp=color))>

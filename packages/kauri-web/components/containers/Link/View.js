@@ -10,21 +10,44 @@ const Router = nextRoutes().Router
 type LinkProps = {
   as?: ?string,
   href?: ?string,
+  useAnchorTag?: boolean,
   children: any,
   trackAnalyticsAction: TrackAnalyticsPayload => void,
 }
 
+const A = styled.a`
+  color: ${props => props.theme.primaryTextColor};
+  :hover {
+    color: ${props => props.theme.primaryTextColor};
+  }
+  > * {
+    color: ${props => props.theme.primaryTextColor};
+    :hover {
+      color: ${props => props.theme.primaryTextColor};
+    }
+  }
+`
+
 class Link extends React.Component<LinkProps> {
+  handleClick = e => {
+    e.preventDefault()
+    e.stopPropagation()
+    const url = this.props.as || this.props.href || this.props.children.props.href
+    this.props.trackAnalyticsAction({ url })
+    Router.pushRoute(url)
+  }
+
   render () {
+    const url = this.props.as || this.props.href || this.props.children.props.href
+    if (this.props.useAnchorTag) {
+      return (
+        <A href={url} onClick={this.handleClick}>
+          {this.props.children}
+        </A>
+      )
+    }
     return React.cloneElement(this.props.children, {
-      onClick: e => {
-        e.preventDefault()
-        e.stopPropagation()
-        const url = this.props.as || this.props.href || this.props.children.props.href
-        // TODO: REACTIVATE ANALYTICS TRACKING SOON DUE TO NEW ROUTING
-        this.props.trackAnalyticsAction({ url })
-        Router.pushRoute(url)
-      },
+      onClick: this.handleClick,
     })
   }
 }

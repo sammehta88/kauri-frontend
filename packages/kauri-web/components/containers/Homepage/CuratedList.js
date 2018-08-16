@@ -5,6 +5,7 @@ import CollectionCard from '../../../../kauri-components/components/Card/Collect
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
+import { Link } from '../../../routes'
 
 const Title = styled.h2`
   font-weight: 300;
@@ -15,9 +16,9 @@ const Title = styled.h2`
 `
 
 const Container = styled.div`
-  background: ${props => props.background ? `url(${props.background}) center center` : props.bgColor};
+  background: ${props => (props.background ? `url(${props.background}) center center` : props.bgColor)};
   background-size: cover;
-  box-shadow: ${props => props.background ? 'inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5)' : 'none'};
+  box-shadow: ${props => (props.background ? 'inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5)' : 'none')};
   width: 100%;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   text-align: center;
@@ -55,6 +56,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <ArticleCard
                     changeRoute={routeChangeAction}
                     key={card.article_id}
+                    linkComponent={childrenProps => (
+                      <Link useAnchorTag route={`/article/${card.article_id}/article-version/${card.article_version}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                     date={moment(card.date_created).fromNow()}
                     title={card.subject}
                     content={card.text}

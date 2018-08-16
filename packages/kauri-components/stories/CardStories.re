@@ -16,8 +16,6 @@ myStory.add("Base Card", () =>
 myStory.add("Article Card", () =>
   <ArticleCard
     userId="0x"
-    articleVersion=1
-    articleId="1"
     date="3 June 2099"
     title="This is a title, possibly should support two lines"
     content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
@@ -28,8 +26,6 @@ myStory.add("Article Card", () =>
 
 myStory.add("Article Card with Image", () =>
   <ArticleCard
-    articleVersion=1
-    articleId="1"
     userId="1"
     cardHeight=500
     date="3 June 2099"
@@ -92,11 +88,11 @@ myStory.add("Collection Card With Image", () =>
     articles="58"
     lastUpdated="Last Updated 3 June 2099"
     curatorImage="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
-    imageURL={
+    imageURL=(
       Some(
         "https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
       )
-    }
+    )
   />
 );
 
@@ -110,11 +106,11 @@ myStory.add("All Cards", () =>
       cardHeight=500
       lastUpdated="Last Updated 3 June 2099"
       curatorImage="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
-      imageURL={
+      imageURL=(
         Some(
           "https://images.pexels.com/photos/132037/pexels-photo-132037.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
         )
-      }
+      )
     />
     <CollectionCard
       collectionId="1"
@@ -142,8 +138,6 @@ myStory.add("All Cards", () =>
       views="39k"
     />
     <ArticleCard
-      articleVersion=1
-      articleId="1"
       userId="1"
       cardHeight=500
       date="3 June 2099"
@@ -165,8 +159,6 @@ Any code editor you want - in order to write your front end :)"
     />
     <ArticleCard
       userId="0x"
-      articleVersion=1
-      articleId="1"
       date="3 June 2099"
       title="This is a title, possibly should support two lines"
       content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"

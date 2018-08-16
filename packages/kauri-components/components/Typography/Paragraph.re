@@ -12,7 +12,7 @@ module Styles = {
     );
 };
 
-let make = (~text, ~color="#1E2428", ~size=14, _children) => {
+let make = (~text, ~color="1E2428", ~size=14, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <div className=(Styles.paragraph(~colorProp=color, ~sizeProp=size))>

@@ -1,8 +1,9 @@
 open Infix_Utilities;
 
-/* TODO: Probs a good use for redux or the new react context provider */
 [@bs.module "../../../lib/theme-config.js"]
 external themeConfig: ThemeConfig.themeConfig = "default";
+[@bs.module "../../../routes"]
+external linkComponent: Link.linkComponent = "Link";
 
 module Styles = {
   let container = Css.(style([]));
@@ -56,8 +57,15 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              make(article);
            <ArticleCard
              key
-             articleId
-             articleVersion
+             linkComponent=(
+               childrenProps =>
+                 <Link
+                   useAnchorTag=true
+                   linkComponent
+                   route={j|/article/$articleId/article-version/$articleVersion|j}>
+                   ...childrenProps
+                 </Link>
+             )
              changeRoute=routeChangeAction
              title
              content

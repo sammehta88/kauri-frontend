@@ -54,6 +54,25 @@ module Styles = {
     );
 };
 
+let cardContent = (~title, ~content) =>
+  <>
+    <Heading text=title />
+    (
+      content->(String.sub(0, 2))->(String.contains('{')) ?
+        [%raw
+          {|
+                  (() => {
+                    if (process.env.STORYBOOK !== 'true') {
+                      var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
+                      return React.createElement(DescriptionRow, { record: { text: content }, type: 'article card' }, null);
+                    }
+                  })()
+                |}
+        ] :
+        <Paragraph text=content />
+    )
+  </>;
+
 type pageType =
   | RinkebyPublicProfile
   | Collection;
@@ -66,12 +85,11 @@ let make =
       ~content: string,
       ~imageURL=?,
       ~pageType=?,
+      ~linkComponent=?,
       ~username,
       ~userId,
       ~profileImage=?,
       ~changeRoute=?,
-      ~articleId: string,
-      ~articleVersion: int,
       ~cardHeight=?,
       _children,
     ) => {
@@ -85,33 +103,14 @@ let make =
           | None => ReasonReact.null
           }
         )
-        <div
-          className=Styles.content
-          onClick=(
-            _ =>
-              switch (changeRoute) {
-              | Some(changeRoute) =>
-                changeRoute(
-                  {j|/article/$articleId/article-version/$articleVersion|j},
-                )
-              | None => ()
-              }
-          )>
+        <div className=Styles.content>
           <Label text=("Posted " ++ date) />
-          <Heading text=title />
           (
-            content->(String.sub(0, 2))->(String.contains('{')) ?
-              [%raw
-                {|
-                  (() => {
-                    if (process.env.STORYBOOK !== 'true') {
-                      var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
-                      return React.createElement(DescriptionRow, { record: { text: content$1 }, type: 'article card' }, null);
-                    }
-                  })()
-                |}
-              ] :
-              <Paragraph text=content />
+            switch (linkComponent) {
+            | Some(linkComponent) =>
+              linkComponent(cardContent(~title, ~content))
+            | None => cardContent(~title, ~content)
+            }
           )
           (
             switch (tags) {
@@ -156,10 +155,9 @@ type jsProps = {
   date: string,
   title: string,
   content: string,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   username: string,
   userId: string,
-  articleId: string,
-  articleVersion: int,
   cardHeight: int,
   changeRoute: string => unit,
 };
@@ -173,9 +171,8 @@ let default =
       ~content=jsProps->contentGet,
       ~username=jsProps->usernameGet,
       ~userId=jsProps->userIdGet,
-      ~articleId=jsProps->articleIdGet,
       ~cardHeight=jsProps->cardHeightGet,
-      ~articleVersion=jsProps->articleVersionGet,
+      ~linkComponent=jsProps->linkComponentGet,
       [||],
     )
   );

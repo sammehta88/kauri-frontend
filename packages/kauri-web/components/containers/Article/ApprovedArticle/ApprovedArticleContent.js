@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 import { EditorState, convertFromRaw } from 'draft-js'
-import slugify from 'slugify';
+import slugify from 'slugify'
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
@@ -30,6 +30,26 @@ const UpdateArticleSvgIcon = () => (
   </svg>
 )
 
+const ApprovedArticleHelmet = ({ blocks, contentState }) => {
+  if (!blocks) return
+
+  let description = blocks.filter(({ text }) => text.length >= 40)
+  description = description.length
+    ? description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')).text
+  description = description.length > 120 ? description.substring(0, 117) + '...' : description
+  let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
+  let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
+  if (image) image = image.data.src
+
+  return (
+    <Helmet>
+      <meta name='description' content={description} />
+      {image && <meta name='image' content={image} />}
+    </Helmet>
+  )
+}
+
 export default ({
   text,
   username,
@@ -39,33 +59,34 @@ export default ({
   article_version,
   subject,
 }: {
-    text?: string,
-    username?: ?string,
-    userId?: ?string,
-    routeChangeAction: string => void,
-    article_id: string,
-    subject?: string,
-    article_version: number,
-  }) => {
+  text?: string,
+  username?: ?string,
+  userId?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+  subject?: string,
+  article_version: number,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)))
+  const contentState = editorState.markdown
+    ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+    : editorState.getCurrentContent()
 
-  const outlineHeadings =
+  const blocks =
     typeof editorState === 'object' &&
     (editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
-        .map(header => header.text)
-      : editorState.blocks &&
-      editorState.blocks.filter(block => block.type.includes('header').map(header => header.text)))
+      ? contentState.getBlocksAsArray().map(block => block.toJS())
+      : editorState.blocks && editorState.blocks)
+
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   return (
     <SubmitArticleFormContent>
+      <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
       <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
@@ -79,16 +100,14 @@ export default ({
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() =>
-            routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
-          }
+          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
         >
           Update article
         </ArticleAction>
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
-            }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

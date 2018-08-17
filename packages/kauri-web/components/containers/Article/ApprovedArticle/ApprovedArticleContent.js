@@ -38,14 +38,14 @@ export default ({
   article_version,
   subject,
 }: {
-  text?: string,
-  username?: ?string,
-  userId?: ?string,
-  routeChangeAction: string => void,
-  article_id: string,
-  subject?: string,
-  article_version: number,
-}) => {
+    text?: string,
+    username?: ?string,
+    userId?: ?string,
+    routeChangeAction: string => void,
+    article_id: string,
+    subject?: string,
+    article_version: number,
+  }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
@@ -61,7 +61,7 @@ export default ({
         .filter(block => block.type.includes('header'))
         .map(header => header.text)
       : editorState.blocks &&
-        editorState.blocks.filter(block => block.type.includes('header').map(header => header.text)))
+      editorState.blocks.filter(block => block.type.includes('header').map(header => header.text)))
 
   return (
     <SubmitArticleFormContent>
@@ -79,7 +79,7 @@ export default ({
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
           handleClick={() =>
-            routeChangeAction(`/article/${article_id}/article-version/${article_version}/update-article`)
+            routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
           }
         >
           Update article
@@ -87,7 +87,7 @@ export default ({
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
-          }/article/${article_id}/article-version/${article_version}`}
+            }/article/${article_id}/v${article_version}`}
           title={subject}
         />
       </ApprovedArticleDetails>

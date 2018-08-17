@@ -53,7 +53,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
         <Paragraph text=name size=22 />
         <Paragraph text=description />
         <div className=Styles.section>
-          (
+          {
             Js.Array.map(
               article => {
                 let (articleId, articleVersion) =
@@ -61,15 +61,16 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                 <ArticleCard
                   key=article->article_idGet
                   changeRoute=routeChangeAction
-                  linkComponent=(
+                  linkComponent={
                     childrenProps =>
                       <Link
                         useAnchorTag=true
                         linkComponent
-                        route={j|/article/$articleId/article-version/$articleVersion|j}>
+                        toSlug=article->subjectGet
+                        route={j|/article/$articleId/v$articleVersion|j}>
                         ...childrenProps
                       </Link>
-                  )
+                  }
                   title=article->subjectGet
                   content=article->textGet
                   cardHeight=400
@@ -86,7 +87,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
               articles,
             )
             |> ReasonReact.array
-          )
+          }
         </div>
       </div>
     },

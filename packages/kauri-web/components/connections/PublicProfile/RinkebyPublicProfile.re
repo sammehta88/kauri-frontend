@@ -41,40 +41,42 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | Some(content) =>
     (
       content
-      |> Js.Array.map(article => {
-           open Article_Resource;
-           let {
-             articleId,
-             articleVersion,
-             key,
-             title,
-             content,
-             date,
-             username,
-             userId,
-           } =
-             make(article);
-           <ArticleCard
-             key
-             pageType=ArticleCard.RinkebyPublicProfile
-             cardHeight=500
-             changeRoute=routeChangeAction
-             title
-             content
-             date
-             username=(Some(username))
-             userId
-             linkComponent=(
-               childrenProps =>
-                 <Link
-                   useAnchorTag=true
-                   linkComponent
-                   route={j|/article/$articleId/article-version/$articleVersion|j}>
-                   ...childrenProps
-                 </Link>
-             )
-           />;
-         })
+      |> Js.Array.map(
+           article => {
+             open Article_Resource;
+             let {
+               articleId,
+               articleVersion,
+               key,
+               title,
+               content,
+               date,
+               username,
+               userId,
+             } =
+               make(article);
+             <ArticleCard
+               key
+               pageType=ArticleCard.RinkebyPublicProfile
+               cardHeight=500
+               changeRoute=routeChangeAction
+               title
+               content
+               date
+               username=(Some(username))
+               userId
+               linkComponent=(
+                 childrenProps =>
+                   <Link
+                     useAnchorTag=true
+                     linkComponent
+                     route={j|/article/$articleId/v$articleVersion|j}>
+                     ...childrenProps
+                   </Link>
+               )
+             />;
+           },
+         )
     )
     ->ReasonReact.array
   | None => <p> "No articles found boo"->ReasonReact.string </p>
@@ -101,7 +103,8 @@ let make = (~userId, ~routeChangeAction, _children) => {
                      statistics=[|
                        {
                          "name": "Articles",
-                         "count": Article_Resource.articlesCountGet(response),
+                         "count":
+                           Article_Resource.articlesCountGet(response),
                        },
                      |]
                    />

@@ -56,11 +56,6 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <ArticleCard
                     changeRoute={routeChangeAction}
                     key={card.article_id}
-                    linkComponent={childrenProps => (
-                      <Link toSlug={card.subject} useAnchorTag route={`/article/${card.article_id}/article-version/${card.article_version}`}>
-                        {childrenProps}
-                      </Link>
-                    )}
                     date={moment(card.date_created).fromNow()}
                     title={card.subject}
                     content={card.text}

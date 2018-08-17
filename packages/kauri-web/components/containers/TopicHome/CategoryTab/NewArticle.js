@@ -83,7 +83,7 @@ const Content = styled.div`
 export default (props: Props) =>
   typeof props.date_updated === 'string' ? (
     // <NewArticleContainer>
-    //   <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
+    //   <Link route={`/article/${props.article_id}/v${props.article_version}`}>
     //     <Thumbnail theme={theme} category={props.category}>
     //       {!props.category && <CategoryName>{(props.user && props.user.username) || 'Unknown Writer'}</CategoryName>}
     //       {props.category && (
@@ -92,8 +92,8 @@ export default (props: Props) =>
     //     </Thumbnail>
     //   </Link>
     //   <RestrictToTwoLines>
-    //     <Link route={`/article/${props.article_id}/article-version/${props.article_version}`}>
-    //       <Subject href={`/article/${props.article_id}/article-version/${props.article_version}`} type='topicHomepage'>
+    //     <Link route={`/article/${props.article_id}/v${props.article_version}`}>
+    //       <Subject href={`/article/${props.article_id}/v${props.article_version}`} type='topicHomepage'>
     //         {props.subject}
     //       </Subject>
     //     </Link>
@@ -125,8 +125,8 @@ export default (props: Props) =>
         userId={props.user && props.user.user_id}
         onClick={() =>
           props.routeChangeAction(
-            `/article/${props.data.searchArticles.content[0].article_id}/article-version/${
-              props.data.searchArticles.content[0].article_version
+            `/article/${props.data.searchArticles.content[0].article_id}/v${
+            props.data.searchArticles.content[0].article_version
             }`
           )
         }
@@ -137,14 +137,14 @@ export default (props: Props) =>
         submitted={props.data.searchArticles.content[0].date_updated}
       />
       <Link
-        route={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
+        route={`/article/${props.data.searchArticles.content[0].article_id}/v${
           props.data.searchArticles.content[0].article_version
-        }`}
+          }`}
       >
         <Subject
-          href={`/article/${props.data.searchArticles.content[0].article_id}/article-version/${
+          href={`/article/${props.data.searchArticles.content[0].article_id}/v${
             props.data.searchArticles.content[0].article_version
-          }`}
+            }`}
           type='topicHomepage'
         >
           {props.data.searchArticles.content[0].subject}
@@ -155,5 +155,5 @@ export default (props: Props) =>
       </Content>
     </NewArticleContainer>
   ) : (
-    <p>No new articles.</p>
-  )
+        <p>No new articles.</p>
+      )

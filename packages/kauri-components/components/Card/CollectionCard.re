@@ -182,7 +182,13 @@ let make =
             />
             (
               switch (lastUpdated) {
-              | Some(string) => <Label text=string />
+              | Some(string) =>
+                <Label
+                  color=
+                    imageURL
+                    ->Belt.Option.mapWithDefault("1E2428", (_ => "FFFFFF"))
+                  text=string
+                />
               | None => ReasonReact.null
               }
             )

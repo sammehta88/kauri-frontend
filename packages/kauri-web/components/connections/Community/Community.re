@@ -37,7 +37,7 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("Community");
 
-let renderArticleCards = (~response, ~routeChangeAction) =>
+let renderArticleCards = (~response) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     (
@@ -57,16 +57,14 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
              make(article);
            <ArticleCard
              key
+             articleId
+             articleVersion
              linkComponent=(
-               childrenProps =>
-                 <Link
-                   useAnchorTag=true
-                   linkComponent
-                   route={j|/article/$articleId/article-version/$articleVersion|j}>
+               (childrenProps, route) =>
+                 <Link useAnchorTag=true linkComponent route>
                    ...childrenProps
                  </Link>
              )
-             changeRoute=routeChangeAction
              title
              content
              date
@@ -79,7 +77,7 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~routeChangeAction, ~category, _children) => {
+let make = (~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -177,12 +175,7 @@ let make = (~routeChangeAction, ~category, _children) => {
                                    | Data(response) =>
                                      <section
                                        className=Styles.articlesContainer>
-                                       (
-                                         renderArticleCards(
-                                           ~response,
-                                           ~routeChangeAction,
-                                         )
-                                       )
+                                       (renderArticleCards(~response))
                                      </section>
                                    }
                                )
@@ -204,14 +197,9 @@ let make = (~routeChangeAction, ~category, _children) => {
 type jsProps = {
   userId: string,
   category: string,
-  routeChangeAction: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~routeChangeAction=jsProps->routeChangeActionGet,
-      ~category=jsProps->categoryGet,
-      [||],
-    )
+    make(~category=jsProps->categoryGet, [||])
   );

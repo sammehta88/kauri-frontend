@@ -78,6 +78,27 @@ let cardContent = (~title, ~content) =>
     )
   </>;
 
+let profile = (~username, ~userId, ~pageType, ~profileImage) =>
+  <>
+    <UserWidgetSmall
+      pageType
+      username=
+        username
+        ->Belt.Option.getWithDefault(
+            String.sub(userId, 0, 11)
+            ++ "..."
+            ++ String.sub(userId, String.length(userId) - 13, 11),
+          )
+      userId
+      profileImage=(
+        switch (profileImage) {
+        | Some(image) => image
+        | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+        }
+      )
+    />
+  </>;
+
 type pageType =
   | RinkebyPublicProfile
   | Collection;
@@ -92,9 +113,10 @@ let make =
       ~pageType=?,
       ~linkComponent=?,
       ~username,
+      ~articleId,
+      ~articleVersion,
       ~userId,
       ~profileImage=?,
-      ~changeRoute=?,
       ~cardHeight=?,
       _children,
     ) => {
@@ -113,7 +135,10 @@ let make =
           (
             switch (linkComponent) {
             | Some(linkComponent) =>
-              linkComponent(cardContent(~title, ~content))
+              linkComponent(
+                cardContent(~title, ~content),
+                {j|/article/$articleId/article-version/$articleVersion|j},
+              )
             | None => cardContent(~title, ~content)
             }
           )
@@ -125,36 +150,17 @@ let make =
           )
         </div>
         <Separator marginX=14 marginY=0 direction="horizontal" />
-        <div
-          className=Styles.footer
-          onClick=(
-            _ =>
-              switch (changeRoute, pageType) {
-              | (Some(changeRoute), None) =>
-                changeRoute({j|/public-profile/$userId|j})
-              | (Some(_changeRoute), Some(_pageType)) => ()
-              | (None, Some(_)) => ()
-              | (None, None) => ()
-              }
-          )>
-          <UserWidgetSmall
-            pageType
-            username=
-              username
-              ->Belt.Option.getWithDefault(
-                  String.sub(userId, 0, 11)
-                  ++ "..."
-                  ++ String.sub(userId, String.length(userId) - 13, 11),
-                )
-            userId
-            routeChangeAction=changeRoute->Belt.Option.getWithDefault(_ => ())
-            profileImage=(
-              switch (profileImage) {
-              | Some(image) => image
-              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-              }
-            )
-          />
+        <div className=Styles.footer>
+          (
+            switch (linkComponent) {
+            | Some(linkComponent) =>
+              linkComponent(
+                profile(~username, ~userId, ~pageType, ~profileImage),
+                {j|/public-profile/$userId|j},
+              )
+            | None => profile(~username, ~userId, ~pageType, ~profileImage)
+            }
+          )
         </div>
       </div>
     </BaseCard>,
@@ -165,24 +171,27 @@ type jsProps = {
   article,
   date: string,
   title: string,
+  articleId: string,
+  articleVersion: string,
   content: string,
-  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
+  linkComponent:
+    (ReasonReact.reactElement, string) => ReasonReact.reactElement,
   username: Js.Nullable.t(string),
   userId: string,
   cardHeight: int,
-  changeRoute: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps->changeRouteGet,
       ~date=jsProps->dateGet,
       ~title=jsProps->titleGet,
       ~content=jsProps->contentGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
       ~cardHeight=jsProps->cardHeightGet,
+      ~articleId=jsProps->articleIdGet,
+      ~articleVersion=jsProps->articleVersionGet,
       ~linkComponent=jsProps->linkComponentGet,
       [||],
     )

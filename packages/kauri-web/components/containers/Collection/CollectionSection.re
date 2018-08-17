@@ -60,13 +60,11 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                   article->(article_idGet, article_versionGet);
                 <ArticleCard
                   key=article->article_idGet
-                  changeRoute=routeChangeAction
+                  articleId
+                  articleVersion
                   linkComponent=(
-                    childrenProps =>
-                      <Link
-                        useAnchorTag=true
-                        linkComponent
-                        route={j|/article/$articleId/article-version/$articleVersion|j}>
+                    (childrenProps, route) =>
+                      <Link route useAnchorTag=true linkComponent>
                         ...childrenProps
                       </Link>
                   )

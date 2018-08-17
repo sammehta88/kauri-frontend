@@ -30,7 +30,7 @@ const UpdateArticleSvgIcon = () => (
   </svg>
 )
 
-const ApprovedArticleHelmet = ({ blocks }) => {
+const ApprovedArticleHelmet = ({ blocks, contentState }) => {
   if (!blocks) return
 
   let description = blocks.filter(({ text }) => text.length >= 40)
@@ -38,8 +38,9 @@ const ApprovedArticleHelmet = ({ blocks }) => {
     ? description.find(block => block.type.includes('unstyled')).text
     : blocks.find(block => block.type.includes('unstyled')).text
   description = description.length > 120 ? description.substring(0, 117) + '...' : description
-  let image = blocks.find(({ type }) => type.includes('atom'))
-  image = image && image.type && image.type.includes('image') && image.src
+  let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
+  let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
+  if (image) image = image.data.src
 
   return (
     <Helmet>
@@ -71,20 +72,21 @@ export default ({
     editorState && typeof editorState.markdown === 'string'
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)))
+  const contentState = editorState.markdown
+    ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+    : editorState.getCurrentContent()
 
   const blocks =
     typeof editorState === 'object' &&
     (editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .map(block => block.toJS())
+      ? contentState.getBlocksAsArray().map(block => block.toJS())
       : editorState.blocks && editorState.blocks)
 
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   return (
     <SubmitArticleFormContent>
-      <ApprovedArticleHelmet blocks={blocks} />
+      <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
       <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>

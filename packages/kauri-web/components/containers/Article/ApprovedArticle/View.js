@@ -45,9 +45,9 @@ class ApprovedArticle extends React.Component<Props, State> {
     const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
       <section>
-
         <Helmet>
           <title>{props.data.getArticle.subject} - Kauri</title>
+          <meta name="description" content={`${JSON.parse(props.data.getArticle.text).markdown.slice(0, 151)}...`} />
           <link rel="canonical" href={`${hostname}/article/${props.data.getArticle.article_id}/${slugify(props.data.getArticle.subject, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />

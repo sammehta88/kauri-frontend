@@ -42,6 +42,7 @@ class CollectionPage extends Component<Props> {
       <div>
         <Helmet>
           <title>{name} - Kauri</title>
+          <meta name="description" content={`${scription.slice(0, 151)}...`} />
           <link rel="canonical" href={`${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />

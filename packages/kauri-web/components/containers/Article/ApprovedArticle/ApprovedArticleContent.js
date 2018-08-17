@@ -1,8 +1,8 @@
 // @flow
 import React from 'react'
-import styled from 'styled-components'
+import { Helmet } from 'react-helmet'
 import { EditorState, convertFromRaw } from 'draft-js'
-import slugify from 'slugify';
+import slugify from 'slugify'
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
@@ -30,6 +30,40 @@ const UpdateArticleSvgIcon = () => (
   </svg>
 )
 
+const ApprovedArticleHelmet = ({ blocks }) => {
+  if (!blocks) return
+
+  let articleDescription = blocks.find(block => block.type.includes('unstyled')).text
+
+  articleDescription =
+    articleDescription.length > 120 ? articleDescription.substring(0, 117) + '...' : articleDescription
+
+  let articleImage = blocks.find(({ type }) => type.includes('atom'))
+  articleImage = articleImage && articleImage.type && articleImage.type.includes('image') && articleImage.src
+
+  return (
+    <Helmet>
+      <meta name='description' content={articleDescription} />
+      {articleImage && <meta name='image' content={articleImage} />}
+      {/* OpenGraph tags
+      <meta property='og:url' content={postSEO ? postURL : blogURL} />
+      {postSEO ? <meta property='og:type' content='article' /> : null}
+      <meta property='og:title' content={title} />
+      <meta property='og:description' content={description} />
+      <meta property='og:image' content={image} />
+      <meta property='fb:app_id' content={config.siteFBAppID ? config.siteFBAppID : ''} />
+
+      {/* Twitter Card tags */}
+      {/* <meta name='twitter:card' content='summary_large_image' />
+      <meta name='twitter:creator' content={config.userTwitter ? config.userTwitter : ''} />
+      <meta name='twitter:title' content={title} />
+      <meta name='twitter:description' content={description} />
+      <meta name='twitter:image' content={image} /> */}{' '}
+      */}
+    </Helmet>
+  )
+}
+
 export default ({
   text,
   username,
@@ -39,33 +73,33 @@ export default ({
   article_version,
   subject,
 }: {
-    text?: string,
-    username?: ?string,
-    userId?: ?string,
-    routeChangeAction: string => void,
-    article_id: string,
-    subject?: string,
-    article_version: number,
-  }) => {
+  text?: string,
+  username?: ?string,
+  userId?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+  subject?: string,
+  article_version: number,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)))
 
-  const outlineHeadings =
+  const blocks =
     typeof editorState === 'object' &&
     (editorState.markdown
       ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
         .getBlocksAsArray()
         .map(block => block.toJS())
-        .filter(block => block.type.includes('header'))
-        .map(header => header.text)
-      : editorState.blocks &&
-      editorState.blocks.filter(block => block.type.includes('header').map(header => header.text)))
+      : editorState.blocks)
+
+  const outlineHeadings = blocks.filter(block => block.type.includes('header')).map(header => header.text)
 
   return (
     <SubmitArticleFormContent>
+      <ApprovedArticleHelmet blocks={blocks} />
       <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
@@ -79,16 +113,14 @@ export default ({
         <ArticleAction
           svgIcon={<UpdateArticleSvgIcon />}
           text={'Update Article'}
-          handleClick={() =>
-            routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)
-          }
+          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
         >
           Update article
         </ArticleAction>
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
-            }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

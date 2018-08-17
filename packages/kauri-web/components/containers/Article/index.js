@@ -8,6 +8,7 @@ import { addCommentAction } from '../AddCommentForm/Module'
 import withLoading from '../../../lib/with-loading'
 import { addToBountyAction } from '../Requests/Module'
 import View from './View'
+import { withRouter } from 'next/router'
 
 const mapStateToProps = (state, ownProps) => ({
   ethUsdPrice: state.app.ethUsdPrice,
@@ -17,6 +18,7 @@ const mapStateToProps = (state, ownProps) => ({
 })
 
 export default compose(
+  withRouter,
   connect(
     mapStateToProps,
     {

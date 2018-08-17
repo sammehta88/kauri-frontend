@@ -3,14 +3,10 @@ import { withApollo, compose } from 'react-apollo'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
 import Article from '../components/containers/Article'
-import { withRouter } from 'next/router';
+import { withRouter } from 'next/router'
 
 class ViewArticle extends React.Component {
-  static async getInitialProps(context, apolloClient) {
-    return {}
-  }
-
-  render() {
+  render () {
     return (
       <App url={this.props.router}>
         <Article
@@ -25,5 +21,5 @@ class ViewArticle extends React.Component {
 export default compose(
   withData,
   withApollo,
-  withRouter,
+  withRouter
 )(ViewArticle)

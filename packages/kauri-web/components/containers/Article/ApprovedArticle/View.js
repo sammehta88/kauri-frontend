@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { Helmet } from 'react-helmet'
 import Actions from './ApprovedArticleActions'
 import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
@@ -40,9 +41,13 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   render () {
     const props = this.props
+    console.log(props.router)
     return (
       <section>
         <ScrollToTopOnMount />
+        <Helmet>
+          <title>{props.data.getArticle && props.data.getArticle.subject}</title>
+        </Helmet>
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}
           tipArticleAction={props.tipArticleAction}

@@ -28,55 +28,51 @@ module Styles = {
 
 let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
   communities
-  ->Belt.Array.map(
-      community => {
-        let (description, primaryColor) =
-          ThemeConfig.getCommunityConfig(themeConfig, community)
-          ->ThemeConfig.(descriptionGet, primaryColorGet);
-        open Article_Queries;
+  ->Belt.Array.map(community => {
+      let (description, primaryColor) =
+        ThemeConfig.getCommunityConfig(themeConfig, community)
+        ->ThemeConfig.(descriptionGet, primaryColorGet);
+      open Article_Queries;
 
-        let articlesCountQuery =
-          CommunityArticlesCount.make(~category=community, ());
+      let articlesCountQuery =
+        CommunityArticlesCount.make(~category=community, ());
 
-        <CommunityArticlesCountQuery
-          key=community variables=articlesCountQuery##variables>
-          ...(
-               ({result}) =>
-                 switch (result) {
-                 | Loading => <Loading />
-                 | Error(error) =>
-                   <div> (ReasonReact.string(error##message)) </div>
-                 | Data(response) =>
-                   let totalArticles =
-                     response
-                     ->Article_Resource.articlesCountGet
-                     ->string_of_int;
-                   <CommunityCard
-                     key=community
-                     communityName=community
-                     communityDescription=description
-                     communityLogo={j|/static/images/$community/avatar.png|j}
-                     communityColor=primaryColor
-                     changeRoute=routeChangeAction
-                     articles=totalArticles
-                     followers="1"
-                     views="1"
-                     linkComponent=(
-                       childrenProps =>
-                         <Link
-                           useAnchorTag=true
-                           linkComponent
-                           toSlug=community
-                           route={j|/community/$community|j}>
-                           ...childrenProps
-                         </Link>
-                     )
-                   />;
-                 }
-             )
-        </CommunityArticlesCountQuery>;
-      },
-    )
+      <CommunityArticlesCountQuery
+        key=community variables=articlesCountQuery##variables>
+        ...{
+             ({result}) =>
+               switch (result) {
+               | Loading => <Loading />
+               | Error(error) =>
+                 <div> {ReasonReact.string(error##message)} </div>
+               | Data(response) =>
+                 let totalArticles =
+                   response->Article_Resource.articlesCountGet->string_of_int;
+                 <CommunityCard
+                   key=community
+                   communityName=community
+                   communityDescription=description
+                   communityLogo={j|/static/images/$community/avatar.png|j}
+                   communityColor=primaryColor
+                   changeRoute=routeChangeAction
+                   articles=totalArticles
+                   followers="1"
+                   views="1"
+                   linkComponent=(
+                     childrenProps =>
+                       <Link
+                         useAnchorTag=true
+                         linkComponent
+                         toSlug={Js.Nullable.return(community)}
+                         route={j|/community/$community|j}>
+                         ...childrenProps
+                       </Link>
+                   )
+                 />;
+               }
+           }
+      </CommunityArticlesCountQuery>;
+    })
   |> ReasonReact.array;
 
 let make = (~routeChangeAction, _children) => {
@@ -84,7 +80,7 @@ let make = (~routeChangeAction, _children) => {
   render: _self =>
     <div className=Styles.container>
       <div className=Styles.communitiesContainer>
-        (renderCommunitiyCards(~communities, ~routeChangeAction))
+        {renderCommunitiyCards(~communities, ~routeChangeAction)}
       </div>
     </div>,
 };

@@ -61,14 +61,18 @@ let renderArticleCards = (~response) =>
              articleVersion
              linkComponent=(
                (childrenProps, route) =>
-                 <Link toSlug=title useAnchorTag=true linkComponent route>
+                 <Link
+                   toSlug={Js.Nullable.return(title)}
+                   useAnchorTag=true
+                   linkComponent
+                   route>
                    ...childrenProps
                  </Link>
              )
              title
              content
              date
-             username=(Some(username))
+             username={Some(username)}
              userId
            />;
          })
@@ -96,8 +100,8 @@ let make = (~category, _children) => {
       </CommunityHeader>
       BasicTabs.(
         <Tabs
-          defaultTabName=(tabNames[0])
-          tabs=(
+          defaultTabName={tabNames[0]}
+          tabs={
             (setCurrentTabName, currentTabName) => {
               let articlesCountQuery =
                 switch (currentTabName) {
@@ -106,26 +110,26 @@ let make = (~category, _children) => {
                 };
 
               <TabList>
-                <Tab setCurrentTabName currentTabName name=(tabNames[0])>
+                <Tab setCurrentTabName currentTabName name={tabNames[0]}>
                   "All"->String.uppercase->ReasonReact.string
                 </Tab>
-                <Tab setCurrentTabName currentTabName name=(tabNames[1])>
+                <Tab setCurrentTabName currentTabName name={tabNames[1]}>
                   "General Articles"->String.uppercase->ReasonReact.string
                 </Tab>
-                <Tab setCurrentTabName currentTabName name=(tabNames[2])>
+                <Tab setCurrentTabName currentTabName name={tabNames[2]}>
                   "Tutorials"->String.uppercase->ReasonReact.string
                 </Tab>
                 <PullRight>
                   <Badge>
                     <CommunityArticlesCountQuery
                       variables=articlesCountQuery##variables>
-                      ...(
+                      ...{
                            ({result}) =>
                              switch (result) {
                              | Loading => <Loading />
                              | Error(error) =>
                                <div>
-                                 (ReasonReact.string(error##message))
+                                 {ReasonReact.string(error##message)}
                                </div>
                              | Data(response) =>
                                let totalArticles =
@@ -136,14 +140,14 @@ let make = (~category, _children) => {
                                ->String.uppercase
                                ->ReasonReact.string;
                              }
-                         )
+                         }
                     </CommunityArticlesCountQuery>
                   </Badge>
                 </PullRight>
               </TabList>;
             }
-          )
-          content=(
+          }
+          content={
             currentTabName => {
               let articlesQuery =
                 switch (currentTabName) {
@@ -157,36 +161,34 @@ let make = (~category, _children) => {
                 };
 
               <PanelList>
-                (
+                {
                   tabNames
-                  ->Belt.Array.map(
-                      name =>
-                        <Panel key=name name currentTabName>
-                          <SearchCommunityArticlesQuery
-                            variables=articlesQuery##variables>
-                            ...(
-                                 ({result}) =>
-                                   switch (result) {
-                                   | Loading => <Loading />
-                                   | Error(error) =>
-                                     <div>
-                                       (ReasonReact.string(error##message))
-                                     </div>
-                                   | Data(response) =>
-                                     <section
-                                       className=Styles.articlesContainer>
-                                       (renderArticleCards(~response))
-                                     </section>
-                                   }
-                               )
-                          </SearchCommunityArticlesQuery>
-                        </Panel>,
+                  ->Belt.Array.map(name =>
+                      <Panel key=name name currentTabName>
+                        <SearchCommunityArticlesQuery
+                          variables=articlesQuery##variables>
+                          ...{
+                               ({result}) =>
+                                 switch (result) {
+                                 | Loading => <Loading />
+                                 | Error(error) =>
+                                   <div>
+                                     {ReasonReact.string(error##message)}
+                                   </div>
+                                 | Data(response) =>
+                                   <section className=Styles.articlesContainer>
+                                     {renderArticleCards(~response)}
+                                   </section>
+                                 }
+                             }
+                        </SearchCommunityArticlesQuery>
+                      </Panel>
                     )
                   |> ReasonReact.array
-                )
+                }
               </PanelList>;
             }
-          )
+          }
         />
       )
     </div>;

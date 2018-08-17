@@ -63,11 +63,18 @@ let renderArticleCards = (~response) =>
              title
              content
              date
-             username=(Some(username))
+             username={Some(username)}
              userId
              linkComponent=(
                (childrenProps, route) =>
-                 <Link useAnchorTag=true linkComponent toSlug=title route>
+                 <Link
+                   useAnchorTag=true
+                   linkComponent
+                   toSlug={
+                     route->Js.String.includes("article") ?
+                       Js.Nullable.return(title) : Js.Nullable.null
+                   }
+                   route>
                    ...childrenProps
                  </Link>
              )
@@ -84,12 +91,12 @@ let make = (~userId, _children) => {
     open Article_Queries;
     let articlesQuery = SearchPersonalArticles.make(~userId, ());
     <SearchPersonalArticlesQuery variables=articlesQuery##variables>
-      ...(
+      ...{
            ({result}) =>
              switch (result) {
              | Loading => <Loading />
              | Error(error) =>
-               <div> (ReasonReact.string(error##message)) </div>
+               <div> {ReasonReact.string(error##message)} </div>
              | Data(response) =>
                <div className=Styles.container>
                  <ScrollToTopOnMount />
@@ -105,11 +112,11 @@ let make = (~userId, _children) => {
                    />
                  </section>
                  <section className=Styles.articlesContainer>
-                   (renderArticleCards(~response))
+                   {renderArticleCards(~response)}
                  </section>
                </div>
              }
-         )
+         }
     </SearchPersonalArticlesQuery>;
   },
 };

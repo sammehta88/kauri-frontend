@@ -150,13 +150,17 @@ let make =
         <Separator marginX=14 marginY=0 direction="horizontal" />
         <div className=Styles.footer>
           {
-            switch (linkComponent) {
-            | Some(linkComponent) =>
+            switch (linkComponent, pageType) {
+            | (Some(linkComponent), None) =>
               linkComponent(
                 publicProfile(~pageType, ~username, ~userId, ~profileImage),
                 {j|/public-profile/$userId|j},
               )
-            | None =>
+            | (Some(_), Some(_pageType)) =>
+              publicProfile(~pageType, ~username, ~userId, ~profileImage)
+            | (None, None) =>
+              publicProfile(~pageType, ~username, ~userId, ~profileImage)
+            | (None, Some(_)) =>
               publicProfile(~pageType, ~username, ~userId, ~profileImage)
             }
           }

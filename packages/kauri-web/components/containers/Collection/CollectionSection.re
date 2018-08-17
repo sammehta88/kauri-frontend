@@ -53,7 +53,7 @@ let make = (~name, ~description="", ~articles, _children) => {
         <Paragraph text=name size=22 />
         <Paragraph text=description />
         <div className=Styles.section>
-          (
+          {
             Js.Array.map(
               article => {
                 let (articleId, articleVersion) =
@@ -62,16 +62,16 @@ let make = (~name, ~description="", ~articles, _children) => {
                   key=article->article_idGet
                   articleId
                   articleVersion
-                  linkComponent=(
+                  linkComponent={
                     (childrenProps, route) =>
                       <Link
                         useAnchorTag=true
                         linkComponent
-                        toSlug=article->subjectGet
+                        toSlug={Js.Nullable.return(article->subjectGet)}
                         route>
                         ...childrenProps
                       </Link>
-                  )
+                  }
                   title=article->subjectGet
                   content=article->textGet
                   cardHeight=400
@@ -88,7 +88,7 @@ let make = (~name, ~description="", ~articles, _children) => {
               articles,
             )
             |> ReasonReact.array
-          )
+          }
         </div>
       </div>
     },

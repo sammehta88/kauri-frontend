@@ -62,7 +62,7 @@ module Styles = {
 let cardContent = (~title, ~content) =>
   <>
     <Heading text=title />
-    (
+    {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
           {|
@@ -75,7 +75,7 @@ let cardContent = (~title, ~content) =>
                 |}
         ] :
         <Paragraph text=content />
-    )
+    }
   </>;
 
 type pageType =
@@ -101,33 +101,33 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=(Styles.container(~heightProp=cardHeight))>
-        (
+      <div className={Styles.container(~heightProp=cardHeight)}>
+        {
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
-        )
+        }
         <div className=Styles.content>
-          <Label text=("Posted " ++ date) />
-          (
+          <Label text={"Posted " ++ date} />
+          {
             switch (linkComponent) {
             | Some(linkComponent) =>
               linkComponent(cardContent(~title, ~content))
             | None => cardContent(~title, ~content)
             }
-          )
-          (
+          }
+          {
             switch (tags) {
             | Some(tags) => <TagList tags />
             | None => ReasonReact.null
             }
-          )
+          }
         </div>
         <Separator marginX=14 marginY=0 direction="horizontal" />
         <div
           className=Styles.footer
-          onClick=(
+          onClick={
             _ =>
               switch (changeRoute, pageType) {
               | (Some(changeRoute), None) =>
@@ -136,18 +136,18 @@ let make =
               | (None, Some(_)) => ()
               | (None, None) => ()
               }
-          )>
+          }>
           <UserWidgetSmall
             pageType
             username=username->Belt.Option.getWithDefault(userId)
             userId
             routeChangeAction=changeRoute->Belt.Option.getWithDefault(_ => ())
-            profileImage=(
+            profileImage={
               switch (profileImage) {
               | Some(image) => image
               | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
               }
-            )
+            }
           />
         </div>
       </div>

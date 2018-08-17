@@ -22,6 +22,7 @@ module Styles = {
           textAlign(center),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
+          selector(" a", [display(`block), height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -32,6 +33,7 @@ module Styles = {
           flex(1),
           textAlign(center),
           minWidth(px(262)),
+          selector(" a", [display(`block), height(`percent(100.0))]),
         ])
       )
     };
@@ -55,6 +57,7 @@ module Styles = {
         display(`flex),
         flex(1),
         color(hex(colorProp)),
+        height(`percent(100.0)),
         backgroundSize(`cover),
         /* unsafe("background", {j|url($imageURL) center center|j}), */
         unsafe(
@@ -153,7 +156,16 @@ let cardContent =
         />
         {
           switch (lastUpdated) {
-          | Some(string) => <Label text=string />
+          | Some(string) =>
+            <Label
+              text=string
+              color={
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              }
+            />
           | None => ReasonReact.null
           }
         }

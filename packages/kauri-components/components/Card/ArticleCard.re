@@ -81,7 +81,13 @@ let cardContent = (~title, ~content) =>
 let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
   <UserWidgetSmall
     pageType
-    username=username->Belt.Option.getWithDefault(userId)
+    username=
+      username
+      ->Belt.Option.getWithDefault(
+          String.sub(userId, 0, 11)
+          ++ "..."
+          ++ String.sub(userId, String.length(userId) - 13, 11),
+        )
     userId
     profileImage={
       switch (profileImage) {

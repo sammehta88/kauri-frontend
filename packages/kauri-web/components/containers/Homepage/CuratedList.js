@@ -106,6 +106,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     communityId={card.id}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     communityLogo={`/static/images/${card.id}/avatar.png`}
+                    linkComponent={childrenProps => (
+                      <Link toSlug={card.name || card.id} useAnchorTag route={`/community/${card.id}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                   />
                 )
               default:

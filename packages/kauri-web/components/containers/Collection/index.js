@@ -4,7 +4,6 @@ import { globalCollectionDetails } from '../../../queries/Collection'
 import { connect } from 'react-redux'
 import { routeChangeAction } from '../../../lib/Module'
 import withLoading from '../../../lib/with-loading'
-import { withRouter } from 'next/router';
 
 const mapStateToProps = (state, ownProps) => {
   return {}
@@ -19,6 +18,5 @@ export default compose(
       },
     }),
   }),
-  withRouter,
   withLoading()
 )(Collection)

@@ -37,7 +37,7 @@ class CollectionPage extends Component<Props> {
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
     const { routeChangeAction } = this.props;
 
-    const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io/' : 'https://dev.kauri.io/';
+    const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
       <div>
         <Helmet>

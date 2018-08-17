@@ -41,42 +41,41 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | Some(content) =>
     (
       content
-      |> Js.Array.map(
-           article => {
-             open Article_Resource;
-             let {
-               articleId,
-               articleVersion,
-               key,
-               title,
-               content,
-               date,
-               username,
-               userId,
-             } =
-               make(article);
-             <ArticleCard
-               key
-               pageType=ArticleCard.RinkebyPublicProfile
-               cardHeight=500
-               changeRoute=routeChangeAction
-               title
-               content
-               date
-               username=(Some(username))
-               userId
-               linkComponent=(
-                 childrenProps =>
-                   <Link
-                     useAnchorTag=true
-                     linkComponent
-                     route={j|/article/$articleId/v$articleVersion|j}>
-                     ...childrenProps
-                   </Link>
-               )
-             />;
-           },
-         )
+      |> Js.Array.map(article => {
+           open Article_Resource;
+           let {
+             articleId,
+             articleVersion,
+             key,
+             title,
+             content,
+             date,
+             username,
+             userId,
+           } =
+             make(article);
+           <ArticleCard
+             key
+             pageType=ArticleCard.RinkebyPublicProfile
+             cardHeight=500
+             changeRoute=routeChangeAction
+             title
+             content
+             date
+             username={Some(username)}
+             userId
+             linkComponent=(
+               childrenProps =>
+                 <Link
+                   useAnchorTag=true
+                   linkComponent
+                   toSlug=title
+                   route={j|/article/$articleId/v$articleVersion|j}>
+                   ...childrenProps
+                 </Link>
+             )
+           />;
+         })
     )
     ->ReasonReact.array
   | None => <p> "No articles found boo"->ReasonReact.string </p>
@@ -88,12 +87,12 @@ let make = (~userId, ~routeChangeAction, _children) => {
     open Article_Queries;
     let articlesQuery = SearchPersonalArticles.make(~userId, ());
     <SearchPersonalArticlesQuery variables=articlesQuery##variables>
-      ...(
+      ...{
            ({result}) =>
              switch (result) {
              | Loading => <Loading />
              | Error(error) =>
-               <div> (ReasonReact.string(error##message)) </div>
+               <div> {ReasonReact.string(error##message)} </div>
              | Data(response) =>
                <div className=Styles.container>
                  <ScrollToTopOnMount />
@@ -103,18 +102,17 @@ let make = (~userId, ~routeChangeAction, _children) => {
                      statistics=[|
                        {
                          "name": "Articles",
-                         "count":
-                           Article_Resource.articlesCountGet(response),
+                         "count": Article_Resource.articlesCountGet(response),
                        },
                      |]
                    />
                  </section>
                  <section className=Styles.articlesContainer>
-                   (renderArticleCards(~response, ~routeChangeAction))
+                   {renderArticleCards(~response, ~routeChangeAction)}
                  </section>
                </div>
              }
-         )
+         }
     </SearchPersonalArticlesQuery>;
   },
 };

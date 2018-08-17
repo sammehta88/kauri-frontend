@@ -2,6 +2,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { EditorState, convertFromRaw } from 'draft-js'
+import slugify from 'slugify';
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
@@ -87,7 +88,7 @@ export default ({
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
-            }/article/${article_id}/v${article_version}`}
+            }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

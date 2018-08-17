@@ -79,7 +79,7 @@ export default ({
       <Details categoryArticle>
         <Header>
           <RestrictToOneLine>
-            <Link route={`/article/${article_id}/v${article_version}`}>
+            <Link toSlug={subject} route={`/article/${article_id}/v${article_version}`}>
               <Subject href={`/article/${article_id}/v${article_version}`} type='topicHomepage'>
                 {subject}
               </Subject>

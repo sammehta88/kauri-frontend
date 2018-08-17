@@ -66,7 +66,7 @@ type slug =
 let createRouteURL = (articleId, articleVersion, confirmationRoute) =>
   "/article/"
   ++ articleId
-  ++ "/article-version/"
+  ++ "/v"
   ++ string_of_int(articleVersion)
   ++ confirmationRoute;
 

@@ -29,7 +29,7 @@ const HeaderContainer = styled(ContentContainer)`
 `
 
 class CollectionPage extends Component<Props> {
-  render () {
+  render() {
     if (!this.props.data || !this.props.data.collection) return null
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
     const { routeChangeAction } = this.props
@@ -56,6 +56,11 @@ class CollectionPage extends Component<Props> {
                 routeChangeAction={this.props.routeChangeAction}
                 description={i.description}
                 articles={i.articles}
+                linkComponent={childrenProps => (
+                  <Link useAnchorTag route={`/article/${card.article_id}/v${card.article_version}`}>
+                    {childrenProps}
+                  </Link>
+                )}
               />
             ))}
         </ContentContainer>

@@ -27,6 +27,7 @@ module Styles = {
           textAlign(center),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
+          selector(" a", [display(`block), height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -63,9 +64,35 @@ module Styles = {
         flexDirection(column),
         unsafe("padding", "11px 14px 11px 14px"),
         flex(1),
+        height(`percent(100.0)),
       ])
     );
 };
+
+let cardContent =
+    (
+      ~heading,
+      ~communityDescription,
+      ~communityName,
+      ~communityColor,
+      ~communityLogo,
+    ) =>
+  <>
+    <div className=Styles.content>
+      <Label text=heading />
+      {
+        switch (communityLogo) {
+        | Some(string) =>
+          <div className={Styles.imageContainer(~communityColor)}>
+            <img className=Styles.image src=string />
+          </div>
+        | None => ReasonReact.null
+        }
+      }
+      <Heading text=communityName />
+      <Paragraph text=communityDescription />
+    </div>
+  </>;
 
 let make =
     (
@@ -79,6 +106,7 @@ let make =
       ~communityColor=?,
       ~changeRoute=?,
       ~cardHeight=?,
+      ~linkComponent=?,
       _children,
     ) => {
   ...component,
@@ -94,20 +122,28 @@ let make =
             | None => ()
             }
         }>
-        <div className=Styles.content>
-          <Label text=heading />
-          {
-            switch (communityLogo) {
-            | Some(string) =>
-              <div className={Styles.imageContainer(~communityColor)}>
-                <img className=Styles.image src=string />
-              </div>
-            | None => ReasonReact.null
-            }
+        {
+          switch (linkComponent) {
+          | Some(linkComponent) =>
+            linkComponent(
+              cardContent(
+                ~heading,
+                ~communityDescription,
+                ~communityName,
+                ~communityColor,
+                ~communityLogo,
+              ),
+            )
+          | None =>
+            cardContent(
+              ~heading,
+              ~communityDescription,
+              ~communityName,
+              ~communityColor,
+              ~communityLogo,
+            )
           }
-          <Heading text=communityName />
-          <Paragraph text=communityDescription />
-        </div>
+        }
         <Separator marginX=14 marginY=0 direction="horizontal" />
         <div className=Styles.footer>
           <CardCounter value=articles label="Articles" />
@@ -126,6 +162,7 @@ type jsProps = {
   views: string,
   communityLogo: string,
   changeRoute: string => unit,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   cardHeight: int,
 };
 
@@ -141,6 +178,7 @@ let default =
       ~views=jsProps->viewsGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~communityLogo=jsProps->communityLogoGet,
+      ~linkComponent=jsProps->linkComponentGet,
       [||],
     )
   );

@@ -20,10 +20,10 @@ import type { ToggleModalPayload } from '../../../lib/Module'
 import type { SubmitArticlePayload } from '../SubmitArticleForm/Module'
 import type {
   FlagRequestPayload,
-  AddRequestCommentPayload,
-  AddToBountyPayload,
-  RequestRefundPayload,
-  ResubmitRequestPayload,
+    AddRequestCommentPayload,
+    AddToBountyPayload,
+    RequestRefundPayload,
+    ResubmitRequestPayload,
 } from '../Requests/Module'
 
 const web3 = new Web3()
@@ -299,7 +299,7 @@ class Request extends Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render () {
+  render() {
     const {
       ethUsdPrice,
       routeChangeAction,
@@ -387,19 +387,19 @@ class Request extends Component<Props, State> {
                     cancelAskingQuestion={() => this.setState({ askingQuestion: false })}
                   />
                 ) : (
-                  <AskAQuestion
-                    onClick={() =>
-                      this.setState({ askingQuestion: true }, () => {
-                        const editorDOMNode = document.getElementById('editor')
-                        if (editorDOMNode) {
-                          editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
-                        }
-                      })
-                    }
-                  >
-                    Leave a comment
+                    <AskAQuestion
+                      onClick={() =>
+                        this.setState({ askingQuestion: true }, () => {
+                          const editorDOMNode = document.getElementById('editor')
+                          if (editorDOMNode) {
+                            editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+                          }
+                        })
+                      }
+                    >
+                      Leave a comment
                   </AskAQuestion>
-                ))}
+                  ))}
             </Col>
             <Col md={4}>
               <GeneralActions>
@@ -456,17 +456,17 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
-                  personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
+                    personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
                       <PositiveRequestActionBadge
-                      type='secondary'
-                      action={() =>
+                        type='secondary'
+                        action={() =>
                           routeChangeAction(
-                            `/article/${personalSubmittedArticle.article_id}/article-version/${
-                              personalSubmittedArticle.article_version
+                            `/article/${personalSubmittedArticle.article_id}/v${
+                            personalSubmittedArticle.article_version
                             }`
                           )
                         }
-                      label='View Article'
+                        label='View Article'
                       />
                     ) : (
                       <PositiveRequestActionBadge
@@ -475,7 +475,7 @@ class Request extends Component<Props, State> {
                         width='auto'
                         action={() =>
                           typeof personalSubmittedArticle === 'object' &&
-                        personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
+                            personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
                             ? submitArticleAction({
                               article_id: personalSubmittedArticle.article_id,
                               request_id: personalSubmittedArticle.request_id,
@@ -499,7 +499,7 @@ class Request extends Component<Props, State> {
                         searchArticles.content.length > 0 &&
                         searchArticles.content.find(article => article.status === 'PUBLISHED')
                       routeChangeAction(
-                        `/article/${satisfyingArticle.article_id}/article-version/${satisfyingArticle.article_version}`
+                        `/article/${satisfyingArticle.article_id}/v${satisfyingArticle.article_version}`
                       )
                     }}
                     label='View Article'

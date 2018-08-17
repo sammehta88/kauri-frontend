@@ -26,8 +26,8 @@ export default compose(
       addToBountyAction,
       tipArticleAction,
       addCommentAction,
-      rejectArticleAction: (article_id, article_version) =>
-        routeChangeAction(`/article/${article_id}/article-version/${article_version}/reject-article`),
+      rejectArticleAction: (article_id, article_version, slug) =>
+        routeChangeAction(`/article/${article_id}/v${article_version}/reject-article`),
       deleteArticleCommentAction,
       publishArticleAction,
     }

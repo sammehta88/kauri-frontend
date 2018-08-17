@@ -56,11 +56,6 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <ArticleCard
                     changeRoute={routeChangeAction}
                     key={card.article_id}
-                    linkComponent={childrenProps => (
-                      <Link useAnchorTag route={`/article/${card.article_id}/article-version/${card.article_version}`}>
-                        {childrenProps}
-                      </Link>
-                    )}
                     date={moment(card.date_created).fromNow()}
                     title={card.subject}
                     content={card.text}
@@ -69,6 +64,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     articleId={card.article_id}
                     articleVersion={card.article_version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
+                    linkComponent={childrenProps => (
+                      <Link toSlug={card.subject} useAnchorTag route={`/article/${card.id}/v${card.article_version}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                   />
                 )
               case 'COLLECTION':
@@ -87,6 +87,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     imageURL={card.background}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
+                    linkComponent={childrenProps => (
+                      <Link toSlug={card.name} useAnchorTag route={`/collection/${card.id}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                   />
                 )
               case 'TOPIC' || 'COMMUNITY':
@@ -101,6 +106,11 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     communityId={card.id}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     communityLogo={`/static/images/${card.id}/avatar.png`}
+                    linkComponent={childrenProps => (
+                      <Link toSlug={card.name || card.id} useAnchorTag route={`/community/${card.id}`}>
+                        {childrenProps}
+                      </Link>
+                    )}
                   />
                 )
               default:

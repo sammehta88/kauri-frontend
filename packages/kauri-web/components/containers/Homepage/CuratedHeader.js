@@ -74,7 +74,7 @@ const CuratedHeader = ({ header, name } = props) => {
             <CommunityName>{header.id}</CommunityName>
           </CommunityHeading>
           <div>{topic.description}</div>
-          <Link route={`/community/${header.id}`}>
+          <Link useAnchorTag route={`/community/${header.id}`}>
             <Button>View Community</Button>
           </Link>
         </Header>
@@ -87,7 +87,7 @@ const CuratedHeader = ({ header, name } = props) => {
             <CommunityName>{header.name}</CommunityName>
           </CommunityHeading>
           <div>{header.description}</div>
-          <Link route={`/collection/${header.id}`}>
+          <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
             <Button>View Collection</Button>
           </Link>
         </Header>

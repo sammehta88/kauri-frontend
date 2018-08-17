@@ -22,6 +22,7 @@ module Styles = {
           textAlign(center),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
+          selector(" a", [display(`block), height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -32,6 +33,7 @@ module Styles = {
           flex(1),
           textAlign(center),
           minWidth(px(262)),
+          selector(" a", [display(`block), height(`percent(100.0))]),
         ])
       )
     };
@@ -55,6 +57,7 @@ module Styles = {
         display(`flex),
         flex(1),
         color(hex(colorProp)),
+        height(`percent(100.0)),
         backgroundSize(`cover),
         /* unsafe("background", {j|url($imageURL) center center|j}), */
         unsafe(
@@ -93,6 +96,83 @@ module Styles = {
     );
 };
 
+let cardContent =
+    (
+      ~imageURL,
+      ~heading,
+      ~collectionName,
+      ~collectionDescription,
+      ~curatorImage,
+      ~lastUpdated,
+    ) =>
+  <>
+    <div
+      className={
+        Styles.collectionCardContent(
+          ~imageURL,
+          ~colorProp=
+            switch (imageURL) {
+            | Some(_) => "FFFFFF"
+            | _ => "1E2428"
+            },
+        )
+      }>
+      <div className={Styles.darkLayer(~image=imageURL)}>
+        <Label
+          color={
+            switch (imageURL) {
+            | Some(_) => "FFFFFF"
+            | None => "1E2428"
+            }
+          }
+          text=heading
+        />
+        <Heading
+          text=collectionName
+          color={
+            switch (imageURL) {
+            | Some(_) => "FFFFFF"
+            | None => "1E2428"
+            }
+          }
+        />
+        <Paragraph
+          color={
+            switch (imageURL) {
+            | Some(_) => "FFFFFF"
+            | None => "1E2428"
+            }
+          }
+          text=collectionDescription
+        />
+        <img
+          className=Styles.image
+          src={
+            switch (curatorImage) {
+            | Some(image) => image
+            | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+            }
+          }
+        />
+        {
+          switch (lastUpdated) {
+          | Some(string) =>
+            <Label
+              text=string
+              color={
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | None => "1E2428"
+                }
+              }
+            />
+          | None => ReasonReact.null
+          }
+        }
+      </div>
+    </div>
+  </>;
+
 let make =
     (
       ~heading="collection",
@@ -105,83 +185,52 @@ let make =
       ~collectionId: string,
       ~imageURL,
       ~cardHeight=?,
+      ~linkComponent=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
       <div
-        onClick=(
+        onClick={
           _ =>
             switch (changeRoute) {
             | Some(changeRoute) =>
               changeRoute({j|/collection/$collectionId|j})
             | None => ()
             }
-        )
-        className=(Styles.collectionCardContainer(~heightProp=cardHeight))>
-        <div
-          className=(
-            Styles.collectionCardContent(
+        }
+        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+        {
+          switch (linkComponent) {
+          | Some(linkComponent) =>
+            linkComponent(
+              cardContent(
+                ~imageURL,
+                ~heading,
+                ~collectionName,
+                ~collectionDescription,
+                ~curatorImage,
+                ~lastUpdated,
+              ),
+            )
+          | None =>
+            cardContent(
               ~imageURL,
-              ~colorProp=
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | _ => "1E2428"
-                },
+              ~heading,
+              ~collectionName,
+              ~collectionDescription,
+              ~curatorImage,
+              ~lastUpdated,
             )
-          )>
-          <div className=(Styles.darkLayer(~image=imageURL))>
-            <Label
-              color=(
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              )
-              text=heading
-            />
-            <Heading
-              text=collectionName
-              color=(
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              )
-            />
-            <Paragraph
-              color=(
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              )
-              text=collectionDescription
-            />
-            <img
-              className=Styles.image
-              src=(
-                switch (curatorImage) {
-                | Some(image) => image
-                | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-                }
-              )
-            />
-            (
-              switch (lastUpdated) {
-              | Some(string) => <Label text=string />
-              | None => ReasonReact.null
-              }
-            )
-          </div>
-        </div>
-        (
+          }
+        }
+        {
           switch (imageURL) {
           | Some(_) => ReasonReact.null
           | None => <Separator marginX=14 marginY=0 direction="horizontal" />
           }
-        )
+        }
         <div className=Styles.collectionCardFooter>
           <CardCounter value=articles label="Articles" />
         </div>
@@ -199,6 +248,7 @@ type jsProps = {
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   cardHeight: int,
 };
 
@@ -214,6 +264,7 @@ let default =
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,
+      ~linkComponent=jsProps->linkComponentGet,
       [||],
     )
   );

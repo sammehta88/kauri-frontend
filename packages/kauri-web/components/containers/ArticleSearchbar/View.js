@@ -65,7 +65,7 @@ export default class Complete extends React.Component<any, any> {
     dataSource: [],
   }
 
-  componentDidMount () {
+  componentDidMount() {
     const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>
@@ -90,7 +90,7 @@ export default class Complete extends React.Component<any, any> {
     this.setState({ sub })
   }
 
-  componentWillUnmount () {
+  componentWillUnmount() {
     this.state.sub.unsubscribe()
   }
 
@@ -105,18 +105,18 @@ export default class Complete extends React.Component<any, any> {
   renderOption = (article: ArticleDTO) =>
     article.subject !== 'No articles found' ? (
       <Option
-        key={`/article/${article.article_id}/article-version/${article.article_version}`}
-        value={`/article/${article.article_id}/article-version/${article.article_version}`}
+        key={`/article/${article.article_id}/v${article.article_version}`}
+        value={`/article/${article.article_id}/v${article.article_version}`}
       >
         {typeof article.subject === 'string' && article.subject.length && article.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-      <Option disabled key={'No articles found'} value={'No articles found'}>
-        No articles found
+        <Option disabled key={'No articles found'} value={'No articles found'}>
+          No articles found
       </Option>
-    )
+      )
 
-  render () {
+  render() {
     const { dataSource } = this.state
 
     return (

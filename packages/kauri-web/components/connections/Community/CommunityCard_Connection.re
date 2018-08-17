@@ -12,6 +12,7 @@ let make =
       ~communityLogo,
       ~changeRoute,
       ~cardHeight,
+      ~linkComponent=?,
       _children,
     ) => {
   ...component,
@@ -20,31 +21,47 @@ let make =
     let articlesCountQuery =
       CommunityArticlesCount.make(~category=communityName, ());
     <CommunityArticlesCountQuery variables=articlesCountQuery##variables>
-      ...(
+      ...{
            ({result}) =>
              switch (result) {
              | Loading => <Loading />
              | Error(error) =>
-               <div> (ReasonReact.string(error##message)) </div>
+               <div> {ReasonReact.string(error##message)} </div>
              | Data(response) =>
                let articles =
                  response->Article_Resource.articlesCountGet |> string_of_int;
                let (description, primaryColor) =
                  ThemeConfig.getCommunityConfig(themeConfig, communityName)
                  ->ThemeConfig.(descriptionGet, primaryColorGet);
-               <CommunityCard
-                 communityName
-                 communityDescription=description
-                 followers
-                 articles
-                 views
-                 communityLogo
-                 changeRoute
-                 cardHeight
-                 communityColor=primaryColor
-               />;
+               switch (linkComponent) {
+               | Some(link) =>
+                 <CommunityCard
+                   communityName
+                   communityDescription=description
+                   followers
+                   articles
+                   views
+                   communityLogo
+                   changeRoute
+                   cardHeight
+                   linkComponent=link
+                   communityColor=primaryColor
+                 />
+               | None =>
+                 <CommunityCard
+                   communityName
+                   communityDescription=description
+                   followers
+                   articles
+                   views
+                   communityLogo
+                   changeRoute
+                   cardHeight
+                   communityColor=primaryColor
+                 />
+               };
              }
-         )
+         }
     </CommunityArticlesCountQuery>;
   },
 };
@@ -58,6 +75,7 @@ type jsProps = {
   views: string,
   communityLogo: string,
   changeRoute: string => unit,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   cardHeight: int,
 };
 
@@ -70,6 +88,7 @@ let default =
       ~communityLogo=jsProps->communityLogoGet,
       ~changeRoute=jsProps->changeRouteGet,
       ~cardHeight=jsProps->cardHeightGet,
+      ~linkComponent=jsProps->linkComponentGet,
       [||],
     )
   );

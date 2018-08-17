@@ -42,38 +42,41 @@ let renderArticleCards = (~response, ~routeChangeAction) =>
   | Some(content) =>
     (
       content
-      |> Js.Array.map(article => {
-           open Article_Resource;
-           let {
-             articleId,
-             articleVersion,
-             key,
-             title,
-             content,
-             date,
-             username,
-             userId,
-           } =
-             make(article);
-           <ArticleCard
-             key
-             linkComponent=(
-               childrenProps =>
-                 <Link
-                   useAnchorTag=true
-                   linkComponent
-                   route={j|/article/$articleId/article-version/$articleVersion|j}>
-                   ...childrenProps
-                 </Link>
-             )
-             changeRoute=routeChangeAction
-             title
-             content
-             date
-             username=(Some(username))
-             userId
-           />;
-         })
+      |> Js.Array.map(
+           article => {
+             open Article_Resource;
+             let {
+               articleId,
+               articleVersion,
+               key,
+               title,
+               content,
+               date,
+               username,
+               userId,
+             } =
+               make(article);
+             <ArticleCard
+               key
+               linkComponent=(
+                 childrenProps =>
+                   <Link
+                     toSlug=title
+                     useAnchorTag=true
+                     linkComponent
+                     route={j|/article/$articleId/v$articleVersion|j}>
+                     ...childrenProps
+                   </Link>
+               )
+               changeRoute=routeChangeAction
+               title
+               content
+               date
+               username=(Some(username))
+               userId
+             />;
+           },
+         )
     )
     ->ReasonReact.array
   | None => <p> "No articles found boo"->ReasonReact.string </p>

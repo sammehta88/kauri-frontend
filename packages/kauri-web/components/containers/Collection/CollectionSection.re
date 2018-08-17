@@ -43,7 +43,7 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("CollectionSection");
 
-let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) => {
+let make = (~name, ~description="", ~articles, _children) => {
   ...component,
   render: _self =>
     switch (articles) {
@@ -60,14 +60,15 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
                   article->(article_idGet, article_versionGet);
                 <ArticleCard
                   key=article->article_idGet
-                  changeRoute=routeChangeAction
+                  articleId
+                  articleVersion
                   linkComponent={
-                    childrenProps =>
+                    (childrenProps, route) =>
                       <Link
                         useAnchorTag=true
                         linkComponent
-                        toSlug=article->subjectGet
-                        route={j|/article/$articleId/v$articleVersion|j}>
+                        toSlug={Js.Nullable.return(article->subjectGet)}
+                        route>
                         ...childrenProps
                       </Link>
                   }
@@ -98,13 +99,11 @@ type jsProps = {
   name: string,
   description: string,
   articles: Js.Nullable.t(array(article)),
-  routeChangeAction: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~routeChangeAction=jsProps->routeChangeActionGet,
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,

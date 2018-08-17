@@ -3,6 +3,7 @@ import { Observable } from 'rxjs'
 import { getRequestForAnalytics } from '../../../queries/Request'
 import { getArticleForAnalytics } from '../../../queries/Article'
 import { getCollectionForAnalytics } from '../../../queries/Collection'
+import { getUserForAnalytics } from '../../../queries/User'
 import mixpanelBrowser from 'mixpanel-browser'
 
 import type { Dependencies } from '../../../lib/Module'
@@ -24,18 +25,18 @@ export type TrackAnalyticsPayload = {
 
 type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
-type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection'
+type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection' | 'public-profile'
 
 type Classification =
   | {
-    page: string,
-  }
+      page: string,
+    }
   | {
-    resource: Resource | string,
-    resourceID: string,
-    resourceVersion: string,
-    resourceAction: ?string,
-  }
+      resource: Resource | string,
+      resourceID: string,
+      resourceVersion: string,
+      resourceAction: ?string,
+    }
 
 export type TrackMixpanelPayload = {
   event: TrackingEvent,
@@ -77,16 +78,18 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
     const resource = urlSplit[0]
     const resourceID = urlSplit[1]
     const resourceVersion = urlSplit[3]
-    const resourceAction = urlSplit[4] === (
-      'update-article' ||
-      'article-drafted' ||
-      'article-submitted' ||
-      'article-updated' ||
-      'article-approved' ||
-      'article-rejected' ||
-      'article-published' ||
-      'reject-article'
-    ) ? urlSplit[4] : urlSplit[5];
+    const resourceAction =
+      urlSplit[4] ===
+      ('update-article' ||
+        'article-drafted' ||
+        'article-submitted' ||
+        'article-updated' ||
+        'article-approved' ||
+        'article-rejected' ||
+        'article-published' ||
+        'reject-article')
+        ? urlSplit[4]
+        : urlSplit[5]
     // console.log(urlSplit)
     // console.log('classifyURL', {
     //   resource,
@@ -121,6 +124,13 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
         id: classification.resourceID,
       },
     })
+  } else if (resource === 'public-profile') {
+    return apolloClient.query({
+      query: getUserForAnalytics,
+      variables: {
+        userId: classification.resourceID,
+      },
+    })
   } else {
     throw new Error('Unknown resource tracking attempt')
   }
@@ -132,7 +142,8 @@ const handleFetchedResource = (
     getArticle,
     getRequest,
     collection,
-  }: { getArticle?: ArticleDTO, getRequest?: RequestDTO, collection?: CollectionDTO },
+    getUser,
+  }: { getArticle?: ArticleDTO, getRequest?: RequestDTO, collection?: CollectionDTO, getUser?: UserDTO },
   event?: TrackingEvent
 ): TrackMixpanelAction | TrackMixpanelPayload =>
   typeof classification.resourceAction === 'string'
@@ -143,6 +154,7 @@ const handleFetchedResource = (
         ...getArticle,
         ...getRequest,
         ...collection,
+        ...getUser,
         resource: classification.resource,
         resourceID: classification.resourceID,
         resourceVersion: classification.resourceVersion,
@@ -156,6 +168,7 @@ const handleFetchedResource = (
         ...getArticle,
         ...getRequest,
         ...collection,
+        ...getUser,
         resource: classification.resource,
         resourceID: classification.resourceID,
         resourceVersion: classification.resourceVersion,

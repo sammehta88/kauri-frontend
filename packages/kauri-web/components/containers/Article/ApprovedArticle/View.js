@@ -1,5 +1,7 @@
 // @flow
 import React from 'react'
+import { Helmet } from "react-helmet";
+import slugify from 'slugify';
 import Actions from './ApprovedArticleActions'
 import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
@@ -11,11 +13,11 @@ import type { TipArticlePayload } from '../Module'
 
 type Props =
   | {
-      routeChangeAction: string => void,
-      tipArticleAction: TipArticlePayload => void,
-      ethUsdPrice: number,
-      data: { getArticle?: ArticleDTO },
-    }
+    routeChangeAction: string => void,
+    tipArticleAction: TipArticlePayload => void,
+    ethUsdPrice: number,
+    data: { getArticle?: ArticleDTO },
+  }
   | any
 
 type State = {
@@ -38,10 +40,16 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render () {
+  render() {
     const props = this.props
+    const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io/' : 'https://dev.kauri.io/';
     return (
       <section>
+
+        <Helmet>
+          <title>{props.data.getArticle.subject} - Kauri</title>
+          <link rel="canonical" href={`${hostname}/collection/${props.data.getArticle.article_id}/${slugify(props.data.getArticle.subject, { lower: true })}`} />
+        </Helmet>
         <ScrollToTopOnMount />
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}

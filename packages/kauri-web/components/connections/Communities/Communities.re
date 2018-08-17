@@ -63,7 +63,6 @@ let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
                        <Link
                          useAnchorTag=true
                          linkComponent
-                         toSlug={Js.Nullable.return(community)}
                          route={j|/community/$community|j}>
                          ...childrenProps
                        </Link>

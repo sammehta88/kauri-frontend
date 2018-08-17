@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import CollectionHeader from '../../../../kauri-components/components/Headers/CollectionHeader.bs'
 import CollectionSection from './CollectionSection.bs'
 import ScrollToTopOnMount from '../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
+import { Helmet } from "react-helmet";
+import slugify from 'slugify';
+import rake from 'rake-js'
+
 
 type Props = {
   data: {
@@ -32,9 +36,18 @@ class CollectionPage extends Component<Props> {
   render() {
     if (!this.props.data || !this.props.data.collection) return null
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
-    const { routeChangeAction } = this.props
+    const { routeChangeAction } = this.props;
+    const myKeywords = rake(description, { language: 'english' });
+
+    const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
       <div>
+        <Helmet>
+          <title>{name} - Kauri</title>
+          <meta name="description" content={`${description.slice(0, 151)}...`} />
+          <meta name="keywords" content={myKeywords.map(i => i)} />
+          <link rel="canonical" href={`${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`} />
+        </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={background}>
           <CollectionHeader

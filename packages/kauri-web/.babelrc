@@ -1,7 +1,10 @@
 {
   presets: [
     '@babel/preset-stage-0',
-    ['@babel/preset-env', { modules: 'commonjs' }],
+    ['@babel/preset-env',
+      { modules: 'commonjs'
+      }
+    ],
     '@babel/preset-flow',
     'next/babel',
   ],
@@ -12,6 +15,9 @@
         libraryName: 'antd',
       },
     ],
-    ['styled-components', { ssr: true, displayName: true, preprocess: false }],
+    ['styled-components',
+      { ssr: true, displayName: true, preprocess: false
+      }
+    ],
   ],
 }

@@ -1,5 +1,8 @@
 // @flow
 import React from 'react'
+import { Helmet } from "react-helmet";
+import slugify from 'slugify';
+import rake from 'rake-js'
 import Actions from './ApprovedArticleActions'
 import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
@@ -11,11 +14,11 @@ import type { TipArticlePayload } from '../Module'
 
 type Props =
   | {
-      routeChangeAction: string => void,
-      tipArticleAction: TipArticlePayload => void,
-      ethUsdPrice: number,
-      data: { getArticle?: ArticleDTO },
-    }
+    routeChangeAction: string => void,
+    tipArticleAction: TipArticlePayload => void,
+    ethUsdPrice: number,
+    data: { getArticle?: ArticleDTO },
+  }
   | any
 
 type State = {
@@ -38,10 +41,19 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render () {
+  render() {
     const props = this.props
+    const { name, subject, article_id, text } = props.data.getArticle;
+    const myKeywords = rake(JSON.parse(text).markdown, { language: 'english', delimiters: ['##'] });
+    const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
       <section>
+        <Helmet>
+          <title>{subject} - Kauri</title>
+          <meta name="description" content={`${JSON.parse(text).markdown.slice(0, 151)}...`} />
+          <meta name="keywords" content={myKeywords.map(i => i)} />
+          <link rel="canonical" href={`${hostname}/article/${article_id}/${slugify(subject, { lower: true })}`} />
+        </Helmet>
         <ScrollToTopOnMount />
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}

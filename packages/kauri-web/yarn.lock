@@ -3255,7 +3255,7 @@ coinstring@^2.0.0:
     bs58 "^2.0.1"
     create-hash "^1.1.1"
 
-collapse-white-space@^1.0.2:
+collapse-white-space@^1.0.2, collapse-white-space@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/collapse-white-space/-/collapse-white-space-1.0.4.tgz#ce05cf49e54c3277ae573036a26851ba430a0091"
 
@@ -3439,6 +3439,10 @@ concurrently@^3.6.0:
     spawn-command "^0.0.2-1"
     supports-color "^3.2.3"
     tree-kill "^1.1.0"
+
+condense-whitespace@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/condense-whitespace/-/condense-whitespace-1.0.0.tgz#8376d98ef028e6cb2cd2468e28ce42c5c65ab1a9"
 
 config-chain@~1.1.11:
   version "1.1.11"
@@ -5656,6 +5660,12 @@ fragment-cache@^0.2.1:
 frameguard@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/frameguard/-/frameguard-3.0.0.tgz#7bcad469ee7b96e91d12ceb3959c78235a9272e9"
+
+franc@^3.1.0:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/franc/-/franc-3.1.1.tgz#3585fcc3e00960ee93c51b4957163991ec152bf0"
+  dependencies:
+    trigram-utils "^1.0.0"
 
 fresh@0.5.2:
   version "0.5.2"
@@ -8861,6 +8871,10 @@ mute-stream@0.0.7, mute-stream@~0.0.4:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
 
+n-gram@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/n-gram/-/n-gram-1.0.1.tgz#d29a465e4debcff7f9eed9fb57d9da6c806f4112"
+
 namespace-emitter@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/namespace-emitter/-/namespace-emitter-2.0.1.tgz#978d51361c61313b4e6b8cf6f3853d08dfa2b17c"
@@ -10467,6 +10481,15 @@ railroad-diagrams@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/railroad-diagrams/-/railroad-diagrams-1.0.0.tgz#eb7e6267548ddedfb899c1b90e57374559cddb7e"
 
+rake-js@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/rake-js/-/rake-js-0.1.1.tgz#5da9bf18502e173948643c8eee6dcbb86bf04dae"
+  dependencies:
+    condense-whitespace "^1.0.0"
+    franc "^3.1.0"
+    lodash "^4.17.4"
+    snowball "^0.3.1"
+
 randexp@0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/randexp/-/randexp-0.4.6.tgz#e986ad5e5e31dae13ddd6f7b3019aa7c87f60ca3"
@@ -11996,6 +12019,10 @@ snapdragon@^0.8.1:
     source-map-resolve "^0.5.0"
     use "^3.1.0"
 
+snowball@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/snowball/-/snowball-0.3.1.tgz#627b19fb6574118bef06ad6810d84ddbee3ef993"
+
 sntp@1.x.x:
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/sntp/-/sntp-1.0.9.tgz#6541184cc90aeea6c6e7b35e2659082443c66198"
@@ -12798,6 +12825,14 @@ tree-kill@^1.1.0:
 treeify@^1.0.1:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/treeify/-/treeify-1.1.0.tgz#4e31c6a463accd0943879f30667c4fdaff411bb8"
+
+trigram-utils@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/trigram-utils/-/trigram-utils-1.0.1.tgz#9248b88393c696095640eafd8d529d30761094da"
+  dependencies:
+    collapse-white-space "^1.0.3"
+    n-gram "^1.0.0"
+    trim "0.0.1"
 
 trim-newlines@^1.0.0:
   version "1.0.0"

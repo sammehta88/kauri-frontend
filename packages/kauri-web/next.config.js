@@ -23,7 +23,10 @@ const nextConfig = {
       new webpack.DefinePlugin(processedConfig)
     )
     if (!isServer) {
-      config.plugins.push(new webpack.IgnorePlugin(/jsdom$/))
+      config.plugins.push(
+        new webpack.IgnorePlugin(/jsdom$/),
+        new webpack.IgnorePlugin(/.js.map$/)
+      )
     }
     if (process.env.NODE_ENV === 'production') {
       // Do production stuff

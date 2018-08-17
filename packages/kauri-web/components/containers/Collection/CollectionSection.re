@@ -43,7 +43,7 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("CollectionSection");
 
-let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) => {
+let make = (~name, ~description="", ~articles, _children) => {
   ...component,
   render: _self =>
     switch (articles) {
@@ -53,24 +53,25 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
         <Paragraph text=name size=22 />
         <Paragraph text=description />
         <div className=Styles.section>
-          {
+          (
             Js.Array.map(
               article => {
                 let (articleId, articleVersion) =
                   article->(article_idGet, article_versionGet);
                 <ArticleCard
                   key=article->article_idGet
-                  changeRoute=routeChangeAction
-                  linkComponent={
-                    childrenProps =>
+                  articleId
+                  articleVersion
+                  linkComponent=(
+                    (childrenProps, route) =>
                       <Link
                         useAnchorTag=true
                         linkComponent
                         toSlug=article->subjectGet
-                        route={j|/article/$articleId/v$articleVersion|j}>
+                        route>
                         ...childrenProps
                       </Link>
-                  }
+                  )
                   title=article->subjectGet
                   content=article->textGet
                   cardHeight=400
@@ -87,7 +88,7 @@ let make = (~routeChangeAction, ~name, ~description="", ~articles, _children) =>
               articles,
             )
             |> ReasonReact.array
-          }
+          )
         </div>
       </div>
     },
@@ -98,13 +99,11 @@ type jsProps = {
   name: string,
   description: string,
   articles: Js.Nullable.t(array(article)),
-  routeChangeAction: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~routeChangeAction=jsProps->routeChangeActionGet,
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~articles=jsProps |> articlesGet |> Js.Nullable.toOption,

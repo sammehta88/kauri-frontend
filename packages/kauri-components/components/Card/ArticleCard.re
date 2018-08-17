@@ -62,7 +62,7 @@ module Styles = {
 let cardContent = (~title, ~content) =>
   <>
     <Heading text=title />
-    {
+    (
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
           {|
@@ -75,7 +75,7 @@ let cardContent = (~title, ~content) =>
                 |}
         ] :
         <Paragraph text=content />
-    }
+    )
   </>;
 
 type pageType =
@@ -88,66 +88,58 @@ let make =
       ~date: string,
       ~title: string,
       ~content: string,
+      ~articleId,
+      ~articleVersion,
       ~imageURL=?,
       ~pageType=?,
       ~linkComponent=?,
       ~username,
       ~userId,
       ~profileImage=?,
-      ~changeRoute=?,
       ~cardHeight=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className={Styles.container(~heightProp=cardHeight)}>
-        {
+      <div className=(Styles.container(~heightProp=cardHeight))>
+        (
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
-        }
+        )
         <div className=Styles.content>
-          <Label text={"Posted " ++ date} />
-          {
+          <Label text=("Posted " ++ date) />
+          (
             switch (linkComponent) {
             | Some(linkComponent) =>
-              linkComponent(cardContent(~title, ~content))
+              linkComponent(
+                cardContent(~title, ~content),
+                {j|/article/$articleId/v$articleVersion|j},
+              )
             | None => cardContent(~title, ~content)
             }
-          }
-          {
+          )
+          (
             switch (tags) {
             | Some(tags) => <TagList tags />
             | None => ReasonReact.null
             }
-          }
+          )
         </div>
         <Separator marginX=14 marginY=0 direction="horizontal" />
-        <div
-          className=Styles.footer
-          onClick={
-            _ =>
-              switch (changeRoute, pageType) {
-              | (Some(changeRoute), None) =>
-                changeRoute({j|/public-profile/$userId|j})
-              | (Some(_changeRoute), Some(_pageType)) => ()
-              | (None, Some(_)) => ()
-              | (None, None) => ()
-              }
-          }>
+        <div className=Styles.footer>
           <UserWidgetSmall
             pageType
             username=username->Belt.Option.getWithDefault(userId)
             userId
-            routeChangeAction=changeRoute->Belt.Option.getWithDefault(_ => ())
-            profileImage={
+            profileImage=(
               switch (profileImage) {
               | Some(image) => image
               | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
               }
-            }
+            )
           />
         </div>
       </div>
@@ -159,18 +151,21 @@ type jsProps = {
   article,
   date: string,
   title: string,
+  articleId: string,
+  articleVersion: string,
   content: string,
-  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
+  linkComponent:
+    (ReasonReact.reactElement, string) => ReasonReact.reactElement,
   username: Js.Nullable.t(string),
   userId: string,
   cardHeight: int,
-  changeRoute: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps->changeRouteGet,
+      ~articleId=jsProps->articleIdGet,
+      ~articleVersion=jsProps->articleVersionGet,
       ~date=jsProps->dateGet,
       ~title=jsProps->titleGet,
       ~content=jsProps->contentGet,

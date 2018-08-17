@@ -62,7 +62,7 @@ module Styles = {
 let cardContent = (~title, ~content) =>
   <>
     <Heading text=title />
-    (
+    {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
           {|
@@ -75,8 +75,21 @@ let cardContent = (~title, ~content) =>
                 |}
         ] :
         <Paragraph text=content />
-    )
+    }
   </>;
+
+let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
+  <UserWidgetSmall
+    pageType
+    username=username->Belt.Option.getWithDefault(userId)
+    userId
+    profileImage={
+      switch (profileImage) {
+      | Some(image) => image
+      | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+      }
+    }
+  />;
 
 type pageType =
   | RinkebyPublicProfile
@@ -102,16 +115,16 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div className=(Styles.container(~heightProp=cardHeight))>
-        (
+      <div className={Styles.container(~heightProp=cardHeight)}>
+        {
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
           | None => ReasonReact.null
           }
-        )
+        }
         <div className=Styles.content>
-          <Label text=("Posted " ++ date) />
-          (
+          <Label text={"Posted " ++ date} />
+          {
             switch (linkComponent) {
             | Some(linkComponent) =>
               linkComponent(
@@ -120,27 +133,27 @@ let make =
               )
             | None => cardContent(~title, ~content)
             }
-          )
-          (
+          }
+          {
             switch (tags) {
             | Some(tags) => <TagList tags />
             | None => ReasonReact.null
             }
-          )
+          }
         </div>
         <Separator marginX=14 marginY=0 direction="horizontal" />
         <div className=Styles.footer>
-          <UserWidgetSmall
-            pageType
-            username=username->Belt.Option.getWithDefault(userId)
-            userId
-            profileImage=(
-              switch (profileImage) {
-              | Some(image) => image
-              | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-              }
-            )
-          />
+          {
+            switch (linkComponent) {
+            | Some(linkComponent) =>
+              linkComponent(
+                publicProfile(~pageType, ~username, ~userId, ~profileImage),
+                {j|/public-profile/$userId|j},
+              )
+            | None =>
+              publicProfile(~pageType, ~username, ~userId, ~profileImage)
+            }
+          }
         </div>
       </div>
     </BaseCard>,

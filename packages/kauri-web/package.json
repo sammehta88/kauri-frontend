@@ -59,6 +59,7 @@
     "ethereumjs-util": "^5.2.0",
     "express": "^4.16.2",
     "glamor": "2.20.40",
+    "gramophone": "^0.0.3",
     "graphql": "^0.13.2",
     "graphql-tag": "^2.9.2",
     "helmet": "^3.9.0",

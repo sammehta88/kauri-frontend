@@ -42,13 +42,14 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   render() {
     const props = this.props
+    const { name, subject, article_id, text } = props.data.getArticle;
     const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
       <section>
         <Helmet>
-          <title>{props.data.getArticle.subject} - Kauri</title>
-          <meta name="description" content={`${JSON.parse(props.data.getArticle.text).markdown.slice(0, 151)}...`} />
-          <link rel="canonical" href={`${hostname}/article/${props.data.getArticle.article_id}/${slugify(props.data.getArticle.subject, { lower: true })}`} />
+          <title>{subject} - Kauri</title>
+          <meta name="description" content={`${JSON.parse(text).markdown.slice(0, 151)}...`} />
+          <link rel="canonical" href={`${hostname}/article/${article_id}/${slugify(subject, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />
         <ApprovedArticle.Actions

@@ -43,8 +43,11 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   render () {
     const props = this.props
-    const { name, subject, article_id, text } = props.data.getArticle
-    const articleKeywords = rake(JSON.parse(text).markdown, { language: 'english', delimiters: ['#+'] })
+    const { subject, article_id, text } = props.data.getArticle
+    const articleKeywords = rake(JSON.parse(text).markdown, {
+      language: 'english',
+      delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
+    })
     const hostname = process.env.monolithExternalApi.includes('rinkeby')
       ? 'https://rinkeby.kauri.io'
       : 'https://dev.kauri.io'

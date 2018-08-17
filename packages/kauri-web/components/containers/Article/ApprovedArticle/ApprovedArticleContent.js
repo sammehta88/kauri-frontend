@@ -33,7 +33,10 @@ const UpdateArticleSvgIcon = () => (
 const ApprovedArticleHelmet = ({ blocks }) => {
   if (!blocks) return
 
-  let description = blocks.find(block => block.type.includes('unstyled')).text
+  let description = blocks.filter(({ text }) => text.length >= 40)
+  description = description.length
+    ? description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')).text
   description = description.length > 120 ? description.substring(0, 117) + '...' : description
   let image = blocks.find(({ type }) => type.includes('atom'))
   image = image && image.type && image.type.includes('image') && image.src

@@ -22,10 +22,7 @@ module Styles = {
           textAlign(`left),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
-          selector(
-            "> a:first-of-type",
-            [display(`block), height(`percent(100.0))],
-          ),
+          selector("> a:first-of-type", [height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -36,10 +33,7 @@ module Styles = {
           flex(1),
           textAlign(`left),
           minWidth(px(262)),
-          selector(
-            "> a:first-of-type",
-            [display(`block), height(`percent(100.0))],
-          ),
+          selector("> a:first-of-type", [height(`percent(100.0))]),
         ])
       )
     };
@@ -65,6 +59,7 @@ module Styles = {
         color(hex(colorProp)),
         height(`percent(100.0)),
         backgroundSize(`cover),
+        flexDirection(`column),
         unsafe(
           "background",
           switch (imageURL) {
@@ -184,19 +179,18 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        className={
-          Styles.collectionCardContent(
-            ~imageURL,
-            ~colorProp=
-              switch (imageURL) {
-              | Some(_) => "FFFFFF"
-              | _ => "1E2428"
-              },
-          )
-        }>
+      <div className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
         <div
-          className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+          className={
+            Styles.collectionCardContent(
+              ~imageURL,
+              ~colorProp=
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | _ => "1E2428"
+                },
+            )
+          }>
           <div className={Styles.darkLayer(~image=imageURL)}>
             {
               switch (linkComponent) {
@@ -256,16 +250,16 @@ let make =
               }
             }
           </div>
+          {
+            switch (imageURL) {
+            | Some(_) => ReasonReact.null
+            | None => <Separator marginX=14 marginY=0 direction="horizontal" />
+            }
+          }
         </div>
-      </div>
-      {
-        switch (imageURL) {
-        | Some(_) => ReasonReact.null
-        | None => <Separator marginX=14 marginY=0 direction="horizontal" />
-        }
-      }
-      <div className=Styles.collectionCardFooter>
-        <CardCounter value=articles label="Articles" />
+        <div className=Styles.collectionCardFooter>
+          <CardCounter value=articles label="Articles" />
+        </div>
       </div>
     </BaseCard>,
 };

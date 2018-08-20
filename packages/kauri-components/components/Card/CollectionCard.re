@@ -236,9 +236,9 @@ let make =
             }
             {
               switch (lastUpdated) {
-              | Some(string) =>
+              | Some(lastUpdated) =>
                 <Label
-                  text=string
+                  text={"UPDATED " ++ lastUpdated}
                   color={
                     switch (imageURL) {
                     | Some(_) => "FFFFFF"

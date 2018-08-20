@@ -11,31 +11,27 @@ module Styles = {
       ])
     );
 
+  let baseCollectionCardContainer =
+    Css.[
+      display(`flex),
+      flexDirection(column),
+      flex(1),
+      textAlign(center),
+      minWidth(px(262)),
+    ];
+
   let collectionCardContainer = (~heightProp) =>
     switch (heightProp) {
     | Some(heightProp) =>
       Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-          maxHeight(px(heightProp)),
-          selector("> a:first-of-type", [height(`percent(100.0))]),
-        ])
+        style(
+          List.append(
+            [maxHeight(px(heightProp))],
+            baseCollectionCardContainer,
+          ),
+        )
       )
-    | None =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-          selector("> a:first-of-type", [height(`percent(100.0))]),
-        ])
-      )
+    | None => Css.(style(baseCollectionCardContainer))
     };
 
   let collectionCardFooter =
@@ -93,6 +89,7 @@ module Styles = {
           | _ => "transparent"
           },
         ),
+        selector("> a:first-child", [marginBottom(`auto)]),
       ])
     );
 };

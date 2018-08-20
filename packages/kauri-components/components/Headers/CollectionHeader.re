@@ -54,10 +54,7 @@ let make =
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
         <UserWidgetSmall
-          routeChangeAction=
-            routeChangeAction->Belt.Option.getWithDefault(_ => ())
           pageType=None
-          userId
           username=username->Belt.Option.getWithDefault(userId)
           color="ffffff"
         />

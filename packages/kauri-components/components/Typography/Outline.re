@@ -11,7 +11,7 @@ let make =
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
     <div className=Styles.container>
-      (
+      {
         switch (Array.length(headings)) {
         | 0 => ReasonReact.null
         | _ =>
@@ -21,9 +21,9 @@ let make =
             <Separator marginY=20 direction="horizontal" color=LightGray />
           </Vrroom.Fragment>
         }
-      )
+      }
       <OutlineHeader text="Author" />
-      <UserWidgetSmall pageType=None userId username routeChangeAction />
+      <UserWidgetSmall pageType=None username />
       <Separator marginY=20 direction="horizontal" color=LightGray />
     </div>,
 };

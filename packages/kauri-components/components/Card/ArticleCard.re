@@ -88,7 +88,6 @@ let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
           ++ "..."
           ++ String.sub(userId, String.length(userId) - 13, 11),
         )
-    userId
     profileImage={
       switch (profileImage) {
       | Some(image) => image

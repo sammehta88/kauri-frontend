@@ -100,7 +100,10 @@ let cardContent =
     (
       ~imageURL,
       ~heading,
+      ~username,
+      ~userId,
       ~collectionName,
+      ~profileImage,
       ~collectionDescription,
       ~curatorImage,
       ~lastUpdated,
@@ -145,10 +148,18 @@ let cardContent =
           }
           text=collectionDescription
         />
-        <img
-          className=Styles.image
-          src={
-            switch (curatorImage) {
+        <UserWidgetSmall
+          pageType=None
+          color=imageURL->Belt.Option.mapWithDefault("1E2428", _ => "FFFFFF")
+          username=
+            username
+            ->Belt.Option.getWithDefault(
+                String.sub(userId, 0, 11)
+                ++ "..."
+                ++ String.sub(userId, String.length(userId) - 13, 11),
+              )
+          profileImage={
+            switch (profileImage) {
             | Some(image) => image
             | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
             }
@@ -179,8 +190,11 @@ let make =
       ~collectionName,
       ~collectionDescription,
       ~articles,
+      ~username,
+      ~userId,
       ~lastUpdated=?,
       ~curatorImage=?,
+      ~profileImage,
       ~changeRoute=?,
       ~collectionId: string,
       ~imageURL,
@@ -191,16 +205,7 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        onClick={
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute({j|/collection/$collectionId|j})
-            | None => ()
-            }
-        }
-        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+      <div className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
         {
           switch (linkComponent) {
           | Some(linkComponent) =>
@@ -209,7 +214,10 @@ let make =
                 ~imageURL,
                 ~heading,
                 ~collectionName,
+                ~username,
+                ~userId,
                 ~collectionDescription,
+                ~profileImage,
                 ~curatorImage,
                 ~lastUpdated,
               ),
@@ -218,7 +226,10 @@ let make =
             cardContent(
               ~imageURL,
               ~heading,
+              ~username,
+              ~userId,
               ~collectionName,
+              ~profileImage,
               ~collectionDescription,
               ~curatorImage,
               ~lastUpdated,
@@ -244,7 +255,10 @@ type jsProps = {
   collectionName: string,
   collectionDescription: string,
   collectionId: string,
+  username: Js.Nullable.t(string),
+  userId: string,
   articles: string,
+  profileImage: Js.Nullable.t(string),
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
@@ -261,6 +275,9 @@ let default =
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
+      ~username=jsProps->usernameGet->Js.Nullable.toOption,
+      ~profileImage=jsProps->profileImageGet->Js.Nullable.toOption,
+      ~userId=jsProps->userIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,

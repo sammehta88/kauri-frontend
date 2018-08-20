@@ -64,7 +64,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     articleId={card.article_id}
                     articleVersion={card.article_version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
-                    linkComponent={( childrenProps, route ) => (
+                    linkComponent={(childrenProps, route) => (
                       <Link toSlug={route.includes('article') && card.subject} useAnchorTag route={route}>
                         {childrenProps}
                       </Link>
@@ -81,10 +81,13 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     changeRoute={routeChangeAction}
                     key={card.id}
                     collectionName={card.name}
+                    username={card.owner.username}
+                    userId={card.owner.user_id}
                     articles={articles}
                     lastUpdated={moment(card.date_created).fromNow()}
                     collectionId={card.id}
                     imageURL={card.background}
+                    profileImage={card.profileImage}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
                     linkComponent={childrenProps => (

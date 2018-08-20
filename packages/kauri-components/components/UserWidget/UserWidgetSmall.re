@@ -54,39 +54,21 @@ module Styles = {
     };
 };
 
-let make =
-    (
-      ~username,
-      ~userId,
-      ~routeChangeAction=?,
-      ~profileImage=?,
-      ~color="1E2428",
-      ~pageType,
-      _children,
-    ) => {
+let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) => {
   ...component,
   render: _self =>
-    <div
-      className=Styles.container
-      onClick=(
-        _event =>
-          switch (routeChangeAction) {
-          | Some(routeChangeAction) =>
-            routeChangeAction({j|/public-profile/$userId|j})
-          | None => ()
-          }
-      )>
-      (
+    <div className=Styles.container>
+      {
         switch (profileImage) {
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
           <div className=Styles.imagePlaceholder>
-            (ReasonReact.string(String.sub(username, 0, 1)))
+            {ReasonReact.string(String.sub(username, 0, 1))}
           </div>
         }
-      )
-      <div className=(Styles.username(~colorProp=color, ~pageType))>
-        (ReasonReact.string(username))
+      }
+      <div className={Styles.username(~colorProp=color, ~pageType)}>
+        {ReasonReact.string(username)}
       </div>
     </div>,
 };

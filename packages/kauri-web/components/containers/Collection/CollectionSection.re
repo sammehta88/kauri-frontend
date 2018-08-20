@@ -67,7 +67,11 @@ let make = (~name, ~description="", ~articles, _children) => {
                       <Link
                         useAnchorTag=true
                         linkComponent
-                        toSlug={Js.Nullable.return(article->subjectGet)}
+                        toSlug={
+                          route |> Js.String.includes("article") ?
+                            Js.Nullable.return(article->subjectGet) :
+                            Js.Nullable.null
+                        }
                         route>
                         ...childrenProps
                       </Link>

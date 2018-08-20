@@ -71,7 +71,7 @@ let renderArticleCards = (~response) =>
                    useAnchorTag=true
                    linkComponent
                    toSlug={
-                     route->Js.String.includes("article") ?
+                     route |> Js.String.includes("article") ?
                        Js.Nullable.return(title) : Js.Nullable.null
                    }
                    route>

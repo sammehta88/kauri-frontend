@@ -20,6 +20,7 @@ const ArticleFooter = styled.section`
 const Details = styled.div`
   display: flex;
   flex-direction: row;
+  width: 74%;
 `
 
 const Middle = styled.div`

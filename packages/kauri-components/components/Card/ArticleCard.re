@@ -30,6 +30,7 @@ module Styles = {
           flex(1),
           maxHeight(px(heightProp)),
           minWidth(px(262)),
+          textAlign(`left),
         ])
       )
     | None => Css.(style([display(`flex), flexDirection(column), flex(1)]))

@@ -8,17 +8,23 @@ import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
+import styled from 'styled-components';
 import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 
 import type { TipArticlePayload } from '../Module'
 
+const ArticleContent = styled.section`
+background: white;
+height: 100%;
+`;
+
 type Props =
   | {
-      routeChangeAction: string => void,
-      tipArticleAction: TipArticlePayload => void,
-      ethUsdPrice: number,
-      data: { getArticle?: ArticleDTO },
-    }
+    routeChangeAction: string => void,
+    tipArticleAction: TipArticlePayload => void,
+    ethUsdPrice: number,
+    data: { getArticle?: ArticleDTO },
+  }
   | any
 
 type State = {
@@ -41,7 +47,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render () {
+  render() {
     const props = this.props
     const { subject, article_id, text } = props.data.getArticle
     const articleKeywords = rake(JSON.parse(text).markdown, {
@@ -53,7 +59,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       : 'https://dev.kauri.io'
 
     return (
-      <section>
+      <ArticleContent>
         <Helmet>
           <title>{subject} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
@@ -94,7 +100,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.date_updated}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.content_hash}
         />
-      </section>
+      </ArticleContent>
     )
   }
 }

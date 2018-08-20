@@ -23,10 +23,10 @@ module Styles = {
           display(`flex),
           flexDirection(column),
           flex(1),
-          textAlign(center),
+          textAlign(`left),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
-          selector(" a", [display(`block), height(`percent(100.0))]),
+          selector(" a", [display(`flex), height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -35,7 +35,7 @@ module Styles = {
           display(`flex),
           flexDirection(column),
           flex(1),
-          textAlign(center),
+          textAlign(`left),
           minWidth(px(262)),
         ])
       )
@@ -64,6 +64,7 @@ module Styles = {
         unsafe("padding", "11px 14px 11px 14px"),
         flex(1),
         height(`percent(100.0)),
+        overflow(hidden),
       ])
     );
 };

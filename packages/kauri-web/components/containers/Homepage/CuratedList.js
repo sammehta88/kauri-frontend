@@ -56,7 +56,7 @@ const getBG = (header, featured) => {
   }
 }
 
-const HOMEPAGE_CARD_HEIGHT = 500
+const HOMEPAGE_CARD_HEIGHT = 290
 
 const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
   return (

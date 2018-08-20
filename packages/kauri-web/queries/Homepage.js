@@ -25,6 +25,10 @@ export const HomePageQuery = gql`
           description
           date_created
           background
+          owner {
+            user_id
+            username
+          }
         }
 
         ... on ArticleDTO {
@@ -98,6 +102,10 @@ export const HomePageQuery = gql`
           owner_id
           sections {
             article_id
+          }
+          owner {
+            user_id
+            username
           }
         }
       }

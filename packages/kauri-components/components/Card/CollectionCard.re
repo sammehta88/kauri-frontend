@@ -11,31 +11,27 @@ module Styles = {
       ])
     );
 
+  let baseCollectionCardContainer =
+    Css.[
+      display(`flex),
+      flexDirection(column),
+      flex(1),
+      textAlign(center),
+      minWidth(px(262)),
+    ];
+
   let collectionCardContainer = (~heightProp) =>
     switch (heightProp) {
     | Some(heightProp) =>
       Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-          maxHeight(px(heightProp)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
-        ])
+        style(
+          List.append(
+            [maxHeight(px(heightProp))],
+            baseCollectionCardContainer,
+          ),
+        )
       )
-    | None =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
-        ])
-      )
+    | None => Css.(style(baseCollectionCardContainer))
     };
 
   let collectionCardFooter =
@@ -59,6 +55,7 @@ module Styles = {
         color(hex(colorProp)),
         height(`percent(100.0)),
         backgroundSize(`cover),
+        flexDirection(`column),
         unsafe(
           "background",
           switch (imageURL) {
@@ -92,86 +89,61 @@ module Styles = {
           | _ => "transparent"
           },
         ),
+        selector("> a:first-child", [marginBottom(`auto)]),
       ])
     );
 };
 
 let cardContent =
-    (
-      ~imageURL,
-      ~heading,
-      ~collectionName,
-      ~collectionDescription,
-      ~curatorImage,
-      ~lastUpdated,
-    ) =>
+    (~imageURL, ~heading, ~collectionName, ~collectionDescription) =>
   <>
-    <div
-      className={
-        Styles.collectionCardContent(
-          ~imageURL,
-          ~colorProp=
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | _ => "1E2428"
-            },
-        )
-      }>
-      <div className={Styles.darkLayer(~image=imageURL)}>
-        <Label
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-          text=heading
-        />
-        <Heading
-          text=collectionName
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-        />
-        <Paragraph
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-          text=collectionDescription
-        />
-        <img
-          className=Styles.image
-          src={
-            switch (curatorImage) {
-            | Some(image) => image
-            | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-            }
-          }
-        />
-        {
-          switch (lastUpdated) {
-          | Some(string) =>
-            <Label
-              text=string
-              color={
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              }
-            />
-          | None => ReasonReact.null
-          }
+    <Label
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
         }
-      </div>
-    </div>
+      }
+      text=heading
+    />
+    <Heading
+      text=collectionName
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      }
+    />
+    <Paragraph
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      }
+      text=collectionDescription
+    />
   </>;
+
+let publicProfile = (~imageURL, ~username, ~userId, ~profileImage) =>
+  <UserWidgetSmall
+    pageType=None
+    color=imageURL->Belt.Option.mapWithDefault("1E2428", _ => "FFFFFF")
+    username=
+      username
+      ->Belt.Option.getWithDefault(
+          String.sub(userId, 0, 11)
+          ++ "..."
+          ++ String.sub(userId, String.length(userId) - 13, 11),
+        )
+    profileImage={
+      switch (profileImage) {
+      | Some(image) => image
+      | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+      }
+    }
+  />;
 
 let make =
     (
@@ -179,8 +151,11 @@ let make =
       ~collectionName,
       ~collectionDescription,
       ~articles,
+      ~username,
+      ~userId,
       ~lastUpdated=?,
       ~curatorImage=?,
+      ~profileImage,
       ~changeRoute=?,
       ~collectionId: string,
       ~imageURL,
@@ -191,46 +166,79 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        onClick={
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute({j|/collection/$collectionId|j})
-            | None => ()
-            }
-        }
-        className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
-        {
-          switch (linkComponent) {
-          | Some(linkComponent) =>
-            linkComponent(
-              cardContent(
-                ~imageURL,
-                ~heading,
-                ~collectionName,
-                ~collectionDescription,
-                ~curatorImage,
-                ~lastUpdated,
-              ),
-            )
-          | None =>
-            cardContent(
+      <div className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+        <div
+          className={
+            Styles.collectionCardContent(
               ~imageURL,
-              ~heading,
-              ~collectionName,
-              ~collectionDescription,
-              ~curatorImage,
-              ~lastUpdated,
+              ~colorProp=
+                switch (imageURL) {
+                | Some(_) => "FFFFFF"
+                | _ => "1E2428"
+                },
             )
+          }>
+          <div className={Styles.darkLayer(~image=imageURL)}>
+            {
+              switch (linkComponent) {
+              | Some(linkComponent) =>
+                linkComponent(
+                  cardContent(
+                    ~imageURL,
+                    ~heading,
+                    ~collectionName,
+                    ~collectionDescription,
+                  ),
+                  {j|/collection/$collectionId|j},
+                )
+              | None =>
+                cardContent(
+                  ~imageURL,
+                  ~heading,
+                  ~collectionName,
+                  ~collectionDescription,
+                )
+              }
+            }
+            {
+              switch (linkComponent) {
+              | Some(linkComponent) =>
+                linkComponent(
+                  publicProfile(~imageURL, ~username, ~userId, ~profileImage),
+                  {j|/public-profile/$userId|j},
+                )
+              | None =>
+                publicProfile(~imageURL, ~username, ~userId, ~profileImage)
+              }
+            }
+            {
+              switch (lastUpdated) {
+              | Some(lastUpdated) =>
+                <Label
+                  noMargin=true
+                  text={
+                    lastUpdated->String.lowercase
+                    |> Js.String.includes("updated") ?
+                      lastUpdated : "UPDATED" ++ lastUpdated
+                  }
+                  color={
+                    switch (imageURL) {
+                    | Some(_) => "FFFFFF"
+                    | None => "1E2428"
+                    }
+                  }
+                />
+              | None => ReasonReact.null
+              }
+            }
+          </div>
+          {
+            switch (imageURL) {
+            | Some(_) => ReasonReact.null
+            | None => <Separator marginX=14 marginY=0 direction="horizontal" />
+            }
           }
-        }
-        {
-          switch (imageURL) {
-          | Some(_) => ReasonReact.null
-          | None => <Separator marginX=14 marginY=0 direction="horizontal" />
-          }
-        }
+        </div>
         <div className=Styles.collectionCardFooter>
           <CardCounter value=articles label="Articles" />
         </div>
@@ -244,11 +252,15 @@ type jsProps = {
   collectionName: string,
   collectionDescription: string,
   collectionId: string,
+  username: Js.Nullable.t(string),
+  userId: string,
   articles: string,
+  profileImage: Js.Nullable.t(string),
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
-  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
+  linkComponent:
+    (ReasonReact.reactElement, string) => ReasonReact.reactElement,
   cardHeight: int,
 };
 
@@ -261,6 +273,9 @@ let default =
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
+      ~username=jsProps->usernameGet->Js.Nullable.toOption,
+      ~profileImage=jsProps->profileImageGet->Js.Nullable.toOption,
+      ~userId=jsProps->userIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~cardHeight=jsProps->cardHeightGet,
       ~collectionDescription=jsProps->collectionDescriptionGet,

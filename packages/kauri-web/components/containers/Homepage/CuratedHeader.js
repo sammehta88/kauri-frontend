@@ -61,18 +61,17 @@ const CommunityName = styled.h3`
 
 const Button = styled.div`
   padding: 10px 20px;
-  border: 1px solid white;
+  box-shadow: 0px 0px 0px 1px white;
   font-weight: 600;
   border-radius: 4px;
   text-transform: uppercase;
   font-size: 11px;
   margin-top: 10px;
   cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.3s;
+  transition: all 0.2s;
 
   &:hover {
-    opacity: 1;
+    box-shadow: 0px 0px 0px 2px white;
   }
 `
 

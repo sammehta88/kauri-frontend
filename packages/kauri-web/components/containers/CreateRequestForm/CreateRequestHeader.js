@@ -34,10 +34,7 @@ export const CreateRequestSecondaryHeader = styled.div`
   display: flex;
   height: 163px;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
-  background-color: ${props =>
-    props.chosenCategory
-      ? theme[props.chosenCategory] && theme[props.chosenCategory].primaryColor
-      : props.theme.primaryTextColor};
+  background-color: ${props => props.theme.primaryTextColor};
   ${props => props.type === 'article' && articleHeaderCss};
 `
 
@@ -65,11 +62,6 @@ export const Mask = styled.div`
   border-radius: 4px;
   background-color: #ffffff;
   ${props => props.type === 'article' && articleMaskCss};
-  border: 1px solid
-    ${props =>
-    props.chosenCategory
-      ? props.theme[props.chosenCategory] && props.theme[props.chosenCategory].primaryColor
-      : props.theme.primaryColor};
 `
 
 export const CreateRequestLogo = ({ chosenCategory, height, width, avatarWidth, avatarHeight, type }) => (

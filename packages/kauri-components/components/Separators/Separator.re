@@ -1,4 +1,4 @@
-let component = ReasonReact.statelessComponent("HorizontalSeparator");
+let component = ReasonReact.statelessComponent("Separator");
 
 module Styles = {
   let horizontal = Css.[height(px(2)), width(`percent(100.0))];

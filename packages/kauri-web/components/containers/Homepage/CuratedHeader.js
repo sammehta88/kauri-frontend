@@ -14,8 +14,19 @@ const Header = styled.div`
   @media (max-width: 500px) {
     text-align: center;
     align-items: center;
+    width: 300px;
+    margin: auto;
   }
 `
+
+const HeaderDescription = styled.div`
+  @media (max-width: 500px) {
+    text-align: center;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+  }
+`;
 
 const ListTitle = styled.h2`
   font-weight: 300;
@@ -78,7 +89,7 @@ const CuratedHeader = ({ header, name } = props) => {
             <CommunityLogo src={imageURL} />
             <CommunityName>{header.id}</CommunityName>
           </CommunityHeading>
-          <div>{topic.description}</div>
+          <HeaderDescription>{topic.description}</HeaderDescription>
           <Link useAnchorTag route={`/community/${header.id}`}>
             <Button>View Community</Button>
           </Link>
@@ -91,7 +102,7 @@ const CuratedHeader = ({ header, name } = props) => {
           <CommunityHeading>
             <CommunityName>{header.name}</CommunityName>
           </CommunityHeading>
-          <div>{header.description}</div>
+          <HeaderDescription>{header.description}</HeaderDescription>
           <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
             <Button>View Collection</Button>
           </Link>

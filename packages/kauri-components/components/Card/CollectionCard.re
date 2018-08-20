@@ -126,6 +126,7 @@ let cardContent =
       }
     />
     <Paragraph
+      lineClamp=2
       color={
         switch (imageURL) {
         | Some(_) => "FFFFFF"

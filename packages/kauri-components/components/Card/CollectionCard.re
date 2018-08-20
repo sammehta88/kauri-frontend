@@ -215,6 +215,7 @@ let make =
               switch (lastUpdated) {
               | Some(lastUpdated) =>
                 <Label
+                  noMargin=true
                   text={
                     lastUpdated->String.lowercase
                     |> Js.String.includes("updated") ?

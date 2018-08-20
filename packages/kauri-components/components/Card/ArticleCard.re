@@ -20,21 +20,17 @@ module Styles = {
       ])
     );
 
-  let container = (~heightProp) =>
-    switch (heightProp) {
-    | Some(heightProp) =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          maxHeight(px(heightProp)),
-          minWidth(px(262)),
-          textAlign(`left),
-        ])
-      )
-    | None => Css.(style([display(`flex), flexDirection(column), flex(1)]))
-    };
+  let container = (~cardHeightProp) =>
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        maxHeight(px(cardHeightProp)),
+        minWidth(px(262)),
+        textAlign(`left),
+      ])
+    );
 
   let footer =
     Css.(
@@ -109,13 +105,13 @@ let make =
       ~username,
       ~userId,
       ~profileImage=?,
-      ~cardHeight=?,
+      ~cardHeight=290,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className={Styles.container(~heightProp=cardHeight)}>
+      <div className={Styles.container(~cardHeightProp=cardHeight)}>
         {
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />

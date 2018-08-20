@@ -15,31 +15,18 @@ module Styles = {
       ])
     );
 
-  let container = (~heightProp) =>
-    switch (heightProp) {
-    | Some(heightProp) =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`center),
-          minWidth(px(262)),
-          maxHeight(px(heightProp)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
-        ])
-      )
-    | None =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-        ])
-      )
-    };
+  let container = (~cardHeightProp) =>
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        textAlign(`center),
+        minWidth(px(262)),
+        maxHeight(px(cardHeightProp)),
+        selector(" a", [display(`flex), height(`percent(100.0))]),
+      ])
+    );
 
   let footer =
     Css.(
@@ -105,7 +92,7 @@ let make =
       ~communityLogo=?,
       ~communityColor=?,
       ~changeRoute=?,
-      ~cardHeight=?,
+      ~cardHeight=290,
       ~linkComponent=?,
       _children,
     ) => {
@@ -113,7 +100,7 @@ let make =
   render: _self =>
     <BaseCard>
       <div
-        className={Styles.container(~heightProp=cardHeight)}
+        className={Styles.container(~cardHeightProp=cardHeight)}
         onClick={
           _ =>
             switch (changeRoute) {

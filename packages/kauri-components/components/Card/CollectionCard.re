@@ -20,19 +20,15 @@ module Styles = {
       minWidth(px(262)),
     ];
 
-  let collectionCardContainer = (~heightProp) =>
-    switch (heightProp) {
-    | Some(heightProp) =>
-      Css.(
-        style(
-          List.append(
-            [maxHeight(px(heightProp))],
-            baseCollectionCardContainer,
-          ),
-        )
+  let collectionCardContainer = (~cardHeightProp) =>
+    Css.(
+      style(
+        List.append(
+          [maxHeight(px(cardHeightProp))],
+          baseCollectionCardContainer,
+        ),
       )
-    | None => Css.(style(baseCollectionCardContainer))
-    };
+    );
 
   let collectionCardFooter = (~imageURL) =>
     Css.(
@@ -163,14 +159,15 @@ let make =
       ~changeRoute=?,
       ~collectionId: string,
       ~imageURL,
-      ~cardHeight=?,
+      ~cardHeight=290,
       ~linkComponent=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+      <div
+        className={Styles.collectionCardContainer(~cardHeightProp=cardHeight)}>
         <div
           className={
             Styles.collectionCardContent(

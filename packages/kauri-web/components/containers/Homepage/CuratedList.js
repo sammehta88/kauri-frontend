@@ -106,8 +106,12 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     profileImage={card.profileImage}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
-                    linkComponent={childrenProps => (
-                      <Link toSlug={card.name} useAnchorTag route={`/collection/${card.id}`}>
+                    linkComponent={(childrenProps, route) => (
+                      <Link
+                        toSlug={route.includes('collection') && card.name}
+                        useAnchorTag
+                        route={route}
+                      >
                         {childrenProps}
                       </Link>
                     )}

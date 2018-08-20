@@ -22,7 +22,10 @@ module Styles = {
           textAlign(`left),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
+          selector(
+            "> a:first-of-type",
+            [display(`block), height(`percent(100.0))],
+          ),
         ])
       )
     | None =>
@@ -33,7 +36,10 @@ module Styles = {
           flex(1),
           textAlign(`left),
           minWidth(px(262)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
+          selector(
+            "> a:first-of-type",
+            [display(`block), height(`percent(100.0))],
+          ),
         ])
       )
     };
@@ -109,80 +115,53 @@ let cardContent =
       ~lastUpdated,
     ) =>
   <>
-    <div
-      className={
-        Styles.collectionCardContent(
-          ~imageURL,
-          ~colorProp=
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | _ => "1E2428"
-            },
-        )
-      }>
-      <div className={Styles.darkLayer(~image=imageURL)}>
-        <Label
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-          text=heading
-        />
-        <Heading
-          text=collectionName
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-        />
-        <Paragraph
-          color={
-            switch (imageURL) {
-            | Some(_) => "FFFFFF"
-            | None => "1E2428"
-            }
-          }
-          text=collectionDescription
-        />
-        <UserWidgetSmall
-          pageType=None
-          color=imageURL->Belt.Option.mapWithDefault("1E2428", _ => "FFFFFF")
-          username=
-            username
-            ->Belt.Option.getWithDefault(
-                String.sub(userId, 0, 11)
-                ++ "..."
-                ++ String.sub(userId, String.length(userId) - 13, 11),
-              )
-          profileImage={
-            switch (profileImage) {
-            | Some(image) => image
-            | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-            }
-          }
-        />
-        {
-          switch (lastUpdated) {
-          | Some(string) =>
-            <Label
-              text=string
-              color={
-                switch (imageURL) {
-                | Some(_) => "FFFFFF"
-                | None => "1E2428"
-                }
-              }
-            />
-          | None => ReasonReact.null
-          }
+    <Label
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
         }
-      </div>
-    </div>
+      }
+      text=heading
+    />
+    <Heading
+      text=collectionName
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      }
+    />
+    <Paragraph
+      color={
+        switch (imageURL) {
+        | Some(_) => "FFFFFF"
+        | None => "1E2428"
+        }
+      }
+      text=collectionDescription
+    />
   </>;
+
+let publicProfile = (~imageURL, ~username, ~userId, ~profileImage) =>
+  <UserWidgetSmall
+    pageType=None
+    color=imageURL->Belt.Option.mapWithDefault("1E2428", _ => "FFFFFF")
+    username=
+      username
+      ->Belt.Option.getWithDefault(
+          String.sub(userId, 0, 11)
+          ++ "..."
+          ++ String.sub(userId, String.length(userId) - 13, 11),
+        )
+    profileImage={
+      switch (profileImage) {
+      | Some(image) => image
+      | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
+      }
+    }
+  />;
 
 let make =
     (
@@ -205,46 +184,88 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
-        {
-          switch (linkComponent) {
-          | Some(linkComponent) =>
-            linkComponent(
-              cardContent(
-                ~imageURL,
-                ~heading,
-                ~collectionName,
-                ~username,
-                ~userId,
-                ~collectionDescription,
-                ~profileImage,
-                ~curatorImage,
-                ~lastUpdated,
-              ),
-            )
-          | None =>
-            cardContent(
-              ~imageURL,
-              ~heading,
-              ~username,
-              ~userId,
-              ~collectionName,
-              ~profileImage,
-              ~collectionDescription,
-              ~curatorImage,
-              ~lastUpdated,
-            )
-          }
-        }
-        {
-          switch (imageURL) {
-          | Some(_) => ReasonReact.null
-          | None => <Separator marginX=14 marginY=0 direction="horizontal" />
-          }
-        }
-        <div className=Styles.collectionCardFooter>
-          <CardCounter value=articles label="Articles" />
+      <div
+        className={
+          Styles.collectionCardContent(
+            ~imageURL,
+            ~colorProp=
+              switch (imageURL) {
+              | Some(_) => "FFFFFF"
+              | _ => "1E2428"
+              },
+          )
+        }>
+        <div
+          className={Styles.collectionCardContainer(~heightProp=cardHeight)}>
+          <div className={Styles.darkLayer(~image=imageURL)}>
+            {
+              switch (linkComponent) {
+              | Some(linkComponent) =>
+                linkComponent(
+                  cardContent(
+                    ~imageURL,
+                    ~heading,
+                    ~collectionName,
+                    ~username,
+                    ~userId,
+                    ~collectionDescription,
+                    ~profileImage,
+                    ~curatorImage,
+                    ~lastUpdated,
+                  ),
+                  {j|/collection/$collectionId|j},
+                )
+              | None =>
+                cardContent(
+                  ~imageURL,
+                  ~heading,
+                  ~username,
+                  ~userId,
+                  ~collectionName,
+                  ~profileImage,
+                  ~collectionDescription,
+                  ~curatorImage,
+                  ~lastUpdated,
+                )
+              }
+            }
+            {
+              switch (linkComponent) {
+              | Some(linkComponent) =>
+                linkComponent(
+                  publicProfile(~imageURL, ~username, ~userId, ~profileImage),
+                  {j|/public-profile/$userId|j},
+                )
+              | None =>
+                publicProfile(~imageURL, ~username, ~userId, ~profileImage)
+              }
+            }
+            {
+              switch (lastUpdated) {
+              | Some(string) =>
+                <Label
+                  text=string
+                  color={
+                    switch (imageURL) {
+                    | Some(_) => "FFFFFF"
+                    | None => "1E2428"
+                    }
+                  }
+                />
+              | None => ReasonReact.null
+              }
+            }
+          </div>
         </div>
+      </div>
+      {
+        switch (imageURL) {
+        | Some(_) => ReasonReact.null
+        | None => <Separator marginX=14 marginY=0 direction="horizontal" />
+        }
+      }
+      <div className=Styles.collectionCardFooter>
+        <CardCounter value=articles label="Articles" />
       </div>
     </BaseCard>,
 };
@@ -262,7 +283,8 @@ type jsProps = {
   lastUpdated: string,
   imageURL: Js.Nullable.t(string),
   changeRoute: string => unit,
-  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
+  linkComponent:
+    (ReasonReact.reactElement, string) => ReasonReact.reactElement,
   cardHeight: int,
 };
 

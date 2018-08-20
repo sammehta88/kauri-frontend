@@ -32,7 +32,7 @@ const Container = styled.div`
     bottom: 0;
     left: 0;
     right: 0;
-    opacity: 0.2;
+    opacity: 0.3;
     z-index: 1;
   }
 `

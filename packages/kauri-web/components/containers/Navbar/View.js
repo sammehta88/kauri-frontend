@@ -53,7 +53,7 @@ const Spacer = styled.div`
 
 const Text = styled.a`
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
   text-decoration: none;
   height: 60px;
@@ -102,7 +102,7 @@ const TooltipItem = styled.div`
   color: #0ba986;
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   width: 190px;
   line-height: 15px;
   text-align: center;

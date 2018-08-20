@@ -11,7 +11,7 @@ export const menuHeaderHeight = 76
 const StyledContent = styled(Content)`
   padding-top: 0px;
   min-height: calc(100vh - ${menuHeaderHeight}px);
-  background: #f2f2f2;
+  background: #F7F7F7;
 `
 
 const StyledHeader = styled(Header)`
@@ -40,7 +40,7 @@ export default connect(mapStateToProps)(
         {modalChildren}
       </Modal>
       <StyledHeader navcolor={navcolor}>
-        <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor}/>
+        <Navbar confirmationPage={confirmationPage} url={url} navcolor={navcolor} />
       </StyledHeader>
       <StyledContent>{children}</StyledContent>
       <StyledFooter />

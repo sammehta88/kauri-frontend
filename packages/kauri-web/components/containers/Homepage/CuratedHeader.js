@@ -71,7 +71,7 @@ const Button = styled.div`
   transition: all 0.2s;
 
   &:hover {
-    box-shadow: 0px 0px 0px 2px white;
+    box-shadow: 0px 0px 0px 2px #0BA986;
   }
 `
 

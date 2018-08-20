@@ -16,12 +16,25 @@ const Title = styled.h2`
 `
 
 const Container = styled.div`
-  background: ${props => (props.background ? `url(${props.background}) center center` : props.bgColor)};
-  background-size: cover;
-  box-shadow: ${props => (props.background ? 'inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5)' : 'none')};
+  background-color: ${props => props.bgColor};
   width: 100%;
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   text-align: center;
+  position: relative;
+  z-index: 0;
+
+  &:after {
+    content: "";
+    background: ${props => (props.background ? `url(${props.background}) center center` : props.bgColor)};
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.2;
+    z-index: 1;
+  }
 `
 
 const Resources = styled.div`
@@ -29,15 +42,17 @@ const Resources = styled.div`
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+  z-index: 10;
+  position: relative;
 `
 
 const getBG = (header, featured) => {
   if (featured && header && header.type === ('TOPIC' || 'COMMUNITY')) {
     return theme[header.id].primaryColor
   } else if (featured) {
-    return '#0BA986'
+    return '#1E3D3B';
   } else {
-    return 'transparent'
+    return 'transparent';
   }
 }
 

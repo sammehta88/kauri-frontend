@@ -61,11 +61,7 @@ let renderArticleCards = (~response) =>
              articleVersion
              linkComponent=(
                (childrenProps, route) =>
-                 <Link
-                   toSlug={Js.Nullable.return(title)}
-                   useAnchorTag=true
-                   linkComponent
-                   route>
+                 <Link useAnchorTag=true linkComponent route>
                    ...childrenProps
                  </Link>
              )

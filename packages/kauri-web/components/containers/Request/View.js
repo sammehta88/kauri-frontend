@@ -184,7 +184,7 @@ const GeneralActions = BountyActions.extend`
 const RequestHeader = styled.div`
   display: flex;
   height: 163px;
-  background-color: ${props => (props.category ? props.theme[props.category].primaryColor : '')};
+  background-color: ${props => props.theme.primaryTextColor};
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `
 

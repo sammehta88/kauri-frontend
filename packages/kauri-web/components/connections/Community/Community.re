@@ -37,52 +37,47 @@ module Styles = {
 
 let component = ReasonReact.statelessComponent("Community");
 
-let renderArticleCards = (~response, ~routeChangeAction) =>
+let renderArticleCards = (~response) =>
   switch (response##searchArticles |? (x => x##content)) {
   | Some(content) =>
     (
       content
-      |> Js.Array.map(
-           article => {
-             open Article_Resource;
-             let {
-               articleId,
-               articleVersion,
-               key,
-               title,
-               content,
-               date,
-               username,
-               userId,
-             } =
-               make(article);
-             <ArticleCard
-               key
-               linkComponent=(
-                 childrenProps =>
-                   <Link
-                     toSlug=title
-                     useAnchorTag=true
-                     linkComponent
-                     route={j|/article/$articleId/v$articleVersion|j}>
-                     ...childrenProps
-                   </Link>
-               )
-               changeRoute=routeChangeAction
-               title
-               content
-               date
-               username=(Some(username))
-               userId
-             />;
-           },
-         )
+      |> Js.Array.map(article => {
+           open Article_Resource;
+           let {
+             articleId,
+             articleVersion,
+             key,
+             title,
+             content,
+             date,
+             username,
+             userId,
+           } =
+             make(article);
+           <ArticleCard
+             key
+             articleId
+             articleVersion
+             linkComponent=(
+               (childrenProps, route) =>
+                 <Link useAnchorTag=true linkComponent route>
+                   ...childrenProps
+                 </Link>
+             )
+             title
+             content
+             date
+             username={Some(username)}
+             userId
+           />;
+         })
     )
     ->ReasonReact.array
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~routeChangeAction, ~category, _children) => {
+let make = (~category, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -101,8 +96,8 @@ let make = (~routeChangeAction, ~category, _children) => {
       </CommunityHeader>
       BasicTabs.(
         <Tabs
-          defaultTabName=(tabNames[0])
-          tabs=(
+          defaultTabName={tabNames[0]}
+          tabs={
             (setCurrentTabName, currentTabName) => {
               let articlesCountQuery =
                 switch (currentTabName) {
@@ -111,26 +106,26 @@ let make = (~routeChangeAction, ~category, _children) => {
                 };
 
               <TabList>
-                <Tab setCurrentTabName currentTabName name=(tabNames[0])>
+                <Tab setCurrentTabName currentTabName name={tabNames[0]}>
                   "All"->String.uppercase->ReasonReact.string
                 </Tab>
-                <Tab setCurrentTabName currentTabName name=(tabNames[1])>
+                <Tab setCurrentTabName currentTabName name={tabNames[1]}>
                   "General Articles"->String.uppercase->ReasonReact.string
                 </Tab>
-                <Tab setCurrentTabName currentTabName name=(tabNames[2])>
+                <Tab setCurrentTabName currentTabName name={tabNames[2]}>
                   "Tutorials"->String.uppercase->ReasonReact.string
                 </Tab>
                 <PullRight>
                   <Badge>
                     <CommunityArticlesCountQuery
                       variables=articlesCountQuery##variables>
-                      ...(
+                      ...{
                            ({result}) =>
                              switch (result) {
                              | Loading => <Loading />
                              | Error(error) =>
                                <div>
-                                 (ReasonReact.string(error##message))
+                                 {ReasonReact.string(error##message)}
                                </div>
                              | Data(response) =>
                                let totalArticles =
@@ -141,14 +136,14 @@ let make = (~routeChangeAction, ~category, _children) => {
                                ->String.uppercase
                                ->ReasonReact.string;
                              }
-                         )
+                         }
                     </CommunityArticlesCountQuery>
                   </Badge>
                 </PullRight>
               </TabList>;
             }
-          )
-          content=(
+          }
+          content={
             currentTabName => {
               let articlesQuery =
                 switch (currentTabName) {
@@ -162,41 +157,34 @@ let make = (~routeChangeAction, ~category, _children) => {
                 };
 
               <PanelList>
-                (
+                {
                   tabNames
-                  ->Belt.Array.map(
-                      name =>
-                        <Panel key=name name currentTabName>
-                          <SearchCommunityArticlesQuery
-                            variables=articlesQuery##variables>
-                            ...(
-                                 ({result}) =>
-                                   switch (result) {
-                                   | Loading => <Loading />
-                                   | Error(error) =>
-                                     <div>
-                                       (ReasonReact.string(error##message))
-                                     </div>
-                                   | Data(response) =>
-                                     <section
-                                       className=Styles.articlesContainer>
-                                       (
-                                         renderArticleCards(
-                                           ~response,
-                                           ~routeChangeAction,
-                                         )
-                                       )
-                                     </section>
-                                   }
-                               )
-                          </SearchCommunityArticlesQuery>
-                        </Panel>,
+                  ->Belt.Array.map(name =>
+                      <Panel key=name name currentTabName>
+                        <SearchCommunityArticlesQuery
+                          variables=articlesQuery##variables>
+                          ...{
+                               ({result}) =>
+                                 switch (result) {
+                                 | Loading => <Loading />
+                                 | Error(error) =>
+                                   <div>
+                                     {ReasonReact.string(error##message)}
+                                   </div>
+                                 | Data(response) =>
+                                   <section className=Styles.articlesContainer>
+                                     {renderArticleCards(~response)}
+                                   </section>
+                                 }
+                             }
+                        </SearchCommunityArticlesQuery>
+                      </Panel>
                     )
                   |> ReasonReact.array
-                )
+                }
               </PanelList>;
             }
-          )
+          }
         />
       )
     </div>;
@@ -207,14 +195,9 @@ let make = (~routeChangeAction, ~category, _children) => {
 type jsProps = {
   userId: string,
   category: string,
-  routeChangeAction: string => unit,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~routeChangeAction=jsProps->routeChangeActionGet,
-      ~category=jsProps->categoryGet,
-      [||],
-    )
+    make(~category=jsProps->categoryGet, [||])
   );

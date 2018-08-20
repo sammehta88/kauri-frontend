@@ -3,7 +3,7 @@ let component = ReasonReact.statelessComponent("CommunityCard");
 module Styles = {
   let image = Css.(style([width(px(46))]));
 
-  let imageContainer = (~communityColor) =>
+  let imageContainer =
     Css.(
       style([
         display(`flex),
@@ -12,7 +12,6 @@ module Styles = {
         height(px(80)),
         width(px(80)),
         borderRadius(px(4)),
-        unsafe("border", {j|1px solid $communityColor|j}),
       ])
     );
 
@@ -83,7 +82,7 @@ let cardContent =
       {
         switch (communityLogo) {
         | Some(string) =>
-          <div className={Styles.imageContainer(~communityColor)}>
+          <div className=Styles.imageContainer>
             <img className=Styles.image src=string />
           </div>
         | None => ReasonReact.null

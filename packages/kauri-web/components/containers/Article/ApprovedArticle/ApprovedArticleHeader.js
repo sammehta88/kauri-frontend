@@ -27,10 +27,12 @@ export const ArticleSubject = styled.h3`
     font-weight: 500;
     margin-bottom: 0px;
   }
+  margin-left: ${props => !props.chosenCategory && '0px'};
 `
 
 export const ArticleChosenCategory = ChosenCategory.extend`
   margin-top: 6px;
+  margin-right: 20px;
   margin-bottom: 5px;
 `
 
@@ -40,7 +42,7 @@ const ArticleChosenDetails = styled.div`
 `
 
 const ArticleChosenSubcategory = ArticleChosenCategory.extend`
-  margin-left: 20px;
+  margin-left: 0px;
 `
 
 export const ApprovedArticleSubject = ({
@@ -51,12 +53,12 @@ export const ApprovedArticleSubject = ({
   metadata,
   type = 'article',
 }: *) => (
-  <ApprovedArticleSubjectContainer type={type}>
+  <ApprovedArticleSubjectContainer chosenCategory={chosenCategory} type={type}>
     <ArticleChosenDetails>
-      <ArticleChosenCategory>{chosenCategory || 'Personal'}</ArticleChosenCategory>
+      {chosenCategory && <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>}
       <ArticleChosenSubcategory>{chosenSubcategory}</ArticleChosenSubcategory>
     </ArticleChosenDetails>
-    <ArticleSubject style={{ width: '100%' }} type='article'>
+    <ArticleSubject chosenCategory={chosenCategory} style={{ width: '100%' }} type='article'>
       {subject}
     </ArticleSubject>
     {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>}
@@ -72,7 +74,7 @@ export const PullRight = styled.div`
 
 export default ({ category, sub_category, date_updated, subject, metadata }: *) => (
   <ApprovedArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
-    <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />
+    {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
       metadata={metadata}

@@ -83,9 +83,6 @@ const Dates = styled.div`
 
 const profileTypeCategoryBadgeCss = css`
   cursor: initial;
-  :hover {
-    border: 1px solid ${props => props.theme && props.theme[props.category] && props.theme[props.category].borderColor} !important;
-  }
 `
 
 export const CategoryBadge = styled.div`
@@ -96,13 +93,9 @@ export const CategoryBadge = styled.div`
   flex-direction: column;
   height: 76px;
   width: 76px;
-  border: 1px solid ${props => props.theme && props.theme[props.category] && props.theme[props.category].borderColor};
   border-radius: 4px;
   background-color: #ffffff;
   cursor: pointer;
-  :hover {
-    border: 2px solid ${props => props.theme.primaryColor} !important;
-  }
   ${props => props.type === 'profile' && profileTypeCategoryBadgeCss};
 `
 
@@ -195,7 +188,10 @@ export default ({
             <strong>{`${moment(date_created).format('DD/MM/YYYY')}`}</strong>
           </OpenRequest.DatePosted>
           <OpenRequest.Deadline>
-            <span>EXPIRE{moment(dead_line).isBefore() ? 'D' : 'S'}</span>
+            <span>
+              EXPIRE
+              {moment(dead_line).isBefore() ? 'D' : 'S'}
+            </span>
             <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
           </OpenRequest.Deadline>
         </OpenRequest.Dates>

@@ -31,6 +31,7 @@ export const ArticleSubject = styled.h3`
 
 export const ArticleChosenCategory = ChosenCategory.extend`
   margin-top: 6px;
+  margin-right: 20px;
   margin-bottom: 5px;
 `
 
@@ -39,9 +40,7 @@ const ArticleChosenDetails = styled.div`
   flex-direction: row;
 `
 
-const ArticleChosenSubcategory = ArticleChosenCategory.extend`
-  margin-left: 20px;
-`
+const ArticleChosenSubcategory = ArticleChosenCategory.extend``
 
 export const ApprovedArticleSubject = ({
   getFieldDecorator,
@@ -53,7 +52,7 @@ export const ApprovedArticleSubject = ({
 }: *) => (
   <ApprovedArticleSubjectContainer type={type}>
     <ArticleChosenDetails>
-      <ArticleChosenCategory>{chosenCategory || 'Personal'}</ArticleChosenCategory>
+      {chosenCategory && <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>}
       <ArticleChosenSubcategory>{chosenSubcategory}</ArticleChosenSubcategory>
     </ArticleChosenDetails>
     <ArticleSubject style={{ width: '100%' }} type='article'>

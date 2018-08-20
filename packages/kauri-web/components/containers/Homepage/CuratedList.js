@@ -24,7 +24,7 @@ const Container = styled.div`
   z-index: 0;
 
   &:after {
-    content: "";
+    content: '';
     background: ${props => (props.background ? `url(${props.background}) center center` : props.bgColor)};
     background-size: cover;
     position: absolute;
@@ -50,9 +50,9 @@ const getBG = (header, featured) => {
   if (featured && header && header.type === ('TOPIC' || 'COMMUNITY')) {
     return theme[header.id].primaryColor
   } else if (featured) {
-    return '#1E3D3B';
+    return '#1E3D3B'
   } else {
-    return 'transparent';
+    return 'transparent'
   }
 }
 
@@ -72,7 +72,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                   <ArticleCard
                     changeRoute={routeChangeAction}
                     key={card.article_id}
-                    date={moment(card.date_created).fromNow()}
+                    date={moment(card.date_created).format('D MMM YYYY')}
                     title={card.subject}
                     content={card.text}
                     userId={card.user.user_id}
@@ -107,11 +107,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     collectionDescription={card.description}
                     linkComponent={(childrenProps, route) => (
-                      <Link
-                        toSlug={route.includes('collection') && card.name}
-                        useAnchorTag
-                        route={route}
-                      >
+                      <Link toSlug={route.includes('collection') && card.name} useAnchorTag route={route}>
                         {childrenProps}
                       </Link>
                     )}

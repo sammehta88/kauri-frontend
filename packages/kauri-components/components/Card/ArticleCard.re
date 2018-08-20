@@ -20,21 +20,17 @@ module Styles = {
       ])
     );
 
-  let container = (~heightProp) =>
-    switch (heightProp) {
-    | Some(heightProp) =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          maxHeight(px(heightProp)),
-          minWidth(px(262)),
-          textAlign(`left),
-        ])
-      )
-    | None => Css.(style([display(`flex), flexDirection(column), flex(1)]))
-    };
+  let container = (~cardHeightProp) =>
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        maxHeight(px(cardHeightProp)),
+        minWidth(px(262)),
+        textAlign(`left),
+      ])
+    );
 
   let footer =
     Css.(
@@ -60,9 +56,9 @@ module Styles = {
     );
 };
 
-let cardContent = (~title, ~content) =>
+let cardContent = (~title, ~content, ~cardHeight) =>
   <>
-    <Heading text=title />
+    <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=title />
     {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
@@ -89,12 +85,6 @@ let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
           ++ "..."
           ++ String.sub(userId, String.length(userId) - 13, 11),
         )
-    profileImage={
-      switch (profileImage) {
-      | Some(image) => image
-      | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-      }
-    }
   />;
 
 type pageType =
@@ -115,13 +105,13 @@ let make =
       ~username,
       ~userId,
       ~profileImage=?,
-      ~cardHeight=?,
+      ~cardHeight=290,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div className={Styles.container(~heightProp=cardHeight)}>
+      <div className={Styles.container(~cardHeightProp=cardHeight)}>
         {
           switch (imageURL) {
           | Some(string) => <img className=Styles.image src=string />
@@ -134,10 +124,10 @@ let make =
             switch (linkComponent) {
             | Some(linkComponent) =>
               linkComponent(
-                cardContent(~title, ~content),
+                cardContent(~title, ~content, ~cardHeight),
                 {j|/article/$articleId/v$articleVersion|j},
               )
-            | None => cardContent(~title, ~content)
+            | None => cardContent(~title, ~content, ~cardHeight)
             }
           }
           {

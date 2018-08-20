@@ -14,7 +14,7 @@ module Styles = {
       ])
     );
 
-  let imagePlaceholder =
+  let imagePlaceholder = (~colorProp) =>
     Css.(
       style([
         height(px(30)),
@@ -24,7 +24,8 @@ module Styles = {
         display(`flex),
         alignItems(`center),
         justifyContent(`center),
-        background(white),
+        background(hex(colorProp)),
+        color(hex(colorProp == "FFFFFF" ? "1E2428" : "FFFFFF")),
         textTransform(`capitalize),
       ])
     );
@@ -62,7 +63,7 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
         switch (profileImage) {
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
-          <div className=Styles.imagePlaceholder>
+          <div className={Styles.imagePlaceholder(~colorProp=color)}>
             {ReasonReact.string(String.sub(username, 0, 1))}
           </div>
         }

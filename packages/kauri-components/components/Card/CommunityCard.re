@@ -15,31 +15,18 @@ module Styles = {
       ])
     );
 
-  let container = (~heightProp) =>
-    switch (heightProp) {
-    | Some(heightProp) =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-          maxHeight(px(heightProp)),
-          selector(" a", [display(`flex), height(`percent(100.0))]),
-        ])
-      )
-    | None =>
-      Css.(
-        style([
-          display(`flex),
-          flexDirection(column),
-          flex(1),
-          textAlign(`left),
-          minWidth(px(262)),
-        ])
-      )
-    };
+  let container = (~cardHeightProp) =>
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(column),
+        flex(1),
+        textAlign(`center),
+        minWidth(px(262)),
+        maxHeight(px(cardHeightProp)),
+        selector(" a", [display(`flex), height(`percent(100.0))]),
+      ])
+    );
 
   let footer =
     Css.(
@@ -76,6 +63,7 @@ let cardContent =
       ~communityName,
       ~communityColor,
       ~communityLogo,
+      ~cardHeight,
     ) =>
   <>
     <div className=Styles.content>
@@ -89,8 +77,11 @@ let cardContent =
         | None => ReasonReact.null
         }
       }
-      <Heading text=communityName />
-      <Paragraph text=communityDescription />
+      <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=communityName />
+      <Paragraph
+        lineClamp={cardHeight > 290 ? 0 : 2}
+        text=communityDescription
+      />
     </div>
   </>;
 
@@ -105,23 +96,14 @@ let make =
       ~communityLogo=?,
       ~communityColor=?,
       ~changeRoute=?,
-      ~cardHeight=?,
+      ~cardHeight=290,
       ~linkComponent=?,
       _children,
     ) => {
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        className={Styles.container(~heightProp=cardHeight)}
-        onClick={
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute({j|/community/$communityName|j})
-            | None => ()
-            }
-        }>
+      <div className={Styles.container(~cardHeightProp=cardHeight)}>
         {
           switch (linkComponent) {
           | Some(linkComponent) =>
@@ -129,6 +111,7 @@ let make =
               cardContent(
                 ~heading,
                 ~communityDescription,
+                ~cardHeight,
                 ~communityName,
                 ~communityColor,
                 ~communityLogo,
@@ -140,6 +123,7 @@ let make =
               ~communityDescription,
               ~communityName,
               ~communityColor,
+              ~cardHeight,
               ~communityLogo,
             )
           }

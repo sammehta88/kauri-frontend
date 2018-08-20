@@ -10,6 +10,11 @@ const Header = styled.div`
   margin-right: 15px;
   align-items: flex-start;
   text-align: left;
+
+  @media (max-width: 500px) {
+    text-align: center;
+    align-items: center;
+  }
 `
 
 const ListTitle = styled.h2`

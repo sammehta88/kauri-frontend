@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import CuratedList from './CuratedList'
 import ArticleSearchbar from '../ArticleSearchbar'
+import { Helmet } from "react-helmet";
 
 type Props = {
   data: {
@@ -27,6 +28,7 @@ const HomePageHeader = styled.div`
   justify-content: center;
   flex-direction: column;
   color: white;
+  padding: 20px;
 `
 const KauriTitle = styled.h1`
   color: white;
@@ -34,7 +36,19 @@ const KauriTitle = styled.h1`
   font-size: 32px;
   margin-top: 45px;
   margin-bottom: 12px;
+
+  @media (max-width: 500px) {
+    width: 300px;
+    margin: auto;
+  }
 `
+
+const KauriDescription = styled.div`
+  @media (max-width: 500px) {
+    width: 300px;
+    margin: auto;
+  }
+`;
 
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
@@ -46,11 +60,19 @@ class Homepage extends Component<Props> {
 
     const { getAllCuratedList } = this.props.data
 
+    const pageTitle = 'Learn to build on Ethereum with Kauri';
+
     return (
       <ContentContainer>
+        <Helmet>
+          <title>Kauri - {pageTitle}</title>
+          <meta name="description" content={pageTitle} />
+          <meta name="keywords" content="ethereum, blockchain, learn to code, developer documentation" />
+          <link rel="canonical" href={process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io'} />
+        </Helmet>
         <HomePageHeader>
           <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>
-          <div>Articles, tutorials, Documentation and best practices</div>
+          <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>
         {getAllCuratedList.map(i => (

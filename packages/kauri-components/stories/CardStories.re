@@ -74,6 +74,9 @@ myStory.add("Community Card With Image", () =>
 
 myStory.add("Collection Card", () =>
   <CollectionCard
+    userId="0x2344234312312"
+    username={Some("davo")}
+    profileImage=None
     collectionId="1"
     imageURL=None
     collectionName="Build a DAPP from 0 to Mainnet"
@@ -86,6 +89,9 @@ myStory.add("Collection Card", () =>
 
 myStory.add("Collection Card With Image", () =>
   <CollectionCard
+    userId="0x2344234312312"
+    username={Some("davo")}
+    profileImage=None
     collectionId="1"
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -103,6 +109,9 @@ myStory.add("Collection Card With Image", () =>
 myStory.add("All Cards", () =>
   <div className=Styles.container>
     <CollectionCard
+      userId="0x2344234312312"
+      username={Some("davo")}
+      profileImage=None
       collectionId="1"
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -117,6 +126,9 @@ myStory.add("All Cards", () =>
       }
     />
     <CollectionCard
+      userId="0x2344234312312"
+      username={Some("davo")}
+      profileImage=None
       collectionId="1"
       imageURL=None
       collectionName="Build a DAPP from 0 to Mainnet"

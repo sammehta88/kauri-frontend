@@ -10,7 +10,23 @@ const Header = styled.div`
   margin-right: 15px;
   align-items: flex-start;
   text-align: left;
+
+  @media (max-width: 500px) {
+    text-align: center;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+  }
 `
+
+const HeaderDescription = styled.div`
+  @media (max-width: 500px) {
+    text-align: center;
+    align-items: center;
+    width: 300px;
+    margin: auto;
+  }
+`;
 
 const ListTitle = styled.h2`
   font-weight: 300;
@@ -45,18 +61,17 @@ const CommunityName = styled.h3`
 
 const Button = styled.div`
   padding: 10px 20px;
-  border: 1px solid white;
+  box-shadow: 0px 0px 0px 1px white;
   font-weight: 600;
   border-radius: 4px;
   text-transform: uppercase;
   font-size: 11px;
   margin-top: 10px;
   cursor: pointer;
-  opacity: 0.6;
-  transition: all 0.3s;
+  transition: all 0.2s;
 
   &:hover {
-    opacity: 1;
+    box-shadow: 0px 0px 0px 2px #0BA986;
   }
 `
 
@@ -73,7 +88,7 @@ const CuratedHeader = ({ header, name } = props) => {
             <CommunityLogo src={imageURL} />
             <CommunityName>{header.id}</CommunityName>
           </CommunityHeading>
-          <div>{topic.description}</div>
+          <HeaderDescription>{topic.description}</HeaderDescription>
           <Link useAnchorTag route={`/community/${header.id}`}>
             <Button>View Community</Button>
           </Link>
@@ -86,7 +101,7 @@ const CuratedHeader = ({ header, name } = props) => {
           <CommunityHeading>
             <CommunityName>{header.name}</CommunityName>
           </CommunityHeading>
-          <div>{header.description}</div>
+          <HeaderDescription>{header.description}</HeaderDescription>
           <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
             <Button>View Collection</Button>
           </Link>

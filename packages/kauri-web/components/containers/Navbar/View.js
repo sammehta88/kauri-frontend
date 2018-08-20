@@ -53,7 +53,7 @@ const Spacer = styled.div`
 
 const Text = styled.a`
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 700;
   text-transform: uppercase;
   text-decoration: none;
   height: 60px;
@@ -102,11 +102,11 @@ const TooltipItem = styled.div`
   color: #0ba986;
   font-size: 11px;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
   width: 190px;
   line-height: 15px;
   text-align: center;
-  margin: 20px;
+  margin: 10px;
 
   &: hover {
     color: #267765;
@@ -212,6 +212,7 @@ class Navbar extends React.Component {
                   Write Article
                 </TooltipItem>
               </Link>
+              <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
               <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request
@@ -238,6 +239,7 @@ class Navbar extends React.Component {
                 <Link route={'/profile'}>
                   <TooltipItem>Account</TooltipItem>
                 </Link>
+                <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
                 <TooltipItem onClick={logout}>Logout</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>
@@ -253,6 +255,7 @@ class Navbar extends React.Component {
                   <Link route={'/login'}>
                     <TooltipItem>Login</TooltipItem>
                   </Link>
+                  <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
                   <Link route={'/login'}>
                     <TooltipItem>Register</TooltipItem>
                   </Link>

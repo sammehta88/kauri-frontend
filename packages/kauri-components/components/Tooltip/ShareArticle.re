@@ -48,9 +48,6 @@ let make = (~url, ~title, ~pageType=ArticleAction.PublishedArticle, _children) =
             <ReactShare.TwitterShareButton url title>
               <ReactShare.TwitterIcon />
             </ReactShare.TwitterShareButton>
-            <ReactShare.FacebookShareButton url quote=title>
-              <ReactShare.FacebookIcon />
-            </ReactShare.FacebookShareButton>
           </div>
         }
         position=`Bottom>

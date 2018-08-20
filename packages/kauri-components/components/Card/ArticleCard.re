@@ -89,12 +89,6 @@ let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
           ++ "..."
           ++ String.sub(userId, String.length(userId) - 13, 11),
         )
-    profileImage={
-      switch (profileImage) {
-      | Some(image) => image
-      | None => "https://cdn1.vectorstock.com/i/1000x1000/77/15/seamless-polygonal-pattern-vector-13877715.jpg"
-      }
-    }
   />;
 
 type pageType =

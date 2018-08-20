@@ -99,16 +99,7 @@ let make =
   ...component,
   render: _self =>
     <BaseCard>
-      <div
-        className={Styles.container(~cardHeightProp=cardHeight)}
-        onClick={
-          _ =>
-            switch (changeRoute) {
-            | Some(changeRoute) =>
-              changeRoute({j|/community/$communityName|j})
-            | None => ()
-            }
-        }>
+      <div className={Styles.container(~cardHeightProp=cardHeight)}>
         {
           switch (linkComponent) {
           | Some(linkComponent) =>

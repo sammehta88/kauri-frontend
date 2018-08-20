@@ -114,7 +114,6 @@ myStory.add("All Cards", () =>
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
       articles="58"
-      cardHeight=290
       lastUpdated="Last Updated 3 June 2099"
       imageURL={
         Some(
@@ -131,7 +130,6 @@ myStory.add("All Cards", () =>
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
       articles="58"
-      cardHeight=290
       lastUpdated="Last Updated 3 June 2099"
     />
     <CommunityCard
@@ -140,7 +138,6 @@ myStory.add("All Cards", () =>
       followers="319"
       articles="58"
       views="39k"
-      cardHeight=290
       communityLogo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
     />
     <CommunityCard
@@ -149,13 +146,11 @@ myStory.add("All Cards", () =>
       followers="319"
       articles="58"
       views="39k"
-      cardHeight=290
     />
     <ArticleCard
       userId="0x1337133713371337"
       articleId="234789"
       articleVersion="23479843279324"
-      cardHeight=290
       date="3 June 2099"
       title="Debugging a Dapp using Remix - Mist - Geth"
       content="The ultimate goal of this tutorial is to debug transactions that have been created by a dapp front end.
@@ -178,7 +173,6 @@ Any code editor you want - in order to write your front end :)"
       articleId="234789"
       articleVersion="23479843279324"
       date="3 June 2099"
-      cardHeight=290
       title="This is a title, possibly should support two lines"
       content="This is the content body, should be longer of course. Like a Lorem Ipsum, Bacon Summit or something like that"
       tags=[|"test", "foo", "bar", "ethereum"|]

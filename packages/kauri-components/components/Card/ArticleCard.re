@@ -56,9 +56,9 @@ module Styles = {
     );
 };
 
-let cardContent = (~title, ~content) =>
+let cardContent = (~title, ~content, ~cardHeight) =>
   <>
-    <Heading lineClamp=2 text=title />
+    <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=title />
     {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
@@ -124,10 +124,10 @@ let make =
             switch (linkComponent) {
             | Some(linkComponent) =>
               linkComponent(
-                cardContent(~title, ~content),
+                cardContent(~title, ~content, ~cardHeight),
                 {j|/article/$articleId/v$articleVersion|j},
               )
-            | None => cardContent(~title, ~content)
+            | None => cardContent(~title, ~content, ~cardHeight)
             }
           }
           {

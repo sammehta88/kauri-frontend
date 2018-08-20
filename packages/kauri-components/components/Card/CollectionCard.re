@@ -101,7 +101,13 @@ module Styles = {
 };
 
 let cardContent =
-    (~imageURL, ~heading, ~collectionName, ~collectionDescription) =>
+    (
+      ~imageURL,
+      ~heading,
+      ~collectionName,
+      ~collectionDescription,
+      ~cardHeight,
+    ) =>
   <>
     <Label
       color={
@@ -122,7 +128,7 @@ let cardContent =
       }
     />
     <Paragraph
-      lineClamp=2
+      lineClamp={cardHeight > 290 ? 0 : 2}
       color={
         switch (imageURL) {
         | Some(_) => "FFFFFF"
@@ -164,7 +170,8 @@ let make =
       _children,
     ) => {
   ...component,
-  render: _self =>
+  render: _self => {
+    Js.log(cardHeight);
     <BaseCard>
       <div
         className={Styles.collectionCardContainer(~cardHeightProp=cardHeight)}>
@@ -188,6 +195,7 @@ let make =
                     ~imageURL,
                     ~heading,
                     ~collectionName,
+                    ~cardHeight,
                     ~collectionDescription,
                   ),
                   {j|/collection/$collectionId|j},
@@ -197,6 +205,7 @@ let make =
                   ~imageURL,
                   ~heading,
                   ~collectionName,
+                  ~cardHeight,
                   ~collectionDescription,
                 )
               }
@@ -251,7 +260,8 @@ let make =
           <CardCounter value=articles label="Articles" />
         </div>
       </div>
-    </BaseCard>,
+    </BaseCard>;
+  },
 };
 
 [@bs.deriving abstract]

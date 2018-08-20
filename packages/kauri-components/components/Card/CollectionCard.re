@@ -95,17 +95,7 @@ module Styles = {
 };
 
 let cardContent =
-    (
-      ~imageURL,
-      ~heading,
-      ~username,
-      ~userId,
-      ~collectionName,
-      ~profileImage,
-      ~collectionDescription,
-      ~curatorImage,
-      ~lastUpdated,
-    ) =>
+    (~imageURL, ~heading, ~collectionName, ~collectionDescription) =>
   <>
     <Label
       color={
@@ -197,12 +187,7 @@ let make =
                     ~imageURL,
                     ~heading,
                     ~collectionName,
-                    ~username,
-                    ~userId,
                     ~collectionDescription,
-                    ~profileImage,
-                    ~curatorImage,
-                    ~lastUpdated,
                   ),
                   {j|/collection/$collectionId|j},
                 )
@@ -210,13 +195,8 @@ let make =
                 cardContent(
                   ~imageURL,
                   ~heading,
-                  ~username,
-                  ~userId,
                   ~collectionName,
-                  ~profileImage,
                   ~collectionDescription,
-                  ~curatorImage,
-                  ~lastUpdated,
                 )
               }
             }
@@ -235,7 +215,11 @@ let make =
               switch (lastUpdated) {
               | Some(lastUpdated) =>
                 <Label
-                  text={"UPDATED " ++ lastUpdated}
+                  text={
+                    lastUpdated->String.lowercase
+                    |> Js.String.includes("updated") ?
+                      lastUpdated : "UPDATED" ++ lastUpdated
+                  }
                   color={
                     switch (imageURL) {
                     | Some(_) => "FFFFFF"

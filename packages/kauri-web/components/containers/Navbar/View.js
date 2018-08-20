@@ -20,12 +20,20 @@ const StyledMenu = styled(Menu)`
   background-color: ${props =>
     props.navcolor ? props.navcolor : props.confirmationPage && props.theme.secondaryColor};
   border-bottom-color: ${props => props.navcolor} !important;
+  @media (max-width: 500px) {
+    padding: 0px 10px;
+  }
 `
 
 const StyledMenuItem = styled(Menu.Item)`
   display: flex;
   color: #fff !important;
   padding: 0 15px;
+
+  @media (max-width: 500px) {
+    display: ${ props => props.onlyDesktop ? 'none !important' : 'flex'}
+  } 
+
   > a {
     color: #fff !important;
     :hover {
@@ -176,7 +184,7 @@ class Navbar extends React.Component {
         {user &&
           user.topics &&
           user.topics.length > 0 && (
-            <StyledMenuItem key='/approvals'>
+            <StyledMenuItem onlyDesktop key='/approvals'>
               <Link href={'/approvals'}>
                 <Text href='/approvals' pathname={router.pathname} link='/approvals'>
                   Approvals
@@ -185,7 +193,7 @@ class Navbar extends React.Component {
             </StyledMenuItem>
           )}
 
-        <StyledMenuItem key='/communities'>
+        <StyledMenuItem onlyDesktop key='/communities'>
           <Link href='/communities'>
             <Text href='/communities' pathname={router.pathname} link='/communities'>
               Communities
@@ -193,7 +201,7 @@ class Navbar extends React.Component {
           </Link>
         </StyledMenuItem>
 
-        <StyledMenuItem key='/requests'>
+        <StyledMenuItem onlyDesktop key='/requests'>
           <Link href='/requests'>
             <Text href='/requests' pathname={router.pathname} link='/requests'>
               Requests
@@ -202,9 +210,11 @@ class Navbar extends React.Component {
         </StyledMenuItem>
 
         <Spacer />
-        <ArticleSearchbar collapsible />
+        <StyledMenuItem onlyDesktop>
+          <ArticleSearchbar collapsible />
+        </StyledMenuItem>
 
-        <StyledMenuItem>
+        <StyledMenuItem onlyDesktop>
           <Tooltip header={<Text link='/dropdown-selector-null'>Create</Text>}>
             <TooltipItemContainer>
               <Link route={userId ? '/write-article' : '/login'}>
@@ -222,7 +232,7 @@ class Navbar extends React.Component {
           </Tooltip>
         </StyledMenuItem>
 
-        <StyledMenuItem>
+        <StyledMenuItem onlyDesktop>
           <Web3Status />
         </StyledMenuItem>
 

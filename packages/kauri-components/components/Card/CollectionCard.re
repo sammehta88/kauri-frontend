@@ -170,8 +170,7 @@ let make =
       _children,
     ) => {
   ...component,
-  render: _self => {
-    Js.log(cardHeight);
+  render: _self =>
     <BaseCard>
       <div
         className={Styles.collectionCardContainer(~cardHeightProp=cardHeight)}>
@@ -260,8 +259,7 @@ let make =
           <CardCounter value=articles label="Articles" />
         </div>
       </div>
-    </BaseCard>;
-  },
+    </BaseCard>,
 };
 
 [@bs.deriving abstract]

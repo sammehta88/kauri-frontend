@@ -9,7 +9,7 @@ module Styles = {
       color(hex(colorProp)),
     ];
 
-  let trimMultiline = (~lineClamp) =>
+  let trimMultiline =
     Css.[
       unsafe("display", "-webkit-box"),
       unsafe("-webkit-box-orient", "vertical"),
@@ -19,12 +19,8 @@ module Styles = {
     Css.(
       style(
         lineClamp
-        ->Belt.Option.mapWithDefault(
-            baseParagraph(~colorProp, ~sizeProp), lineClamp =>
-            List.append(
-              trimMultiline(~lineClamp),
-              baseParagraph(~colorProp, ~sizeProp),
-            )
+        ->Belt.Option.mapWithDefault(baseParagraph(~colorProp, ~sizeProp), _ =>
+            List.append(trimMultiline, baseParagraph(~colorProp, ~sizeProp))
           ),
       )
     );

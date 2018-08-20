@@ -62,7 +62,7 @@ module Styles = {
 
 let cardContent = (~title, ~content) =>
   <>
-    <Heading text=title />
+    <Heading lineClamp=2 text=title />
     {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw

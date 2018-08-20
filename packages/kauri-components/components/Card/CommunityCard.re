@@ -23,7 +23,7 @@ module Styles = {
           display(`flex),
           flexDirection(column),
           flex(1),
-          textAlign(`left),
+          textAlign(`center),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
           selector(" a", [display(`flex), height(`percent(100.0))]),

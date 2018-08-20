@@ -34,14 +34,14 @@ module Styles = {
     | None => Css.(style(baseCollectionCardContainer))
     };
 
-  let collectionCardFooter =
+  let collectionCardFooter = (~imageURL) =>
     Css.(
       style([
         display(`flex),
         flexDirection(column),
         alignItems(center),
         justifyContent(center),
-        height(px(50)),
+        height(px(imageURL->Belt.Option.mapWithDefault(48, _ => 50))),
         paddingLeft(px(14)),
         paddingRight(px(14)),
       ])
@@ -81,7 +81,7 @@ module Styles = {
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
         flex(1),
-        unsafe("padding", "11px 14px 11px 14px"),
+        unsafe("padding", "17px 14px 7px 14px"),
         unsafe(
           "background",
           switch (image) {
@@ -90,6 +90,16 @@ module Styles = {
           },
         ),
         selector("> a:first-child", [marginBottom(`auto)]),
+      ])
+    );
+
+  let bottomCollectionCardContent =
+    Css.(
+      style([
+        display(`flex),
+        flexDirection(`column),
+        alignItems(`center),
+        selector("> :first-child", [marginBottom(px(11))]),
       ])
     );
 };
@@ -154,7 +164,6 @@ let make =
       ~username,
       ~userId,
       ~lastUpdated=?,
-      ~curatorImage=?,
       ~profileImage,
       ~changeRoute=?,
       ~collectionId: string,
@@ -200,37 +209,44 @@ let make =
                 )
               }
             }
-            {
-              switch (linkComponent) {
-              | Some(linkComponent) =>
-                linkComponent(
-                  publicProfile(~imageURL, ~username, ~userId, ~profileImage),
-                  {j|/public-profile/$userId|j},
-                )
-              | None =>
-                publicProfile(~imageURL, ~username, ~userId, ~profileImage)
+            <div className=Styles.bottomCollectionCardContent>
+              {
+                switch (linkComponent) {
+                | Some(linkComponent) =>
+                  linkComponent(
+                    publicProfile(
+                      ~imageURL,
+                      ~username,
+                      ~userId,
+                      ~profileImage,
+                    ),
+                    {j|/public-profile/$userId|j},
+                  )
+                | None =>
+                  publicProfile(~imageURL, ~username, ~userId, ~profileImage)
+                }
               }
-            }
-            {
-              switch (lastUpdated) {
-              | Some(lastUpdated) =>
-                <Label
-                  noMargin=true
-                  text={
-                    lastUpdated->String.lowercase
-                    |> Js.String.includes("updated") ?
-                      lastUpdated : "UPDATED" ++ lastUpdated
-                  }
-                  color={
-                    switch (imageURL) {
-                    | Some(_) => "FFFFFF"
-                    | None => "1E2428"
+              {
+                switch (lastUpdated) {
+                | Some(lastUpdated) =>
+                  <Label
+                    noMargin=true
+                    text={
+                      lastUpdated->String.lowercase
+                      |> Js.String.includes("updated") ?
+                        lastUpdated : "UPDATED " ++ lastUpdated
                     }
-                  }
-                />
-              | None => ReasonReact.null
+                    color={
+                      switch (imageURL) {
+                      | Some(_) => "FFFFFF"
+                      | None => "1E2428"
+                      }
+                    }
+                  />
+                | None => ReasonReact.null
+                }
               }
-            }
+            </div>
           </div>
           {
             switch (imageURL) {
@@ -239,7 +255,7 @@ let make =
             }
           }
         </div>
-        <div className=Styles.collectionCardFooter>
+        <div className={Styles.collectionCardFooter(~imageURL)}>
           <CardCounter value=articles label="Articles" />
         </div>
       </div>

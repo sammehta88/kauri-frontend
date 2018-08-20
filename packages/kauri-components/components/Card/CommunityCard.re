@@ -63,6 +63,7 @@ let cardContent =
       ~communityName,
       ~communityColor,
       ~communityLogo,
+      ~cardHeight,
     ) =>
   <>
     <div className=Styles.content>
@@ -76,8 +77,11 @@ let cardContent =
         | None => ReasonReact.null
         }
       }
-      <Heading text=communityName />
-      <Paragraph text=communityDescription />
+      <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=communityName />
+      <Paragraph
+        lineClamp={cardHeight > 290 ? 0 : 2}
+        text=communityDescription
+      />
     </div>
   </>;
 
@@ -107,6 +111,7 @@ let make =
               cardContent(
                 ~heading,
                 ~communityDescription,
+                ~cardHeight,
                 ~communityName,
                 ~communityColor,
                 ~communityLogo,
@@ -118,6 +123,7 @@ let make =
               ~communityDescription,
               ~communityName,
               ~communityColor,
+              ~cardHeight,
               ~communityLogo,
             )
           }

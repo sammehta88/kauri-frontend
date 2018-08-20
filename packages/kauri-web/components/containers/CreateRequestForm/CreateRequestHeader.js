@@ -98,6 +98,7 @@ export const TopicActionsContainer = styled.div`
   margin-left: 12px;
   width: ${props => props.type === 'createRequest' && '95%'};
   width: ${props => props.type === 'in review article' && '100%'};
+  margin-left: ${props => !props.chosenCategory && '0px'};
 `
 
 const handleKeyPress = e => {

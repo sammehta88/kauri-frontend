@@ -193,7 +193,7 @@ class Navbar extends React.Component {
             </StyledMenuItem>
           )}
 
-        <StyledMenuItem onlyDesktop key='/communities'>
+        <StyledMenuItem  key='/communities'>
           <Link href='/communities'>
             <Text href='/communities' pathname={router.pathname} link='/communities'>
               Communities

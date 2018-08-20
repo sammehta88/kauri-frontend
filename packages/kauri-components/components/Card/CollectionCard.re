@@ -19,10 +19,10 @@ module Styles = {
           display(`flex),
           flexDirection(column),
           flex(1),
-          textAlign(center),
+          textAlign(`left),
           minWidth(px(262)),
           maxHeight(px(heightProp)),
-          selector(" a", [display(`block), height(`percent(100.0))]),
+          selector(" a", [display(`flex), height(`percent(100.0))]),
         ])
       )
     | None =>
@@ -31,9 +31,9 @@ module Styles = {
           display(`flex),
           flexDirection(column),
           flex(1),
-          textAlign(center),
+          textAlign(`left),
           minWidth(px(262)),
-          selector(" a", [display(`block), height(`percent(100.0))]),
+          selector(" a", [display(`flex), height(`percent(100.0))]),
         ])
       )
     };
@@ -59,14 +59,14 @@ module Styles = {
         color(hex(colorProp)),
         height(`percent(100.0)),
         backgroundSize(`cover),
-        /* unsafe("background", {j|url($imageURL) center center|j}), */
         unsafe(
           "background",
           switch (imageURL) {
-          | Some(string) => {j|url($string) center center|j}
+          | Some(_) => {j|url($imageURL) center center|j}
           | _ => "transparent"
           },
         ),
+        position(relative),
         borderTopLeftRadius(px(4)),
         borderTopRightRadius(px(4)),
         overflow(hidden),
@@ -88,7 +88,7 @@ module Styles = {
         unsafe(
           "background",
           switch (image) {
-          | Some(_) => "rgba(0,0,0,0.4)"
+          | Some(_) => "rgba(30,36,40,0.7)"
           | _ => "transparent"
           },
         ),

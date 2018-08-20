@@ -11,7 +11,7 @@ const web3 = new Web3()
 
 const dateFormat = 'YYYY/MM/DD'
 
-function disabledDate (current) {
+function disabledDate(current) {
   // Can not select days before 3 days time and past 30 days time
   return (current && current < moment().add(2, 'days')) || current > moment().add(30, 'days')
 }
@@ -62,6 +62,10 @@ const approvedArticleContainerCss = css`
 
 export const CreateRequestContainer = styled.div`
   width: 74%;
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 10px;
+  }
   ${props => props.type === 'in review article' && inReviewArticleContainerCss};
   ${props => props.type === 'approved article' && approvedArticleContainerCss};
 `
@@ -128,7 +132,7 @@ export const DetailLabel = styled.span`
 `
 
 class CreateRequestText extends React.Component {
-  render () {
+  render() {
     const { getFieldDecorator, editorState, handleChange, request, getFieldError } = this.props
     return getFieldDecorator('text', {
       rules: [
@@ -213,7 +217,7 @@ export default class extends React.Component {
   state = {
     focused: false,
   }
-  render () {
+  render() {
     const {
       getFieldDecorator,
       editorState,

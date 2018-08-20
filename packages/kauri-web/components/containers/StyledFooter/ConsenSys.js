@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin-left: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,7 +12,6 @@ const Container = styled.div`
   > :last-child {
     margin-left: 4px;
   }
-  width: 450px;
 `
 
 const ConsenSysFormationIcon = styled.img`

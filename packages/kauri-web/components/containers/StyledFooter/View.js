@@ -13,13 +13,16 @@ const NewFooter = styled(Footer)`
   width: 100%;
   flex-direction: row;
   align-items: center;
-  height: 93px;
   background-color: ${props => props.theme.primaryTextColor};
   padding: 0px ${props => props.theme.padding};
+
+  @media(max-width: 500px) {
+    flex-direction: column;
+  }
 `
 
 class StyledFooter extends React.Component<{}> {
-  render () {
+  render() {
     return (
       <Fragment>
         <NewFooter>

@@ -15,7 +15,15 @@ let component = ReasonReact.statelessComponent("CollectionHeader");
 module Styles = {
   let container =
     Css.(
-      style([display(`flex), width(`percent(100.0)), flexDirection(row)])
+      style([
+        display(`flex),
+        width(`percent(100.0)),
+        flexDirection(row),
+        media(
+          "only screen and (max-width: 500px)",
+          [flexDirection(column), padding(px(10))],
+        ),
+      ])
     );
 
   let leftSide =

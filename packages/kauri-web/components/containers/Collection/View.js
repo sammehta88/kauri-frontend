@@ -34,11 +34,33 @@ const HeaderContainer = styled(ContentContainer)`
 `
 
 class CollectionPage extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      trianglify: null,
+    };
+  }
+  componentDidMount() {
+    const trianglify = require('trianglify');
+    const trianglifyBg = trianglify({
+      width: 1920,
+      height: 400,
+      cell_size: 60,
+      variance: 1,
+      x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
+    });
+
+    var s = new XMLSerializer().serializeToString(trianglifyBg.svg())
+    const trianglifyBgString = 'data:image/svg+xml;base64,' + window.btoa(s);
+    this.setState({ trianglifyBg: trianglifyBgString });
+  }
+
   render() {
     if (!this.props.data || !this.props.data.collection) return null
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
     const { routeChangeAction } = this.props;
     const myKeywords = rake(description, { language: 'english' });
+    const bg = background ? background : this.state.trianglifyBg;
 
     const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
     return (
@@ -50,7 +72,7 @@ class CollectionPage extends Component<Props> {
           <link rel="canonical" href={`${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />
-        <HeaderContainer background={background}>
+        <HeaderContainer background={bg}>
           <CollectionHeader
             name={name}
             description={description}

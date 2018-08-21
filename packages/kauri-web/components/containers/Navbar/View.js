@@ -126,6 +126,14 @@ const TooltipItemContainer = styled.div`
   padding: 10px;
 `
 
+const Chevron = styled.span`
+  font-size: 22px;
+    line-height: 70px;
+    display: inline-block;
+    transform: rotate(90deg);
+    margin-left: 10px;
+`
+
 const deleteAllCookies = callback => {
   let cookies = document.cookie.split(';')
   for (let i = 0; i < cookies.length; i++) {
@@ -215,7 +223,7 @@ class Navbar extends React.Component {
         </StyledMenuItem>
 
         <StyledMenuItem onlyDesktop>
-          <Tooltip header={<Text link='/dropdown-selector-null'>Create</Text>}>
+          <Tooltip header={<Text link='/dropdown-selector-null'><div>Create<Chevron>›</Chevron></div></Text>}>
             <TooltipItemContainer>
               <Link route={userId ? '/write-article' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>

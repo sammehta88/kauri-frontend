@@ -38,6 +38,7 @@ module Styles = {
         height(px(50)),
         paddingLeft(px(14)),
         paddingRight(px(14)),
+        paddingBottom(px(9)),
       ])
     );
 

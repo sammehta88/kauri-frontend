@@ -2,6 +2,7 @@
 import React from 'react'
 import { Helmet } from 'react-helmet'
 import { EditorState, convertFromRaw } from 'draft-js'
+import { Link } from '../../../../routes'
 import slugify from 'slugify'
 import {
   CreateRequestContent as SubmitArticleFormContent,
@@ -99,6 +100,11 @@ export default ({
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
         <Outline
+          linkComponent={children => (
+            <Link useAnchorTag route={`/public-profile/${userId}`}>
+              {children}
+            </Link>
+          )}
           headings={outlineHeadings || []}
           username={username || userId}
           userId={userId}

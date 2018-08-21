@@ -10,6 +10,7 @@ let make =
     (
       ~headings,
       ~username,
+      ~linkComponent=?,
       /* ~pageType,  */
       _children,
     ) => {
@@ -28,7 +29,14 @@ let make =
         }
       }
       <OutlineHeader text="Author" />
-      <UserWidgetSmall pageType=None username />
+      {
+        Belt.Option.mapWithDefault(
+          linkComponent,
+          <UserWidgetSmall pageType=None username />,
+          linkComponent =>
+          linkComponent(<UserWidgetSmall pageType=None username />)
+        )
+      }
       <Separator marginY=20 direction="horizontal" color=LightGray />
     </div>,
 };
@@ -37,6 +45,7 @@ let make =
 type jsProps = {
   headings: array(string),
   username: string,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   pageType: Js.Nullable.t(string),
 };
 let default =
@@ -46,18 +55,21 @@ let default =
       let (
         headings,
         username,
+        linkComponent,
         /* pageType */
       ) =
         jsProps
         ->(
             headingsGet,
             usernameGet,
+            linkComponentGet,
             /* pageTypeGet, */
           );
       /* let pageType = pageType->Js.Nullable.toOption; */
       make(
         ~headings,
         ~username,
+        ~linkComponent,
         /* ~pageType, */
         [||],
       );

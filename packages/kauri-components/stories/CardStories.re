@@ -55,9 +55,9 @@ myStory.add("Community Card No Image", () =>
   <CommunityCard
     communityName="Loom Network"
     communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-    followers="319"
+    /* followers="319" */
     articles="58"
-    views="39k"
+    /* views="39k" */
   />
 );
 
@@ -65,9 +65,9 @@ myStory.add("Community Card With Image", () =>
   <CommunityCard
     communityName="Loom Network"
     communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-    followers="319"
+    /* followers="319" */
     articles="58"
-    views="39k"
+    /* views="39k" */
     communityLogo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
   />
 );
@@ -135,17 +135,17 @@ myStory.add("All Cards", () =>
     <CommunityCard
       communityName="Loom Network"
       communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-      followers="319"
+      /* followers="319" */
       articles="58"
-      views="39k"
+      /* views="39k" */
       communityLogo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
     />
     <CommunityCard
       communityName="Loom Network"
       communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-      followers="319"
+      /* followers="319" */
       articles="58"
-      views="39k"
+      /* views="39k" */
     />
     <ArticleCard
       userId="0x1337133713371337"

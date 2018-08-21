@@ -1,5 +1,5 @@
 module Styles = {
-  let container = Css.(style([width(px(300))]));
+  let container = Css.(style([width(px(300)), marginTop(px(5))]));
   let heading =
     Css.(
       style([color(hex("1E2428")), fontSize(px(11)), fontWeight(700)])
@@ -7,8 +7,13 @@ module Styles = {
 };
 let component = ReasonReact.statelessComponent("Outline");
 let make =
-    (~headings, ~username, ~userId, ~routeChangeAction, ~pageType, _children) => {
-  ...component, /* spread the template's other defaults into here  */
+    (
+      ~headings,
+      ~username,
+      /* ~pageType,  */
+      _children,
+    ) => {
+  ...component,
   render: _self =>
     <div className=Styles.container>
       {
@@ -32,30 +37,28 @@ let make =
 type jsProps = {
   headings: array(string),
   username: string,
-  userId: string,
-  routeChangeAction: string => unit,
   pageType: Js.Nullable.t(string),
 };
 let default =
   ReasonReact.wrapReasonForJs(
     ~component,
     jsProps => {
-      let (headings, username, userId, routeChangeAction, pageType) =
+      let (
+        headings,
+        username,
+        /* pageType */
+      ) =
         jsProps
         ->(
             headingsGet,
             usernameGet,
-            userIdGet,
-            routeChangeActionGet,
-            pageTypeGet,
+            /* pageTypeGet, */
           );
-      let pageType = pageType->Js.Nullable.toOption;
+      /* let pageType = pageType->Js.Nullable.toOption; */
       make(
         ~headings,
         ~username,
-        ~userId,
-        ~routeChangeAction,
-        ~pageType,
+        /* ~pageType, */
         [||],
       );
     },

@@ -13,11 +13,24 @@ const ActionButtons = styled.div`
 `
 
 const secondaryActionBadgeCss = css`
+  color: #ffffff;
+  > * {
+    color: #ffffff;
+  }
+  background-color: transparent;
+  :hover {
+    background-color: transparent !important;
+  }
+`
+const secondaryActionBadgeColorPrimaryCss = css`
   color: ${props => props.theme.primaryTextColor};
   > * {
     color: ${props => props.theme.primaryTextColor};
   }
-  background-color: #ffffff;
+  background-color: transparent;
+  :hover {
+    background-color: transparent !important;
+  }
 `
 
 const altActionBadgeCss = css`
@@ -72,6 +85,7 @@ const PositiveActionBadge = ActionBadge.extend`
   }
   margin-right: ${({ alone }) => alone && '0px'};
   ${props => props.type === 'secondary' && secondaryActionBadgeCss};
+  ${props => props.type === 'secondary color primary' && secondaryActionBadgeColorPrimaryCss};
   ${props => props.type === 'alt' && altActionBadgeCss};
   ${props => props.disabled && disabledBadgeCss};
 `

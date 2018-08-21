@@ -36,9 +36,6 @@ const HeaderStrip = styled.div`
   align-items: center;
   background-color: ${props => props.theme.secondaryColor};
   padding: 0 ${props => props.theme.padding};
-  > div:last-child {
-    margin-left: auto;
-  }
 `
 
 const UserBadge = Badge.extend`
@@ -411,7 +408,7 @@ class Request extends Component<Props, State> {
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
                     <PositiveRequestActionBadge
                       alone='true'
-                      type='secondary'
+                      type='secondary color primary'
                       width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
                       label='Update'
@@ -423,7 +420,7 @@ class Request extends Component<Props, State> {
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
                       alone='true'
-                      type={getRequest.is_flagged ? 'secondary' : 'primary'}
+                      type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
                       preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
                       width='auto'
                       action={() => {
@@ -460,7 +457,7 @@ class Request extends Component<Props, State> {
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
                     <PositiveRequestActionBadge
-                        type='secondary'
+                        type='secondary color primary'
                         action={() =>
                           routeChangeAction(
                             `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`
@@ -471,7 +468,7 @@ class Request extends Component<Props, State> {
                     ) : (
                       <PositiveRequestActionBadge
                         alone='true'
-                        type={!getRequest.is_flagged ? 'secondary' : ''}
+                        type={!getRequest.is_flagged ? 'secondary color primary' : ''}
                         width='auto'
                         action={() =>
                           typeof personalSubmittedArticle === 'object' &&
@@ -492,7 +489,7 @@ class Request extends Component<Props, State> {
                   <PositiveRequestActionBadge
                     width='auto'
                     alone='true'
-                    type='secondary'
+                    type='secondary color primary'
                     action={() => {
                       const satisfyingArticle =
                         searchArticles.content &&

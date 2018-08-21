@@ -17,6 +17,7 @@ type LinkProps = {
 }
 
 const A = styled.a`
+  text-decoration: none;
   color: inherit;
   :hover {
     color: inherit;

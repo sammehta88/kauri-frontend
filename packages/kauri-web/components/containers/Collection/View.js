@@ -30,6 +30,7 @@ const HeaderContainer = styled(ContentContainer)`
   padding-top: 106px;
   padding-bottom: 50px;
   box-shadow: inset 0px 0px 140px 120px rgba(0, 0, 0, 0.5);
+  flex-wrap: wrap;
 `
 
 class CollectionPage extends Component<Props> {

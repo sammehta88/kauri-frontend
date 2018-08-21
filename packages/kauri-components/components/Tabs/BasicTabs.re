@@ -5,13 +5,6 @@ module TabList = {
     let tabList = colorProp =>
       Css.(
         style([
-          display(`flex),
-          height(px(50)),
-          flexDirection(row),
-          alignItems(center),
-          backgroundColor(hex(colorProp)),
-          listStyleType(`none),
-          unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
           selector(
             "> *:not(:last-child)",
             [cursor(`pointer), marginRight(px(20))],
@@ -25,6 +18,13 @@ module TabList = {
               selector("> * > * > *", [fontSize(px(11))]),
             ],
           ),
+          display(`flex),
+          height(px(50)),
+          flexDirection(row),
+          alignItems(center),
+          backgroundColor(hex(colorProp)),
+          listStyleType(`none),
+          unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
         ])
       );
   };

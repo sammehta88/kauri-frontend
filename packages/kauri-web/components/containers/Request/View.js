@@ -15,6 +15,8 @@ import DatePosted from '../../common/DatePosted'
 import { Badge, ActionIcon } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
 import GreenArrow from '../../common/GreenArrow'
+import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import { Link } from '../../../routes'
 
 import type { ToggleModalPayload } from '../../../lib/Module'
 import type { SubmitArticlePayload } from '../SubmitArticleForm/Module'
@@ -52,7 +54,6 @@ const UserBadge = Badge.extend`
   > :last-child {
     text-align: center;
     text-transform: lowercase;
-    width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -520,7 +521,14 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a>
+                  <Link
+                    useAnchorTag
+                    route={`/public-profile/${getRequest && getRequest.user_id}`}>
+                    <UserWidgetSmall
+                      username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
+                    />
+                  </Link>
+                  {/* <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a> */}
                   {/* </Link> */}
                 </UserBadge>
               </GeneralActions>

@@ -73,3 +73,11 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
       </div>
     </div>,
 };
+
+[@bs.deriving abstract]
+type jsProps = {username: string};
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(~username=jsProps->usernameGet, ~pageType=None, [||])
+  );

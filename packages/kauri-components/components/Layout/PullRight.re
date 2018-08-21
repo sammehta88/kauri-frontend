@@ -1,8 +1,7 @@
 let component = ReasonReact.statelessComponent("PullRight");
 
 module Style = {
-  let pullRight =
-    Css.(style([marginLeft(`auto), height(px(35)), cursor(`auto)]));
+  let pullRight = Css.(style([marginLeft(`auto), cursor(`auto)]));
 };
 
 let make = children => {

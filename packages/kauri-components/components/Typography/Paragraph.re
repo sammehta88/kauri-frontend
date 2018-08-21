@@ -38,7 +38,7 @@ let make = (~lineClamp=?, ~text, ~color="1E2428", ~size=14, _children) => {
         ->Belt.Option.mapWithDefault(ReactDOMRe.Style.make(), lineClamp =>
             ReactDOMRe.Style.unsafeAddProp(
               ReactDOMRe.Style.make(),
-              "-webkit-line-clamp",
+              "WebkitLineClamp",
               lineClamp->string_of_int,
             )
           )>

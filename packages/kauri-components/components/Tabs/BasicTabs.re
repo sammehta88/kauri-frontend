@@ -6,22 +6,31 @@ module TabList = {
       Css.(
         style([
           display(`flex),
-          height(px(60)),
+          height(px(50)),
           flexDirection(row),
           alignItems(center),
           backgroundColor(hex(colorProp)),
           listStyleType(`none),
           unsafe("padding", "0px calc((100vw - 1280px) / 2)"),
           selector(
-            "> *",
-            [cursor(`pointer), marginRight(px(20)), height(px(35))],
+            "> *:not(:last-child)",
+            [cursor(`pointer), marginRight(px(20))],
+          ),
+          selector(
+            "@media(max-width: 500px)",
+            [
+              paddingLeft(px(10)),
+              paddingRight(px(10)),
+              selector("> * > *", [fontSize(px(11))]),
+              selector("> * > * > *", [fontSize(px(11))]),
+            ],
           ),
         ])
       );
   };
   let make = (~color="1e3d3b", children) => {
     ...component,
-    render: _self => <ul className=(Style.tabList(color))> ...children </ul>,
+    render: _self => <ul className={Style.tabList(color)}> ...children </ul>,
   };
 };
 
@@ -56,13 +65,13 @@ module Tabs = {
       },
     render: self =>
       <div>
-        (
+        {
           tabs(
             index => self.send(SetCurrentTabName(index)),
             self.state.currentTabName,
           )
-        )
-        (self.state.currentTabName |> content)
+        }
+        {self.state.currentTabName |> content}
       </div>,
   };
 };
@@ -74,7 +83,14 @@ module Tab = {
     open Css;
 
     let text = [fontSize(px(13)), fontWeight(700), color(hex("FFFFFF"))];
-    let tab = [selector("> *", text), ...text];
+    let tab = [
+      display(`flex),
+      alignItems(center),
+      height(px(50)),
+      position(relative),
+      selector("> *", text),
+      ...text,
+    ];
     let activeTab = isActive =>
       isActive ?
         style(
@@ -84,9 +100,12 @@ module Tab = {
                 ":after",
                 [
                   unsafe("content", "''"),
-                  background(hex("FFFFFF")),
-                  height(px(2)),
-                  marginTop(px(9)),
+                  position(absolute),
+                  background(hex("0BA986")),
+                  height(px(4)),
+                  bottom(`pt(0)),
+                  left(`pt(0)),
+                  right(`pt(0)),
                   display(`block),
                 ],
               ),
@@ -100,11 +119,9 @@ module Tab = {
   let make = (~setCurrentTabName, ~currentTabName, ~name, children) => {
     ...component,
     render: _self =>
-      <span
-        onClick=(_ => setCurrentTabName(name))
-        className=(Style.activeTab(currentTabName == name))>
-        ...children
-      </span>,
+      <div className={Style.activeTab(currentTabName == name)}>
+        <span onClick={_ => setCurrentTabName(name)}> ...children </span>
+      </div>,
   };
 };
 
@@ -123,7 +140,7 @@ module Panel = {
   let make = (~name, ~currentTabName, children) => {
     ...component,
     render: _self =>
-      <section className=(Style.panel(name == currentTabName))>
+      <section className={Style.panel(name == currentTabName)}>
         ...children
       </section>,
   };
@@ -136,6 +153,8 @@ module Badge = {
     let text =
       Css.(
         style([
+          display(`flex),
+          alignItems(center),
           fontSize(px(13)),
           fontWeight(700),
           color(hex("FFFFFF")),
@@ -146,6 +165,9 @@ module Badge = {
 
   let make = children => {
     ...component,
-    render: _self => <span className=Style.text> ...children </span>,
+    render: _self =>
+      <div className=Tab.Style.tab->Css.style>
+        <span className=Style.text> ...children </span>
+      </div>,
   };
 };

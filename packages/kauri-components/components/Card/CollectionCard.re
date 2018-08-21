@@ -128,7 +128,7 @@ let cardContent =
       }
     />
     <Paragraph
-      lineClamp={cardHeight > 290 ? 0 : 2}
+      cardHeight
       color={
         switch (imageURL) {
         | Some(_) => "FFFFFF"

@@ -58,7 +58,7 @@ module Styles = {
 
 let cardContent = (~title, ~content, ~cardHeight) =>
   <>
-    <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=title />
+    <Heading cardHeight text=title />
     {
       content->(String.sub(0, 2))->(String.contains('{')) ?
         [%raw
@@ -75,7 +75,7 @@ let cardContent = (~title, ~content, ~cardHeight) =>
     }
   </>;
 
-let publicProfile = (~pageType, ~username, ~userId, ~profileImage) =>
+let publicProfile = (~pageType, ~username, ~userId) =>
   <UserWidgetSmall
     pageType
     username=
@@ -104,7 +104,7 @@ let make =
       ~linkComponent=?,
       ~username,
       ~userId,
-      ~profileImage=?,
+      /* ~profileImage=?, */
       ~cardHeight=290,
       _children,
     ) => {
@@ -143,15 +143,13 @@ let make =
             switch (linkComponent, pageType) {
             | (Some(linkComponent), None) =>
               linkComponent(
-                publicProfile(~pageType, ~username, ~userId, ~profileImage),
+                publicProfile(~pageType, ~username, ~userId),
                 {j|/public-profile/$userId|j},
               )
             | (Some(_), Some(_pageType)) =>
-              publicProfile(~pageType, ~username, ~userId, ~profileImage)
-            | (None, None) =>
-              publicProfile(~pageType, ~username, ~userId, ~profileImage)
-            | (None, Some(_)) =>
-              publicProfile(~pageType, ~username, ~userId, ~profileImage)
+              publicProfile(~pageType, ~username, ~userId)
+            | (None, None) => publicProfile(~pageType, ~username, ~userId)
+            | (None, Some(_)) => publicProfile(~pageType, ~username, ~userId)
             }
           }
         </div>

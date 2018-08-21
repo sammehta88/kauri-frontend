@@ -9,39 +9,21 @@ module Styles = {
       color(hex(colorProp)),
     ];
 
-  let trimMultiline =
-    Css.[
-      unsafe("display", "-webkit-box"),
-      unsafe("WebkitBoxOrient", "vertical"),
-      overflow(`hidden),
-    ];
-  let paragraph = (~colorProp, ~sizeProp, ~lineClamp) =>
-    Css.(
-      style(
-        lineClamp
-        ->Belt.Option.mapWithDefault(baseParagraph(~colorProp, ~sizeProp), _ =>
-            List.append(trimMultiline, baseParagraph(~colorProp, ~sizeProp))
-          ),
-      )
-    );
+  let paragraph = (~colorProp, ~sizeProp) =>
+    Css.(style(baseParagraph(~colorProp, ~sizeProp)));
 };
 
-let make = (~lineClamp=?, ~text, ~color="1E2428", ~size=14, _children) => {
+let getLineClamp = (~text, ~cardHeight) =>
+  switch (text, cardHeight) {
+  | (text, cardHeight) when String.length(text) > 70 && cardHeight <= 290 =>
+    (text |> Js.String.substring(~from=0, ~to_=70)) ++ "..."
+  | (text, _) => text
+  };
+
+let make = (~cardHeight=290, ~text, ~color="1E2428", ~size=14, _children) => {
   ...component, /* spread the template's other defaults into here  */
   render: _self =>
-    <div
-      className={
-        Styles.paragraph(~colorProp=color, ~sizeProp=size, ~lineClamp)
-      }
-      style=
-        lineClamp
-        ->Belt.Option.mapWithDefault(ReactDOMRe.Style.make(), lineClamp =>
-            ReactDOMRe.Style.unsafeAddProp(
-              ReactDOMRe.Style.make(),
-              "WebkitLineClamp",
-              lineClamp->string_of_int,
-            )
-          )>
-      {ReasonReact.string(text)}
+    <div className=(Styles.paragraph(~colorProp=color, ~sizeProp=size))>
+      (getLineClamp(~cardHeight, ~text) |> ReasonReact.string)
     </div>,
 };

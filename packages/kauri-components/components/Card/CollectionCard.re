@@ -139,7 +139,13 @@ let cardContent =
     />
   </>;
 
-let publicProfile = (~imageURL, ~username, ~userId, ~profileImage) =>
+let publicProfile =
+    (
+      ~imageURL,
+      ~username,
+      /* , ~profileImage */
+      ~userId,
+    ) =>
   <UserWidgetSmall
     pageType=None
     color=imageURL->Belt.Option.mapWithDefault("1E2428", _ => "FFFFFF")
@@ -161,8 +167,8 @@ let make =
       ~username,
       ~userId,
       ~lastUpdated=?,
-      ~profileImage,
-      ~changeRoute=?,
+      /* ~profileImage, */
+      /* ~changeRoute=?, */
       ~collectionId: string,
       ~imageURL,
       ~cardHeight=290,
@@ -218,12 +224,17 @@ let make =
                       ~imageURL,
                       ~username,
                       ~userId,
-                      ~profileImage,
+                      /* ~profileImage, */
                     ),
                     {j|/public-profile/$userId|j},
                   )
                 | None =>
-                  publicProfile(~imageURL, ~username, ~userId, ~profileImage)
+                  publicProfile(
+                    ~imageURL,
+                    ~username,
+                    ~userId,
+                    /* , ~profileImage */
+                  )
                 }
               }
               {
@@ -283,14 +294,14 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps->changeRouteGet,
+      /* ~changeRoute=jsProps->changeRouteGet, */
       ~heading=jsProps->headingGet,
       ~collectionName=jsProps->collectionNameGet,
       ~articles=jsProps->articlesGet,
       ~lastUpdated=jsProps->lastUpdatedGet,
       ~collectionId=jsProps->collectionIdGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
-      ~profileImage=jsProps->profileImageGet->Js.Nullable.toOption,
+      /* ~profileImage=jsProps->profileImageGet->Js.Nullable.toOption, */
       ~userId=jsProps->userIdGet,
       ~imageURL=jsProps->imageURLGet->Js.Nullable.toOption,
       ~cardHeight=jsProps->cardHeightGet,

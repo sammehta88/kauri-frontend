@@ -109,7 +109,6 @@ const GoBack = ({ routeChangeAction }: *) => (
 
 const ContributeToBountyContainer = styled.div`
   margin: 0 auto;
-  margin-left: 460px;
   align-self: center;
 `
 

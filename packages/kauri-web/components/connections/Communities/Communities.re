@@ -26,7 +26,7 @@ module Styles = {
     Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
-let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
+let renderCommunitiyCards = (~communities) =>
   communities
   ->Belt.Array.map(community => {
       let (description, primaryColor) =
@@ -53,11 +53,9 @@ let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
                    communityName=community
                    communityDescription=description
                    communityLogo={j|/static/images/$community/avatar.png|j}
-                   communityColor=primaryColor
-                   changeRoute=routeChangeAction
                    articles=totalArticles
-                   followers="1"
-                   views="1"
+                   /* followers="1" */
+                   /* views="1" */
                    linkComponent=(
                      childrenProps =>
                        <Link
@@ -74,12 +72,12 @@ let renderCommunitiyCards = (~communities, ~routeChangeAction) =>
     })
   |> ReasonReact.array;
 
-let make = (~routeChangeAction, _children) => {
+let make = _children => {
   ...component,
   render: _self =>
     <div className=Styles.container>
       <div className=Styles.communitiesContainer>
-        {renderCommunitiyCards(~communities, ~routeChangeAction)}
+        {renderCommunitiyCards(~communities)}
       </div>
     </div>,
 };
@@ -87,7 +85,4 @@ let make = (~routeChangeAction, _children) => {
 [@bs.deriving abstract]
 type jsProps = {routeChangeAction: string => unit};
 
-let default =
-  ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~routeChangeAction=jsProps->routeChangeActionGet, [||])
-  );
+let default = ReasonReact.wrapReasonForJs(~component, _jsProps => make([||]));

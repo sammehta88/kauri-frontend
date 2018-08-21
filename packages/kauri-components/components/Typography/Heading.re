@@ -2,7 +2,7 @@ module Styles = {
   let trimMultiline =
     Css.[
       unsafe("display", "-webkit-box"),
-      unsafe("-webkit-box-orient", "vertical"),
+      unsafe("WebkitBoxOrient", "vertical"),
       overflow(`hidden),
     ];
 
@@ -35,7 +35,7 @@ let make = (~lineClamp=?, ~text, ~color="1E2428", ~size=20, _children) => {
         ->Belt.Option.mapWithDefault(ReactDOMRe.Style.make(), lineClamp =>
             ReactDOMRe.Style.unsafeAddProp(
               ReactDOMRe.Style.make(),
-              "-webkit-line-clamp",
+              "WebkitLineClamp",
               lineClamp->string_of_int,
             )
           )>

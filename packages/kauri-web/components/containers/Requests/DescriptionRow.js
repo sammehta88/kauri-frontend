@@ -159,7 +159,7 @@ class WithHover extends React.Component<*, { isHovered: boolean }> {
   handleEnter = () => this.setState({ isHovered: true })
   handleLeave = () => this.setState({ isHovered: false })
 
-  render() {
+  render () {
     return React.cloneElement(this.props.children, {
       ...this.state,
       ...this.props,
@@ -252,7 +252,7 @@ export const Image = ({ src, caption, display, handleEnter, handleLeave, isHover
 )
 
 class YoutubeVideo extends React.Component<*> {
-  render() {
+  render () {
     const opts = {
       height: '390',
       width: '640',
@@ -484,21 +484,21 @@ export default compose(withErrorCatch())(
             dangerouslySetInnerHTML={{ __html: getHTMLFromMarkdown(JSON.parse(text).markdown) }}
           />
         ) : (
-            redraft(
-              (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
-              {
-                inline: Boolean(fullText) && inline,
-                blocks: blocks(fullText, recentRequest, type),
-                entities: Boolean(fullText) && entities,
-              },
-              options
-            )
+          redraft(
+            (JSON.parse(text).markdown && getRawStateFromMarkdown(JSON.parse(text).markdown)) || JSON.parse(text),
+            {
+              inline: Boolean(fullText) && inline,
+              blocks: blocks(fullText, recentRequest, type),
+              entities: Boolean(fullText) && entities,
+            },
+            options
           )
+        )
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text
       ) : (
-            <h4>Something went wrong.</h4>
-          )}
+        <h4>Something went wrong.</h4>
+      )}
     </MaxThreeLines>
   )
 )

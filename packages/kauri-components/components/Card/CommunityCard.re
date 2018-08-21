@@ -38,6 +38,7 @@ module Styles = {
         height(px(50)),
         paddingLeft(px(14)),
         paddingRight(px(14)),
+        paddingBottom(px(9)),
       ])
     );
 
@@ -61,7 +62,6 @@ let cardContent =
       ~heading,
       ~communityDescription,
       ~communityName,
-      ~communityColor,
       ~communityLogo,
       ~cardHeight,
     ) =>
@@ -90,12 +90,10 @@ let make =
       ~heading="community",
       ~communityName,
       ~communityDescription,
-      ~followers,
+      /* ~followers, */
       ~articles,
-      ~views,
+      /* ~views, */
       ~communityLogo=?,
-      ~communityColor=?,
-      ~changeRoute=?,
       ~cardHeight=290,
       ~linkComponent=?,
       _children,
@@ -113,7 +111,6 @@ let make =
                 ~communityDescription,
                 ~cardHeight,
                 ~communityName,
-                ~communityColor,
                 ~communityLogo,
               ),
             )
@@ -122,7 +119,6 @@ let make =
               ~heading,
               ~communityDescription,
               ~communityName,
-              ~communityColor,
               ~cardHeight,
               ~communityLogo,
             )
@@ -141,11 +137,10 @@ type jsProps = {
   heading: string,
   communityName: string,
   communityDescription: string,
-  followers: string,
+  /* followers: string, */
   articles: string,
-  views: string,
+  /* views: string, */
   communityLogo: string,
-  changeRoute: string => unit,
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   cardHeight: int,
 };
@@ -153,13 +148,12 @@ type jsProps = {
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~changeRoute=jsProps->changeRouteGet,
       ~heading=jsProps->headingGet,
       ~communityName=jsProps->communityNameGet,
       ~communityDescription=jsProps->communityDescriptionGet,
-      ~followers=jsProps->followersGet,
+      /* ~followers=jsProps->followersGet, */
       ~articles=jsProps->articlesGet,
-      ~views=jsProps->viewsGet,
+      /* ~views=jsProps->viewsGet, */
       ~cardHeight=jsProps->cardHeightGet,
       ~communityLogo=jsProps->communityLogoGet,
       ~linkComponent=jsProps->linkComponentGet,

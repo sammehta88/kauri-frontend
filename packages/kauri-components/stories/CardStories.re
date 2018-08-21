@@ -55,9 +55,9 @@ myStory.add("Community Card No Image", () =>
   <CommunityCard
     communityName="Loom Network"
     communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-    followers="319"
+    /* followers="319" */
     articles="58"
-    views="39k"
+    /* views="39k" */
   />
 );
 
@@ -65,9 +65,9 @@ myStory.add("Community Card With Image", () =>
   <CommunityCard
     communityName="Loom Network"
     communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-    followers="319"
+    /* followers="319" */
     articles="58"
-    views="39k"
+    /* views="39k" */
     communityLogo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
   />
 );
@@ -76,7 +76,7 @@ myStory.add("Collection Card", () =>
   <CollectionCard
     userId="0x2344234312312"
     username={Some("davo")}
-    profileImage=None
+    /* profileImage=None */
     collectionId="1"
     imageURL=None
     collectionName="Build a DAPP from 0 to Mainnet"
@@ -90,7 +90,7 @@ myStory.add("Collection Card With Image", () =>
   <CollectionCard
     userId="0x2344234312312"
     username={Some("davo")}
-    profileImage=None
+    /* profileImage=None */
     collectionId="1"
     collectionName="Build a DAPP from 0 to Mainnet"
     collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -109,7 +109,7 @@ myStory.add("All Cards", () =>
     <CollectionCard
       userId="0x2344234312312"
       username={Some("davo")}
-      profileImage=None
+      /* profileImage=None */
       collectionId="1"
       collectionName="Build a DAPP from 0 to Mainnet"
       collectionDescription="A walkthrough for every stage of dapp development. From Smart Contract to deployment"
@@ -124,7 +124,7 @@ myStory.add("All Cards", () =>
     <CollectionCard
       userId="0x2344234312312"
       username={Some("davo")}
-      profileImage=None
+      /* profileImage=None */
       collectionId="1"
       imageURL=None
       collectionName="Build a DAPP from 0 to Mainnet"
@@ -135,17 +135,17 @@ myStory.add("All Cards", () =>
     <CommunityCard
       communityName="Loom Network"
       communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-      followers="319"
+      /* followers="319" */
       articles="58"
-      views="39k"
+      /* views="39k" */
       communityLogo="https://pbs.twimg.com/profile_images/939416633419821057/AgqO1tTQ.jpg"
     />
     <CommunityCard
       communityName="Loom Network"
       communityDescription="The Next-Generation Blockchain Application Platform for Ethereum."
-      followers="319"
+      /* followers="319" */
       articles="58"
-      views="39k"
+      /* views="39k" */
     />
     <ArticleCard
       userId="0x1337133713371337"

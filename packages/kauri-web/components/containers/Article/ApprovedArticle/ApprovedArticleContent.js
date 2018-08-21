@@ -19,6 +19,9 @@ export const ApprovedArticleDetails = CreateRequestDetails.extend`
   > :last-child {
     margin-top: 0px;
   }
+  > :not(:first-child) {
+    margin-bottom: 20px;
+  }
 
   @media (max-width: 500px) {
     display: none;
@@ -63,14 +66,14 @@ export default ({
   article_version,
   subject,
 }: {
-    text?: string,
-    username?: ?string,
-    userId?: ?string,
-    routeChangeAction: string => void,
-    article_id: string,
-    subject?: string,
-    article_version: number,
-  }) => {
+  text?: string,
+  username?: ?string,
+  userId?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+  subject?: string,
+  article_version: number,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
@@ -111,7 +114,7 @@ export default ({
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io/' : 'dev.kauri.io/'
-            }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

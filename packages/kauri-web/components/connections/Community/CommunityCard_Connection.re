@@ -7,10 +7,9 @@ let component = ReasonReact.statelessComponent("Community");
 let make =
     (
       ~communityName,
-      ~followers,
-      ~views,
+      /* ~followers, */
+      /* ~views, */
       ~communityLogo,
-      ~changeRoute,
       ~cardHeight,
       ~linkComponent=?,
       _children,
@@ -30,34 +29,30 @@ let make =
              | Data(response) =>
                let articles =
                  response->Article_Resource.articlesCountGet |> string_of_int;
-               let (description, primaryColor) =
+               let description =
                  ThemeConfig.getCommunityConfig(themeConfig, communityName)
-                 ->ThemeConfig.(descriptionGet, primaryColorGet);
+                 ->ThemeConfig.(descriptionGet);
                switch (linkComponent) {
                | Some(link) =>
                  <CommunityCard
                    communityName
                    communityDescription=description
-                   followers
                    articles
-                   views
                    communityLogo
-                   changeRoute
                    cardHeight
+                   /* followers */
+                   /* views */
                    linkComponent=link
-                   communityColor=primaryColor
                  />
                | None =>
                  <CommunityCard
                    communityName
                    communityDescription=description
-                   followers
                    articles
-                   views
                    communityLogo
-                   changeRoute
+                   /* followers */
                    cardHeight
-                   communityColor=primaryColor
+                   /* views */
                  />
                };
              }
@@ -74,7 +69,6 @@ type jsProps = {
   articles: string,
   views: string,
   communityLogo: string,
-  changeRoute: string => unit,
   linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
   cardHeight: int,
 };
@@ -83,10 +77,9 @@ let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
       ~communityName=jsProps->communityNameGet,
-      ~followers=jsProps->followersGet,
-      ~views=jsProps->viewsGet,
+      /* ~followers=jsProps->followersGet, */
+      /* ~views=jsProps->viewsGet, */
       ~communityLogo=jsProps->communityLogoGet,
-      ~changeRoute=jsProps->changeRouteGet,
       ~cardHeight=jsProps->cardHeightGet,
       ~linkComponent=jsProps->linkComponentGet,
       [||],

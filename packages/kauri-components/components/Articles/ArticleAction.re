@@ -15,7 +15,6 @@ module Styles = {
       style([
         display(flexBox),
         width(getWidth(textProp)),
-        marginBottom(px(10)),
         alignItems(center),
         cursor(`pointer),
         selector("> :first-child", [marginRight(px(9))]),
@@ -38,16 +37,16 @@ let make =
   ...component,
   render: _self =>
     <div
-      className=(Styles.container(text))
-      onClick=(
+      className={Styles.container(text)}
+      onClick={
         _event =>
           switch (handleClick) {
           | Some(handleClick) => handleClick()
           | None => ()
           }
-      )>
+      }>
       svgIcon
-      <span className=(Styles.text(pageType))>
+      <span className={Styles.text(pageType)}>
         text->String.uppercase->Vrroom.text
       </span>
     </div>,

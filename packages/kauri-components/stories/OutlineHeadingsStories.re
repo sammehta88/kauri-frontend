@@ -13,9 +13,7 @@ myStory.add("Outline Headings", () =>
 );
 myStory.add("Outline", () =>
   <Outline
-    pageType=None
-    routeChangeAction=(_ => ())
-    userId="0x1337"
+    /* pageType=None */
     headings=[|"Intro", "Turning Web3.js functions into JavaScript promises"|]
     username="rej156"
   />
@@ -23,9 +21,7 @@ myStory.add("Outline", () =>
 
 myStory.add("Outline on SubmittingArticle page", () =>
   <Outline
-    pageType=(Some("SubmittingArticle"))
-    routeChangeAction=(_ => ())
-    userId="0x1337"
+    /* pageType=(Some("SubmittingArticle")) */
     headings=[||]
     username="rej156"
   />

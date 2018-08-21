@@ -17,7 +17,7 @@ const secondaryActionBadgeCss = css`
   > * {
     color: ${props => props.theme.primaryTextColor};
   }
-  background-color: #f7f7f7;
+  background-color: #ffffff;
 `
 
 const altActionBadgeCss = css`

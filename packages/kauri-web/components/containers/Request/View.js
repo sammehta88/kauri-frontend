@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled, { css } from 'styled-components'
 import { Button, Row, Col, Divider } from 'antd'
 import Web3 from 'web3'
@@ -20,10 +20,10 @@ import type { ToggleModalPayload } from '../../../lib/Module'
 import type { SubmitArticlePayload } from '../SubmitArticleForm/Module'
 import type {
   FlagRequestPayload,
-    AddRequestCommentPayload,
-    AddToBountyPayload,
-    RequestRefundPayload,
-    ResubmitRequestPayload,
+  AddRequestCommentPayload,
+  AddToBountyPayload,
+  RequestRefundPayload,
+  ResubmitRequestPayload,
 } from '../Requests/Module'
 
 const web3 = new Web3()
@@ -59,6 +59,8 @@ const UserBadge = Badge.extend`
 `
 
 const RequestOverflow = styled.div`
+  background-color: #ffffff;
+  min-height: calc(100vh - 76px - 163px);
   overflow: hidden;
 `
 
@@ -299,7 +301,7 @@ class Request extends Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render() {
+  render () {
     const {
       ethUsdPrice,
       routeChangeAction,
@@ -322,7 +324,7 @@ class Request extends Component<Props, State> {
     const isCreator = getRequest && getRequest.user_id === userId
 
     return (
-      <section>
+      <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
           {getRequest.status !== 'EXPIRED' &&
@@ -387,19 +389,19 @@ class Request extends Component<Props, State> {
                     cancelAskingQuestion={() => this.setState({ askingQuestion: false })}
                   />
                 ) : (
-                    <AskAQuestion
-                      onClick={() =>
-                        this.setState({ askingQuestion: true }, () => {
-                          const editorDOMNode = document.getElementById('editor')
-                          if (editorDOMNode) {
-                            editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
-                          }
-                        })
-                      }
-                    >
-                      Leave a comment
+                  <AskAQuestion
+                    onClick={() =>
+                      this.setState({ askingQuestion: true }, () => {
+                        const editorDOMNode = document.getElementById('editor')
+                        if (editorDOMNode) {
+                          editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+                        }
+                      })
+                    }
+                  >
+                    Leave a comment
                   </AskAQuestion>
-                  ))}
+                ))}
             </Col>
             <Col md={4}>
               <GeneralActions>
@@ -408,7 +410,7 @@ class Request extends Component<Props, State> {
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type='secondary'
                       width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
@@ -420,7 +422,7 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type={getRequest.is_flagged ? 'secondary' : 'primary'}
                       preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
                       width='auto'
@@ -437,7 +439,7 @@ class Request extends Component<Props, State> {
                 {getRequest.status === 'CREATED' &&
                   isCreator && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type={'primary'}
                       width='100%'
                       action={() =>
@@ -456,26 +458,24 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
-                    personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                      <PositiveRequestActionBadge
+                  personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
+                    <PositiveRequestActionBadge
                         type='secondary'
                         action={() =>
                           routeChangeAction(
-                            `/article/${personalSubmittedArticle.article_id}/v${
-                            personalSubmittedArticle.article_version
-                            }`
+                            `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`
                           )
                         }
                         label='View Article'
                       />
                     ) : (
                       <PositiveRequestActionBadge
-                        alone
+                        alone='true'
                         type={!getRequest.is_flagged ? 'secondary' : ''}
                         width='auto'
                         action={() =>
                           typeof personalSubmittedArticle === 'object' &&
-                            personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
+                        personalSubmittedArticle.status === 'SUBMISSION_IN_PROGRESS'
                             ? submitArticleAction({
                               article_id: personalSubmittedArticle.article_id,
                               request_id: personalSubmittedArticle.request_id,
@@ -491,7 +491,7 @@ class Request extends Component<Props, State> {
                 {getRequest.status === 'CLOSED' && (
                   <PositiveRequestActionBadge
                     width='auto'
-                    alone
+                    alone='true'
                     type='secondary'
                     action={() => {
                       const satisfyingArticle =
@@ -508,7 +508,7 @@ class Request extends Component<Props, State> {
                 {getRequest.status === 'EXPIRED' &&
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type={'primary'}
                       width='auto'
                       action={() => {
@@ -527,7 +527,7 @@ class Request extends Component<Props, State> {
             </Col>
           </RequestContent>
         </RequestOverflow>
-      </section>
+      </Fragment>
     )
   }
 }

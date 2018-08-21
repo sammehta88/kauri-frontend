@@ -42,12 +42,11 @@ module Styles = {
 
 let make =
     (
-      ~routeChangeAction=?,
       ~name,
       ~description,
       ~username,
       ~userId,
-      ~profileImage=?,
+      /* ~profileImage=?, */
       ~updated,
       _children,
     ) => {
@@ -73,12 +72,11 @@ let make =
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
     make(
-      ~routeChangeAction=jsProps->routeChangeActionGet,
       ~name=jsProps->nameGet,
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
-      ~profileImage=jsProps->profileImageGet,
+      /* ~profileImage=jsProps->profileImageGet, */
       ~updated=jsProps->updatedGet,
       [||],
     )

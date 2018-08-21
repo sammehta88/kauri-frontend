@@ -25,7 +25,9 @@ module Styles = {
         alignItems(`center),
         justifyContent(`center),
         background(hex(colorProp)),
-        color(hex(colorProp == "FFFFFF" ? "1E2428" : "FFFFFF")),
+        color(
+          hex(colorProp->String.lowercase == "ffffff" ? "1E2428" : "FFFFFF"),
+        ),
         textTransform(`capitalize),
       ])
     );

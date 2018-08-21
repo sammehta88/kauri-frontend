@@ -77,11 +77,8 @@ let cardContent =
         | None => ReasonReact.null
         }
       }
-      <Heading lineClamp={cardHeight > 290 ? 0 : 2} text=communityName />
-      <Paragraph
-        lineClamp={cardHeight > 290 ? 0 : 2}
-        text=communityDescription
-      />
+      <Heading cardHeight text=communityName />
+      <Paragraph cardHeight text=communityDescription />
     </div>
   </>;
 

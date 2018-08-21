@@ -26,6 +26,7 @@ type Props = {
   text?: string,
   userId?: string,
   authorId?: string,
+  category?: string,
   status?: string,
   getFieldValue: string => ?string,
 }

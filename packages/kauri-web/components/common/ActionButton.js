@@ -13,11 +13,11 @@ const ActionButtons = styled.div`
 `
 
 const secondaryActionBadgeCss = css`
-  color: ${props => props.theme.secondaryTextColor};
+  color: ${props => props.theme.primaryTextColor};
   > * {
-    color: ${props => props.theme.secondaryTextColor};
+    color: ${props => props.theme.primaryTextColor};
   }
-  background-color: #fff;
+  background-color: #f7f7f7;
 `
 
 const altActionBadgeCss = css`
@@ -41,9 +41,9 @@ const ActionBadge = styled(Button)`
   align-items: center;
   > * {
     text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 15px;
     color: #fff;
   }
   > :nth-child(2) {

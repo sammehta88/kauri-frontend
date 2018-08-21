@@ -50,8 +50,8 @@ class CollectionPage extends Component<Props> {
       x_colors: ["#0BA986", "#1E3D3B", "#1E2428"],
     });
 
-    var s = new XMLSerializer().serializeToString(trianglifyBg.svg())
-    const trianglifyBgString = 'data:image/svg+xml;base64,' + window.btoa(s);
+    const generatedSvgString = new XMLSerializer().serializeToString(trianglifyBg.svg())
+    const trianglifyBgString = 'data:image/svg+xml;base64,' + window.btoa(generatedSvgString);
     this.setState({ trianglifyBg: trianglifyBgString });
   }
 

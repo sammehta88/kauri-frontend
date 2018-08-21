@@ -50,7 +50,7 @@ const getBG = (header, featured) => {
   if (featured && header && header.type === ('TOPIC' || 'COMMUNITY')) {
     return theme[header.id].primaryColor
   } else if (featured) {
-    return '#1E3D3B'
+    return '#1e2428'
   } else {
     return 'transparent'
   }

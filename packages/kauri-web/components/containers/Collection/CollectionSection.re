@@ -37,6 +37,7 @@ module Styles = {
         width(`percent(100.0)),
         flexDirection(row),
         justifyContent(center),
+        flexWrap(`wrap),
       ])
     );
 };

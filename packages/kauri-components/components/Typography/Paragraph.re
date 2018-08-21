@@ -12,7 +12,7 @@ module Styles = {
   let trimMultiline =
     Css.[
       unsafe("display", "-webkit-box"),
-      unsafe("-webkit-box-orient", "vertical"),
+      unsafe("WebkitBoxOrient", "vertical"),
       overflow(`hidden),
     ];
   let paragraph = (~colorProp, ~sizeProp, ~lineClamp) =>

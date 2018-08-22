@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FilterLabel as OpenRequestsFilterLabel, SortSelect } from '../../../../OpenRequests/OpenRequestsFilter/View'
+import { SortSelect } from '../../../../OpenRequests/OpenRequestsFilter/View'
 import type { Sort } from '../../../../OpenRequests/OpenRequestsFilter/View'
 
 const Container = styled.div`

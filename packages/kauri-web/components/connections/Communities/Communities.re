@@ -29,9 +29,9 @@ module Styles = {
 let renderCommunitiyCards = (~communities) =>
   communities
   ->Belt.Array.map(community => {
-      let (description, primaryColor) =
+      let description =
         ThemeConfig.getCommunityConfig(themeConfig, community)
-        ->ThemeConfig.(descriptionGet, primaryColorGet);
+        |> ThemeConfig.descriptionGet;
       open Article_Queries;
 
       let articlesCountQuery =

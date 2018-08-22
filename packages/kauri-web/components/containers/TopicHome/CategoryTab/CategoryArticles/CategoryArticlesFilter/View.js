@@ -17,10 +17,6 @@ const Count = styled.span`
   font-size: 12px;
 `
 
-const FilterLabel = OpenRequestsFilterLabel.extend`
-  color: ${props => props.theme.primaryTextColor};
-`
-
 type Result = {
   data: {
     searchArticles: {
@@ -53,10 +49,9 @@ class CategoryArticlesFilter extends Component<Props, State> {
 
   handleSortSelect = (sort: Sort): Promise<void> => this.handleSearch({ sort })
 
-  render () {
+  render() {
     return (
       <CategoryArticlesFilter.Container>
-        <FilterLabel htmlFor='filter'>FILTER BY </FilterLabel>
         <SortSelect topicHomepage handleSortSelect={this.handleSortSelect} />
         <CategoryArticlesFilter.Count>
           {this.props.count} {this.props.count === 1 ? 'Article' : 'Articles'}

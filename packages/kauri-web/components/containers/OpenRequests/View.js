@@ -71,21 +71,12 @@ class OpenRequests extends Component<Props> {
           {data && data.searchRequests && data.searchRequests.content.length ? (
             data.searchRequests.content.map(
               (request, index, requests) =>
-                index !== requests.length - 1 ? (
-                  <OpenRequest
-                    key={request.request_id}
-                    routeChangeAction={routeChangeAction}
-                    request={request}
-                    ethUsdPrice={this.props.ethUsdPrice}
-                  />
-                ) : (
-                    <OpenRequest
-                      key={request.request_id}
-                      routeChangeAction={routeChangeAction}
-                      request={request}
-                      ethUsdPrice={this.props.ethUsdPrice}
-                    />
-                  )
+                <OpenRequest
+                  key={request.request_id}
+                  routeChangeAction={routeChangeAction}
+                  request={request}
+                  ethUsdPrice={this.props.ethUsdPrice}
+                />
             )
           ) : (
               <p>No requests found.</p>
@@ -99,22 +90,12 @@ class OpenRequests extends Component<Props> {
             this.props.searchCompletedRequests.searchRequests.content.length >= 1 &&
             this.props.searchCompletedRequests.searchRequests.content.map(
               (request, index, requests) =>
-                index !== requests.length - 1 ? (
-                  <OpenRequest
-                    key={request.request_id}
-                    routeChangeAction={routeChangeAction}
-                    request={request}
-                    ethUsdPrice={this.props.ethUsdPrice}
-                    key={request.request_id}
-                  />
-                ) : (
-                    <OpenRequest
-                      key={request.request_id}
-                      routeChangeAction={routeChangeAction}
-                      request={request}
-                      ethUsdPrice={this.props.ethUsdPrice}
-                    />
-                  )
+                <OpenRequest
+                  key={request.request_id}
+                  routeChangeAction={routeChangeAction}
+                  request={request}
+                  ethUsdPrice={this.props.ethUsdPrice}
+                />
             )}
           {typeof this.props.searchCompletedRequests === 'object' &&
             typeof this.props.searchCompletedRequests.searchRequests === 'object' &&

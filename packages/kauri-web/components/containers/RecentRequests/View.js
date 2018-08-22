@@ -102,7 +102,7 @@ const AllArticlesBadge = ({ count, category, recentCategoryRequests }: *) => (
 )
 
 class RecentRequests extends Component<Props> {
-  render () {
+  render() {
     if (this.props.data.loading) {
       return <p>Loading...</p>
     }
@@ -114,8 +114,8 @@ class RecentRequests extends Component<Props> {
             <Header category={this.props.category} />
             <RecentRequestsContainer>
               {typeof this.props.data.searchRequests === 'object' &&
-              Array.isArray(this.props.data.searchRequests.content) &&
-              this.props.data.searchRequests.content.length > 0 ? (
+                Array.isArray(this.props.data.searchRequests.content) &&
+                this.props.data.searchRequests.content.length > 0 ? (
                   this.props.data.searchRequests.content.map(
                     (request, index, requests) =>
                       index !== requests.length - 1 ? (
@@ -124,8 +124,8 @@ class RecentRequests extends Component<Props> {
                           <Divider style={{ marginTop: '20px' }} />
                         </Fragment>
                       ) : (
-                        <RecentRequest key={request.request_id} {...request} ethUsdPrice={this.props.ethUsdPrice} />
-                      )
+                          <RecentRequest key={request.request_id} {...request} ethUsdPrice={this.props.ethUsdPrice} />
+                        )
                   )
                 ) : (
                   <p>No recent requests.</p>

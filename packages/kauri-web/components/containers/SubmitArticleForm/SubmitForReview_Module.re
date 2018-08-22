@@ -90,7 +90,7 @@ let submitForReviewEpic =
               )
             )
           ->(
-              flatMap(article_version => {
+              flatMap(_ => {
                 open App_Module;
 
                 let trackSubmitForReviewPayload =

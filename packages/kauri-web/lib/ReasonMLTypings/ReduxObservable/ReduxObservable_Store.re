@@ -9,7 +9,7 @@ type store = {getState: unit => reduxState};
 
 open App_Module;
 [@bs.send]
-external dispatch :
+external dispatch:
   (
     store,
     [@bs.unwrap] [

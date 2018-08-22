@@ -46,7 +46,7 @@ const UserBadge = Badge.extend`
     font-weight: 500;
     line-height: 21px;
     text-transform: capitalize;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
   }
   > :last-child {
     text-align: center;
@@ -414,7 +414,8 @@ class Request extends Component<Props, State> {
                       label='Update'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'EXPIRED' &&
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
@@ -451,7 +452,8 @@ class Request extends Component<Props, State> {
                       label='Resubmit Request'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
@@ -517,9 +519,7 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <Link
-                    useAnchorTag
-                    route={`/public-profile/${getRequest && getRequest.user_id}`}>
+                  <Link useAnchorTag route={`/public-profile/${getRequest && getRequest.user_id}`}>
                     <UserWidgetSmall
                       username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
                     />

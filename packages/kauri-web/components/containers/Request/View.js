@@ -36,6 +36,9 @@ const HeaderStrip = styled.div`
   align-items: center;
   background-color: ${props => props.theme.secondaryColor};
   padding: 0 ${props => props.theme.padding};
+  > :not(:first-child) {
+    margin-left: auto;
+  }
 `
 
 const UserBadge = Badge.extend`
@@ -108,7 +111,6 @@ const GoBack = ({ routeChangeAction }: *) => (
 )
 
 const ContributeToBountyContainer = styled.div`
-  margin: 0 auto;
   align-self: center;
 `
 
@@ -324,7 +326,7 @@ class Request extends Component<Props, State> {
       <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {getRequest.status !== 'EXPIRED' &&
+          {typeof userId === 'string' && getRequest.status !== 'EXPIRED' &&
             getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />

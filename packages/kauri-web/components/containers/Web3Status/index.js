@@ -24,7 +24,7 @@ const StatusIndicator = styled.div`
   border: 1px solid #fff;
 `
 
-const Loading = props => <div>Loading...</div>;
+const Loading = props => <div>Loading...</div>
 
 const UnsupportedNetwork = props => (
   <div>
@@ -34,9 +34,8 @@ const UnsupportedNetwork = props => (
 
 const Web3Unavailable = props => (
   <div>
-    MetaMask extension not installed. <br />
     <a style={{ color: '#fff' }} target='_blank' href='https://metamask.io/'>
-      Get MetaMask
+      MetaMask extension not installed.
     </a>
   </div>
 )
@@ -113,10 +112,10 @@ const DropdownDetails = ({ currentNetworkName, hovered, account, accountsError, 
       {accountsError ? (
         <WrongAccountText>{accountsError}</WrongAccountText>
       ) : (
-          <AccountText>
-            {account && `${account.substring(0, 8)}...${account.substring(account.length - 8, account.length)}`}
-          </AccountText>
-        )}
+        <AccountText>
+          {account && `${account.substring(0, 8)}...${account.substring(account.length - 8, account.length)}`}
+        </AccountText>
+      )}
     </AccountStatus>
   </DropdownContainer>
 )
@@ -136,7 +135,7 @@ class AccountDetails extends Component {
 
   toggleHovered = () => this.setState({ hovered: !this.state.hovered })
 
-  render() {
+  render () {
     const { currentNetworkName, networkError, accountsError, account } = this.props
     return (
       <AccountDetailsContainer>
@@ -159,7 +158,7 @@ class AccountDetails extends Component {
 }
 
 class Web3Status extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
 
     this.interval = null
@@ -175,7 +174,7 @@ class Web3Status extends Component {
     }
   }
 
-  componentDidCatch(err, errorInfo) {
+  componentDidCatch (err, errorInfo) {
     console.log(this.state)
     console.log(err)
     console.log(errorInfo)
@@ -185,7 +184,7 @@ class Web3Status extends Component {
    * Start polling accounts, & network. We poll indefinitely so that we can
    * react to the user changing accounts or networks.
    */
-  componentDidMount() {
+  componentDidMount () {
     this.fetchAccounts()
     this.fetchNetwork()
     this.initPoll()
@@ -196,7 +195,7 @@ class Web3Status extends Component {
    * Init web3/account polling, and prevent duplicate interval.
    * @return {void}
    */
-  initPoll() {
+  initPoll () {
     if (!this.interval) {
       this.interval = setInterval(this.fetchAccounts, ONE_SECOND)
     }
@@ -206,7 +205,7 @@ class Web3Status extends Component {
    * Init network polling, and prevent duplicate intervals.
    * @return {void}
    */
-  initNetworkPoll() {
+  initNetworkPoll () {
     if (!this.networkInterval) {
       this.networkInterval = setInterval(this.fetchNetwork, ONE_MINUTE)
     }
@@ -216,7 +215,7 @@ class Web3Status extends Component {
    * Update state regarding the availability of web3 and an ETH account.
    * @return {void}
    */
-  fetchAccounts() {
+  fetchAccounts () {
     const { web3 } = global.window
 
     web3 &&
@@ -241,7 +240,7 @@ class Web3Status extends Component {
       })
   }
 
-  handleAccounts(accounts) {
+  handleAccounts (accounts) {
     let next = accounts && accounts[0]
     let curr = this.state.accounts && this.state.accounts[0]
     next = next && next.toLowerCase()
@@ -271,7 +270,7 @@ class Web3Status extends Component {
    * Get the network and update state accordingly.
    * @return {void}
    */
-  fetchNetwork() {
+  fetchNetwork () {
     const { web3 } = window
 
     web3 &&
@@ -295,8 +294,8 @@ class Web3Status extends Component {
       })
   }
 
-  render() {
-    if (!global.window) return <Loading />;
+  render () {
+    if (!global.window) return <Loading />
 
     const { web3 } = global.window
     const { accounts, accountsLoaded, networkId } = this.state
@@ -311,7 +310,7 @@ class Web3Status extends Component {
     }
 
     if (!accountsLoaded) {
-      return <Loading />;
+      return <Loading />
     }
 
     if (accounts && accounts.length < 1) {

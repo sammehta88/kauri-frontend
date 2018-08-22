@@ -67,7 +67,7 @@ let make = (~community, ~website, _children) => {
       </CommunityWebsite>
       <ShareArticle
         pageType=CommunityProfile
-        url=website
+        url=website->getWebsite
         title=community->String.capitalize
       />
     </Container>,

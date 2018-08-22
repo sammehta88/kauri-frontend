@@ -29,7 +29,7 @@ export const OpenRequestsHeader = styled.h2`
 `
 
 const Header = styled.div`
-  background: #1e2428;
+  background: ${props => props.theme.primaryTextColor};
   height: 255px;
   display: flex;
   align-items: center;

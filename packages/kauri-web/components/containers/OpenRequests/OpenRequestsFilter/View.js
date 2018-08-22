@@ -159,7 +159,7 @@ const OpenRequestsFilterSection = styled.section`
   height: 60px;
   align-items: center;
   padding: 0 ${props => props.theme.padding};
-  background-color: #1E3D3B;
+  background-color: ${props => props.theme.secondaryColor};
   justify-self: flex-end;
   width: 100%;
 `

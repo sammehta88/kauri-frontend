@@ -17,6 +17,9 @@ const InReviewArticleActions = styled.section`
   > :last-child {
     margin-right: 11px;
   }
+  > :not(:first-child) {
+    margin-left: auto;
+  }
 `
 
 const PullRight = styled.div`

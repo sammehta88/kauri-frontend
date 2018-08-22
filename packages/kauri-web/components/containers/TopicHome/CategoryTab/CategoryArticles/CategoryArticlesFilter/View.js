@@ -1,7 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { FilterLabel as OpenRequestsFilterLabel, SortSelect } from '../../../../OpenRequests/OpenRequestsFilter/View'
+import { SortSelect } from '../../../../OpenRequests/OpenRequestsFilter/View'
 import type { Sort } from '../../../../OpenRequests/OpenRequestsFilter/View'
 
 const Container = styled.div`
@@ -15,10 +15,6 @@ const Count = styled.span`
   margin-left: auto;
   font-weight: 500;
   font-size: 12px;
-`
-
-const FilterLabel = OpenRequestsFilterLabel.extend`
-  color: ${props => props.theme.primaryTextColor};
 `
 
 type Result = {
@@ -53,10 +49,9 @@ class CategoryArticlesFilter extends Component<Props, State> {
 
   handleSortSelect = (sort: Sort): Promise<void> => this.handleSearch({ sort })
 
-  render () {
+  render() {
     return (
       <CategoryArticlesFilter.Container>
-        <FilterLabel htmlFor='filter'>FILTER BY </FilterLabel>
         <SortSelect topicHomepage handleSortSelect={this.handleSortSelect} />
         <CategoryArticlesFilter.Count>
           {this.props.count} {this.props.count === 1 ? 'Article' : 'Articles'}

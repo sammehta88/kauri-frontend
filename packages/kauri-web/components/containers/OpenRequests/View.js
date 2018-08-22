@@ -4,6 +4,7 @@ import { Divider } from 'antd'
 import styled from 'styled-components'
 import OpenRequestsFilter from './OpenRequestsFilter'
 import OpenRequest from './OpenRequest'
+import RequestSearchBar from '../RequestSearchBar'
 
 type Props = {
   userId: ?string,
@@ -27,8 +28,24 @@ export const OpenRequestsHeader = styled.h2`
   font-size: 20px;
 `
 
+const Header = styled.div`
+  background: ${props => props.theme.primaryTextColor};
+  height: 255px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
+  font-size: 13px;
+`;
+
+const Heading = styled.div`
+  font-size: 32px;
+  font-weight: 300;
+`;
+
 class OpenRequests extends Component<Props> {
-  render () {
+  render() {
     const { routeChangeAction } = this.props
     const data = this.props.searchOpenRequests || this.props.data
     const count = data && data.searchRequests && data.searchRequests.content.length
@@ -36,73 +53,51 @@ class OpenRequests extends Component<Props> {
     return (
       <section>
         {typeof this.props.profile !== 'boolean' && (
-          <OpenRequestsFilter
-            categoryQuery={this.props.categoryQuery}
-            profile={this.props.profile}
-            refetch={data.refetch}
-            count={count}
-          />
+          <div>
+            <Header>
+              <Heading>{count || 0} Request{(count > 1 || !count) && 's'}</Heading>
+              <p>Articles, Tutorials, Walkthroughs and Documentation</p>
+              <RequestSearchBar />
+            </Header>
+            <OpenRequestsFilter
+              categoryQuery={this.props.categoryQuery}
+              profile={this.props.profile}
+              refetch={data.refetch}
+              count={count}
+            />
+          </div>
         )}
         <OpenRequestsSection>
           {typeof this.props.profile === 'boolean' &&
-            this.props.profile === true && [
-              <OpenRequestsHeader key='Live Requests'>Live Requests</OpenRequestsHeader>,
-              <Divider key='Live Requests Divider' />,
-            ]}
+            this.props.profile === true && <OpenRequestsHeader key='Live Requests'>Live Requests</OpenRequestsHeader>}
           {data && data.searchRequests && data.searchRequests.content.length ? (
             data.searchRequests.content.map(
               (request, index, requests) =>
-                index !== requests.length - 1 ? (
-                  <div key={request.request_id}>
-                    <OpenRequest
-                      routeChangeAction={routeChangeAction}
-                      request={request}
-                      ethUsdPrice={this.props.ethUsdPrice}
-                    />
-                    <Divider />
-                  </div>
-                ) : (
-                  <OpenRequest
-                    key={request.request_id}
-                    routeChangeAction={routeChangeAction}
-                    request={request}
-                    ethUsdPrice={this.props.ethUsdPrice}
-                  />
-                )
+                <OpenRequest
+                  key={request.request_id}
+                  routeChangeAction={routeChangeAction}
+                  request={request}
+                  ethUsdPrice={this.props.ethUsdPrice}
+                />
             )
           ) : (
-            <p>No requests found.</p>
-          )}
+              <p>No requests found.</p>
+            )}
           {typeof this.props.profile === 'boolean' &&
-            this.props.profile === true && [
-              <OpenRequestsHeader completed key='Completed'>
-                Completed
-              </OpenRequestsHeader>,
-              <Divider key='Completed Divider' />,
-            ]}
+            this.props.profile === true && <OpenRequestsHeader completed key='Completed'>
+              Completed
+              </OpenRequestsHeader>}
           {typeof this.props.searchCompletedRequests === 'object' &&
             typeof this.props.searchCompletedRequests.searchRequests === 'object' &&
             this.props.searchCompletedRequests.searchRequests.content.length >= 1 &&
             this.props.searchCompletedRequests.searchRequests.content.map(
               (request, index, requests) =>
-                index !== requests.length - 1 ? (
-                  <div key={request.request_id}>
-                    <OpenRequest
-                      key={request.request_id}
-                      routeChangeAction={routeChangeAction}
-                      request={request}
-                      ethUsdPrice={this.props.ethUsdPrice}
-                    />
-                    <Divider key={request.request_id} />
-                  </div>
-                ) : (
-                  <OpenRequest
-                    key={request.request_id}
-                    routeChangeAction={routeChangeAction}
-                    request={request}
-                    ethUsdPrice={this.props.ethUsdPrice}
-                  />
-                )
+                <OpenRequest
+                  key={request.request_id}
+                  routeChangeAction={routeChangeAction}
+                  request={request}
+                  ethUsdPrice={this.props.ethUsdPrice}
+                />
             )}
           {typeof this.props.searchCompletedRequests === 'object' &&
             typeof this.props.searchCompletedRequests.searchRequests === 'object' &&

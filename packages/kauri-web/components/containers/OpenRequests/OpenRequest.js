@@ -20,7 +20,11 @@ type Props = {
 let OpenRequest: any = styled.div`
   display: flex;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 30px;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 0 6px 0 rgba(0,0,0,0.11);  
+  padding: 16px 29px;
 `
 export const CategoryAvatar = styled.img`
   max-height: ${props => props.height || '35'}px;
@@ -76,9 +80,6 @@ const Badges = Details.extend`
 const Dates = styled.div`
   display: flex;
   margin-top: auto;
-  > :last-child {
-    margin-left: 50px;
-  }
 `
 
 const profileTypeCategoryBadgeCss = css`
@@ -160,62 +161,53 @@ export default ({
     total_submissions,
   },
 }: Props) => (
-  <OpenRequest>
-    <OpenRequest.CategoryBadge
-      category={category}
-      theme={theme}
-      onClick={() => routeChangeAction(`/request/${request_id}`)}
-    >
-      <OpenRequest.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />
-      <OpenRequest.CategoryName>{category}</OpenRequest.CategoryName>
-    </OpenRequest.CategoryBadge>
-    <OpenRequest.Details>
-      <RestrictToOneLine>
-        <Link route={`/request/${request_id}`}>
-          <OpenRequest.Subject href={`/request/${request_id}`}>
-            {typeof text === 'string' && text.includes('https://beta.bounties.network/bounty/') ? '🌟' : ''}
-            {subject}
-          </OpenRequest.Subject>
-        </Link>
-      </RestrictToOneLine>
-      <OpenRequest.Content>
-        <OpenRequest.Text>
-          <DescriptionRow openRequest record={{ text }} />
-        </OpenRequest.Text>
-        <OpenRequest.Dates>
-          <OpenRequest.DatePosted>
-            <span>POSTED</span>
-            <strong>{`${moment(date_created).format('DD/MM/YYYY')}`}</strong>
-          </OpenRequest.DatePosted>
-          <OpenRequest.Deadline>
-            <span>
-              EXPIRE
-              {moment(dead_line).isBefore() ? 'D' : 'S'}
-            </span>
-            <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
-          </OpenRequest.Deadline>
-        </OpenRequest.Dates>
-      </OpenRequest.Content>
-    </OpenRequest.Details>
-    <OpenRequest.Badges>
-      <OpenRequest.Badge>
-        <strong>{total_flag}</strong>
-        {(status !== 'CLOSED' || status !== 'CANCELLED' || status !== 'CANCELLATION_IN_PROGRESS') && (
-          <strong>{typeof status === 'string' && status.replace(/_/g, ' ')}</strong>
-        )}
-      </OpenRequest.Badge>
-      <OpenRequest.Badge>
-        <strong>{total_submissions}</strong>
-        <strong>SUBMISSIONS</strong>
-      </OpenRequest.Badge>
-      <OpenRequest.Badge>
-        <strong>{comments.length}</strong>
-        <strong>COMMENTS</strong>
-      </OpenRequest.Badge>
-      <OpenRequest.Badge>
-        <strong>{`${web3.fromWei(bounty, 'ether')} ETH`}</strong>
-        <strong>{`$${(web3.fromWei(bounty, 'ether') * ethUsdPrice || 0).toFixed(2)}`}</strong>
-      </OpenRequest.Badge>
-    </OpenRequest.Badges>
-  </OpenRequest>
-)
+    <OpenRequest>
+      <OpenRequest.CategoryBadge
+        category={category}
+        theme={theme}
+        onClick={() => routeChangeAction(`/request/${request_id}`)}
+      >
+        <OpenRequest.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />
+        <OpenRequest.CategoryName>{category}</OpenRequest.CategoryName>
+      </OpenRequest.CategoryBadge>
+      <OpenRequest.Details>
+        <RestrictToOneLine>
+          <Link route={`/request/${request_id}`}>
+            <OpenRequest.Subject href={`/request/${request_id}`}>
+              {typeof text === 'string' && text.includes('https://beta.bounties.network/bounty/') ? '🌟' : ''}
+              {subject}
+            </OpenRequest.Subject>
+          </Link>
+        </RestrictToOneLine>
+        <OpenRequest.Content>
+          <OpenRequest.Text>
+            <DescriptionRow openRequest record={{ text }} />
+          </OpenRequest.Text>
+          <OpenRequest.Dates>
+            <OpenRequest.Deadline>
+              <span>
+                DEADLINE
+              </span>
+              <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
+            </OpenRequest.Deadline>
+          </OpenRequest.Dates>
+        </OpenRequest.Content>
+      </OpenRequest.Details>
+      <OpenRequest.Badges>
+        <OpenRequest.Badge>
+          <strong>{total_flag}</strong>
+          {(status !== 'CLOSED' || status !== 'CANCELLED' || status !== 'CANCELLATION_IN_PROGRESS') && (
+            <strong>{typeof status === 'string' && status.replace(/_/g, ' ')}</strong>
+          )}
+        </OpenRequest.Badge>
+        <OpenRequest.Badge>
+          <strong>{comments.length}</strong>
+          <strong>COMMENTS</strong>
+        </OpenRequest.Badge>
+        <OpenRequest.Badge>
+          <strong>{`${web3.fromWei(bounty, 'ether')} ETH`}</strong>
+          <strong>{`$${(web3.fromWei(bounty, 'ether') * ethUsdPrice || 0).toFixed(2)}`}</strong>
+        </OpenRequest.Badge>
+      </OpenRequest.Badges>
+    </OpenRequest>
+  )

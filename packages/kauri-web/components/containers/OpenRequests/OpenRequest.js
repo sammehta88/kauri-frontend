@@ -48,6 +48,7 @@ export const Subject = styled.a`
   line-height: 24px;
   ${props => props.recentRequest && smallerSubject};
   line-height: ${props => props.type === 'topicHomepage' && 'initial !important'};
+  color: ${ props => props.theme.primaryTextColor};
 `
 
 const CommentsNumber = styled.strong`

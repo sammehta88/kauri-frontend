@@ -4,6 +4,7 @@ import { Divider } from 'antd'
 import styled from 'styled-components'
 import OpenRequestsFilter from './OpenRequestsFilter'
 import OpenRequest from './OpenRequest'
+import RequestSearchBar from '../RequestSearchBar'
 
 type Props = {
   userId: ?string,
@@ -56,6 +57,7 @@ class OpenRequests extends Component<Props> {
             <Header>
               <Heading>{count || 0} Request{(count > 1 || !count) && 's'}</Heading>
               <p>Articles, Tutorials, Walkthroughs and Documentation</p>
+              <RequestSearchBar />
             </Header>
             <OpenRequestsFilter
               categoryQuery={this.props.categoryQuery}

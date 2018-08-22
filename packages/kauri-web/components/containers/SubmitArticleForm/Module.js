@@ -75,13 +75,11 @@ export const submitArticleEpic = (
           apolloSubscriber(hash)
         )
         .do(h => console.log(h))
-        .do(h => apolloClient.cache.reset())
+        .do(h => apolloClient.resetStore())
         .mergeMap(({ data: { command_output: { id, version } } }) =>
           Observable.of(
             routeChangeAction(
-              `/article/${id}/v${version}/article-${
-              typeof category === 'string' ? 'submitted' : 'published'
-              }`
+              `/article/${id}/v${version}/article-${typeof category === 'string' ? 'submitted' : 'published'}`
             ),
             trackMixpanelAction({
               event: 'Offchain',

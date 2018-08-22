@@ -428,7 +428,7 @@ class Request extends Component<Props, State> {
                       width='auto'
                       action={() => {
                         const flaggingPayload =
-                          getRequest.is_flagged && typeof getRequest.request_id === 'string'
+                          !getRequest.is_flagged && typeof getRequest.request_id === 'string'
                             ? { request_id: getRequest.request_id, isFlagged: true }
                             : { request_id: getRequest.request_id }
                         flagRequestAction(flaggingPayload)

@@ -101,11 +101,11 @@ class SubmitArticleForm extends React.Component<Props> {
                   subject,
                 })
               } else {
-                // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
                 return submitArticleAction({
                   request_id,
                   text,
                   subject,
+                  category: data.getRequest.category,
                   sub_category: data.getRequest.sub_category,
                   metadata: formatMetadata({ version }),
                 })

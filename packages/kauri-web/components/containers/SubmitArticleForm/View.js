@@ -101,11 +101,11 @@ class SubmitArticleForm extends React.Component<Props> {
                   subject,
                 })
               } else {
-                // NOTE - Category is automatically forwarded to this aritcle since it's a request submission
                 return submitArticleAction({
                   request_id,
                   text,
                   subject,
+                  category: data.getRequest.category,
                   sub_category: data.getRequest.sub_category,
                   metadata: formatMetadata({ version }),
                 })
@@ -152,7 +152,7 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
-            if (this.props.data && this.props.data.getArticle.status === 'DRAFT') {
+            if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
               if (this.props.data && this.props.data.getArticle.category) {
                 const currentArticle: ArticleDTO = this.props.data.getArticle
 
@@ -176,7 +176,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   metadata: formatMetadata({ version }),
                 })
               }
-            } else if (this.props.data && this.props.data.getArticle.article_id) {
+            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
               const currentArticle: ArticleDTO = this.props.data.getArticle
 
               const draftArticlePayload = {

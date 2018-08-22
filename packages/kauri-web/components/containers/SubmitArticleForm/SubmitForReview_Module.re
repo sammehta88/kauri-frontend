@@ -90,25 +90,25 @@ let submitForReviewEpic =
               )
             )
           ->(
-              flatMap(article_version => {
-                open App_Module;
-
+              flatMap(_ => {
                 let trackSubmitForReviewPayload =
-                  trackMixPanelPayload(
+                  App_Module.trackMixPanelPayload(
                     ~event="Offchain",
-                    ~metaData={
-                      resource: "article",
-                      resourceID,
-                      resourceVersion: string_of_int(article_version),
-                      resourceAction: "submit for review draft article",
-                    },
+                    ~metaData=
+                      App_Module.trackMixPanelMetaData(
+                        ~resource="article",
+                        ~resourceID,
+                        ~resourceVersion=string_of_int(article_version),
+                        ~resourceAction="submit for review draft article",
+                      ),
                   );
                 let trackSubmitForReviewAction =
-                  trackMixPanelAction(trackSubmitForReviewPayload);
+                  App_Module.trackMixPanelAction(trackSubmitForReviewPayload);
 
-                let notificationType = notificationTypeToJs(`Success);
+                let notificationType =
+                  App_Module.notificationTypeToJs(`Success);
                 let showSubmitForReviewNotificationPayload =
-                  showNotificationPayload(
+                  App_Module.showNotificationPayload(
                     ~notificationType,
                     ~message="Article submitted",
                     ~description=
@@ -116,15 +116,15 @@ let submitForReviewEpic =
                   );
 
                 let showSubmitForReviewNotificationAction =
-                  showNotificationAction(
+                  App_Module.showNotificationAction(
                     showSubmitForReviewNotificationPayload,
                   );
 
                 of3(
                   trackSubmitForReviewAction,
                   showSubmitForReviewNotificationAction,
-                  routeChangeAction(
-                    route(
+                  App_Module.routeChangeAction(
+                    App_Module.route(
                       ~slug1=ArticleId(resourceID),
                       ~slug2=ArticleVersionId(article_version),
                       ~routeType=ArticleSubmitted,

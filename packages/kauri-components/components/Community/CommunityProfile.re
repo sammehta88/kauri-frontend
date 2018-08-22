@@ -1,3 +1,4 @@
+[@bs.val] external externalApiURL: string = "process.env.monolithExternalApi";
 let component = ReasonReact.statelessComponent("CommunityAvatar");
 
 module Container =
@@ -52,7 +53,18 @@ let getCommunity = community =>
   | community => community->String.capitalize
   };
 
-let getWebsite = website => (website |> Js.String.split("://"))[1];
+let stripWebsite = website => (website |> Js.String.split("://"))[1];
+
+/* const hostname = process.env.monolithExternalApi.includes('rinkeby')
+   ? 'https://rinkeby.kauri.io'
+   : 'https://dev.kauri.io' */
+
+let assembleShareWebsiteURL = community =>
+  (
+    externalApiURL |> Js.String.includes("rinkeby") ?
+      "https://rinkeby.kauri.io/community/" : "https://dev.kauri.io/community/"
+  )
+  ++ community;
 
 let make = (~community, ~website, _children) => {
   ...component,
@@ -63,11 +75,11 @@ let make = (~community, ~website, _children) => {
         community->getCommunity->ReasonReact.string
       </CommunityName>
       <CommunityWebsite href=website>
-        website->getWebsite->ReasonReact.string
+        website->stripWebsite->ReasonReact.string
       </CommunityWebsite>
       <ShareArticle
         pageType=CommunityProfile
-        url=website
+        url=community->assembleShareWebsiteURL
         title=community->String.capitalize
       />
     </Container>,

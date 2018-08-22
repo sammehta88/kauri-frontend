@@ -140,7 +140,6 @@ export const flagRequestEpic = (
       })
       .flatMap((transactionHash: string) => apolloSubscriber(transactionHash, 'RequestFlagged'))
       .do(h => console.log(h))
-      .do(() => apolloClient.resetStore())
       .mapTo(
         showNotificationAction({
           notificationType: 'success',
@@ -148,6 +147,7 @@ export const flagRequestEpic = (
           description: '1 block has been confirmed',
         })
       )
+      .do(() => apolloClient.resetStore())
       .catch(err => {
         console.error(err)
         return Observable.of(

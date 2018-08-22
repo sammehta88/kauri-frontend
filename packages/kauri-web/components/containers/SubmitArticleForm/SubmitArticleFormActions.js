@@ -62,7 +62,7 @@ export default ({
             ? authorId === userId
               ? `Update ${status === 'DRAFT' ? 'Draft' : 'Article'}`
               : 'Submit for Review'
-            : getFieldValue('category')
+            : getFieldValue('category') || category
               ? 'Submit for Review'
               : 'Publish'}
         </span>

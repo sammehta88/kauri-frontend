@@ -36,7 +36,7 @@ export const CreateRequestSecondaryHeader = styled.div`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
   background-color: ${props => props.theme.primaryTextColor};
   ${props => props.type === 'article' && articleHeaderCss};
-  @media(max-width: 500px) {
+  @media (max-width: 500px) {
     padding: ${props => props.theme.paddingTop} 10px;
   }
 `
@@ -146,6 +146,8 @@ export const ChooseTopic = ({ getFieldDecorator, getFieldError, chosenCategory, 
     rules: [
       {
         whitespace: true,
+        required: type === 'request' && true,
+        message: 'Please input the community of the request!',
       },
     ],
     defaultValue: chosenCategory && chosenCategory.toLowerCase(),

@@ -138,12 +138,13 @@ let draftArticleEpic =
                 let trackDraftArticlePayload =
                   trackMixPanelPayload(
                     ~event="Offchain",
-                    ~metaData={
-                      resource: "article",
-                      resourceID: articleId,
-                      resourceVersion: string_of_int(articleVersion),
-                      resourceAction: "draft article",
-                    },
+                    ~metaData=
+                      trackMixPanelMetaData(
+                        ~resource="article",
+                        ~resourceID=articleId,
+                        ~resourceVersion=string_of_int(articleVersion),
+                        ~resourceAction="draft article",
+                      ),
                   );
                 let trackDraftArticleAction =
                   trackMixPanelAction(trackDraftArticlePayload);

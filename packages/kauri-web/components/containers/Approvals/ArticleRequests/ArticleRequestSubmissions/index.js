@@ -24,7 +24,7 @@ export default compose(
       variables: {
         filter: {
           request_id_eq: request_id,
-          status_in: ['IN_REVIEW'],
+          status_in: ['IN_REVIEW', 'APPROVED'],
         },
       },
     }),

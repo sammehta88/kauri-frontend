@@ -36,6 +36,9 @@ const HeaderStrip = styled.div`
   align-items: center;
   background-color: ${props => props.theme.secondaryColor};
   padding: 0 ${props => props.theme.padding};
+  > :not(:first-child) {
+    margin-left: auto;
+  }
 `
 
 const UserBadge = Badge.extend`
@@ -46,7 +49,7 @@ const UserBadge = Badge.extend`
     font-weight: 500;
     line-height: 21px;
     text-transform: capitalize;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
   }
   > :last-child {
     text-align: center;
@@ -108,7 +111,6 @@ const GoBack = ({ routeChangeAction }: *) => (
 )
 
 const ContributeToBountyContainer = styled.div`
-  margin: 0 auto;
   align-self: center;
 `
 
@@ -324,7 +326,7 @@ class Request extends Component<Props, State> {
       <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {getRequest.status !== 'EXPIRED' &&
+          {typeof userId === 'string' && getRequest.status !== 'EXPIRED' &&
             getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
@@ -414,7 +416,8 @@ class Request extends Component<Props, State> {
                       label='Update'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'EXPIRED' &&
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
@@ -425,7 +428,7 @@ class Request extends Component<Props, State> {
                       width='auto'
                       action={() => {
                         const flaggingPayload =
-                          getRequest.is_flagged && typeof getRequest.request_id === 'string'
+                          !getRequest.is_flagged && typeof getRequest.request_id === 'string'
                             ? { request_id: getRequest.request_id, isFlagged: true }
                             : { request_id: getRequest.request_id }
                         flagRequestAction(flaggingPayload)
@@ -451,7 +454,8 @@ class Request extends Component<Props, State> {
                       label='Resubmit Request'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
@@ -517,9 +521,7 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <Link
-                    useAnchorTag
-                    route={`/public-profile/${getRequest && getRequest.user_id}`}>
+                  <Link useAnchorTag route={`/public-profile/${getRequest && getRequest.user_id}`}>
                     <UserWidgetSmall
                       username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
                     />

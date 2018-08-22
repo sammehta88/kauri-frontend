@@ -121,19 +121,11 @@ let publishArticleEpic =
               tap(transactionHash => {
                 Js.log(transactionHash);
                 let dispatchAction = store->ReduxObservable.Store.dispatch;
-                open App_Module;
-
-                let publishArticleMetaData = {
-                  resource: "article",
-                  resourceID,
-                  resourceVersion: string_of_int(article_version),
-                  resourceAction: "publish article",
-                };
 
                 dispatchAction(
                   `RouteChange(
-                    routeChangeAction(
-                      route(
+                    App_Module.routeChangeAction(
+                      App_Module.route(
                         ~slug1=ArticleId(resourceID),
                         ~slug2=ArticleVersionId(article_version),
                         ~routeType=ArticlePublished,
@@ -142,14 +134,22 @@ let publishArticleEpic =
                   ),
                 );
                 dispatchAction(
-                  `ShowNotification(showWaitingForTransactionToBeMinedAction),
+                  `ShowNotification(
+                    App_Module.showWaitingForTransactionToBeMinedAction,
+                  ),
                 );
                 dispatchAction(
                   `TrackMixpanel(
-                    trackMixPanelAction(
-                      trackMixPanelPayload(
+                    App_Module.trackMixPanelAction(
+                      App_Module.trackMixPanelPayload(
                         ~event="Offchain",
-                        ~metaData=publishArticleMetaData,
+                        ~metaData=
+                          App_Module.trackMixPanelMetaData(
+                            ~resource="article",
+                            ~resourceID,
+                            ~resourceVersion=string_of_int(article_version),
+                            ~resourceAction="publish article",
+                          ),
                       ),
                     ),
                   ),

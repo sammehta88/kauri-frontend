@@ -15,6 +15,9 @@ const ApprovedArticleActions = styled.section`
   width: 100%;
   background-color: ${props => props.theme.secondaryColor};
   padding: 36px ${props => props.theme.padding};
+  > :not(:first-child) {
+    margin-left: auto;
+  }
   @media (max-width: 500px) {
     padding: 36px 10px;
   }

@@ -135,9 +135,10 @@ let approveArticleEpic =
                 switch (possibleResponse) {
                 | Some(data) =>
                   let result = Article_Queries.ApproveArticle.parse(data);
-                  result##approveArticle
-                  |? (x => x##hash)
-                  |> default(raise(NoHashFound));
+                  switch (result##approveArticle |? (x => x##hash)) {
+                  | Some(hash) => hash
+                  | None => raise(NoHashFound)
+                  };
                 | _ => raise(NoResponseData)
                 };
               })
@@ -157,27 +158,25 @@ let approveArticleEpic =
               )
             )
           ->(
-              flatMap(articleVersion => {
-                open App_Module;
-
-                let approveArticleMetaData = {
-                  resource: "article",
-                  resourceID,
-                  resourceVersion: string_of_int(articleVersion),
-                  resourceAction: "approve article",
-                };
-
+              flatMap(_ => {
                 let trackApproveArticlePayload =
-                  trackMixPanelPayload(
+                  App_Module.trackMixPanelPayload(
                     ~event="Offchain",
-                    ~metaData=approveArticleMetaData,
+                    ~metaData=
+                      App_Module.trackMixPanelMetaData(
+                        ~resource="article",
+                        ~resourceID,
+                        ~resourceVersion=string_of_int(article_version),
+                        ~resourceAction="approve article",
+                      ),
                   );
                 let trackApproveArticleAction =
-                  trackMixPanelAction(trackApproveArticlePayload);
+                  App_Module.trackMixPanelAction(trackApproveArticlePayload);
 
-                let notificationType = notificationTypeToJs(`Success);
+                let notificationType =
+                  App_Module.notificationTypeToJs(`Success);
                 let showApproveArticleNotificationPayload =
-                  showNotificationPayload(
+                  App_Module.showNotificationPayload(
                     ~notificationType,
                     ~message="Article approved",
                     ~description=
@@ -185,15 +184,15 @@ let approveArticleEpic =
                   );
 
                 let showApproveArticleNotificationAction =
-                  showNotificationAction(
+                  App_Module.showNotificationAction(
                     showApproveArticleNotificationPayload,
                   );
 
                 of3(
                   trackApproveArticleAction,
                   showApproveArticleNotificationAction,
-                  routeChangeAction(
-                    route(
+                  App_Module.routeChangeAction(
+                    App_Module.route(
                       ~slug1=ArticleId(resourceID),
                       ~slug2=ArticleVersionId(article_version),
                       ~routeType=ArticleApproved,

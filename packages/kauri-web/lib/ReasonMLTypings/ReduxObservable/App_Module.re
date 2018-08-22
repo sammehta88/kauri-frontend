@@ -1,4 +1,3 @@
-include Mixpanel_Module;
 /* ShowNotificationAction */
 [@bs.deriving jsConverter]
 type notificationType = [
@@ -94,3 +93,28 @@ type routeChangeAction = {
 
 let routeChangeAction = (payload: string) =>
   routeChangeAction(~type_="ROUTE_CHANGE", ~payload);
+
+/* Mixpanel action */
+[@bs.deriving abstract]
+type trackMixPanelMetaData = {
+  resource: string,
+  resourceID: string,
+  resourceVersion: string,
+  resourceAction: string,
+};
+
+[@bs.deriving abstract]
+type trackMixPanelPayload = {
+  event: string,
+  metaData: trackMixPanelMetaData,
+};
+
+[@bs.deriving abstract]
+type trackMixPanelAction = {
+  [@bs.as "type"]
+  type_: string,
+  payload: trackMixPanelPayload,
+};
+
+let trackMixPanelAction = payload =>
+  trackMixPanelAction(~type_="TRACK_MIXPANEL", ~payload);

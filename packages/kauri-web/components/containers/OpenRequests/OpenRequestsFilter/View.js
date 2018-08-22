@@ -7,12 +7,6 @@ import { categories } from '../../../../lib/theme-config'
 
 const Option = Select.Option
 
-const greenArrowCss = css`
-  .ant-select-arrow {
-    color: ${props => props.theme.primaryColor};
-  }
-`
-
 export const StyledSelect = styled(Select)`
   background: transparent;
   border: none;
@@ -24,6 +18,7 @@ export const StyledSelect = styled(Select)`
     font-weight: bold;
     border: none;
     background: transparent;
+    color: white;
   }
   .ant-select-selection--multiple .ant-select-selection__choice {
     cursor: pointer;
@@ -44,7 +39,6 @@ export const StyledSelect = styled(Select)`
   .ant-select-dropdown-menu-item-selected:hover {
     background-color: #fafafa !important;
   }
-  ${props => props.topicHomepage && greenArrowCss};
 `
 
 type Topic = string
@@ -54,28 +48,28 @@ const TopicSelect = ({
   profile,
   categoryQuery,
 }: {
-  handleTopicSelect: *,
-  profile: *,
-  categoryQuery: *,
-}) => (
-  <StyledSelect
-    style={{ width: 155 }}
-    profile={profile}
-    showSearch
-    optionFilterProp='children'
-    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-    onChange={handleTopicSelect}
-    id='filter'
-    defaultValue={categoryQuery || 'all'}
-  >
-    <Option value='all'>ALL TOPICS</Option>
-    {categories.map(category => (
-      <Option key={category} value={category && category.toLowerCase()}>
-        {category && category.toUpperCase()}
-      </Option>
-    ))}
-  </StyledSelect>
-)
+    handleTopicSelect: *,
+    profile: *,
+    categoryQuery: *,
+  }) => (
+    <StyledSelect
+      style={{ width: 155 }}
+      profile={profile}
+      showSearch
+      optionFilterProp='children'
+      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+      onChange={handleTopicSelect}
+      id='filter'
+      defaultValue={categoryQuery || 'all'}
+    >
+      <Option value='all'>ALL TOPICS</Option>
+      {categories.map(category => (
+        <Option key={category} value={category && category.toLowerCase()}>
+          {category && category.toUpperCase()}
+        </Option>
+      ))}
+    </StyledSelect>
+  )
 
 type Status = 'opened' | 'closed' | 'cancelled' | 'personal' | 'expired'
 const statuses: Array<Status> = ['opened', 'closed', 'expired', 'personal']
@@ -129,58 +123,45 @@ export const SortSelect = ({
   profile,
   topicHomepage,
 }: {
-  handleSortSelect: *,
-  profile?: *,
-  topicHomepage?: *,
-}) => (
-  <StyledSelect
-    style={{ width: 155 }}
-    profile={profile}
-    topicHomepage={topicHomepage}
-    showSearch
-    optionFilterProp='children'
-    filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-    onSelect={handleSortSelect}
-    id='filter'
-    defaultValue='date_created'
-  >
-    {sorts.map(sort => (
-      <Option key={sort} value={sort.toLowerCase()}>
-        {(() => {
-          if (sort === 'date_created') {
-            return 'RECENT'
-          } else if (sort === 'total_bounty') {
-            return 'HIGHEST BOUNTY'
-          } else if (sort === 'text_ct') {
-            return 'MAINNET BOUNTY'
-          }
-        })()}
-      </Option>
-    ))}
-  </StyledSelect>
-)
+    handleSortSelect: *,
+    profile?: *,
+    topicHomepage?: *,
+  }) => (
+    <StyledSelect
+      style={{ width: 155 }}
+      profile={profile}
+      topicHomepage={topicHomepage}
+      showSearch
+      optionFilterProp='children'
+      filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
+      onSelect={handleSortSelect}
+      id='filter'
+      defaultValue='date_created'
+    >
+      {sorts.map(sort => (
+        <Option key={sort} value={sort.toLowerCase()}>
+          {(() => {
+            if (sort === 'date_created') {
+              return 'RECENT'
+            } else if (sort === 'total_bounty') {
+              return 'HIGHEST BOUNTY'
+            } else if (sort === 'text_ct') {
+              return 'MAINNET BOUNTY'
+            }
+          })()}
+        </Option>
+      ))}
+    </StyledSelect>
+  )
 
 const OpenRequestsFilterSection = styled.section`
   display: flex;
   height: 60px;
   align-items: center;
   padding: 0 ${props => props.theme.padding};
-  background-color: ${props => (props.profile ? props.theme.hoverTextColor : props.theme.primaryColor)};
-`
-
-export const FilterLabel = styled.label`
-  color: #fff;
-  font-size: 12px;
-  font-weight: 500;
-  margin-right: 13px;
-`
-
-const TotalRequests = styled.span`
-  font-weight: 500;
-  font-size: 12px;
-  color: #fff;
-  margin-left: auto;
-  margin-right: 12px;
+  background-color: #1E3D3B;
+  justify-self: flex-end;
+  width: 100%;
 `
 
 type Filter = {
@@ -212,7 +193,7 @@ type Props = {
 }
 
 class OpenRequestsFilter extends Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.state = {
       filter: {
@@ -224,7 +205,7 @@ class OpenRequestsFilter extends Component<Props, State> {
     }
   }
 
-  async componentDidMount () {
+  async componentDidMount() {
     if (typeof this.props.categoryQuery === 'string') {
       setTimeout(
         () =>
@@ -278,18 +259,11 @@ class OpenRequestsFilter extends Component<Props, State> {
   handleStatusSelect = async (status: Status): Promise<void> => this.handleSearch({ status_in: [status] })
   handleSortSelect = async (sort: Sort): Promise<void> => this.handleSearch({ sort })
 
-  render () {
+  render() {
     return (
       <OpenRequestsFilterSection profile={this.props.profile}>
-        <FilterLabel htmlFor='filter'>FILTER BY </FilterLabel>
-        <TopicSelect
-          categoryQuery={this.props.categoryQuery}
-          profile={this.props.profile}
-          handleTopicSelect={this.handleTopicSelect}
-        />
         <StatusSelect profile={this.props.profile} handleStatusSelect={this.handleStatusSelect} />
         <SortSelect profile={this.props.profile} handleSortSelect={this.handleSortSelect} />
-        <TotalRequests>{this.props.count} REQUESTS</TotalRequests>
       </OpenRequestsFilterSection>
     )
   }

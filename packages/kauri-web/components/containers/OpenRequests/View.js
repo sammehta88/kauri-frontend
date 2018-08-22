@@ -27,6 +27,22 @@ export const OpenRequestsHeader = styled.h2`
   font-size: 20px;
 `
 
+const Header = styled.div`
+  background: #1e2428;
+  height: 255px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-direction: column;
+  font-size: 13px;
+`;
+
+const Heading = styled.div`
+  font-size: 32px;
+  font-weight: 300;
+`;
+
 class OpenRequests extends Component<Props> {
   render() {
     const { routeChangeAction } = this.props
@@ -36,12 +52,18 @@ class OpenRequests extends Component<Props> {
     return (
       <section>
         {typeof this.props.profile !== 'boolean' && (
-          <OpenRequestsFilter
-            categoryQuery={this.props.categoryQuery}
-            profile={this.props.profile}
-            refetch={data.refetch}
-            count={count}
-          />
+          <div>
+            <Header>
+              <Heading>{count || 0} Request{(count > 1 || !count) && 's'}</Heading>
+              <p>Articles, Tutorials, Walkthroughs and Documentation</p>
+            </Header>
+            <OpenRequestsFilter
+              categoryQuery={this.props.categoryQuery}
+              profile={this.props.profile}
+              refetch={data.refetch}
+              count={count}
+            />
+          </div>
         )}
         <OpenRequestsSection>
           {typeof this.props.profile === 'boolean' &&

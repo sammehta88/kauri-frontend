@@ -31,11 +31,6 @@ const PullRight = styled.div`
   }
 `
 
-const Middle = styled.div`
-  margin: 0 auto;
-  margin-left: 455px;
-`
-
 export default ({
   toggleBanner,
   routeChangeAction,
@@ -57,23 +52,21 @@ export default ({
       <GreenArrow direction='left' />
       <span>Go Back</span>
     </ActionBadge>
-    <Middle>
-      {status === 'IN_REVIEW' &&
-        isTopicOwner && (
-          <ActionBadge onClick={approveArticle}>
-            <ActionIcon />
-            <strong>APPROVE ARTICLE</strong>
-          </ActionBadge>
-        )}
-      {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
-      {status === 'APPROVED' &&
-        isContributor && (
-          <ActionBadge onClick={publishArticle}>
-            <ActionIcon />
-            <strong>{'PUBLISH ARTICLE'}</strong>
-          </ActionBadge>
-        )}
-    </Middle>
+    {status === 'IN_REVIEW' &&
+      isTopicOwner && (
+        <ActionBadge onClick={approveArticle}>
+          <ActionIcon />
+          <strong>APPROVE ARTICLE</strong>
+        </ActionBadge>
+      )}
+    {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
+    {status === 'APPROVED' &&
+      isContributor && (
+        <ActionBadge onClick={publishArticle}>
+          <ActionIcon />
+          <strong>{'PUBLISH ARTICLE'}</strong>
+        </ActionBadge>
+    )}
     <PullRight>
       {(status === 'IN_REVIEW' || status === 'DRAFT') &&
         isContributor && (

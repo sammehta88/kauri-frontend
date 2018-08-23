@@ -17,6 +17,7 @@ type Props = {
   recentRequest?: boolean,
   openRequest?: boolean,
   type?: 'article card',
+  cardHeight?: number,
 }
 
 const styles = {
@@ -55,17 +56,35 @@ const hideAtomicBlock = css`
 `
 
 const maxThreeLinesCss = css`
-  height: 2.3em;
+  height: 2.5em;
   line-height: 2em;
   overflow: hidden;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 `
 
 const openRequestCss = css`
   height: 1.5em;
+`
+
+const articleCardCss = css`
+  height: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  > :not(div) {
+    display: none;
+  }
+  > div {
+    font-size: 14px;
+    :nth-child(1n + ${props => (props.cardHeight > 290 ? '4' : '3')}) {
+      display: none;
+    }
+    :nth-child(${props => (props.cardHeight > 290 ? '3' : '2')}) {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 `
 
 const MaxThreeLines = styled.div`
@@ -77,16 +96,7 @@ const MaxThreeLines = styled.div`
   overflow-wrap: break-word;
   min-height: ${props => props.requestPage && '30vh'};
   ${props => props.openRequest && openRequestCss};
-`
-
-const truncateArticleCardCss = css`
-  font-size: 14px;
-  max-height: 230px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 10;
-  -webkit-box-orient: vertical;
+  ${props => props.type === 'article card' && articleCardCss};
 `
 
 const truncateWithEllipsis = css`
@@ -96,9 +106,6 @@ const truncateWithEllipsis = css`
   line-height: 18px;
   text-align: left;
   text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
 `
 
 const recentRequest = css`
@@ -117,8 +124,8 @@ const inlineStylesToPrune = {
   lineHeight: null,
 }
 
-const pruneInlineStyles = child =>
-  child.map(nodes => {
+const pruneInlineStyles = (child, type) => {
+  return child.map((nodes, i) => {
     if (nodes && nodes.length > 0) {
       return nodes.map(node => {
         if (node.props && node.props.style) {
@@ -134,22 +141,29 @@ const pruneInlineStyles = child =>
     }
     return nodes
   })
+}
 
 const TruncateWithEllipsis = styled.div`
   ${TruncateWithEllipsisCss};
   ${props => !props.fullText && props.type !== 'article card' && truncateWithEllipsis};
   ${props => props.recentRequest && recentRequest};
-  ${props => props.type === 'article card' && truncateArticleCardCss};
 `
 
-const addBreaklines = (children, keys, fullText, recentRequest, type = 'article card') =>
-  children.map((child, i) => {
+const addBreaklines = (children, keys, fullText, recentRequest, type = 'article card') => {
+  return children.map((child, i) => {
     return (
-      <TruncateWithEllipsis type={type} recentRequest={recentRequest} fullText={fullText} key={keys && keys[i]}>
-        {child[1].length === 0 && fullText ? <br /> : pruneInlineStyles(child)}
+      <TruncateWithEllipsis
+        index={i}
+        type={type}
+        recentRequest={recentRequest}
+        fullText={fullText}
+        key={keys && keys[i]}
+      >
+        {child[1].length === 0 && fullText ? <br /> : pruneInlineStyles(child, type)}
       </TruncateWithEllipsis>
     )
   })
+}
 
 class WithHover extends React.Component<*, { isHovered: boolean }> {
   state = {
@@ -405,9 +419,7 @@ export const blocks = (
   unstyled: (children, { keys }) => addBreaklines(children, keys, fullText, recentRequest, type),
   blockquote: (children, { keys }) => <BlockQuote fullText={fullText} key={keys[0]} children={children} />,
   'header-one': (children, { keys }) =>
-    fullText
-      ? children.map((child, i) => <HeaderTwo key={keys[i]}>{child}</HeaderTwo>)
-      : addBreaklines(children, keys, fullText, recentRequest, type),
+    fullText ? children.map((child, i) => <HeaderTwo key={keys[i]}>{child}</HeaderTwo>) : null,
   'header-two': (children, { keys }) =>
     fullText
       ? children.map((child, i) => (
@@ -428,21 +440,13 @@ export const blocks = (
       ))
       : null,
   'header-three': (children, { keys }) =>
-    fullText
-      ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText, recentRequest, type),
+    fullText ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>) : null,
   'header-four': (children, { keys }) =>
-    fullText
-      ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText, recentRequest, type),
+    fullText ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>) : null,
   'header-five': (children, { keys }) =>
-    fullText
-      ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText, recentRequest, type),
+    fullText ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>) : null,
   'header-six': (children, { keys }) =>
-    fullText
-      ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>)
-      : addBreaklines(children, keys, fullText, recentRequest, type),
+    fullText ? children.map((child, i) => <HeaderThree key={keys[i]}>{child}</HeaderThree>) : null,
 })
 
 const ColouredLink = styled.a`
@@ -471,8 +475,24 @@ export const options = {
 }
 
 export default compose(withErrorCatch())(
-  ({ record: { text }, fullText, requestPage, recentRequest, openRequest, inReviewArticleComment, type }): Props => (
-    <MaxThreeLines type={type} requestPage={requestPage} fullText={fullText} key={text} openRequest={openRequest}>
+  ({
+    record: { text },
+    fullText,
+    requestPage,
+    recentRequest,
+    openRequest,
+    inReviewArticleComment,
+    type,
+    cardHeight,
+  }): Props => (
+    <MaxThreeLines
+      cardHeight={cardHeight}
+      type={type}
+      requestPage={requestPage}
+      fullText={fullText}
+      key={text}
+      openRequest={openRequest}
+    >
       {/* {console.log(EditorState.createWithContent(convertFromRaw(JSON.parse(text))))} */}
       {/* {console.log(type)} */}
       {typeof text === 'string' && text.charAt(0) === '{' ? (

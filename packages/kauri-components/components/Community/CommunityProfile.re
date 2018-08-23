@@ -62,16 +62,16 @@ let stripWebsite = website => (website |> Js.String.split("://"))[1];
    : 'https://dev.kauri.io' */
 
 let assembleShareWebsiteURL = community =>
-  (
-    switch (externalApiURL->Js.Nullable.toOption) {
-    | Some(externalApiURL) =>
+  switch (externalApiURL->Js.Nullable.toOption) {
+  | Some(externalApiURL) =>
+    (
       externalApiURL |> Js.String.includes("rinkeby") ?
         "https://rinkeby.kauri.io/community/" :
         "https://dev.kauri.io/community/"
-    | None => "https://rinkeby.kauri.io/community/"
-    }
-  )
-  ++ community;
+    )
+    ++ community
+  | None => "https://test.com"
+  };
 
 let make = (~community, ~website, _children) => {
   ...component,

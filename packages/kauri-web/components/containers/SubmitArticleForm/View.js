@@ -160,7 +160,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 article_version: currentArticle.article_version,
                 category: currentArticle.category,
               }
-              console.log('submitForReviewPayload', submitForReviewPayload)
+              // console.log('submitForReviewPayload', submitForReviewPayload)
               this.props.submitForReviewAction(submitForReviewPayload)
             } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
               const currentArticle: ArticleDTO = this.props.data.getArticle
@@ -173,7 +173,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 metadata: formatMetadata({ version }),
                 request_id: currentArticle.request_id,
               }
-              console.log('draftArticlePayload', draftArticlePayload)
+              // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
             } else {
               const draftArticlePayload = {
@@ -184,7 +184,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 metadata: formatMetadata({ version }),
                 request_id: this.props.request_id,
               }
-              console.log('draftArticlePayload', draftArticlePayload)
+              // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
             }
           }

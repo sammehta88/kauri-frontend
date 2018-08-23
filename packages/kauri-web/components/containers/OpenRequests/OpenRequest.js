@@ -24,7 +24,7 @@ let OpenRequest: any = styled.div`
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0 0 6px 0 rgba(0,0,0,0.11);  
-  padding: 16px 29px;
+  padding: 16px 24px;
   transition: all 0.2s;
   &:hover {
     transform: translateY(-5px);

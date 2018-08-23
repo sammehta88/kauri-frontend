@@ -86,6 +86,7 @@ type jsProps = {
   name: string,
   description: string,
   username: Js.Nullable.t(string),
+  url: string,
   userId: string,
   profileImage: string,
   updated: string,

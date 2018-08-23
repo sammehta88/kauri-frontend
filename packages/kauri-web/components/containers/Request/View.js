@@ -326,7 +326,8 @@ class Request extends Component<Props, State> {
       <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {typeof userId === 'string' && getRequest.status !== 'EXPIRED' &&
+          {typeof userId === 'string' &&
+            getRequest.status !== 'EXPIRED' &&
             getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
@@ -462,6 +463,8 @@ class Request extends Component<Props, State> {
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
                     <PositiveRequestActionBadge
                         type='secondary color primary'
+                        alone='true'
+                        width='auto'
                         action={() =>
                           routeChangeAction(
                             `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`

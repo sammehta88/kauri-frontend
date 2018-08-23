@@ -47,7 +47,7 @@ const smallerSubject = css`
   line-height: 18px;
 `
 
-export const Subject = styled.a`
+export const Subject = styled.div`
   font-size: ${props => (props.type === 'topicHomepage' ? '20px' : '18px')};
   font-weight: 500;
   line-height: 24px;
@@ -179,7 +179,7 @@ export default ({
         <OpenRequest.Details>
           <RestrictToOneLine>
 
-            <OpenRequest.Subject href={`/request/${request_id}`}>
+            <OpenRequest.Subject>
               {typeof text === 'string' && text.includes('https://beta.bounties.network/bounty/') ? '🌟' : ''}
               {subject}
             </OpenRequest.Subject>

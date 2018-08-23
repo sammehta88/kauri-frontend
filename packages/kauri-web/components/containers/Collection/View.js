@@ -63,13 +63,14 @@ class CollectionPage extends Component<Props> {
     const bg = background ? background : this.state.trianglifyBg;
 
     const hostname = process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io';
+    const url = `${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
     return (
       <div>
         <Helmet>
           <title>{name} - Kauri</title>
           <meta name="description" content={`${description.slice(0, 151)}...`} />
           <meta name="keywords" content={myKeywords.map(i => i)} />
-          <link rel="canonical" href={`${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`} />
+          <link rel="canonical" href={url} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
@@ -79,6 +80,7 @@ class CollectionPage extends Component<Props> {
             updated={date_updated || date_created}
             username={owner.username}
             userId={owner.user_id}
+            url={url}
             profileImage={owner.profileImage}
             routeChangeAction={routeChangeAction}
           />

@@ -7,6 +7,7 @@ type jsProps = {
   userId: string,
   profileImage: string,
   updated: string,
+  url: string,
   routeChangeAction: string => unit,
 };
 
@@ -27,7 +28,14 @@ module Styles = {
     );
 
   let leftSide =
-    Css.(style([display(`flex), flex(3), flexDirection(column)]));
+    Css.(
+      style([
+        display(`flex),
+        flex(3),
+        flexDirection(column),
+        color(hex("ffffff")),
+      ])
+    );
 
   let rightSide =
     Css.(
@@ -48,6 +56,7 @@ let make =
       ~userId,
       /* ~profileImage=?, */
       ~updated,
+      ~url,
       _children,
     ) => {
   ...component,
@@ -57,6 +66,7 @@ let make =
         <PostedDate date_field=updated dateType=PostedDate.Updated />
         <Heading size=28 text=name color="ffffff" />
         <Paragraph size=16 text=description color="ffffff" />
+        <ShareArticle url title=name />
       </div>
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
@@ -76,6 +86,7 @@ let default =
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
+      ~url=jsProps->urlGet,
       /* ~profileImage=jsProps->profileImageGet, */
       ~updated=jsProps->updatedGet,
       [||],

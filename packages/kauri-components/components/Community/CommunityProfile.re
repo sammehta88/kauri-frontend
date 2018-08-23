@@ -1,4 +1,6 @@
-[@bs.val] external externalApiURL: string = "process.env.monolithExternalApi";
+[@bs.val]
+external externalApiURL: Js.Nullable.t(string) =
+  "process.env.monolithExternalApi";
 let component = ReasonReact.statelessComponent("CommunityAvatar");
 
 module Container =
@@ -60,11 +62,16 @@ let stripWebsite = website => (website |> Js.String.split("://"))[1];
    : 'https://dev.kauri.io' */
 
 let assembleShareWebsiteURL = community =>
-  (
-    externalApiURL |> Js.String.includes("rinkeby") ?
-      "https://rinkeby.kauri.io/community/" : "https://dev.kauri.io/community/"
-  )
-  ++ community;
+  switch (externalApiURL->Js.Nullable.toOption) {
+  | Some(externalApiURL) =>
+    (
+      externalApiURL |> Js.String.includes("rinkeby") ?
+        "https://rinkeby.kauri.io/community/" :
+        "https://dev.kauri.io/community/"
+    )
+    ++ community
+  | None => "https://test.com"
+  };
 
 let make = (~community, ~website, _children) => {
   ...component,

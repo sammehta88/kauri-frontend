@@ -65,7 +65,7 @@ const maxThreeLinesCss = css`
 `
 
 const openRequestCss = css`
-  height: 1.3em;
+  height: 1.5em;
 `
 
 const MaxThreeLines = styled.div`
@@ -497,7 +497,7 @@ export default compose(withErrorCatch())(
       ) : inReviewArticleComment && typeof text === 'string' && text.length > 5 ? (
         text
       ) : (
-        <h4>Something went wrong.</h4>
+        <span>Something went wrong.</span>
       )}
     </MaxThreeLines>
   )

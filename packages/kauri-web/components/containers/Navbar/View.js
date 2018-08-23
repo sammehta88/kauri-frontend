@@ -5,7 +5,7 @@ import { Link } from '../../../routes'
 import Web3Status from '../Web3Status'
 import ArticleSearchbar from '../ArticleSearchbar'
 import Tooltip from '../../common/Tooltip'
-import { withRouter } from 'next/router';
+import { withRouter } from 'next/router'
 
 // const supportedNetworkIds = [4, 224895]
 // const ONE_SECOND = 1000
@@ -31,8 +31,8 @@ const StyledMenuItem = styled(Menu.Item)`
   padding: 0 15px;
 
   @media (max-width: 500px) {
-    display: ${ props => props.onlyDesktop ? 'none !important' : 'flex'}
-  } 
+    display: ${props => (props.onlyDesktop ? 'none !important' : 'flex')};
+  }
 
   > a {
     color: #fff !important;
@@ -128,10 +128,10 @@ const TooltipItemContainer = styled.div`
 
 const Chevron = styled.span`
   font-size: 22px;
-    line-height: 70px;
-    display: inline-block;
-    transform: rotate(90deg);
-    margin-left: 10px;
+  line-height: 70px;
+  display: inline-block;
+  transform: rotate(90deg);
+  margin-left: 10px;
 `
 
 const deleteAllCookies = callback => {
@@ -144,6 +144,10 @@ const deleteAllCookies = callback => {
   }
   callback && setTimeout(() => callback(), 700)
 }
+
+const CreateResourceTooltipReference = styled.div`
+  display: flex;
+`
 
 const logout = () => {
   deleteAllCookies(() => {
@@ -160,7 +164,7 @@ const eraseCookieFromAllPaths = name => {
 }
 
 class Logo extends React.Component {
-  render() {
+  render () {
     return (
       <LogoWrapper>
         <LogoImage onClick={() => this.props.routeChangeAction('/')} src='/static/images/logo.svg' />
@@ -170,7 +174,7 @@ class Logo extends React.Component {
 }
 
 class Navbar extends React.Component {
-  render() {
+  render () {
     const { userId, router, routeChangeAction, user, confirmationPage, navcolor } = this.props
     return (
       <StyledMenu
@@ -223,14 +227,23 @@ class Navbar extends React.Component {
         </StyledMenuItem>
 
         <StyledMenuItem onlyDesktop>
-          <Tooltip header={<Text link='/dropdown-selector-null'><div>Create<Chevron>›</Chevron></div></Text>}>
+          <Tooltip
+            header={
+              <Text link='/dropdown-selector-null'>
+                <CreateResourceTooltipReference>
+                  Create
+                  <Chevron>›</Chevron>
+                </CreateResourceTooltipReference>
+              </Text>
+            }
+          >
             <TooltipItemContainer>
               <Link route={userId ? '/write-article' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Article
                 </TooltipItem>
               </Link>
-              <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
+              <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
               <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request
@@ -257,29 +270,29 @@ class Navbar extends React.Component {
                 <Link route={'/profile'}>
                   <TooltipItem>Account</TooltipItem>
                 </Link>
-                <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
+                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
                 <TooltipItem onClick={logout}>Logout</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>
           ) : (
-              <Tooltip
-                header={
-                  <ProfileMiniature>
-                    <Icon type='user' />
-                  </ProfileMiniature>
-                }
-              >
-                <TooltipItemContainer>
-                  <Link route={'/login'}>
-                    <TooltipItem>Login</TooltipItem>
-                  </Link>
-                  <div style={{ width: '100%', border: '1px solid #f2f2f2' }}></div>
-                  <Link route={'/login'}>
-                    <TooltipItem>Register</TooltipItem>
-                  </Link>
-                </TooltipItemContainer>
-              </Tooltip>
-            )}
+            <Tooltip
+              header={
+                <ProfileMiniature>
+                  <Icon type='user' />
+                </ProfileMiniature>
+              }
+            >
+              <TooltipItemContainer>
+                <Link route={'/login'}>
+                  <TooltipItem>Login</TooltipItem>
+                </Link>
+                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
+                <Link route={'/login'}>
+                  <TooltipItem>Register</TooltipItem>
+                </Link>
+              </TooltipItemContainer>
+            </Tooltip>
+          )}
         </StyledMenuItem>
         <StyledMenuItem key='/help'>
           <Link href='/help'>
@@ -293,4 +306,4 @@ class Navbar extends React.Component {
   }
 }
 
-export default withRouter(Navbar);
+export default withRouter(Navbar)

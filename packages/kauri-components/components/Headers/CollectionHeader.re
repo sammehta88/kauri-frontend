@@ -1,15 +1,3 @@
-[@bs.deriving abstract]
-type jsProps = {
-  date: string,
-  name: string,
-  description: string,
-  username: Js.Nullable.t(string),
-  userId: string,
-  profileImage: string,
-  updated: string,
-  routeChangeAction: string => unit,
-};
-
 let component = ReasonReact.statelessComponent("CollectionHeader");
 
 module Styles = {
@@ -46,6 +34,7 @@ let make =
       ~description,
       ~username,
       ~userId,
+      ~linkComponent=?,
       /* ~profileImage=?, */
       ~updated,
       _children,
@@ -60,13 +49,39 @@ let make =
       </div>
       <div className=Styles.rightSide>
         <Label text="Curator" color="ffffff" />
-        <UserWidgetSmall
-          pageType=None
-          username=username->Belt.Option.getWithDefault(userId)
-          color="ffffff"
-        />
+        {
+          Belt.Option.mapWithDefault(
+            linkComponent,
+            <UserWidgetSmall
+              pageType=None
+              username=username->Belt.Option.getWithDefault(userId)
+              color="ffffff"
+            />,
+            linkComponent =>
+            linkComponent(
+              <UserWidgetSmall
+                pageType=None
+                username=username->Belt.Option.getWithDefault(userId)
+                color="ffffff"
+              />,
+            )
+          )
+        }
       </div>
     </div>,
+};
+
+[@bs.deriving abstract]
+type jsProps = {
+  date: string,
+  name: string,
+  description: string,
+  username: Js.Nullable.t(string),
+  userId: string,
+  profileImage: string,
+  updated: string,
+  routeChangeAction: string => unit,
+  linkComponent: ReasonReact.reactElement => ReasonReact.reactElement,
 };
 
 let default =
@@ -76,6 +91,7 @@ let default =
       ~description=jsProps->descriptionGet,
       ~username=jsProps->usernameGet->Js.Nullable.toOption,
       ~userId=jsProps->userIdGet,
+      ~linkComponent=jsProps->linkComponentGet,
       /* ~profileImage=jsProps->profileImageGet, */
       ~updated=jsProps->updatedGet,
       [||],

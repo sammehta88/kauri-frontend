@@ -10,6 +10,7 @@ module SubmitForReview = {
   type payload = {
     id: string,
     article_version: int,
+    category: Js.Nullable.t(string),
   };
 
   [@bs.deriving abstract]
@@ -42,10 +43,12 @@ let submitForReviewEpic =
                 ReduxObservable.Dependencies.subscribeToOffchainEvent,
               );
 
-          let (resourceID, article_version) =
+          let (resourceID, article_version, category) =
             submitForReviewAction
             ->SubmitForReview.payloadGet
-            ->SubmitForReview.(idGet, article_versionGet);
+            ->SubmitForReview.(idGet, article_versionGet, categoryGet);
+
+          let category = category->Js.Nullable.toOption;
 
           let submitForReviewMutation =
             Article_Queries.SubmitForReview.make(
@@ -127,7 +130,12 @@ let submitForReviewEpic =
                     App_Module.route(
                       ~slug1=ArticleId(resourceID),
                       ~slug2=ArticleVersionId(article_version),
-                      ~routeType=ArticleSubmitted,
+                      ~routeType=
+                        category
+                        ->Belt.Option.mapWithDefault(
+                            App_Module.ArticlePublished, _ =>
+                            App_Module.ArticleSubmitted
+                          ),
                     ),
                   ),
                 );

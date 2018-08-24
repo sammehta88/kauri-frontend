@@ -68,9 +68,9 @@ let make = (~url, ~title, ~pageType=ArticleAction.PublishedArticle, _children) =
             <ReactShare.RedditShareButton url title>
               <ReactShare.RedditIcon />
             </ReactShare.RedditShareButton>
-            <ReactShare.RedditShareButton url title>
+            <ReactShare.HackerNewsShareButton url title>
               <ReactShare.HackerNewsIcon />
-            </ReactShare.RedditShareButton>
+            </ReactShare.HackerNewsShareButton>
           </div>
         }
         position=`Bottom>

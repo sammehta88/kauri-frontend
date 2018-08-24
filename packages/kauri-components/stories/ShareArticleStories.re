@@ -8,10 +8,10 @@ let myStory =
 myStory.add("Click for dropdown", () =>
   <div
     className="DummyContainerForTippy"
-    style=(ReactDOMRe.Style.make(~display="flex", ~width="100%", ()))>
+    style={ReactDOMRe.Style.make(~display="flex", ~width="100%", ())}>
     <ShareArticle
       pageType=PublishedArticle
-      url="https://www.facebook.com/donate/1937650849680964/"
+      url="https://www.facebook.com/donate/1937650849680964"
       title="Kauri"
     />
   </div>

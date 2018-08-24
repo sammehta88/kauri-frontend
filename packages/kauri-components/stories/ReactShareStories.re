@@ -36,3 +36,11 @@ myStory.add("Reddit", () =>
     <ReactShare.RedditIcon />
   </ReactShare.RedditShareButton>
 );
+
+myStory.add("HackerNews", () =>
+  <ReactShare.HackerNewsShareButton
+    url="https://www.channelnewsasia.com/news/asia/singapore-scdf-officers-to-laos-relief-efforts-dam-collapse-10562862"
+    title="Kauri">
+    <ReactShare.HackerNewsIcon />
+  </ReactShare.HackerNewsShareButton>
+);

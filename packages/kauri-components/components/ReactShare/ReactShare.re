@@ -139,18 +139,41 @@ module PinterestIcon = {
     );
 };
 
+module HackerNewsShareButton = {
+  let component = ReasonReact.statelessComponent("HackerNewsShareButton");
+
+  module Style = {
+    let button = Css.(style([height(px(iconSize)), width(px(iconSize))]));
+  };
+
+  let make = (~url, ~title, children) => {
+    ...component,
+    render: _self =>
+      <div
+        onClick={
+          _ => {
+            Webapi.Dom.window
+            |> Webapi.Dom.Window.open_(
+                 ~url=
+                   {j|https://news.ycombinator.com/submitlink?u=$url&t=$title"|j},
+                 ~name=title,
+                 ~features="menubar=yes",
+               )
+            |> ignore;
+            ();
+          }
+        }
+        className=Style.button>
+        ...children
+      </div>,
+  };
+};
+
 module HackerNewsIcon = {
   let component = ReasonReact.statelessComponent("HackerNewsIcon");
 
   module Style = {
-    let icon =
-      Css.(
-        style([
-          height(px(iconSize)),
-          width(px(iconSize)),
-          /* backgroundColor(hex("F0652F")), */
-        ])
-      );
+    let icon = Css.(style([height(px(iconSize)), width(px(iconSize))]));
   };
 
   let make = _children => {
@@ -175,7 +198,7 @@ module HackerNewsIcon = {
             id="Page-1"
             stroke="none"
             strokeWidth="1"
-            fill="none"
+            fill="#FF6602"
             fillRule="evenodd">
             <g
               id="Basic-UI-Framework"

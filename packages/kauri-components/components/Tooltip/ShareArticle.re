@@ -62,9 +62,9 @@ let make = (~url, ~title, ~pageType=ArticleAction.PublishedArticle, _children) =
             <ReactShare.TwitterShareButton url title>
               <ReactShare.TwitterIcon />
             </ReactShare.TwitterShareButton>
-            <ReactShare.PinterestShareButton url title>
-              <ReactShare.PinterestIcon />
-            </ReactShare.PinterestShareButton>
+            /* <ReactShare.PinterestShareButton url title>
+                 <ReactShare.PinterestIcon />
+               </ReactShare.PinterestShareButton> */
             <ReactShare.RedditShareButton url title>
               <ReactShare.RedditIcon />
             </ReactShare.RedditShareButton>

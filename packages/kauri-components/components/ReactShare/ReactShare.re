@@ -122,7 +122,12 @@ module PinterestShareButton = {
   let make = (~url, ~title, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=pinterestShareButton,
-      ~props=jsProps(~media=url, ~url, ~description=title),
+      ~props=
+        jsProps(
+          ~media="https://kauri.io/img/consensys-dark.png",
+          ~url,
+          ~description=title,
+        ),
       children,
     );
 };

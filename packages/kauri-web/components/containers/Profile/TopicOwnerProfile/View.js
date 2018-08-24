@@ -39,7 +39,7 @@ export const StyledTabs = styled(Tabs)`
   }
   .ant-tabs-nav .ant-tabs-tab:last-child {
     margin-right: calc(${({ theme }) => theme.padding} + 10px) !important;
-    margin-left: auto !important;
+    margin-left: ${props => props.type !== 'profile' && 'auto'} !important;
   }
 
   .ant-tabs-tab-active,
@@ -68,7 +68,7 @@ export const StyledTabs = styled(Tabs)`
 `
 
 class TopicOwnerProfile extends Component {
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       activeKey: this.props.defaultTab || 'profile',
@@ -76,7 +76,7 @@ class TopicOwnerProfile extends Component {
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     let setIntervalId
     const checkForSmartContractInitialisation = () => {
       console.log('checked')
@@ -107,11 +107,11 @@ class TopicOwnerProfile extends Component {
     })
   }
 
-  render() {
+  render () {
     return (
       <Fragment>
         <NetworkBanner key='network banner' tab='' type='profileTab' loggingOut={this.state.loggingOut} />
-        <StyledTabs onChange={this.onChange} activeKey={this.state.activeKey}>
+        <StyledTabs type='profile' onChange={this.onChange} activeKey={this.state.activeKey}>
           <TabPane
             tab={
               <TabLabelContainer>

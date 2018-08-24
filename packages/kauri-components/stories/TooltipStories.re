@@ -10,46 +10,46 @@ myStory.add("Hover with children text", () =>
     position=`Bottom
     trigger=`Hover
     html={
-      <ReactShare.FacebookShareButton
-        url="https://www.facebook.com/donate/1937650849680964/" quote="Kauri">
-        <ReactShare.FacebookIcon />
-      </ReactShare.FacebookShareButton>
+      <ReactShare.LinkedinShareButton
+        url="https://www.Linkedin.com/donate/1937650849680964/" title="Kauri">
+        <ReactShare.LinkedinIcon />
+      </ReactShare.LinkedinShareButton>
     }>
-    <span> ("Share" |. text) </span>
+    <span> "Share"->text </span>
   </ReactTippy>
 );
-myStory.add("Click with facebook share button", () =>
+myStory.add("Click with Linkedin share button", () =>
   <ReactTippy
     position=`Bottom
     trigger=`Click
     html={
-      <ReactShare.FacebookShareButton
-        url="https://www.facebook.com/donate/1937650849680964/" quote="Kauri">
-        <ReactShare.FacebookIcon />
-      </ReactShare.FacebookShareButton>
+      <ReactShare.LinkedinShareButton
+        url="https://www.Linkedin.com/donate/1937650849680964/" title="Kauri">
+        <ReactShare.LinkedinIcon />
+      </ReactShare.LinkedinShareButton>
     }>
-    <span> ("Share" |. text) </span>
+    <span> "Share"->text </span>
   </ReactTippy>
 );
 
-myStory.add("Click with facebook and twitter share button", () =>
+myStory.add("Click with Linkedin and twitter share button", () =>
   <ReactTippy
     position=`Bottom
     trigger=`Click
     html={
       <div>
-        <ReactShare.FacebookShareButton
-          url="https://www.facebook.com/donate/1937650849680964/"
-          quote="Kauri">
-          <ReactShare.FacebookIcon />
-        </ReactShare.FacebookShareButton>
+        <ReactShare.LinkedinShareButton
+          url="https://www.Linkedin.com/donate/1937650849680964/"
+          title="Kauri">
+          <ReactShare.LinkedinIcon />
+        </ReactShare.LinkedinShareButton>
         <ReactShare.TwitterShareButton
-          url="https://www.facebook.com/donate/1937650849680964/"
+          url="https://www.Linkedin.com/donate/1937650849680964/"
           title="Kauri">
           <ReactShare.TwitterIcon />
         </ReactShare.TwitterShareButton>
       </div>
     }>
-    <span> ("Share" |. text) </span>
+    <span> "Share"->text </span>
   </ReactTippy>
 );

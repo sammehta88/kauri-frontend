@@ -47,12 +47,7 @@ module Styles = {
 
   let content =
     Css.(
-      style([
-        padding2(~v=px(11), ~h=px(14)),
-        flex(1),
-        overflow(hidden),
-        selector("> a > div", [height(`percent(100.0))]),
-      ])
+      style([padding2(~v=px(11), ~h=px(14)), flex(1), overflow(hidden)])
     );
 };
 
@@ -66,10 +61,10 @@ let cardContent = (~title, ~content, ~cardHeight) =>
                   (() => {
                     if (process.env.STORYBOOK !== 'true') {
                       var DescriptionRow = require("../../../kauri-web/components/common/DescriptionRow.js").default;
-                      return React.createElement(DescriptionRow, { record: { text: content }, type: 'article card' }, null);
+                      return React.createElement(DescriptionRow, { record: { text: content }, type: 'article card', cardHeight: cardHeight }, null);
                     }
                   })()
-                |}
+          |}
         ] :
         <Paragraph text=content />
     }

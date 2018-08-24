@@ -39,11 +39,6 @@ module Styles = {
 
   let content =
     Css.(
-      style([
-        padding2(~v=px(11), ~h=px(14)),
-        flex(1),
-        overflow(hidden),
-        selector("> a > div", [height(`percent(100.0))]),
-      ])
+      style([padding2(~v=px(11), ~h=px(14)), flex(1), overflow(hidden)])
     );
 };

@@ -96,13 +96,14 @@ module PinterestShareButton = {
   [@bs.deriving abstract]
   type jsProps = {
     url: string,
-    title: string,
+    media: string,
+    description: string,
   };
 
   let make = (~url, ~title, children) =>
     ReasonReact.wrapJsForReason(
       ~reactClass=pinterestShareButton,
-      ~props=jsProps(~url, ~title),
+      ~props=jsProps(~media=url, ~url, ~description=title),
       children,
     );
 };

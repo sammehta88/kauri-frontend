@@ -7,7 +7,7 @@ type pageType =
 module Styles = {
   let getWidth = text =>
     switch (text) {
-    | "Share" => Css.px(75)
+    | "Share" => Css.px(65)
     | _ => Css.px(200)
     };
   let container = textProp =>

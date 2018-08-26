@@ -1,6 +1,6 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 import { addRequestComment, storeRequestOwnershipSignature } from '../../../queries/Request'

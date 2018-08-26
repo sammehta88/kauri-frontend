@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { searchRequests } from '../../../queries/Request'
 import { Icon, Input, AutoComplete } from 'antd'
-import { Subject } from 'rxjs'
+import { Subject } from 'rxjs/Subject'
 
 const Option = AutoComplete.Option
 
@@ -65,7 +65,7 @@ export default class Complete extends React.Component<any, any> {
     dataSource: [],
   }
 
-  componentDidMount() {
+  componentDidMount () {
     const sub = handleSearch$
       .debounceTime(300)
       .flatMap(text =>
@@ -90,7 +90,7 @@ export default class Complete extends React.Component<any, any> {
     this.setState({ sub })
   }
 
-  componentWillUnmount() {
+  componentWillUnmount () {
     this.state.sub.unsubscribe()
   }
 
@@ -104,19 +104,16 @@ export default class Complete extends React.Component<any, any> {
 
   renderOption = (request: requestDTO) =>
     request.subject !== 'No requests found' ? (
-      <Option
-        key={`/request/${request.request_id}`}
-        value={`/request/${request.request_id}`}
-      >
+      <Option key={`/request/${request.request_id}`} value={`/request/${request.request_id}`}>
         {typeof request.subject === 'string' && request.subject.length && request.subject.substr(0, 50).concat('...')}
       </Option>
     ) : (
-        <Option disabled key={'No requests found'} value={'No requests found'}>
-          No requests found
+      <Option disabled key={'No requests found'} value={'No requests found'}>
+        No requests found
       </Option>
-      )
+    )
 
-  render() {
+  render () {
     const { dataSource } = this.state
 
     return (

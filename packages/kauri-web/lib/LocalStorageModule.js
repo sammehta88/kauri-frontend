@@ -1,5 +1,5 @@
 // @flow
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import createReducer from './createReducer'
 import approvalSteps from './DriverSteps/approvals'
 

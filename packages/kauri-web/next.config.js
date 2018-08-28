@@ -16,6 +16,25 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 console.log(processedConfig)
 
 const nextPlugins = [withSourceMaps, withLess, withCss]
+if (process.env.BUNDLE_ANALYZE) {
+  nextPlugins.push([
+    withBundleAnalyzer,
+    {
+      analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
+      analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
+      bundleAnalyzerConfig: {
+        server: {
+          analyzerMode: 'static',
+          reportFilename: './bundles/server.html',
+        },
+        browser: {
+          analyzerMode: 'static',
+          reportFilename: './bundles/client.html',
+        },
+      },
+    },
+  ])
+}
 const nextConfig = {
   webpack: (config, { isServer }) => {
     config.plugins.push(
@@ -28,24 +47,6 @@ const nextConfig = {
       config.plugins.push(new webpack.IgnorePlugin(/jsdom$/), new webpack.IgnorePlugin(/.js.map$/))
     }
     if (process.env.NODE_ENV === 'production') {
-      if (process.env.BUNDLE_ANALYZE) {
-        nextPlugins.push(
-          withBundleAnalyzer({
-            analyzeServer: ['server', 'both'].includes(process.env.BUNDLE_ANALYZE),
-            analyzeBrowser: ['browser', 'both'].includes(process.env.BUNDLE_ANALYZE),
-            bundleAnalyzerConfig: {
-              server: {
-                analyzerMode: 'static',
-                reportFilename: '../../bundles/server.html',
-              },
-              browser: {
-                analyzerMode: 'static',
-                reportFilename: '../bundles/client.html',
-              },
-            },
-          })
-        )
-      }
       // Do production stuff
     } else {
       // Do development stuff

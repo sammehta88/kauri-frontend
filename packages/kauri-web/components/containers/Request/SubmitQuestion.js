@@ -1,7 +1,5 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { EditorState, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js'
-import { createTypeStrategy } from 'megadraft'
 import SharedEditor from '../../common/SharedEditor'
 import { Button, Form } from 'antd'
 

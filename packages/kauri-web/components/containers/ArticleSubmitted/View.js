@@ -53,7 +53,7 @@ class ArticleSubmitted extends React.Component<Props> {
         <ProfileVisibilityStatement>It will be visible on your public profile too!</ProfileVisibilityStatement>
         <Capitalize>
           <span>{data.getArticle.category}</span>
-          <span> can:</span>
+          <span> can indicate the article is:</span>
         </Capitalize>
         <PossibleActions>
           <PossibleActionBadge

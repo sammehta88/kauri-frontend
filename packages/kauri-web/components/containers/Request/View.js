@@ -112,6 +112,9 @@ const GoBack = ({ routeChangeAction }: *) => (
 
 const ContributeToBountyContainer = styled.div`
   align-self: center;
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 export const ContributeToBounty = ({ toggleBanner, type }: *) => (

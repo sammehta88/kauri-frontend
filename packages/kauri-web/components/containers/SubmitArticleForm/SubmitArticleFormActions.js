@@ -60,7 +60,9 @@ export default ({
         <span>
           {text
             ? authorId === userId
-              ? `Update ${status === 'DRAFT' ? 'Draft' : 'Article'}`
+              ? status === 'DRAFT'
+                ? 'Save Draft'
+                : 'Update Article'
               : 'Submit for Review'
             : getFieldValue('category') || category
               ? 'Submit for Review'

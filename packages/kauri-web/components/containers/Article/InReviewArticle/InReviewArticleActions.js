@@ -66,13 +66,13 @@ export default ({
           <ActionIcon />
           <strong>{'PUBLISH ARTICLE'}</strong>
         </ActionBadge>
-    )}
+      )}
     <PullRight>
       {(status === 'IN_REVIEW' || status === 'DRAFT') &&
         isContributor && (
           <ActionBadge onClick={updateUnsubmittedArticle}>
             <ActionIcon />
-            <strong>UPDATE ARTICLE</strong>
+            <strong>{status === 'DRAFT' ? 'EDIT DRAFT' : 'UPDATE ARTICLE'}</strong>
           </ActionBadge>
         )}
       {status === 'IN_REVIEW' &&

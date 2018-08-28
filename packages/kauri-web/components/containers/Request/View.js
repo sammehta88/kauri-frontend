@@ -481,7 +481,7 @@ class Request extends Component<Props, State> {
                     ) : (
                       <PositiveRequestActionBadge
                         alone='true'
-                        type={!getRequest.is_flagged ? 'secondary color primary' : ''}
+                        type={!getRequest.is_flagged ? 'secondary color primary' : 'primary'}
                         width='auto'
                         action={() =>
                           typeof personalSubmittedArticle === 'object' &&

@@ -21,7 +21,6 @@ import './rxjs-used-operators'
 
 import '../static/css/redraft-image.css'
 import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
-import 'megadraft/dist/css/megadraft.css'
 import 'highlightjs/styles/github.css'
 import '@rej156/react-mde/lib/styles/css/react-mde-all.css'
 import '../ant-theme-vars.less'

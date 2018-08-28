@@ -2433,13 +2433,6 @@ backoff@^2.5.0:
   dependencies:
     precond "0.2"
 
-backstage-modal@^0.3.2:
-  version "0.3.2"
-  resolved "https://registry.yarnpkg.com/backstage-modal/-/backstage-modal-0.3.2.tgz#3cc340bf586da84eb29f6bd06b28da373539f638"
-  dependencies:
-    prop-types "^15.5.10"
-    react-portal-stateless "^1.0.3"
-
 bail@^1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/bail/-/bail-1.0.3.tgz#63cfb9ddbac829b02a3128cd53224be78e6c21a3"
@@ -4538,7 +4531,7 @@ draft-js@0.10.4:
     immutable "~3.7.4"
     object-assign "^4.1.0"
 
-draft-js@0.10.5, draft-js@^0.10.0, draft-js@~0.10.0:
+draft-js@^0.10.0, draft-js@~0.10.0:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
   dependencies:
@@ -6443,13 +6436,6 @@ gzip-size@^4.1.0:
     duplexer "^0.1.1"
     pify "^3.0.0"
 
-gzip-size@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/gzip-size/-/gzip-size-5.0.0.tgz#a55ecd99222f4c48fd8c01c625ce3b349d0a0e80"
-  dependencies:
-    duplexer "^0.1.1"
-    pify "^3.0.0"
-
 hammerjs@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
@@ -6865,7 +6851,7 @@ immediate@~3.0.5:
   version "3.0.6"
   resolved "https://registry.yarnpkg.com/immediate/-/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
 
-immutable@3.8.2, immutable@^3.7.4, immutable@~3.8.2:
+immutable@3.8.2, immutable@^3.7.4:
   version "3.8.2"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
@@ -9004,17 +8990,6 @@ media-typer@0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
 
-megadraft@^0.4.33:
-  version "0.4.37"
-  resolved "https://registry.yarnpkg.com/megadraft/-/megadraft-0.4.37.tgz#30727a0421954b1801e4e44d59424265a1aed5e1"
-  dependencies:
-    backstage-modal "^0.3.2"
-    classnames "^2.2.5"
-    draft-js "0.10.5"
-    immutable "~3.8.2"
-    prop-types "^15.5.10"
-    setimmediate "^1.0.4"
-
 mem@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-1.1.0.tgz#5edd52b485ca1d900fe64895505399a0dfa45f76"
@@ -9356,9 +9331,9 @@ modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
 
-moment@2.20.1:
-  version "2.20.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+moment@2.19.3:
+  version "2.19.3"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.3.tgz#bdb99d270d6d7fda78cc0fbace855e27fe7da69f"
 
 moment@2.x, moment@^2.19.3, moment@^2.22.1, moment@^2.6.0:
   version "2.22.2"
@@ -10845,10 +10820,6 @@ prettier-bytes@1.0.4:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/prettier-bytes/-/prettier-bytes-1.0.4.tgz#994b02aa46f699c50b6257b5faaa7fe2557e62d6"
 
-pretty-bytes@^5.1.0:
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/pretty-bytes/-/pretty-bytes-5.1.0.tgz#6237ecfbdc6525beaef4de722cc60a58ae0e6c6d"
-
 pretty-format@^22.4.0, pretty-format@^22.4.3:
   version "22.4.3"
   resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-22.4.3.tgz#f873d780839a9c02e9664c8a082e9ee79eaac16f"
@@ -11550,12 +11521,6 @@ react-loadable@5.4.0:
   resolved "https://registry.yarnpkg.com/react-loadable/-/react-loadable-5.4.0.tgz#3b6b7d51121a7868fd155be848a36e02084742c9"
   dependencies:
     prop-types "^15.5.0"
-
-react-portal-stateless@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-portal-stateless/-/react-portal-stateless-1.0.3.tgz#6f37ead12dd8c7e1d5cf0c89e06b20dc624ce174"
-  dependencies:
-    prop-types "^15.5.8"
 
 react-reconciler@^0.7.0:
   version "0.7.0"
@@ -12633,17 +12598,6 @@ sister@^3.0.0:
 sisteransi@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-0.1.1.tgz#5431447d5f7d1675aac667ccd0b865a4994cb3ce"
-
-size-plugin@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/size-plugin/-/size-plugin-1.0.0.tgz#8bbc618468c15fc5a00e765e33d70c4c9f92e63d"
-  dependencies:
-    chalk "^2.4.1"
-    escape-string-regexp "^1.0.5"
-    glob "^7.1.2"
-    gzip-size "^5.0.0"
-    minimatch "^3.0.4"
-    pretty-bytes "^5.1.0"
 
 slash@^1.0.0:
   version "1.0.0"

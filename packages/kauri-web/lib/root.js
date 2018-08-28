@@ -7,7 +7,7 @@ import app, {
   userDetailsEpic,
   hideIntroBannerEpic,
 } from './Module'
-import {
+import request, {
   flagRequestEpic,
   addRequestCommentEpic,
   addToBountyEpic,
@@ -41,6 +41,7 @@ export const rootReducer = {
   createRequests,
   register,
   localStorage,
+  request,
 }
 
 const epics = [

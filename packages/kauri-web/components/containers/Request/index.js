@@ -17,6 +17,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ethUsdPrice: state.app.ethUsdPrice,
     userId: state.app.userId,
+    disabledFlagRequest: state.request.disabledFlagRequest,
   }
 }
 

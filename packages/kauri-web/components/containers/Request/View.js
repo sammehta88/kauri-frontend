@@ -282,6 +282,7 @@ type Props = {
   submitArticleAction: SubmitArticlePayload => void,
   requestRefundAction: RequestRefundPayload => void,
   resubmitRequestAction: ResubmitRequestPayload => void,
+  disabledFlagRequest: boolean
 }
 
 type State = {
@@ -423,15 +424,17 @@ class Request extends Component<Props, State> {
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
+                      disabled={this.props.disabledFlagRequest}
                       alone='true'
                       type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
                       preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
                       width='auto'
                       action={() => {
                         const flaggingPayload =
-                          !getRequest.is_flagged && typeof getRequest.request_id === 'string'
+                          getRequest.is_flagged
                             ? { request_id: getRequest.request_id, isFlagged: true }
                             : { request_id: getRequest.request_id }
+
                         flagRequestAction(flaggingPayload)
                       }}
                       label="I'm on it!"

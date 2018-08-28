@@ -185,76 +185,77 @@ export default ({
   type,
   approveArticleAction,
 }: Props) => (
-    <SubmittedArticle>
-      <SubmittedArticle.SubmittedArticleDetails>
-        <SubmittedArticle.CategoryBadge
-          onClick={() => routeChangeAction(`/article/${article_id}/v${article_version}`)}
-          category={category}
-          theme={theme}
-        >
-          {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
-          <SubmittedArticle.CategoryName>
-            {category || (user && user.username) || (user && user.user_id)}
-          </SubmittedArticle.CategoryName>
-        </SubmittedArticle.CategoryBadge>
-        <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
-          <SubmittedArticle.Content type={type}>
-            <SubmittedArticle.Header>
-              <Link route={`/article/${article_id}/v${article_version}`}>
-                <SubmittedArticle.Subject href={`/article/${article_id}/v${article_version}`}>
-                  {subject}
-                </SubmittedArticle.Subject>
-              </Link>
-            </SubmittedArticle.Header>
+  <SubmittedArticle>
+    <SubmittedArticle.SubmittedArticleDetails>
+      <SubmittedArticle.CategoryBadge
+        onClick={() => routeChangeAction(`/article/${article_id}/v${article_version}`)}
+        category={category}
+        theme={theme}
+      >
+        {category && <SubmittedArticle.CategoryAvatar src={`/static/images/${category}/avatar.png`} alt='logo' />}
+        <SubmittedArticle.CategoryName>
+          {category || (user && user.username) || (user && user.user_id)}
+        </SubmittedArticle.CategoryName>
+      </SubmittedArticle.CategoryBadge>
+      <SubmittedArticle.Details type={type} userId={userId} categoryTab={categoryTab}>
+        <SubmittedArticle.Content type={type}>
+          <SubmittedArticle.Header>
+            <Link useAnchorTag route={`/article/${article_id}/v${article_version}`}>
+              <SubmittedArticle.Subject href={`/article/${article_id}/v${article_version}`}>
+                {subject}
+              </SubmittedArticle.Subject>
+            </Link>
+          </SubmittedArticle.Header>
+          <Link useAnchorTag route={`/article/${article_id}/v${article_version}`}>
             <DescriptionRow record={{ text }} />
-            <SubmittedArticle.MetaDetails>
-              <SubmittedArticle.DatePosted>
-                <span>POSTED</span>
-                <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
-              </SubmittedArticle.DatePosted>
-              <SubmittedArticle.WrittenBy
-                type='written by'
-                onClick={() => routeChangeAction(`/public-profile/${user && user.user_id}`)}
-              >
+          </Link>
+          <SubmittedArticle.MetaDetails>
+            <SubmittedArticle.DatePosted>
+              <span>POSTED</span>
+              <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
+            </SubmittedArticle.DatePosted>
+            <Link useAnchorTag route={`/public-profile/${user && user.user_id}`}>
+              <SubmittedArticle.WrittenBy type='written by'>
                 <span>Written by</span>
                 <Username>{(user && user.username) || user.user_id}</Username>
               </SubmittedArticle.WrittenBy>
-              {type !== 'approval' && (
-                <SubmittedArticle.Contributions>
-                  <span>Contributions</span>
-                  <strong>{`${web3.fromWei(tip || 0, 'ether')} ETH $${(
-                    web3.fromWei(tip || 0, 'ether') * ethUsdPrice
-                  ).toFixed(2) || 0}`}</strong>
-                </SubmittedArticle.Contributions>
-              )}
-            </SubmittedArticle.MetaDetails>
-          </SubmittedArticle.Content>
-        </SubmittedArticle.Details>
-        <Badges>
-          {status !== 'APPROVED' || status !== 'PRE_APPROVED' ? (
-            <Badge>
-              <strong>{typeof status === 'string' && status.replace(/_/g, ' ').toLowerCase()}</strong>
-              <strong>Status</strong>
-            </Badge>
-          ) : (
-              <p>{status}</p>
+            </Link>
+            {type !== 'approval' && (
+              <SubmittedArticle.Contributions>
+                <span>Contributions</span>
+                <strong>{`${web3.fromWei(tip || 0, 'ether')} ETH $${(
+                  web3.fromWei(tip || 0, 'ether') * ethUsdPrice
+                ).toFixed(2) || 0}`}</strong>
+              </SubmittedArticle.Contributions>
             )}
-          {type !== 'approval' &&
-            status !== 'PUBLISHED' &&
-            (status !== 'APPROVED' && (
-              <Badge>
-                <strong>{Array.isArray(comments) ? comments.length.toString() : 0}</strong>
-                <span>Comments</span>
-              </Badge>
-            ))}
-        </Badges>
-      </SubmittedArticle.SubmittedArticleDetails>
-      <Divider style={typeof request_id === 'string' ? { width: 'calc(100% - 140px)', marginLeft: 140 } : {}} />
-      {typeof request_id === 'string' && (
-        <Fragment>
-          <SubmittedArticle.OriginalRequest request_id={request_id} />
-          <Divider />
-        </Fragment>
-      )}
-    </SubmittedArticle>
-  )
+          </SubmittedArticle.MetaDetails>
+        </SubmittedArticle.Content>
+      </SubmittedArticle.Details>
+      <Badges>
+        {status !== 'APPROVED' || status !== 'PRE_APPROVED' ? (
+          <Badge>
+            <strong>{typeof status === 'string' && status.replace(/_/g, ' ').toLowerCase()}</strong>
+            <strong>Status</strong>
+          </Badge>
+        ) : (
+          <p>{status}</p>
+        )}
+        {type !== 'approval' &&
+          status !== 'PUBLISHED' &&
+          (status !== 'APPROVED' && (
+            <Badge>
+              <strong>{Array.isArray(comments) ? comments.length.toString() : 0}</strong>
+              <span>Comments</span>
+            </Badge>
+          ))}
+      </Badges>
+    </SubmittedArticle.SubmittedArticleDetails>
+    <Divider style={typeof request_id === 'string' ? { width: 'calc(100% - 140px)', marginLeft: 140 } : {}} />
+    {typeof request_id === 'string' && (
+      <Fragment>
+        <SubmittedArticle.OriginalRequest request_id={request_id} />
+        <Divider />
+      </Fragment>
+    )}
+  </SubmittedArticle>
+)

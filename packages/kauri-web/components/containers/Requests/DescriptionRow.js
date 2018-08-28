@@ -56,7 +56,7 @@ const hideAtomicBlock = css`
 `
 
 const maxThreeLinesCss = css`
-  height: 2.5em;
+  height: 4em;
   line-height: 2em;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -1,6 +1,6 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { commentArticle } from '../../../queries/Article'
 import createReducer from '../../../lib/createReducer'
 import { showNotificationAction, toggleModalAction } from '../../../lib/Module'

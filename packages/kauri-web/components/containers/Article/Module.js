@@ -1,11 +1,10 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { trackMixpanelAction } from '../Link/Module'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import {
   rejectArticle,
-  storeArticleOwnershipSignature,
   storeArticleValidationSignature,
   deleteArticleComment,
   getArticle,

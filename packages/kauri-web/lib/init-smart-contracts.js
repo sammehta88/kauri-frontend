@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import contract from 'truffle-contract'
 
 const KauriCoreArtifact = require(process.env.KauriCoreArtifact)

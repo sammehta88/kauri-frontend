@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { showNotificationAction } from './Module'
 import apolloClient from './init-apollo'
 import apolloSubscriber from './apollo-subscriber'

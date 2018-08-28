@@ -1,26 +1,39 @@
 let component = ReasonReact.statelessComponent("ShareArticle");
 
 module Styles = {
-  let referenceContainer = Css.(style([display(`flex), width(px(75))]));
-
-  let container =
-    Css.(
-      style([
-        display(`flex),
-        justifyContent(center),
-        width(px(60)),
-        selector("> :first-child", [marginRight(px(9))]),
-        selector("> svg", [height(px(16)), width(px(16))]),
-      ])
-    );
+  let containerWidth = 70;
+  let referenceContainer =
+    Css.(style([display(`flex), width(px(containerWidth))]));
 
   let tooltipContainer =
     Css.(
       style([
         display(`flex),
+        position(relative),
+        padding2(~v=px(15), ~h=px(0)),
+        width(px(containerWidth)),
         flexDirection(column),
-        paddingTop(px(15)),
-        selector("> div", [marginBottom(px(5))]),
+        alignItems(center),
+        background(white),
+        marginTop(px(15)),
+        selector("> div:not(:last-child)", [marginBottom(px(5))]),
+        unsafe("boxShadow", "rgba(0, 0, 0, 0.1) 0px 2px 4px"),
+        borderRadius(px(4)),
+      ])
+    );
+
+  let tooltipArrow =
+    Css.(
+      style([
+        unsafe("boxShadow", "rgba(0, 0, 0, 0.1) 0px 2px 4px"),
+        position(absolute),
+        zIndex(-1),
+        top(`percent(-3.0)),
+        width(px(14)),
+        height(px(14)),
+        background(white),
+        transform(rotate(`deg(-45))),
+        borderRadius(px(2)),
       ])
     );
 };
@@ -42,12 +55,22 @@ let make = (~url, ~title, ~pageType=ArticleAction.PublishedArticle, _children) =
         trigger=`Click
         html={
           <div className=Styles.tooltipContainer>
+            <div className=Styles.tooltipArrow />
             <ReactShare.LinkedinShareButton url title>
               <ReactShare.LinkedinIcon />
             </ReactShare.LinkedinShareButton>
             <ReactShare.TwitterShareButton url title>
               <ReactShare.TwitterIcon />
             </ReactShare.TwitterShareButton>
+            /* <ReactShare.PinterestShareButton url title>
+                 <ReactShare.PinterestIcon />
+               </ReactShare.PinterestShareButton> */
+            <ReactShare.RedditShareButton url title>
+              <ReactShare.RedditIcon />
+            </ReactShare.RedditShareButton>
+            <ReactShare.HackerNewsShareButton url title>
+              <ReactShare.HackerNewsIcon />
+            </ReactShare.HackerNewsShareButton>
           </div>
         }
         position=`Bottom>

@@ -160,8 +160,8 @@ const ConfirmationLogoBadgeContainer = styled.div`
 `
 
 const ArticleApprovedConfirmationLogoContainer = ConfirmationLogoBadgeContainer.extend`
-  > : first-child {
-    margin-bottom: 52px;
+  > :first-child {
+    margin-bottom: 0px;
   }
 `
 
@@ -187,7 +187,6 @@ const ConfirmationLogoBadge = ({ chosenCategory, confirmationMessage }) => (
 
 const ArticleApprovedConfirmationLogoBadge = ({ chosenCategory, confirmationMessage }) => (
   <ArticleApprovedConfirmationLogoContainer>
-    <CreateRequestLogo avatarHeight={50} height={96} width={96} chosenCategory={chosenCategory} />
     <ArticleApprovedConfirmationMessage>{confirmationMessage}</ArticleApprovedConfirmationMessage>
   </ArticleApprovedConfirmationLogoContainer>
 )

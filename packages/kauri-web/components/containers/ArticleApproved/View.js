@@ -10,6 +10,7 @@ import {
   Container as RequestCreatedContainer,
   ConfirmationSubject as RequestConfirmationSubject,
 } from '../RequestCreated/View'
+import { Helmet } from 'react-helmet'
 import R from 'ramda'
 
 type Props = {
@@ -47,11 +48,16 @@ class ArticleApproved extends React.Component<Props> {
       [R.equals('approved'), R.always('now needs publishing from author before going live')],
     ])(type)
 
+    const capitalize = R.replace(/^./, R.toUpper)
+
     return (
       <Container>
+        <Helmet>
+          <title>{`Kauri - Article ${capitalize(type)}`}</title>
+        </Helmet>
         <ArticleApprovedConfirmationLogoBadge
           chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
-          confirmationMessage={R.toUpper(type)}
+          confirmationMessage={type}
         />
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard

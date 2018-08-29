@@ -175,7 +175,7 @@ const ConfirmationMessage = styled.span`
 const ArticleApprovedConfirmationMessage = ConfirmationMessage.extend`
   font-size: 26px;
   font-weight: normal;
-  text-transform: initial;
+  text-transform: capitalize;
 `
 
 const ConfirmationLogoBadge = ({ chosenCategory, confirmationMessage }) => (

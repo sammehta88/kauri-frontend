@@ -5,6 +5,7 @@ import { ActionButtons, ActionButton } from '../../common/ActionButton'
 import { ConfirmationLogoBadge, PossibleActionBadge, PossibleActions } from '../../common/ActionBadge'
 import { ConfirmationSubject, Container } from '../RequestCreated/View'
 import ArticleBounty from './ArticleBounty'
+import { Helmet } from 'react-helmet'
 
 type Props = {
   data?: { getRequest?: RequestDTO, getArticle?: ArticleDTO },
@@ -37,6 +38,9 @@ class ArticleSubmitted extends React.Component<Props> {
 
     return (
       <Container>
+        <Helmet>
+          <title>{`Kauri - Article Submitted`}</title>
+        </Helmet>
         <ConfirmationLogoBadge chosenCategory={data.getArticle.category} confirmationMessage={'Submitted for Review'} />
         <ConfirmationSubject>{data.getArticle.subject}</ConfirmationSubject>
         <Statement>

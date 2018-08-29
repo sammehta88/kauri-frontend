@@ -10,6 +10,7 @@ import {
   Container as RequestCreatedContainer,
   ConfirmationSubject as RequestConfirmationSubject,
 } from '../RequestCreated/View'
+import { cond, always, equals } from 'ramda'
 
 type Props = {
   data?: { getArticle?: ArticleDTO },
@@ -40,6 +41,13 @@ class ArticleApproved extends React.Component<Props> {
   render () {
     const { data, routeChangeAction, isPublished, type } = this.props
     const article = data && typeof data.getArticle === 'object' && data.getArticle
+    let confirmationSubjectCopy = cond([
+      [equals('updated'), always('has been updated')],
+      [equals('drafted'), always('draft has been saved')],
+    ])(type)
+    confirmationSubjectCopy =
+      confirmationSubjectCopy || isPublished ? 'is now live' : 'now needs publishing before going live'
+
     return (
       <Container>
         <ArticleApprovedConfirmationLogoBadge
@@ -48,16 +56,7 @@ class ArticleApproved extends React.Component<Props> {
             type === 'updated' ? 'Updated' : type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'
           }
         />
-        <ConfirmationSubject>
-          The article{' '}
-          {type === 'updated'
-            ? 'has been updated'
-            : type === 'drafted'
-              ? 'draft has been saved'
-              : isPublished
-                ? 'is now live'
-                : 'now needs publishing before going live'}
-        </ConfirmationSubject>
+        <ConfirmationSubject>{`The article ${confirmationSubjectCopy}`}</ConfirmationSubject>
         <ArticleCard
           changeRoute={routeChangeAction}
           key={article.article_id}

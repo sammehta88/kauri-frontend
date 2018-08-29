@@ -23,6 +23,7 @@ type Props =
     routeChangeAction: string => void,
     tipArticleAction: TipArticlePayload => void,
     ethUsdPrice: number,
+    address?: string,
     data: { getArticle?: ArticleDTO },
   }
   | any
@@ -47,7 +48,7 @@ class ApprovedArticle extends React.Component<Props, State> {
       ? this.setState({ showBanner: status })
       : this.setState({ showBanner: !this.state.showBanner })
 
-  render() {
+  render () {
     const props = this.props
     const { subject, article_id, text } = props.data.getArticle
     const articleKeywords = rake(JSON.parse(text).markdown, {
@@ -93,6 +94,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
           userId={props.data.getArticle && props.data.getArticle.user_id}
           routeChangeAction={props.routeChangeAction}
+          address={props.address}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.metadata}

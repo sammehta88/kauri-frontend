@@ -10,13 +10,12 @@ import {
   Container as RequestCreatedContainer,
   ConfirmationSubject as RequestConfirmationSubject,
 } from '../RequestCreated/View'
-import { cond, always, equals } from 'ramda'
+import R from 'ramda'
 
 type Props = {
   data?: { getArticle?: ArticleDTO },
   routeChangeAction: string => void,
-  isPublished?: boolean,
-  type?: string,
+  type: 'published' | 'approved' | 'drafted' | 'updated',
 }
 
 const ConfirmationSubject = RequestConfirmationSubject.extend`
@@ -39,24 +38,22 @@ const ArticleApprovedActionButtons = ActionButtons.extend`
 
 class ArticleApproved extends React.Component<Props> {
   render () {
-    const { data, routeChangeAction, isPublished, type } = this.props
+    const { data, routeChangeAction, type } = this.props
     const article = data && typeof data.getArticle === 'object' && data.getArticle
-    let confirmationSubjectCopy = cond([
-      [equals('updated'), always('has been updated')],
-      [equals('drafted'), always('draft has been saved')],
+    const subjectCopy = R.cond([
+      [R.equals('updated'), R.always('has been updated')],
+      [R.equals('drafted'), R.always('draft has been saved')],
+      [R.equals('published'), R.always('is now live')],
+      [R.equals('approved'), R.always('now needs publishing from author before going live')],
     ])(type)
-    confirmationSubjectCopy =
-      confirmationSubjectCopy || isPublished ? 'is now live' : 'now needs publishing before going live'
 
     return (
       <Container>
         <ArticleApprovedConfirmationLogoBadge
           chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
-          confirmationMessage={
-            type === 'updated' ? 'Updated' : type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'
-          }
+          confirmationMessage={R.toUpper(type)}
         />
-        <ConfirmationSubject>{`The article ${confirmationSubjectCopy}`}</ConfirmationSubject>
+        <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard
           changeRoute={routeChangeAction}
           key={article.article_id}
@@ -76,14 +73,10 @@ class ArticleApproved extends React.Component<Props> {
         />
         <ArticleApprovedActionButtons>
           <PositiveRequestActionBadge
-            action={() =>
-              routeChangeAction(
-                type === 'drafted' || type === 'updated' || isPublished ? '/profile?tab=my articles' : '/approvals'
-              )
-            }
+            action={() => routeChangeAction(type === 'approved' ? '/approvals' : '/profile?tab=my articles')}
             height={40}
             width={183}
-            label={type === 'drafted' || type === 'updated' || isPublished ? 'My Articles' : 'Back to Approvals'}
+            label={type === 'approved' ? 'Back to Approvals' : 'My Articles'}
             type='primary'
           />
         </ArticleApprovedActionButtons>

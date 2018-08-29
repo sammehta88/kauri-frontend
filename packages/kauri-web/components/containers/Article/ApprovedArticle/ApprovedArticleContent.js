@@ -15,6 +15,8 @@ import ShareArticle from '../../../../../kauri-components/components/Tooltip/Sha
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
 
+const config = require('../../../../config').default
+
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
   > :last-child {
@@ -66,6 +68,7 @@ export default ({
   article_id,
   article_version,
   subject,
+  address,
 }: {
   text?: string,
   username?: ?string,
@@ -74,6 +77,7 @@ export default ({
   article_id: string,
   subject?: string,
   article_version: number,
+  address?: string,
 }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
@@ -91,6 +95,10 @@ export default ({
       : editorState.blocks && editorState.blocks)
 
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
+
+  const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
+    whiteListedAddress => whiteListedAddress === address
+  )
 
   return (
     <SubmitArticleFormContent>
@@ -110,13 +118,15 @@ export default ({
           userId={userId}
           routeChangeAction={routeChangeAction}
         />
-        <ArticleAction
-          svgIcon={<UpdateArticleSvgIcon />}
-          text={'Update Article'}
-          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
-        >
-          Update article
-        </ArticleAction>
+        {canUpdateArticle && (
+          <ArticleAction
+            svgIcon={<UpdateArticleSvgIcon />}
+            text={'Update Article'}
+            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          >
+            Update article
+          </ArticleAction>
+        )}
         <ShareArticle
           url={`https://${
             process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io' : 'dev.kauri.io'

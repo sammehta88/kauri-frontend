@@ -157,15 +157,7 @@ const SubmitArticleFormSubject = ({
 }: *) => (
   <SubmitArticleFormSubjectContainer>
     <SubmitArticleFormTopicAndSubcategoryContainer>
-      {chosenCategory ? (
-        <ChosenCategory>{chosenCategory}</ChosenCategory>
-      ) : (
-        <ChooseTopic
-          getFieldError={getFieldError}
-          isKauriTopicOwner={isKauriTopicOwner}
-          getFieldDecorator={getFieldDecorator}
-        />
-      )}
+      {chosenCategory && <ChosenCategory>{chosenCategory}</ChosenCategory>}
       {chosenSubcategory ? (
         <ChosenSubcategory>{chosenSubcategory}</ChosenSubcategory>
       ) : (
@@ -199,12 +191,6 @@ const SubmitArticleFormSubject = ({
         {typeof getFieldValue('subject') === 'string' && getFieldValue('subject').replace(/ /g, '\u00a0')}
       </UnderlineSpan>
     </InputWrapper>
-    <ForVersionInput
-      forVersion={metadata && metadata.FOR_VERSION}
-      getFieldDecorator={getFieldDecorator}
-      getFieldValue={getFieldValue}
-      getFieldError={getFieldError}
-    />
   </SubmitArticleFormSubjectContainer>
 )
 
@@ -238,7 +224,9 @@ export default ({
   metadata,
 }: Props) => (
   <SubmitArticleFormHeader type='article' theme={theme} chosenCategory={category || getFieldValue('category')}>
-    <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
+    {category && (
+      <SubmitArticleFormLogo type='article' theme={theme} chosenCategory={category || getFieldValue('category')} />
+    )}
     <SubmitArticleFormSubject
       getFieldError={getFieldError}
       getFieldValue={getFieldValue}

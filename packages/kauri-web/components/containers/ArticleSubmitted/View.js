@@ -32,6 +32,10 @@ const BountyStatement = Statement.extend`
   margin-bottom: 47px;
 `
 
+const ProfileVisibilityStatement = Statement.extend`
+  margin-bottom: 10px;
+`
+
 class ArticleSubmitted extends React.Component<Props> {
   render () {
     const { data, routeChangeAction } = this.props
@@ -50,9 +54,10 @@ class ArticleSubmitted extends React.Component<Props> {
             <span> team for review.</span>
           </Capitalize>
         </Statement>
+        <ProfileVisibilityStatement>It will be visible on your public profile too!</ProfileVisibilityStatement>
         <Capitalize>
           <span>{data.getArticle.category}</span>
-          <span> can:</span>
+          <span> can indicate the article is:</span>
         </Capitalize>
         <PossibleActions>
           <PossibleActionBadge

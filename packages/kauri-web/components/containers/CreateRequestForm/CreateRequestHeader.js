@@ -235,9 +235,6 @@ export const RequestSubject = styled.input`
 
 export const ChooseTopicAndSubcategoryContainer = styled.div`
   display: flex;
-  > :last-child {
-    margin-left: 30px;
-  }
 `
 
 const CreateRequestDetails = styled.div`

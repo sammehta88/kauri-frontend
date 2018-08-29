@@ -271,6 +271,10 @@ class Navbar extends React.Component {
                   <TooltipItem>Account</TooltipItem>
                 </Link>
                 <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
+                <Link route={`/public-profile/${userId}`}>
+                  <TooltipItem>Public Profile</TooltipItem>
+                </Link>
+                <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
                 <TooltipItem onClick={logout}>Logout</TooltipItem>
               </TooltipItemContainer>
             </Tooltip>

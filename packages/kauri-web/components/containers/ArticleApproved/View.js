@@ -39,9 +39,9 @@ class ArticleApproved extends React.Component<Props> {
       <Container>
         <ArticleApprovedConfirmationLogoBadge
           chosenCategory={data && typeof data.getArticle === 'object' && data.getArticle.category}
-          confirmationMessage={`Article ${
+          confirmationMessage={
             type === 'updated' ? 'Updated' : type === 'drafted' ? 'Drafted' : isPublished ? 'Published' : 'Approved'
-          }`}
+          }
         />
         <ConfirmationSubject>
           {data && typeof data.getArticle === 'object' && data.getArticle.subject}

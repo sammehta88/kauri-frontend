@@ -18,7 +18,7 @@ render(
       <App />
     </BrowserRouter>
   </Web3Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )
 
 registerServiceWorker()

@@ -4,7 +4,11 @@ import { ArticleCard, CollectionCard } from 'kauri-components'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
-import { Link } from '../../../routes'
+const Link = !process.env.STORYBOOK
+  ? ({ children }) => {
+    return children
+  }
+  : require('../../../routes').Link
 
 const Title = styled.h2`
   font-weight: 300;

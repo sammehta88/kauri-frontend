@@ -20,17 +20,18 @@ export default compose(
     { routeChangeAction, startDriverStepsAction }
   ),
   graphql(searchOpenRequestsWithSubmissions, {
-    options: ({ categories }) => ({
+    options: ({ categories, request_id }) => ({
       variables: {
         filter: {
-          status_in: ['OPENED', 'IN_MODERATION_PERIOD'],
+          status_in: ['OPENED', 'IN_PUBLICATION_PERIOD'],
           category_in: categories,
           total_submissions_gt: 0,
         },
         articleFilter: {
-          status_in: 'IN_REVIEW',
+          status_in: ['IN_REVIEW'],
           category_in: categories,
           request_id_eq: '',
+          latest_version: false,
         },
       },
     }),

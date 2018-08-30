@@ -1,6 +1,6 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import {
   createRequest,
   searchRequests,
@@ -120,7 +120,7 @@ export const createRequestEpic = (
                 Observable.fromPromise(apolloSubscriber(transactionHash, 'RequestCreated'))
               )
               .do(h => console.log(h))
-              .flatMap(() => apolloClient.cache.reset())
+              .flatMap(() => apolloClient.resetStore())
               .flatMap(() =>
                 apolloClient.query({
                   query: searchRequests,

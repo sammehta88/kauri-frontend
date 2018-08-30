@@ -8,7 +8,7 @@ import { Provider } from 'react-redux'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
 import { ThemeProvider } from 'styled-components'
 import Web3 from 'web3'
-import { Subject } from 'rxjs'
+import { Subject } from 'rxjs/Subject'
 import { ActionsObservable } from 'redux-observable'
 import fetch from 'isomorphic-unfetch'
 import mixpanel from 'mixpanel-browser'
@@ -17,6 +17,13 @@ import initApollo from './init-apollo'
 import { initSmartContracts } from './init-smart-contracts'
 import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic } from './Module'
 import themeConfig from './theme-config'
+import './rxjs-used-operators'
+
+import '../static/css/redraft-image.css'
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
+import 'highlightjs/styles/github.css'
+import '@rej156/react-mde/lib/styles/css/react-mde-all.css'
+import '../ant-theme-vars.less'
 
 const config = require('../config').default
 

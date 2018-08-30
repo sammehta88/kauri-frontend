@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { showNotificationAction } from './Module'
 import apolloClient from './init-apollo'
 import apolloSubscriber from './apollo-subscriber'
@@ -61,4 +61,4 @@ const web3PersonalSign = (id, data, gqlMutation) =>
     )
 
 export default web3PersonalSign
-export { loginPersonalSign }
+export { loginPersonalSign, personalSign }

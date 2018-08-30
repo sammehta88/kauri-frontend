@@ -1,7 +1,5 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { EditorState, convertToRaw, convertFromRaw, CompositeDecorator } from 'draft-js'
-import { createTypeStrategy } from 'megadraft'
 import SharedEditor from '../../common/SharedEditor'
 import { Button, Form } from 'antd'
 
@@ -62,6 +60,14 @@ const CancelCommentButton = styled(Button)`
 
 const QuestionEditor = styled.div`
   margin-top: 30px;
+  background-color: #ffffff;
+  padding: 10px 0px;
+  .react-mde-tabbed-layout .mde-tabs .mde-tab-activated {
+    border-bottom: 1px solid #c8ccd0;
+  }
+  .react-mde-tabbed-layout .mde-tabs .mde-tab:hover {
+    border-bottom: 1px solid #c8ccd0;
+  }
 `
 
 const FormButtons = styled.div`
@@ -100,6 +106,7 @@ class SubmitQuestion extends React.Component {
           const result = this.props.addCommentAction(
             {
               article_id: this.props.article_id,
+              article_version: this.props.article_version,
               comment,
             },
             () => this.props.cancelAskingQuestion()

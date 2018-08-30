@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import { Link } from '../../../../../routes'
-import { CategoryBadge, CategoryAvatar, Subject } from '../../../OpenRequests/OpenRequest'
+import { CategoryBadge, CategoryAvatar, CategoryName, Subject } from '../../../OpenRequests/OpenRequest'
 import CategoryBreadcrumbs from '../../../../common/CategoryBreadcrumbs'
 import {
   SubmittedArticle as Container,
@@ -59,42 +59,49 @@ export default ({
   sub_category,
   category,
   article_id,
+  article_version,
   subject,
   tip,
   text,
   date_updated,
   ethUsdPrice,
+  user,
 }: Props) => (
-  <CategoryArticle>
-    <TopicArticleBadge onClick={() => routeChangeAction(`/article/${article_id}`)} category={category} theme={theme}>
-      <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />
-    </TopicArticleBadge>
-    <Details categoryArticle>
-      <Header>
-        <RestrictToOneLine>
-          <Link route={`/article/${article_id}`}>
-            <Subject href={`/article/${article_id}`} type='topicHomepage'>
-              {subject}
-            </Subject>
-          </Link>
-        </RestrictToOneLine>
-        <CategoryArticleDatePosted>
-          <span>POSTED</span>
-          <strong>{moment(date_updated).fromNow()}</strong>
-        </CategoryArticleDatePosted>
-      </Header>
-      <Content>
-        <DescriptionRow record={{ text }} />
-      </Content>
-      <MetaDetails>
-        <CategoryBreadcrumbs category={category} sub_category={sub_category} />
-        <Contributions>
-          <span>Contributions</span>
-          <strong>{`${web3.fromWei(tip || 0, 'ether')} ETH $${(web3.fromWei(tip || 0, 'ether') * ethUsdPrice).toFixed(
-            2
-          )}`}</strong>
-        </Contributions>
-      </MetaDetails>
-    </Details>
-  </CategoryArticle>
-)
+    <CategoryArticle>
+      <TopicArticleBadge
+        onClick={() => routeChangeAction(`/article/${article_id}/v${article_version}`)}
+        category={category}
+        theme={theme}
+      >
+        {!category && <CategoryName>{(user && user.username) || 'Unknown Writer'}</CategoryName>}
+        {category && <CategoryAvatar height={46} src={`/static/images/${category}/avatar.png`} alt='logo' />}
+      </TopicArticleBadge>
+      <Details categoryArticle>
+        <Header>
+          <RestrictToOneLine>
+            <Link toSlug={subject} route={`/article/${article_id}/v${article_version}`}>
+              <Subject href={`/article/${article_id}/v${article_version}`} type='topicHomepage'>
+                {subject}
+              </Subject>
+            </Link>
+          </RestrictToOneLine>
+          <CategoryArticleDatePosted>
+            <span>POSTED</span>
+            <strong>{moment(date_updated).fromNow()}</strong>
+          </CategoryArticleDatePosted>
+        </Header>
+        <Content>
+          <DescriptionRow record={{ text }} />
+        </Content>
+        <MetaDetails>
+          <CategoryBreadcrumbs category={category} sub_category={sub_category} />
+          <Contributions>
+            <span>Contributions</span>
+            <strong>{`${web3.fromWei(tip || 0, 'ether')} ETH $${(web3.fromWei(tip || 0, 'ether') * ethUsdPrice).toFixed(
+              2
+            )}`}</strong>
+          </Contributions>
+        </MetaDetails>
+      </Details>
+    </CategoryArticle>
+  )

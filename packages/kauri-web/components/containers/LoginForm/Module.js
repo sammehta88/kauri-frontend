@@ -1,6 +1,6 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import cookie from 'cookie'
 import createReducer from '../../../lib/createReducer'
 import { showNotificationAction } from '../../../lib/Module'

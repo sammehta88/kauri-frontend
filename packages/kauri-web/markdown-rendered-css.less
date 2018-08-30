@@ -117,6 +117,9 @@
 
   img {
     max-width: 920px;
+    @media (max-width: 500px) {
+      max-width: 100%;
+    }
   }
 
   table {
@@ -133,5 +136,18 @@
     td {
       padding: 6px 13px;
     }
+  }
+}
+
+.mde-header {
+  background: none !important;
+  border-bottom: none !important;
+}
+
+.react-mde {
+  border: none !important;
+  p,
+  span {
+    font-size: 17px;
   }
 }

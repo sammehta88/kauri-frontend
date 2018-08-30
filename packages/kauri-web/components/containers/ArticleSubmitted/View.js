@@ -5,6 +5,7 @@ import { ActionButtons, ActionButton } from '../../common/ActionButton'
 import { ConfirmationLogoBadge, PossibleActionBadge, PossibleActions } from '../../common/ActionBadge'
 import { ConfirmationSubject, Container } from '../RequestCreated/View'
 import ArticleBounty from './ArticleBounty'
+import { Helmet } from 'react-helmet'
 
 type Props = {
   data?: { getRequest?: RequestDTO, getArticle?: ArticleDTO },
@@ -31,12 +32,19 @@ const BountyStatement = Statement.extend`
   margin-bottom: 47px;
 `
 
+const ProfileVisibilityStatement = Statement.extend`
+  margin-bottom: 10px;
+`
+
 class ArticleSubmitted extends React.Component<Props> {
   render () {
     const { data, routeChangeAction } = this.props
 
     return (
       <Container>
+        <Helmet>
+          <title>{`Kauri - Article Submitted`}</title>
+        </Helmet>
         <ConfirmationLogoBadge chosenCategory={data.getArticle.category} confirmationMessage={'Submitted for Review'} />
         <ConfirmationSubject>{data.getArticle.subject}</ConfirmationSubject>
         <Statement>
@@ -46,19 +54,23 @@ class ArticleSubmitted extends React.Component<Props> {
             <span> team for review.</span>
           </Capitalize>
         </Statement>
+        <ProfileVisibilityStatement>It will be visible on your public profile too!</ProfileVisibilityStatement>
         <Capitalize>
           <span>{data.getArticle.category}</span>
-          <span> can:</span>
+          <span> can indicate the article is:</span>
         </Capitalize>
         <PossibleActions>
-          <PossibleActionBadge action='Approved' description='Article is added to the knowledge base' />
+          <PossibleActionBadge
+            action='Approved'
+            description='Article is ready to be added to the knowledge base after publishing'
+          />
           <PossibleActionBadge action='Changes' description='Article requires changes' />
           <PossibleActionBadge action='Rejected' description='Article is not suitable for the knowledgebase' />
         </PossibleActions>
         {typeof data.getArticle.request_id === 'string' && (
           <BountyStatement>
             <span>
-              If approved, you will be rewarded <ArticleBounty request_id={data.getArticle.request_id} />
+              If published, you will be rewarded <ArticleBounty request_id={data.getArticle.request_id} />
             </span>
           </BountyStatement>
         )}

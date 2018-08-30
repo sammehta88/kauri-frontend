@@ -20,7 +20,6 @@ export default compose(
     {
       routeChangeAction,
       approveArticleAction,
-      rejectArticleAction: article_id => routeChangeAction(`/article/${article_id}/reject-article`),
     }
   ),
   graphql(searchOpenRequestsWithSubmissions, {
@@ -32,9 +31,10 @@ export default compose(
           total_submissions_gt: 0,
         },
         articleFilter: {
-          status_in: 'IN_REVIEW',
+          status_in: ['IN_REVIEW'],
           category_in: categories,
           request_id_eq: '',
+          latest_version: false,
         },
       },
     }),

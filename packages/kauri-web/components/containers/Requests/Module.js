@@ -1,7 +1,8 @@
 // @flow
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
+import createReducer from '../../../lib/createReducer'
 import { trackMixpanelAction } from '../Link/Module'
 import { addRequestComment, storeRequestOwnershipSignature } from '../../../queries/Request'
 import moment from 'moment'
@@ -17,6 +18,8 @@ export type FlagRequestPayload = { request_id: string, isFlagged?: boolean }
 export type RequestRefundPayload = { request_id: string }
 
 export type AddRequestCommentPayload = { request_id: string, comment: string }
+
+export type DisableFlagRequestPayload = { disableFlagRequest: boolean }
 
 export type ResubmitRequestPayload = {
   request_id: string,
@@ -35,6 +38,8 @@ export type FlagRequestAction = { type: 'FLAG_REQUEST', payload: FlagRequestPayl
 export type RequestRefundAction = { type: 'REQUEST_REFUND', payload: RequestRefundPayload }
 
 export type ResubmitRequestAction = { type: 'RESUBMIT_REQUEST', payload: ResubmitRequestPayload }
+
+export type DisableFlagRequestAction = { type: 'DISABLE_FLAG_REQUEST', payload: DisableFlagRequestPayload }
 
 export type AddRequestCommentAction = {
   type: 'ADD_REQUEST_COMMENT',
@@ -67,6 +72,8 @@ const REQUEST_REFUND = 'REQUEST_REFUND'
 
 const RESUBMIT_REQUEST = 'RESUBMIT_REQUEST'
 
+const DISABLE_FLAG_REQUEST = 'DISABLE_FLAG_REQUEST'
+
 export const flagRequestAction = (payload: FlagRequestPayload): FlagRequestAction => ({
   type: FLAG_REQUEST,
   payload,
@@ -97,6 +104,11 @@ export const resubmitRequestAction = (payload: ResubmitRequestPayload): Resubmit
   payload,
 })
 
+export const disableFlagRequestAction = (payload: DisableFlagRequestPayload): DisableFlagRequestAction => ({
+  type: DISABLE_FLAG_REQUEST,
+  payload,
+})
+
 export const flagRequestEpic = (
   action$: Observable<FlagRequestAction>,
   { dispatch }: any,
@@ -119,6 +131,7 @@ export const flagRequestEpic = (
             })
       )
       .do((transactionHash: string) => {
+        dispatch(disableFlagRequestAction({ disableFlagRequest: true }))
         dispatch(
           showNotificationAction({
             notificationType: 'info',
@@ -138,15 +151,20 @@ export const flagRequestEpic = (
           })
         )
       })
-      .flatMap((transactionHash: string) => apolloSubscriber(transactionHash, 'RequestFlagged'))
-      .do(h => console.log(h))
+      .flatMap((transactionHash: string) =>
+        apolloSubscriber(transactionHash, isFlagged ? 'RequestUnflagged' : 'RequestFlagged')
+      )
       .do(() => apolloClient.resetStore())
-      .mapTo(
-        showNotificationAction({
-          notificationType: 'success',
-          message: `Request ${isFlagged ? 'flagging' : 'unflagging'} has been mined!`,
-          description: '1 block has been confirmed',
-        })
+      .do(h => console.log(h))
+      .mergeMap(() =>
+        Observable.of(
+          showNotificationAction({
+            notificationType: 'success',
+            message: `Request ${isFlagged ? 'unflagging' : 'flagging'} has been mined!`,
+            description: '1 block has been confirmed',
+          }),
+          disableFlagRequestAction({ disableFlagRequest: false })
+        )
       )
       .catch(err => {
         console.error(err)
@@ -395,3 +413,16 @@ export const resubmitRequestEpic = (
           )
         })
     })
+
+const initialState: State = {
+  disabledFlagRequest: false,
+}
+
+const handlers = {
+  [DISABLE_FLAG_REQUEST]: (state: State, action: Action) => ({
+    ...state,
+    disabledFlagRequest: action.payload.disableFlagRequest,
+  }),
+}
+
+export default createReducer(initialState, handlers)

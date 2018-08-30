@@ -1,62 +1,138 @@
 // @flow
-import React, { Fragment } from 'react'
-import styled from 'styled-components'
+import React from 'react'
+import { Helmet } from 'react-helmet'
 import { EditorState, convertFromRaw } from 'draft-js'
-import { Divider } from 'antd'
+import { Link } from '../../../../routes'
+import slugify from 'slugify'
 import {
   CreateRequestContent as SubmitArticleFormContent,
   CreateRequestContainer as SubmitArticleFormContainer,
   CreateRequestDetails,
 } from '../../CreateRequestForm/CreateRequestContent'
-import DatePosted from '../../../common/DatePosted'
-import { SubmitArticleFormHeadings, OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
 import DescriptionRow from '../../Requests/DescriptionRow'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
+import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
+import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
+import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+
+const config = require('../../../../config').default
 
 export const ApprovedArticleDetails = CreateRequestDetails.extend`
   align-items: inherit;
+  > :last-child {
+    margin-top: 0px;
+  }
+  > :not(:first-child) {
+    margin-bottom: 20px;
+  }
+
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
-const Username = styled.strong`
-  color: ${props => props.theme.primaryColor};
-`
+const UpdateArticleSvgIcon = () => (
+  <svg aria-hidden='true' data-prefix='fas' data-icon='file' role='img' viewBox='0 0 384 512'>
+    <path
+      fill='#0BA986'
+      d='M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z'
+    />
+  </svg>
+)
 
-export default ({ text, username }: { text?: string, username?: ?string }) => {
+const ApprovedArticleHelmet = ({ blocks, contentState }) => {
+  if (!blocks) return
+
+  let description = blocks.filter(({ text }) => text.length >= 40)
+  description = description.length
+    ? description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')).text
+  description = description.length > 120 ? description.substring(0, 117) + '...' : description
+  let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
+  let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
+  if (image) image = image.data.src
+
+  return (
+    <Helmet>
+      <meta name='description' content={description} />
+      {image && <meta name='image' content={image} />}
+    </Helmet>
+  )
+}
+
+export default ({
+  text,
+  username,
+  userId,
+  routeChangeAction,
+  article_id,
+  article_version,
+  subject,
+  address,
+}: {
+  text?: string,
+  username?: ?string,
+  userId?: ?string,
+  routeChangeAction: string => void,
+  article_id: string,
+  subject?: string,
+  article_version: number,
+  address?: string,
+}) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
       : EditorState.createWithContent(convertFromRaw(JSON.parse(text)))
+  const contentState = editorState.markdown
+    ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+    : editorState.getCurrentContent()
 
-  const headingsAvailable =
-    typeof editorState === 'object' && editorState.markdown
-      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-        .getBlocksAsArray()
-        .find(contentBlock => contentBlock.toJS().type.includes('header'))
-      : editorState
-        .getCurrentContent()
-        .getBlocksAsArray()
-        .map(block => block.toJS())
-        .filter(block => block.type === 'header-two').length > 0
+  const blocks =
+    typeof editorState === 'object' &&
+    (editorState.markdown
+      ? contentState.getBlocksAsArray().map(block => block.toJS())
+      : editorState.blocks && editorState.blocks)
+
+  const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
+
+  const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
+    whiteListedAddress => whiteListedAddress === address
+  )
 
   return (
     <SubmitArticleFormContent>
-      <SubmitArticleFormContainer>
+      <ApprovedArticleHelmet contentState={contentState} blocks={blocks} />
+      <SubmitArticleFormContainer type='approved article'>
         <DescriptionRow fullText record={{ text }} />
       </SubmitArticleFormContainer>
       <ApprovedArticleDetails type='outline'>
-        {Boolean(headingsAvailable) && (
-          <Fragment>
-            <OutlineLabel>Outline</OutlineLabel>
-            <Divider style={{ margin: '20px 0' }} />
-            <SubmitArticleFormHeadings editorState={text && typeof text === 'string' ? JSON.parse(text) : text} />
-          </Fragment>
+        <Outline
+          linkComponent={children => (
+            <Link useAnchorTag route={`/public-profile/${userId}`}>
+              {children}
+            </Link>
+          )}
+          headings={outlineHeadings || []}
+          username={username || userId}
+          userId={userId}
+          routeChangeAction={routeChangeAction}
+        />
+        {canUpdateArticle && (
+          <ArticleAction
+            svgIcon={<UpdateArticleSvgIcon />}
+            text={'Update Article'}
+            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+          >
+            Update article
+          </ArticleAction>
         )}
-        <Divider />
-        <DatePosted>
-          <span>WRITTEN BY</span>
-          <Username>{username || 'Unknown writer'}</Username>
-        </DatePosted>
+        <ShareArticle
+          url={`https://${
+            process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io' : 'dev.kauri.io'
+          }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          title={subject}
+        />
       </ApprovedArticleDetails>
     </SubmitArticleFormContent>
   )

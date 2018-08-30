@@ -11,7 +11,7 @@ const web3 = new Web3()
 
 const dateFormat = 'YYYY/MM/DD'
 
-function disabledDate (current) {
+function disabledDate(current) {
   // Can not select days before 3 days time and past 30 days time
   return (current && current < moment().add(2, 'days')) || current > moment().add(30, 'days')
 }
@@ -20,9 +20,17 @@ const displayNoneCss = css`
   display: none;
 `
 
+const RandomLineThatGoesAcrossTheContent = styled.div`
+  width: 100%;
+  height: 48px;
+  left: 0;
+  position: absolute;
+  border-bottom: 1px solid #c8ccd0;
+`
+
 export const CreateRequestContent = styled.div`
   display: flex;
-  padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
+  padding: 0 ${props => props.theme.padding};
   min-height: 70vh;
 `
 
@@ -44,12 +52,26 @@ export const CreateRequestLabel = styled.span`
 
 const inReviewArticleContainerCss = css`
   display: flex;
+  padding-top: 2.5em;
   flex-direction: column;
+`
+
+const approvedArticleContainerCss = css`
+  padding-top: 2.5em;
 `
 
 export const CreateRequestContainer = styled.div`
   width: 74%;
+  @media (max-width: 500px) {
+    width: 100%;
+    padding: 10px;
+  }
   ${props => props.type === 'in review article' && inReviewArticleContainerCss};
+  ${props => props.type === 'approved article' && approvedArticleContainerCss};
+`
+
+const isSubmittingOutlineHeaderCss = css`
+  padding-top: 4em;
 `
 
 const outlineHeaderCss = css`
@@ -57,10 +79,10 @@ const outlineHeaderCss = css`
   top: 30px;
   max-height: 90vh;
   > :nth-child(3) {
-    margin-top: 0px;
     overflow: auto;
     max-height: 100vh;
   }
+  ${props => props.isSubmitting && isSubmittingOutlineHeaderCss};
 `
 
 export const CreateRequestDetails = styled.section`
@@ -72,8 +94,9 @@ export const CreateRequestDetails = styled.section`
   > :last-child {
     margin-top: 15px;
   }
-  ${props => props.type === 'outline' && outlineHeaderCss};
   padding-left: ${props => props.type === 'createRequest' && '110px'};
+  padding-top: ${props => (props.type === 'createRequest' ? '4em' : '2.5em')};
+  ${props => props.type === 'outline' && outlineHeaderCss};
 `
 
 const DetailBadge = Badge.extend`
@@ -109,7 +132,7 @@ export const DetailLabel = styled.span`
 `
 
 class CreateRequestText extends React.Component {
-  render () {
+  render() {
     const { getFieldDecorator, editorState, handleChange, request, getFieldError } = this.props
     return getFieldDecorator('text', {
       rules: [
@@ -194,7 +217,7 @@ export default class extends React.Component {
   state = {
     focused: false,
   }
-  render () {
+  render() {
     const {
       getFieldDecorator,
       editorState,
@@ -209,6 +232,7 @@ export default class extends React.Component {
     return (
       <CreateRequestContent>
         <CreateRequestContainer onClick={() => this.setState({ focused: true })}>
+          <RandomLineThatGoesAcrossTheContent />
           <CreateRequestText
             request={request}
             editorState={editorState}

@@ -1,5 +1,5 @@
 // @flow
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import styled, { css } from 'styled-components'
 import { Button, Row, Col, Divider } from 'antd'
 import Web3 from 'web3'
@@ -15,6 +15,8 @@ import DatePosted from '../../common/DatePosted'
 import { Badge, ActionIcon } from '../../common/ActionBadge'
 import { PositiveRequestActionBadge } from '../../common/ActionButton'
 import GreenArrow from '../../common/GreenArrow'
+import UserWidgetSmall from '../../../../kauri-components/components/UserWidget/UserWidgetSmall.bs'
+import { Link } from '../../../routes'
 
 import type { ToggleModalPayload } from '../../../lib/Module'
 import type { SubmitArticlePayload } from '../SubmitArticleForm/Module'
@@ -34,7 +36,7 @@ const HeaderStrip = styled.div`
   align-items: center;
   background-color: ${props => props.theme.secondaryColor};
   padding: 0 ${props => props.theme.padding};
-  > div:last-child {
+  > :not(:first-child) {
     margin-left: auto;
   }
 `
@@ -47,14 +49,19 @@ const UserBadge = Badge.extend`
     font-weight: 500;
     line-height: 21px;
     text-transform: capitalize;
-    margin-bottom: 0px;
+    margin-bottom: 10px;
   }
   > :last-child {
+    text-align: center;
     text-transform: lowercase;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 `
 
 const RequestOverflow = styled.div`
+  background-color: #ffffff;
+  min-height: calc(100vh - 76px - 163px);
   overflow: hidden;
 `
 
@@ -104,9 +111,10 @@ const GoBack = ({ routeChangeAction }: *) => (
 )
 
 const ContributeToBountyContainer = styled.div`
-  margin: 0 auto;
-  margin-left: 460px;
   align-self: center;
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 export const ContributeToBounty = ({ toggleBanner, type }: *) => (
@@ -169,7 +177,6 @@ const AskAQuestion = styled(Button)`
 
 const GeneralActions = BountyActions.extend`
   flex-direction: column;
-  background-color: #ffffff;
   > * {
     margin-bottom: 10px;
   }
@@ -178,17 +185,10 @@ const GeneralActions = BountyActions.extend`
   }
 `
 
-const RequestActionBadge = ({ label, action }: *) => (
-  <ActionBadge type='action' onClick={action}>
-    {/* <Icon type='trophy' /> */}
-    <span>{label}</span>
-  </ActionBadge>
-)
-
 const RequestHeader = styled.div`
   display: flex;
   height: 163px;
-  background-color: ${props => (props.category ? props.theme[props.category].primaryColor : '')};
+  background-color: ${props => props.theme.primaryTextColor};
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
 `
 
@@ -247,7 +247,10 @@ const RequestDates = ({ date_created, dead_line }) => (
       <strong>{moment(date_created).format('DD/MM/YYYY')}</strong>
     </DatePosted>
     <DatePosted>
-      <span>EXPIRE{moment(dead_line).isBefore() ? 'D' : 'S'}</span>
+      <span>
+        EXPIRE
+        {moment(dead_line).isBefore() ? 'D' : 'S'}
+      </span>
       <strong>{`${moment(dead_line).fromNow()} ${moment(dead_line).format('(DD MMM YYYY)')}`}</strong>
     </DatePosted>
   </RequestDatesContainer>
@@ -282,6 +285,7 @@ type Props = {
   submitArticleAction: SubmitArticlePayload => void,
   requestRefundAction: RequestRefundPayload => void,
   resubmitRequestAction: ResubmitRequestPayload => void,
+  disabledFlagRequest: boolean
 }
 
 type State = {
@@ -323,10 +327,12 @@ class Request extends Component<Props, State> {
     const isCreator = getRequest && getRequest.user_id === userId
 
     return (
-      <section>
+      <Fragment>
         <HeaderStrip>
           <GoBack routeChangeAction={routeChangeAction} />
-          {(getRequest.status !== 'EXPIRED') && (getRequest.status !== 'CLOSED') && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
+          {typeof userId === 'string' &&
+            getRequest.status !== 'EXPIRED' &&
+            getRequest.status !== 'CLOSED' && <ContributeToBounty type='request' toggleBanner={this.toggleBanner} />}
           <BountyActions>
             <Bounty bounty={getRequest.bounty} />
             <UsdPrice bounty={getRequest.bounty} ethUsdPrice={ethUsdPrice} />
@@ -407,25 +413,31 @@ class Request extends Component<Props, State> {
                   getRequest.user_id === userId &&
                   (typeof getRequest.total_submissions === 'number' && getRequest.total_submissions < 1) &&
                   (typeof getRequest.total_flag === 'number' && getRequest.total_flag < 1) && (
-                    <RequestActionBadge
+                    <PositiveRequestActionBadge
+                      alone='true'
+                      type='secondary color primary'
+                      width='auto'
                       action={() => routeChangeAction(`/request/${getRequest.request_id}/update-request`)}
                       label='Update'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'EXPIRED' &&
                   getRequest.status !== 'CLOSED' &&
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
-                      alone
-                      type={getRequest.is_flagged ? 'secondary' : 'primary'}
+                      disabled={this.props.disabledFlagRequest}
+                      alone='true'
+                      type={getRequest.is_flagged ? 'secondary color primary' : 'primary'}
                       preIcon={getRequest.is_flagged ? '/static/images/icons/green-tick.png' : ''}
                       width='auto'
                       action={() => {
                         const flaggingPayload =
-                          getRequest.is_flagged && typeof getRequest.request_id === 'string'
+                          getRequest.is_flagged
                             ? { request_id: getRequest.request_id, isFlagged: true }
                             : { request_id: getRequest.request_id }
+
                         flagRequestAction(flaggingPayload)
                       }}
                       label="I'm on it!"
@@ -434,7 +446,7 @@ class Request extends Component<Props, State> {
                 {getRequest.status === 'CREATED' &&
                   isCreator && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type={'primary'}
                       width='100%'
                       action={() =>
@@ -449,19 +461,27 @@ class Request extends Component<Props, State> {
                       label='Resubmit Request'
                     />
                   )}
-                {getRequest.status !== 'CREATED' &&
+                {typeof userId === 'string' &&
+                  getRequest.status !== 'CREATED' &&
                   getRequest.status !== 'CLOSED' &&
                   getRequest.status !== 'EXPIRED' &&
                   (typeof personalSubmittedArticle === 'object' &&
                   personalSubmittedArticle.status !== 'SUBMISSION_IN_PROGRESS' ? (
-                    <RequestActionBadge
-                      action={() => routeChangeAction(`/article/${personalSubmittedArticle.article_id}`)}
-                      label='View Article'
+                    <PositiveRequestActionBadge
+                        type='secondary color primary'
+                        alone='true'
+                        width='auto'
+                        action={() =>
+                          routeChangeAction(
+                            `/article/${personalSubmittedArticle.article_id}/v${personalSubmittedArticle.article_version}`
+                          )
+                        }
+                        label='View Article'
                       />
                     ) : (
                       <PositiveRequestActionBadge
-                        alone
-                        type={!getRequest.is_flagged ? 'secondary' : ''}
+                        alone='true'
+                        type={!getRequest.is_flagged ? 'secondary color primary' : 'primary'}
                         width='auto'
                         action={() =>
                           typeof personalSubmittedArticle === 'object' &&
@@ -479,21 +499,26 @@ class Request extends Component<Props, State> {
                       />
                     ))}
                 {getRequest.status === 'CLOSED' && (
-                  <RequestActionBadge
-                    action={() =>
+                  <PositiveRequestActionBadge
+                    width='auto'
+                    alone='true'
+                    type='secondary color primary'
+                    action={() => {
+                      const satisfyingArticle =
+                        searchArticles.content &&
+                        searchArticles.content.length > 0 &&
+                        searchArticles.content.find(article => article.status === 'PUBLISHED')
                       routeChangeAction(
-                        `/article/${searchArticles.content &&
-                          searchArticles.content.length > 0 &&
-                          searchArticles.content.find(article => article.status === 'APPROVED').article_id}`
+                        `/article/${satisfyingArticle.article_id}/v${satisfyingArticle.article_version}`
                       )
-                    }
+                    }}
                     label='View Article'
                   />
                 )}
                 {getRequest.status === 'EXPIRED' &&
                   typeof getRequest.user_id === 'string' && (
                     <PositiveRequestActionBadge
-                      alone
+                      alone='true'
                       type={'primary'}
                       width='auto'
                       action={() => {
@@ -505,14 +530,19 @@ class Request extends Component<Props, State> {
                 <UserBadge>
                   <span>REQUESTED BY</span>
                   {/* <Link to=''> */}
-                  <a>{getRequest && getRequest.user && getRequest.user.username}</a>
+                  <Link useAnchorTag route={`/public-profile/${getRequest && getRequest.user_id}`}>
+                    <UserWidgetSmall
+                      username={(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}
+                    />
+                  </Link>
+                  {/* <a>{(getRequest && getRequest.user && getRequest.user.username) || getRequest.user_id}</a> */}
                   {/* </Link> */}
                 </UserBadge>
               </GeneralActions>
             </Col>
           </RequestContent>
         </RequestOverflow>
-      </section>
+      </Fragment>
     )
   }
 }

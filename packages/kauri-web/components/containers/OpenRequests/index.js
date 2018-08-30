@@ -22,7 +22,7 @@ export default compose(
       variables: {
         filter: {
           user_id_eq: userId,
-          status_in: ['CREATED', 'OPENED', 'IN_MODERATION_PERIOD'],
+          status_in: ['CREATED', 'OPENED', 'IN_PUBLICATION_PERIOD'],
         },
       },
     }),

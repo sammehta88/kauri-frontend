@@ -1,17 +1,29 @@
 import React from 'react'
 import { withApollo, compose } from 'react-apollo'
+import { connect } from 'react-redux'
 import withData from '../lib/with-data'
+import { routeChangeAction } from '../lib/Module'
 import App from '../layouts/App'
-import Help from '../components/containers/Help'
+import Community from '../components/connections/Community/index'
+import { withRouter } from 'next/router';
+
+const ConnectedCommunity = connect(
+  () => ({}),
+  { routeChangeAction }
+)(Community)
 
 class HelpPage extends React.Component {
-  render () {
+  render() {
     return (
-      <App url={this.props.url}>
-        <Help category={'kauri'} />
+      <App url={this.props.router}>
+        <ConnectedCommunity routeChangeAction={this.props.routeChangeAction} category={'kauri'} />
       </App>
     )
   }
 }
 
-export default compose(withData, withApollo)(HelpPage)
+export default compose(
+  withData,
+  withApollo,
+  withRouter,
+)(HelpPage)

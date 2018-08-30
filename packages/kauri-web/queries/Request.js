@@ -23,8 +23,8 @@ export const createRequest = gql`
 `
 
 export const globalSearchOpenRequests = gql`
-  query globalSearchOpenRequests($size: Int = 500, $filter: RequestFilterInput, $sort: String = "date_created") {
-    searchRequests(size: $size, dir: DESC, filter: $filter, sort: $sort) {
+  query globalSearchOpenRequests($size: Int = 500, $filter: RequestFilterInput) {
+    searchRequests(size: $size, dir: DESC, filter: $filter) {
       content {
         user_id
         request_id
@@ -49,12 +49,11 @@ export const globalSearchOpenRequests = gql`
 `
 
 export const searchOpenRequests = gql`
-  query searchOpenRequests($size: Int = 500, $userId: String, $category: String, $sort: String = "date_created") {
+  query searchOpenRequests($size: Int = 500, $userId: String, $category: String) {
     searchRequests(
       size: $size
       dir: DESC
       filter: { user_id_eq: $userId, category_in: [$category], status_in: [OPENED] }
-      sort: $sort
     ) {
       content {
         user_id
@@ -119,8 +118,8 @@ export const getOriginalRequest = gql`
 `
 
 export const searchRequests = gql`
-  query searchRequests($size: Int = 500, $filter: RequestFilterInput, $sort: String = "date_created") {
-    searchRequests(size: $size, dir: DESC, filter: $filter, sort: $sort) {
+  query searchRequests($size: Int = 500, $filter: RequestFilterInput) {
+    searchRequests(size: $size, dir: DESC, filter: $filter) {
       content {
         user_id
         request_id
@@ -183,6 +182,7 @@ export const getRequest = gql`
     searchArticles(size: $size, dir: DESC, filter: { request_id_eq: $request_id }) {
       content {
         article_id
+        article_version
         status
         text
         subject
@@ -243,10 +243,9 @@ export const searchOpenRequestsWithSubmissions = gql`
   query searchOpenRequestsWithSubmissions(
     $size: Int = 500
     $filter: RequestFilterInput
-    $sort: String = "dead_line"
     $articleFilter: ArticleFilterInput
   ) {
-    searchRequests(size: $size, dir: DESC, filter: $filter, sort: $sort) {
+    searchRequests(size: $size, dir: DESC, filter: $filter) {
       content {
         user_id
         request_id
@@ -266,6 +265,7 @@ export const searchOpenRequestsWithSubmissions = gql`
       totalElements
       content {
         article_id
+        article_version
         user_id
         request_id
         date_created
@@ -277,10 +277,8 @@ export const searchOpenRequestsWithSubmissions = gql`
         sub_category
         category
         content_hash
-        versions(version: "ALL") {
-          comments {
-            date_created
-          }
+        comments {
+          date_created
         }
         user {
           username

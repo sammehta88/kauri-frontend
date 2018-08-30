@@ -3,7 +3,6 @@ import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  margin-left: auto;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -13,7 +12,6 @@ const Container = styled.div`
   > :last-child {
     margin-left: 4px;
   }
-  width: 450px;
 `
 
 const ConsenSysFormationIcon = styled.img`
@@ -26,14 +24,14 @@ const ConsenSysLogoIcon = styled.span`
   font-size: 13px;
 `
 
-const PrivacyPolicy = ConsenSysLogoIcon.withComponent('a').extend`
+const PrivacyPolicy = styled(ConsenSysLogoIcon)`
   margin-left: 10px;
   margin-right: 3px;
   font-weight: normal;
   font-size: 10px;
 `
 
-const TermsOfService = PrivacyPolicy.extend`
+const TermsOfService = styled(PrivacyPolicy)`
   margin-left: 0px;
 `
 

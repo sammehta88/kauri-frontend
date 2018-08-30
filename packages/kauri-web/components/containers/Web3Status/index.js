@@ -34,9 +34,8 @@ const UnsupportedNetwork = props => (
 
 const Web3Unavailable = props => (
   <div>
-    MetaMask extension not installed. <br />
     <a style={{ color: '#fff' }} target='_blank' href='https://metamask.io/'>
-      Get MetaMask
+      MetaMask extension not installed.
     </a>
   </div>
 )
@@ -134,7 +133,7 @@ class AccountDetails extends Component {
     hovered: false,
   }
 
-  toggleHovered = () => this.setState({ hovered: !this.state.hovered }, () => console.log('hovered'))
+  toggleHovered = () => this.setState({ hovered: !this.state.hovered })
 
   render () {
     const { currentNetworkName, networkError, accountsError, account } = this.props
@@ -296,7 +295,7 @@ class Web3Status extends Component {
   }
 
   render () {
-    if (!global.window) return null
+    if (!global.window) return <Loading />
 
     const { web3 } = global.window
     const { accounts, accountsLoaded, networkId } = this.state

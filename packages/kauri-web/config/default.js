@@ -33,4 +33,12 @@ module.exports = {
   googleTagManagerCode,
   mixpanelToken,
   uppyConfig,
+  updateArticleWhitelistedAddresses: [
+    // Admin
+    '0x37648fc15a8365735289e002d65d44d80c505e8b',
+    // Josh
+    '0x7855bc9e6564a44753a8d291b037135c605e6d8a',
+    // Eric
+    '0xbfecec47dd8bf5f6264a9830a9d26ef387c38a67',
+  ],
 }

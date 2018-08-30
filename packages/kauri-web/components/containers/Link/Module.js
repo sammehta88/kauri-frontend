@@ -1,7 +1,9 @@
 // @flow
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import { getRequestForAnalytics } from '../../../queries/Request'
 import { getArticleForAnalytics } from '../../../queries/Article'
+import { getCollectionForAnalytics } from '../../../queries/Collection'
+import { getUserForAnalytics } from '../../../queries/User'
 import mixpanelBrowser from 'mixpanel-browser'
 
 import type { Dependencies } from '../../../lib/Module'
@@ -23,7 +25,7 @@ export type TrackAnalyticsPayload = {
 
 type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
-type Resource = 'request' | 'article' | 'topic' | 'kauri'
+type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection' | 'public-profile'
 
 type Classification =
   | {
@@ -32,6 +34,7 @@ type Classification =
   | {
       resource: Resource | string,
       resourceID: string,
+      resourceVersion: string,
       resourceAction: ?string,
     }
 
@@ -74,7 +77,20 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
   } else {
     const resource = urlSplit[0]
     const resourceID = urlSplit[1]
-    const resourceAction = urlSplit[2]
+    const resourceVersion = urlSplit[3]
+    const resourceAction =
+      urlSplit[4] ===
+      ('update-article' ||
+        'article-drafted' ||
+        'article-submitted' ||
+        'article-updated' ||
+        'article-approved' ||
+        'article-rejected' ||
+        'article-published' ||
+        'reject-article')
+        ? urlSplit[4]
+        : urlSplit[5]
+    // console.log(urlSplit)
     // console.log('classifyURL', {
     //   resource,
     //   resourceID,
@@ -83,6 +99,7 @@ const classifyURL = (urlSplit: Array<string>): Classification => {
     return {
       resource,
       resourceID,
+      resourceVersion,
       resourceAction,
     }
   }
@@ -93,7 +110,27 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
   if (resource === 'request') {
     return apolloClient.query({ query: getRequestForAnalytics, variables: { request_id: classification.resourceID } })
   } else if (resource === 'article') {
-    return apolloClient.query({ query: getArticleForAnalytics, variables: { article_id: classification.resourceID } })
+    return apolloClient.query({
+      query: getArticleForAnalytics,
+      variables: {
+        article_id: classification.resourceID,
+        article_version: parseInt(classification.resourceVersion),
+      },
+    })
+  } else if (resource === 'collection') {
+    return apolloClient.query({
+      query: getCollectionForAnalytics,
+      variables: {
+        id: classification.resourceID,
+      },
+    })
+  } else if (resource === 'public-profile') {
+    return apolloClient.query({
+      query: getUserForAnalytics,
+      variables: {
+        userId: classification.resourceID,
+      },
+    })
   } else {
     throw new Error('Unknown resource tracking attempt')
   }
@@ -101,7 +138,12 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
 
 const handleFetchedResource = (
   classification: Classification,
-  { getArticle, getRequest }: { getArticle?: ArticleDTO, getRequest?: RequestDTO },
+  {
+    getArticle,
+    getRequest,
+    collection,
+    getUser,
+  }: { getArticle?: ArticleDTO, getRequest?: RequestDTO, collection?: CollectionDTO, getUser?: UserDTO },
   event?: TrackingEvent
 ): TrackMixpanelAction | TrackMixpanelPayload =>
   typeof classification.resourceAction === 'string'
@@ -111,8 +153,11 @@ const handleFetchedResource = (
         ...classification,
         ...getArticle,
         ...getRequest,
+        ...collection,
+        ...getUser,
         resource: classification.resource,
         resourceID: classification.resourceID,
+        resourceVersion: classification.resourceVersion,
         resourceAction: classification.resourceAction,
       },
     }
@@ -122,8 +167,11 @@ const handleFetchedResource = (
         ...classification,
         ...getArticle,
         ...getRequest,
+        ...collection,
+        ...getUser,
         resource: classification.resource,
         resourceID: classification.resourceID,
+        resourceVersion: classification.resourceVersion,
         resourceAction: classification.resourceAction,
       },
     })
@@ -139,12 +187,12 @@ const handleClassification = (apolloClient: any) => (classification: *): Observa
     }
     return Observable.of(trackMixpanelAction(mixpanelPayload))
   } else if (typeof classification.resource === 'string') {
-    // Convert topic homepage visit to View event
-    if (classification.resource === 'topic') {
+    // Convert community homepage visit to View event
+    if (classification.resource === 'community') {
       const mixpanelPayload: TrackMixpanelPayload = {
         event: 'View',
         metaData: {
-          page: `${classification.resourceID} topic homepage`,
+          page: `${classification.resourceID} community homepage`,
         },
       }
       return Observable.of(mixpanelPayload)

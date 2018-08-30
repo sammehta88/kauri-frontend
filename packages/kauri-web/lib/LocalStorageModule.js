@@ -1,5 +1,5 @@
 // @flow
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable'
 import createReducer from './createReducer'
 import approvalSteps from './DriverSteps/approvals'
 
@@ -96,8 +96,6 @@ const persistStateToLocalStorage = (getState: any) => ({ payload }: { payload: a
   const state = getState()
   window.localStorage.setItem('redux', JSON.stringify({ localStorage: state.localStorage }))
 }
-
-// TODO: implement finishedDriverStepsAction and Reducer to trigger via skip button or end of startDriverStepsEpic
 
 export const startDriverStepsEpic = (
   action$: Observable<StartDriverStepsAction>,

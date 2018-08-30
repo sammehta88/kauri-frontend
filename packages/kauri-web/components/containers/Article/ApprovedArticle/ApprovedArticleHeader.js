@@ -9,10 +9,11 @@ import {
 } from '../../CreateRequestForm/CreateRequestHeader'
 import { InReviewArticleStatus as ApprovedArticleStatus } from '../InReviewArticle/InReviewArticleHeader'
 import { ChosenCategory, ForVersion } from '../../SubmitArticleForm/SubmitArticleFormHeader'
+import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import theme from '../../../../lib/theme-config'
 
 export const ArticleSubject = styled.h3`
-  margin-left: 19px;
+  margin-left: 10px;
   margin-bottom: 0px;
   background: none;
   background-color: transparent;
@@ -26,10 +27,12 @@ export const ArticleSubject = styled.h3`
     font-weight: 500;
     margin-bottom: 0px;
   }
+  margin-left: ${props => !props.chosenCategory && '0px'};
 `
 
 export const ArticleChosenCategory = ChosenCategory.extend`
   margin-top: 6px;
+  margin-right: 20px;
   margin-bottom: 5px;
 `
 
@@ -39,7 +42,7 @@ const ArticleChosenDetails = styled.div`
 `
 
 const ArticleChosenSubcategory = ArticleChosenCategory.extend`
-  margin-left: 20px;
+  margin-left: 0px;
 `
 
 export const ApprovedArticleSubject = ({
@@ -50,12 +53,12 @@ export const ApprovedArticleSubject = ({
   metadata,
   type = 'article',
 }: *) => (
-  <ApprovedArticleSubjectContainer type={type}>
+  <ApprovedArticleSubjectContainer chosenCategory={chosenCategory} type={type}>
     <ArticleChosenDetails>
-      <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>
+      {chosenCategory && <ArticleChosenCategory>{chosenCategory}</ArticleChosenCategory>}
       <ArticleChosenSubcategory>{chosenSubcategory}</ArticleChosenSubcategory>
     </ArticleChosenDetails>
-    <ArticleSubject style={{ width: '100%' }} type='article'>
+    <ArticleSubject chosenCategory={chosenCategory} style={{ width: '100%' }} type='article'>
       {subject}
     </ArticleSubject>
     {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>}
@@ -66,11 +69,12 @@ export const PullRight = styled.div`
   display: flex;
   margin-left: auto;
   margin-right: 11px;
+  align-items: center;
 `
 
 export default ({ category, sub_category, date_updated, subject, metadata }: *) => (
   <ApprovedArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
-    <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />
+    {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
       metadata={metadata}
@@ -80,10 +84,7 @@ export default ({ category, sub_category, date_updated, subject, metadata }: *) 
       chosenSubcategory={sub_category}
     />
     <PullRight>
-      <ApprovedArticleStatus>
-        <span>POSTED</span>
-        <strong>{moment(date_updated).format('DD/MM/YYYY')}</strong>
-      </ApprovedArticleStatus>
+      <PostedDate dateType='FromNow' date_field={date_updated} />
     </PullRight>
   </ApprovedArticleSecondaryHeader>
 )

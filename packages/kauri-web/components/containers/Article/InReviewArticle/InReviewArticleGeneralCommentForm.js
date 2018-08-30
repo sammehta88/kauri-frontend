@@ -30,6 +30,7 @@ const GeneralCommentButton = styled(Button)`
 
 type Props = {
   article_id: string,
+  article_version: string,
   addCommentAction: any,
 }
 
@@ -43,7 +44,7 @@ export default class InReviewArticleGeneralCommentForm extends React.Component<P
   }
 
   render () {
-    const { article_id, addCommentAction } = this.props
+    const { article_id, article_version, addCommentAction, status } = this.props
     const { showGeneralCommentForm } = this.state
 
     return (
@@ -55,20 +56,24 @@ export default class InReviewArticleGeneralCommentForm extends React.Component<P
             type='in review article'
             addCommentAction={addCommentAction}
             article_id={article_id}
+            article_version={article_version}
           />
         ) : (
-          <GeneralCommentButton
-            onClick={() =>
-              this.setState({ showGeneralCommentForm: true }, () => {
-                const editorDOMNode = document.getElementById('editor')
-                if (editorDOMNode) {
-                  editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
-                }
-              })
-            }
-          >
-            GENERAL COMMENT
-          </GeneralCommentButton>
+          typeof status === 'string' &&
+          status.toLowerCase() !== 'draft' && (
+            <GeneralCommentButton
+              onClick={() =>
+                this.setState({ showGeneralCommentForm: true }, () => {
+                  const editorDOMNode = document.getElementById('editor')
+                  if (editorDOMNode) {
+                    editorDOMNode.scrollIntoView({ block: 'start', inline: 'nearest', behavior: 'smooth' })
+                  }
+                })
+              }
+            >
+              GENERAL COMMENT
+            </GeneralCommentButton>
+          )
         )}
       </Container>
     )

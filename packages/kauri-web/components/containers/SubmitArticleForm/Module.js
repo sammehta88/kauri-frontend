@@ -1,12 +1,7 @@
 // @flow
 
-import { Observable } from 'rxjs'
-import {
-  submitArticle,
-  editArticle,
-  getArticleForAnalytics,
-  searchPersonalSubmittedArticles,
-} from '../../../queries/Article'
+import { Observable } from 'rxjs/Observable'
+import { submitArticle, editArticle } from '../../../queries/Article'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 
@@ -26,7 +21,7 @@ export type SubmitArticlePayload = {
   metadata?: ArticleMetadataDTO,
 }
 
-export type EditArticlePayload = { article_id: string, text: string, subject: string }
+export type EditArticlePayload = { article_id: string, article_version: number, text: string, subject: string }
 
 export const formatMetadata = ({ version }: MetadataPayload) => ({ FOR_VERSION: version })
 
@@ -59,7 +54,15 @@ export const submitArticleEpic = (
       Observable.fromPromise(
         apolloClient.mutate({
           mutation: submitArticle,
-          variables: { request_id, text, subject, sub_category, category, metadata },
+          variables: {
+            article_id,
+            request_id,
+            text,
+            subject,
+            sub_category,
+            category,
+            metadata,
+          },
         })
       )
         .do(h => console.log(h))
@@ -67,10 +70,12 @@ export const submitArticleEpic = (
           apolloSubscriber(hash)
         )
         .do(h => console.log(h))
-        .do(h => apolloClient.cache.reset())
-        .mergeMap(({ data: { command_output: { id } } }) =>
+        .do(h => apolloClient.resetStore())
+        .mergeMap(({ data: { command_output: { id, version } } }) =>
           Observable.of(
-            routeChangeAction(`/article/${id}/article-submitted`),
+            routeChangeAction(
+              `/article/${id}/v${version}/article-${typeof category === 'string' ? 'submitted' : 'published'}`
+            ),
             trackMixpanelAction({
               event: 'Offchain',
               metaData: {
@@ -81,8 +86,11 @@ export const submitArticleEpic = (
             }),
             showNotificationAction({
               notificationType: 'success',
-              message: 'Article submitted',
-              description: 'Waiting for it to be reviewed!',
+              message: `Article ${typeof category === 'string' ? 'submitted' : 'published'}`,
+              description:
+                typeof category === 'string'
+                  ? 'Waiting for it to be reviewed!'
+                  : 'Your personal article has now been published!',
             })
           )
         )
@@ -103,33 +111,35 @@ export const editArticleEpic = (
   { getState }: any,
   { apolloClient, smartContracts, web3, apolloSubscriber }: Dependencies
 ) =>
-  action$.ofType(EDIT_ARTICLE).switchMap(({ payload: { article_id, text, subject } }: EditArticleAction) =>
-    Observable.fromPromise(
-      apolloClient.mutate({
-        mutation: editArticle,
-        variables: { article_id, text, subject },
-      })
-    )
-      .flatMap(({ data: { editArticle: { hash } } }: { data: { editArticle: { hash: string } } }) =>
-        apolloSubscriber(hash)
+  action$
+    .ofType(EDIT_ARTICLE)
+    .switchMap(({ payload: { article_id, article_version, text, subject } }: EditArticleAction) =>
+      Observable.fromPromise(
+        apolloClient.mutate({
+          mutation: editArticle,
+          variables: { article_id, article_version, text, subject },
+        })
       )
-      .do(() => apolloClient.resetStore())
-      .flatMap(() =>
-        Observable.of(
-          routeChangeAction(`/article/${article_id}/article-submitted`),
-          trackMixpanelAction({
-            event: 'Offchain',
-            metaData: {
-              resource: 'article',
-              resourceID: article_id,
-              resourceAction: 'update article',
-            },
-          }),
-          showNotificationAction({
-            notificationType: 'info',
-            message: 'Article updated',
-            description: "Wait for the topic owner's comments or approval!",
-          })
+        .flatMap(({ data: { editArticle: { hash } } }: { data: { editArticle: { hash: string } } }) =>
+          apolloSubscriber(hash)
         )
-      )
-  )
+        .do(() => apolloClient.resetStore())
+        .flatMap(({ data: { command_output: { id, version } } }) =>
+          Observable.of(
+            routeChangeAction(`/article/${id}/v${version}/article-updated`),
+            trackMixpanelAction({
+              event: 'Offchain',
+              metaData: {
+                resource: 'article',
+                resourceID: article_id,
+                resourceAction: 'update article',
+              },
+            }),
+            showNotificationAction({
+              notificationType: 'info',
+              message: 'Article updated',
+              description: "Wait for the topic owner's comments or approval!",
+            })
+          )
+        )
+    )

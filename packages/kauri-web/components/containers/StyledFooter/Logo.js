@@ -11,8 +11,9 @@ const Container = styled.div`
   display: flex;
   align-self: center;
   flex-direction: column;
-  margin-left: 545px;
   align-items: center;
+  margin: auto;
+  padding: 10px;
 `
 
 const KauriCopy = styled.span`

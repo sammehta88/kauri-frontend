@@ -20,14 +20,15 @@ const InReviewHeaderDetails = styled.div`
   flex-direction: column;
   > :last-child {
     margin-left: 23px;
+    margin-left: ${props => !props.chosenCategory && '0px'};
   }
   min-width: 70%;
 `
 
 export default ({ category, sub_category, status, subject, metadata }: *) => (
   <InReviewArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
-    <InReviewArticleLogo type='article' theme={theme} chosenCategory={category} />
-    <InReviewHeaderDetails>
+    {category && <InReviewArticleLogo type='article' theme={theme} chosenCategory={category} />}
+    <InReviewHeaderDetails chosenCategory={category}>
       <InReviewArticleSubject
         type='in review article'
         metadata={metadata}

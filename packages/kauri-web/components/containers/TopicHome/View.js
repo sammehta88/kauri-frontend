@@ -26,7 +26,7 @@ type State = {
 }
 
 class TopicHome extends Component<Props, State> {
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
 
     this.state = {
@@ -39,7 +39,7 @@ class TopicHome extends Component<Props, State> {
     this.setState({ activeKey })
   }
 
-  render () {
+  render() {
     const {
       category,
       data: { loading, searchArticles },

@@ -7,7 +7,6 @@ import { Divider } from 'antd'
 
 export const Container = styled.section`
   padding: ${props => props.theme.paddingTop} ${props => props.theme.padding};
-  padding-top: ${props => props.type === 'article requests' && '0px'};
 `
 
 const NoRequestsWithSubmissions = () => <p>No articles to review found, inbox zero! Hurray!</p>
@@ -27,25 +26,21 @@ export default ({ ethUsdPrice, userId, data: { searchRequests, searchArticles },
     {searchRequests && searchRequests.content.length > 0 ? (
       <Fragment>
         {searchRequests &&
-          searchRequests.content.filter(request => request.status === 'IN_MODERATION_PERIOD').length > 0 && (
+          searchRequests.content.filter(request => request.status === 'IN_PUBLICATION_PERIOD').length > 0 && (
             <Fragment>
-              <ArticleRequestsHeader key='In Moderation Period Requests'>Urgent</ArticleRequestsHeader>
-              <Divider key='In Moderation Period Requests Divider' />
               <ArticleRequests
                 requests={
-                  searchRequests && searchRequests.content.filter(request => request.status === 'IN_MODERATION_PERIOD')
+                  searchRequests && searchRequests.content.filter(request => request.status === 'IN_PUBLICATION_PERIOD')
                 }
               />
             </Fragment>
           )}
         {searchRequests &&
-          searchRequests.content.filter(request => request.status !== 'IN_MODERATION_PERIOD').length > 0 && (
+          searchRequests.content.filter(request => request.status !== 'IN_PUBLICATION_PERIOD').length > 0 && (
             <Fragment>
-              <ArticleRequestsHeader key='In Moderation Period Requests'>Everything else</ArticleRequestsHeader>
-              <Divider key='In Moderation Period Requests Divider' />
               <ArticleRequests
                 requests={
-                  searchRequests && searchRequests.content.filter(request => request.status !== 'IN_MODERATION_PERIOD')
+                  searchRequests && searchRequests.content.filter(request => request.status !== 'IN_PUBLICATION_PERIOD')
                 }
               />
             </Fragment>

@@ -7,7 +7,7 @@ import app, {
   userDetailsEpic,
   hideIntroBannerEpic,
 } from './Module'
-import {
+import request, {
   flagRequestEpic,
   addRequestCommentEpic,
   addToBountyEpic,
@@ -16,13 +16,12 @@ import {
 } from '../components/containers/Requests/Module'
 import createRequests, { createRequestEpic, updateRequestEpic } from '../components/containers/CreateRequestForm/Module'
 import register, { registerEpic } from '../components/containers/LoginForm/Module'
+import { tipArticleEpic, rejectArticleEpic, deleteArticleCommentEpic } from '../components/containers/Article/Module'
 import {
   approveArticleEpic,
-  submitFinalisedArticleEpic,
-  tipArticleEpic,
-  rejectArticleEpic,
-  deleteArticleCommentEpic,
-} from '../components/containers/Article/Module'
+  publishArticleEpic,
+  submitForReviewEpic,
+} from '../components/containers/Article/Article_Module.bs'
 import { submitArticleEpic, editArticleEpic } from '../components/containers/SubmitArticleForm/Module'
 import { addCommentEpic } from '../components/containers/AddCommentForm/Module'
 import {
@@ -35,12 +34,14 @@ import localStorage, {
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
 } from './LocalStorageModule'
+import { draftArticleEpic } from '../components/containers/SubmitArticleForm/DraftArticle_Module.bs'
 
 export const rootReducer = {
   app,
   createRequests,
   register,
   localStorage,
+  request,
 }
 
 const epics = [
@@ -52,14 +53,12 @@ const epics = [
   updateRequestEpic,
   submitArticleEpic,
   editArticleEpic,
-  approveArticleEpic,
   flagRequestEpic,
   addCommentEpic,
   userDetailsEpic,
   ethUsdPriceEpic,
   addRequestCommentEpic,
   addToBountyEpic,
-  submitFinalisedArticleEpic,
   hideIntroBannerEpic,
   tipArticleEpic,
   fetchWalletAvailableFundsEpic,
@@ -73,6 +72,11 @@ const epics = [
   startDriverStepsEpic,
   persistStateToLocalStorageEpic,
   finishedDriverStepsEpic,
+  // ReasonML epics
+  approveArticleEpic,
+  publishArticleEpic,
+  draftArticleEpic,
+  submitForReviewEpic,
 ]
 
 export const rootEpic = combineEpics(...epics)

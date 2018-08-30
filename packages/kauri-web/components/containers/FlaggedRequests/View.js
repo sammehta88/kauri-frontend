@@ -1,6 +1,5 @@
 // @flow
 import React, { Component } from 'react'
-import { Divider } from 'antd'
 import Web3 from 'web3'
 import styled from 'styled-components'
 import FlaggedRequest from '../OpenRequests/OpenRequest'
@@ -24,12 +23,12 @@ export const FlaggedRequestsHeader = styled.h2`
 
 class FlaggedRequests extends Component<Props> {
   web3: any = null
-  constructor (props: Props) {
+  constructor(props: Props) {
     super(props)
     this.web3 = new Web3()
   }
 
-  render () {
+  render() {
     const { data, routeChangeAction } = this.props
     const personalFlaggedRequests =
       data && data.searchRequests && data.searchRequests.content.filter(request => request.is_flagged === true)
@@ -37,33 +36,20 @@ class FlaggedRequests extends Component<Props> {
     return (
       <FlaggedRequestsSection>
         <FlaggedRequestsHeader key='Flagged Requests'>Flagged Requests</FlaggedRequestsHeader>
-        <Divider key='Flagged Requests Divider' />
         {personalFlaggedRequests && personalFlaggedRequests.length > 0 ? (
           personalFlaggedRequests.map(
             (request, index, requests) =>
-              index !== requests.length - 1 ? (
-                <div key={request.request_id}>
-                  <FlaggedRequest
-                    routeChangeAction={routeChangeAction}
-                    web3={this.web3}
-                    request={request}
-                    ethUsdPrice={this.props.ethUsdPrice}
-                  />
-                  <Divider />
-                </div>
-              ) : (
-                <FlaggedRequest
-                  key={request.request_id}
-                  routeChangeAction={routeChangeAction}
-                  web3={this.web3}
-                  request={request}
-                  ethUsdPrice={this.props.ethUsdPrice}
-                />
-              )
+              <FlaggedRequest
+                key={request.request_id}
+                routeChangeAction={routeChangeAction}
+                web3={this.web3}
+                request={request}
+                ethUsdPrice={this.props.ethUsdPrice}
+              />
           )
         ) : (
-          <p>No requests flagged.</p>
-        )}
+            <p>No requests flagged.</p>
+          )}
       </FlaggedRequestsSection>
     )
   }

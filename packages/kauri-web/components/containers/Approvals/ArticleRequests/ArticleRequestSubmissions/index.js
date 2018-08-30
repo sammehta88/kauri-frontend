@@ -12,17 +12,19 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 export default compose(
-  connect(mapStateToProps, {
-    routeChangeAction,
-    approveArticleAction,
-    rejectArticleAction: article_id => routeChangeAction(`/article/${article_id}/reject-article`),
-  }),
+  connect(
+    mapStateToProps,
+    {
+      routeChangeAction,
+      approveArticleAction,
+    }
+  ),
   graphql(searchPendingArticles, {
     options: ({ request_id }) => ({
       variables: {
         filter: {
           request_id_eq: request_id,
-          status_in: ['IN_REVIEW'],
+          status_in: ['IN_REVIEW', 'APPROVED'],
         },
       },
     }),

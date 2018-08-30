@@ -13,11 +13,24 @@ const ActionButtons = styled.div`
 `
 
 const secondaryActionBadgeCss = css`
-  color: ${props => props.theme.secondaryTextColor};
+  color: #ffffff;
   > * {
-    color: ${props => props.theme.secondaryTextColor};
+    color: #ffffff;
   }
-  background-color: #fff;
+  background-color: transparent;
+  :hover {
+    background-color: transparent !important;
+  }
+`
+const secondaryActionBadgeColorPrimaryCss = css`
+  color: ${props => props.theme.primaryTextColor};
+  > * {
+    color: ${props => props.theme.primaryTextColor};
+  }
+  background-color: transparent;
+  :hover {
+    background-color: transparent !important;
+  }
 `
 
 const altActionBadgeCss = css`
@@ -41,13 +54,13 @@ const ActionBadge = styled(Button)`
   align-items: center;
   > * {
     text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 500;
-    line-height: 16px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 15px;
     color: #fff;
   }
   > :nth-child(2) {
-    margin-left: 7.5px;
+    margin-left: 8px;
   }
 `
 
@@ -72,6 +85,7 @@ const PositiveActionBadge = ActionBadge.extend`
   }
   margin-right: ${({ alone }) => alone && '0px'};
   ${props => props.type === 'secondary' && secondaryActionBadgeCss};
+  ${props => props.type === 'secondary color primary' && secondaryActionBadgeColorPrimaryCss};
   ${props => props.type === 'alt' && altActionBadgeCss};
   ${props => props.disabled && disabledBadgeCss};
 `

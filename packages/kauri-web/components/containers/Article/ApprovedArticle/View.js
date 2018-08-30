@@ -9,6 +9,7 @@ import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
 import styled from 'styled-components'
+import { ScrollToTopOnMount } from 'kauri-components'
 
 import type { TipArticlePayload } from '../Module'
 
@@ -65,6 +66,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link rel='canonical' href={`${hostname}/article/${article_id}/${slugify(subject, { lower: true })}`} />
         </Helmet>
+        <ScrollToTopOnMount />
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}
           tipArticleAction={props.tipArticleAction}

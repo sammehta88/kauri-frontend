@@ -4,7 +4,7 @@ import { ArticleCard, CollectionCard } from 'kauri-components'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
-const Link = !process.env.STORYBOOK
+const Link = process.env.STORYBOOK
   ? ({ children }) => {
     return children
   }

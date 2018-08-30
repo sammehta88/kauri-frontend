@@ -9,6 +9,8 @@ yarn-error.log
 package-lock.json
 client-secret.json
 ._client-secret.json
+github_deploy_key
+._github_deploy_key
 credentials.tar.gz
 bundles
 .fliphub

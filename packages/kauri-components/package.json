@@ -31,22 +31,15 @@
     "react-tippy": "^1.2.2"
   },
   "devDependencies": {
-    "@storybook/addon-knobs": "3.4.8",
-    "@storybook/addons": "3.4.8",
-    "@storybook/core": "3.4.8",
-    "@storybook/react": "3.4.8",
-    "babel-core": "^6.0.0",
-    "babel-runtime": "^6.0.0",
+    "@storybook/addon-knobs": "4.0.0-alpha.18",
+    "@storybook/addons": "4.0.0-alpha.18",
+    "@storybook/core": "4.0.0-alpha.18",
+    "@storybook/react": "4.0.0-alpha.18",
     "bs-platform": "^4.0.3",
     "concurrently": "^3.6.0",
     "reason-react": "^0.5.0",
     "storybook-chromatic": "^1.0.0",
     "vrroom": "glennsl/vrroom"
-  },
-  "peerDependencies": {
-    "@storybook/addons": "3.4.8",
-    "@storybook/core": "3.4.8",
-    "@storybook/react": "3.4.8"
   },
   "_registry": "npm",
   "_loc": "/Users/rej156/Documents/flow-frontend-boilerplate/node_modules/kauri-components/package.json",

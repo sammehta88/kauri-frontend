@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 
 // Export a function. Accept the base config as the only param.
 module.exports = (storybookBaseConfig, configType) => {
@@ -8,7 +9,6 @@ module.exports = (storybookBaseConfig, configType) => {
 
   // Make whatever fine-grained changes you need
   // console.log(storybookBaseConfig)
-  const webpack = require('webpack')
   storybookBaseConfig.plugins.push(new webpack.EnvironmentPlugin(['STORYBOOK']))
 
   // Return the altered config

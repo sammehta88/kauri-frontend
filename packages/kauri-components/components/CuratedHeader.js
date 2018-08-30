@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import theme from '../../../lib/theme-config'
+import theme from './theme-config'
 const Link = process.env.STORYBOOK
   ? ({ children }) => {
-    return children
-  }
+      return children
+    }
   : require('../../../routes').Link
 
 const Header = styled.div`
@@ -30,7 +30,7 @@ const HeaderDescription = styled.div`
     width: 300px;
     margin: auto;
   }
-`;
+`
 
 const ListTitle = styled.h2`
   font-weight: 300;
@@ -75,7 +75,7 @@ const Button = styled.div`
   transition: all 0.2s;
 
   &:hover {
-    box-shadow: 0px 0px 0px 2px #0BA986;
+    box-shadow: 0px 0px 0px 2px #0ba986;
   }
 `
 

@@ -1,4 +1,4 @@
-const ScrollToTopOnMount = require('./components/ScrollToTopOnMount/ScrollToTopOnMount.bs')
+const ScrollToTopOnMount = require('./components/ScrollToTopOnMount/ScrollToTopOnMount.bs').default
 
 module.exports = {
   ScrollToTopOnMount,

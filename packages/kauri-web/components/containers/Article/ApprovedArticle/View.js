@@ -8,24 +8,23 @@ import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
-import styled from 'styled-components';
-import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
+import styled from 'styled-components'
 
 import type { TipArticlePayload } from '../Module'
 
 const ArticleContent = styled.section`
-background: white;
-height: 100%;
-`;
+  background: white;
+  height: 100%;
+`
 
 type Props =
   | {
-    routeChangeAction: string => void,
-    tipArticleAction: TipArticlePayload => void,
-    ethUsdPrice: number,
-    address?: string,
-    data: { getArticle?: ArticleDTO },
-  }
+      routeChangeAction: string => void,
+      tipArticleAction: TipArticlePayload => void,
+      ethUsdPrice: number,
+      address?: string,
+      data: { getArticle?: ArticleDTO },
+    }
   | any
 
 type State = {
@@ -66,7 +65,6 @@ class ApprovedArticle extends React.Component<Props, State> {
           <meta name='keywords' content={articleKeywords.map(i => i)} />
           <link rel='canonical' href={`${hostname}/article/${article_id}/${slugify(subject, { lower: true })}`} />
         </Helmet>
-        <ScrollToTopOnMount />
         <ApprovedArticle.Actions
           routeChangeAction={props.routeChangeAction}
           tipArticleAction={props.tipArticleAction}

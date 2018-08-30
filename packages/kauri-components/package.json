@@ -15,6 +15,7 @@
   "author": {
     "name": "Eric Juta"
   },
+  "main": "./index.js",
   "license": "MIT",
   "esy": {},
   "dependencies": {

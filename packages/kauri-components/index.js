@@ -1,2 +1,5 @@
-import Hello from './components/Hello/View'
-export { Hello }
+const ScrollToTopOnMount = require('./components/ScrollToTopOnMount/ScrollToTopOnMount.bs')
+
+module.exports = {
+  ScrollToTopOnMount,
+}

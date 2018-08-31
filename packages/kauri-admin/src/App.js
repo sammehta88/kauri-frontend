@@ -3,6 +3,8 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import Main from './components/Main'
 import Configuration from './components/Configuration'
+import { ThemeProvider } from 'styled-components'
+import theme from './theme-config'
 
 class App extends Component {
 
@@ -22,11 +24,13 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Header loading={this.state.loading} />
-        <Main {...this.state} />
-        <Footer {...this.state} />
-      </div>
+      <ThemeProvider theme={theme}>
+        <div className="App">
+          <Header loading={this.state.loading} />
+          <Main {...this.state} />
+          <Footer {...this.state} />
+        </div>
+      </ThemeProvider> 
     );
   }
 }

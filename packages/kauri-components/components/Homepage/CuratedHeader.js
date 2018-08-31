@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import theme from './theme-config'
+import theme from '../theme-config'
 
 const Header = styled.div`
   flex: 1;

@@ -2,8 +2,18 @@ import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import WebService from '../components/WebService';
 import { ScaleLoader } from 'react-spinners';
-import CuratedList from '../components/CuratedList';
+// import CuratedList from '../components/CuratedList';
+import R,{ CuratedHeader } from 'kauri-components';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../components/modals';
+import styled from "styled-components";
+console.log(R)
+
+// const CuratedHeader = styled.div`
+//   display: flex;
+//   background: black;
+//   height: 100px;
+//   width: 100px;
+// `;
 
 class CuratedLists extends Component {
   constructor(props) {
@@ -102,14 +112,18 @@ class CuratedLists extends Component {
             </tr>
           </thead>
           <tbody style={{ overflow: 'scroll' }}>
-            {content && content.map(i => <CuratedList
-              editCuratedList={(list, featured) => this.editCuratedList(list, featured)}
-              removeList={payload => this.removeListReq(payload)}
-              removeResource={payload => this.removeResourceFromListReq(payload)}
-              addItem={() => this.setState({ modal: 'AddItemToList', selectedList: i.id })}
-              addHeaderModal={() => this.setState({ modal: 'AddHeader', selectedList: i.id })}
-              removeHeader={id => this.removeHeader(id)}
-              curatedList={i} key={i.id} />)}
+            {content && content.map(i => <CuratedHeader
+              // editCuratedList={(list, featured) => this.editCuratedList(list, featured)}
+              // removeList={payload => this.removeListReq(payload)}
+              // removeResource={payload => this.removeResourceFromListReq(payload)}
+              // addItem={() => this.setState({ modal: 'AddItemToList', selectedList: i.id })}
+              // addHeaderModal={() => this.setState({ modal: 'AddHeader', selectedList: i.id })}
+              // removeHeader={id => this.removeHeader(id)}
+              // curatedList={i} key={i.id}  
+              Link={({children}) => children}
+              header={{ id: 'metamask', type: 'COLLECTION', name: 'metamask', description: 'lol' }}
+              name='metamask'
+            />)}
           </tbody>
         </Table>
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}

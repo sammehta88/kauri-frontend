@@ -75,10 +75,44 @@ const Button = styled.div`
   }
 `
 
-const CuratedHeader = ({ header, name, Link }) => {
+// class CuratedHeader extends React.Component {
+//   render() {
+    // const { header, name } = this.props
+    // const topic = theme[header.id]
+    // const imageURL = `/static/images/${header.id}/avatar.png`
+    // switch (header && header.type) {
+    //   case 'TOPIC' || 'COMMUNITY':
+    //     return (
+    //       <Header>
+    //         <ListTitle>{name}</ListTitle>
+    //         <CommunityHeading>
+    //           <CommunityLogo src={imageURL} />
+    //           <CommunityName>{header.id}</CommunityName>
+    //         </CommunityHeading>
+    //         <HeaderDescription>{topic.description}</HeaderDescription>
+    //         <Button>View Community</Button>
+    //       </Header>
+    //     )
+    //   case 'COLLECTION':
+    //     return (
+    //       <Header background={header.background}>
+    //         <ListTitle>{name}</ListTitle>
+    //         <CommunityHeading>
+    //           <CommunityName>{header.name}</CommunityName>
+    //         </CommunityHeading>
+    //         <HeaderDescription>{header.description}</HeaderDescription>
+    //         <Button>View Collection</Button>
+    //       </Header>
+    //     )
+    //   default:
+    //     return null
+    // }
+  // }
+// }
+
+const CuratedHeader = ({ header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
-
   switch (header && header.type) {
     case 'TOPIC' || 'COMMUNITY':
       return (
@@ -89,9 +123,7 @@ const CuratedHeader = ({ header, name, Link }) => {
             <CommunityName>{header.id}</CommunityName>
           </CommunityHeading>
           <HeaderDescription>{topic.description}</HeaderDescription>
-          <Link useAnchorTag route={`/community/${header.id}`}>
-            <Button>View Community</Button>
-          </Link>
+          <Button>View Community</Button>
         </Header>
       )
     case 'COLLECTION':
@@ -102,9 +134,7 @@ const CuratedHeader = ({ header, name, Link }) => {
             <CommunityName>{header.name}</CommunityName>
           </CommunityHeading>
           <HeaderDescription>{header.description}</HeaderDescription>
-          <Link useAnchorTag toSlug={header.name} route={`/collection/${header.id}`}>
-            <Button>View Collection</Button>
-          </Link>
+          <Button>View Collection</Button>
         </Header>
       )
     default:

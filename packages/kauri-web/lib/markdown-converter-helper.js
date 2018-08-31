@@ -1,4 +1,4 @@
-import { ContentState, EditorState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js'
+import { ContentState, convertToRaw, convertFromHTML } from 'draft-js'
 import Showdown from 'showdown'
 
 const converter = new Showdown.Converter({

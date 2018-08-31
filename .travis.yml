@@ -26,7 +26,10 @@ before_install:
 - mkdir -p lib
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then gcloud auth activate-service-account
   --key-file client-secret.json; fi
-
+addons:
+  apt:
+    packages:
+      - docker-ce
 jobs:
   include:
   - stage: unit-tests

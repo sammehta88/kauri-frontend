@@ -30,9 +30,6 @@ before_install:
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then eval $(ssh-agent -s); fi
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ssh-add github_deploy_key; fi
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ssh-add -l; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then git remote -v; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then git remote set-url origin git@github.com:ConsenSys/kauri-frontend.git; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then git remote -v; fi
 
 jobs:
   include:
@@ -80,6 +77,9 @@ jobs:
       fi
   - stage: git-tag
     if: "(NOT type IN (pull_request) AND (branch = master))"
+    install:
+    - git remote set-url origin git@github.com:ConsenSys/kauri-frontend.git
+    - git remote -v
     script:
     - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
       -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')

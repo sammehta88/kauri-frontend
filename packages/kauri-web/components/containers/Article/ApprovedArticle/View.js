@@ -50,8 +50,10 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   render () {
     const props = this.props
+    if (!props.data.getArticle) return
     const { subject, article_id, text } = props.data.getArticle
-    const articleKeywords = rake(JSON.parse(text).markdown, {
+    const articleContent = JSON.parse(text).markdown ? JSON.parse(text).markdown : text
+    const articleKeywords = rake(articleContent, {
       language: 'english',
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
     })

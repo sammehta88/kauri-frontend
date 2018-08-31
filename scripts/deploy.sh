@@ -15,8 +15,8 @@ fi
 TIMESTAMP=$(date)
 echo ${TIMESTAMP}
 BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
-DOCKER_PUSH_COMMAND='gcloud docker -- push'
-DOCKER_PULL_COMMAND='gcloud docker -- pull'
+DOCKER_PUSH_COMMAND='docker push'
+DOCKER_PULL_COMMAND='docker pull'
 
 
 if [ "${TARGET_ENV}" == "uat" ]; then

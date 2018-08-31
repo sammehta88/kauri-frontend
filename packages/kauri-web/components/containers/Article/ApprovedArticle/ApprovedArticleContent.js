@@ -92,7 +92,10 @@ export default ({
     typeof editorState === 'object' &&
     (editorState.markdown
       ? contentState.getBlocksAsArray().map(block => block.toJS())
-      : editorState.blocks && editorState.blocks)
+      : editorState
+        .getCurrentContent()
+        .getBlocksAsArray()
+        .map(block => block.toJS()))
 
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 

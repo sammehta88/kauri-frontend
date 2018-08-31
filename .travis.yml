@@ -26,10 +26,6 @@ before_install:
 - mkdir -p lib
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then gcloud auth activate-service-account
   --key-file client-secret.json; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then chmod 600 github_deploy_key; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then eval $(ssh-agent -s); fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ssh-add github_deploy_key; fi
-- if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then ssh-add -l; fi
 
 jobs:
   include:
@@ -78,6 +74,10 @@ jobs:
   - stage: git-tag
     if: "(NOT type IN (pull_request) AND (branch = master))"
     install:
+    - chmod 600 github_deploy_key
+    - eval $(ssh-agent -s)
+    - ssh-add github_deploy_key
+    - ssh-add -l
     - git remote set-url origin git@github.com:ConsenSys/kauri-frontend.git
     - git remote -v
     script:

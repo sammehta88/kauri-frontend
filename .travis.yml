@@ -26,10 +26,11 @@ before_install:
 - mkdir -p lib
 - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then gcloud auth activate-service-account
   --key-file client-secret.json; fi
-addons:
-  apt:
-    packages:
-      - docker-ce
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+- sudo apt-get update
+- sudo apt-get -y install docker-ce
+
 jobs:
   include:
   - stage: unit-tests

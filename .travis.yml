@@ -15,7 +15,7 @@ before_install:
 - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
 - sudo apt-get update
-- N | sudo apt-get -yq install docker-ce
+- sudo apt-get -yq --force-yes -o Dpkg::Options::="--force-confold" install docker-ce
 - export COMMITTER_EMAIL="$(git log -1 $TRAVIS_COMMIT --pretty="%cE")"
 - export AUTHOR_NAME="$(git log -1 $TRAVIS_COMMIT --pretty="%aN")"
 - git config --global user.name "Travis CI User"

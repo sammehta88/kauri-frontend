@@ -57,8 +57,8 @@ class ApprovedArticle extends React.Component<Props, State> {
       language: 'english',
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
     })
-    const hostname = process.env.monolithExternalApi.includes('rinkeby')
-      ? 'https://rinkeby.kauri.io'
+    const hostname = process.env.monolithExternalApi.includes('beta')
+      ? 'https://beta.kauri.io'
       : 'https://dev.kauri.io'
 
     return (

@@ -61,8 +61,8 @@ class CollectionPage extends Component<Props> {
     const { routeChangeAction } = this.props
     const myKeywords = rake(description, { language: 'english' })
     const bg = background || this.state.trianglifyBg
-    const hostname = process.env.monolithExternalApi.includes('rinkeby')
-      ? 'https://rinkeby.kauri.io'
+    const hostname = process.env.monolithExternalApi.includes('beta')
+      ? 'https://beta.kauri.io'
       : 'https://dev.kauri.io'
     const url = `${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
 

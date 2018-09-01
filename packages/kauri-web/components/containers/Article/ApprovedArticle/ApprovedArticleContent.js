@@ -132,7 +132,7 @@ export default ({
         )}
         <ShareArticle
           url={`https://${
-            process.env.monolithExternalApi.includes('rinkeby') ? 'rinkeby.kauri.io' : 'dev.kauri.io'
+            process.env.monolithExternalApi.includes('beta') ? 'beta.kauri.io' : 'dev.kauri.io'
           }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />

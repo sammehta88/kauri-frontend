@@ -57,16 +57,16 @@ let getCommunity = community =>
 
 let stripWebsite = website => (website |> Js.String.split("://"))[1];
 
-/* const hostname = process.env.monolithExternalApi.includes('rinkeby')
-   ? 'https://rinkeby.kauri.io'
+/* const hostname = process.env.monolithExternalApi.includes('beta')
+   ? 'https://beta.kauri.io'
    : 'https://dev.kauri.io' */
 
 let assembleShareWebsiteURL = community =>
   switch (externalApiURL->Js.Nullable.toOption) {
   | Some(externalApiURL) =>
     (
-      externalApiURL |> Js.String.includes("rinkeby") ?
-        "https://rinkeby.kauri.io/community/" :
+      externalApiURL |> Js.String.includes("beta") ?
+        "https://beta.kauri.io/community/" :
         "https://dev.kauri.io/community/"
     )
     ++ community

@@ -11,6 +11,7 @@ const routes = (module.exports = nextRoutes({
 
 routes
   .add('submit-article', '/request/:request_id/submit-article')
+  .add('view-article', '/article/:article_id')
   .add('view-article-version', '/article/:article_id/v:article_version')
   .add('update-article', '/article/:article_id/v:article_version/update-article')
   .add('request', '/request/:request_id')

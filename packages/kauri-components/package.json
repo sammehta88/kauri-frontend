@@ -24,11 +24,12 @@
     "bs-moment": "^0.3.0",
     "bs-webapi": "^0.11.0",
     "dependency-env": "^0.1.1",
-    "moment": "2.19.3",
+    "moment": "2.20.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-share": "^2.2.0",
-    "react-tippy": "^1.2.2"
+    "react-tippy": "^1.2.2",
+    "styled-components": "^3.2.6"
   },
   "devDependencies": {
     "@storybook/addon-knobs": "4.0.0-alpha.18",
@@ -42,6 +43,7 @@
     "concurrently": "^3.6.0",
     "reason-react": "^0.5.0",
     "storybook-chromatic": "latest",
+    "webpack": "4.17.1",
     "vrroom": "glennsl/vrroom"
   },
   "_registry": "npm",

@@ -1,6 +1,6 @@
 {
   "name": "kauri-web",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "author": {
     "name": "Eric Juta"
   },
@@ -72,7 +72,11 @@
     "kauri-components": "1.0.0",
     "mezr": "^0.6.2",
     "mixpanel-browser": "^2.21.0",
+<<<<<<< HEAD
     "moment": "2.19.3",
+=======
+    "moment": "2.20.1",
+>>>>>>> b03cc724cf01fc320fb98baa0d269849a21f3dcb
     "next": "7.0.0-canary.10",
     "next-routes": "^1.4.2",
     "rake-js": "^0.1.1",
@@ -111,6 +115,7 @@
     "web3": "0.20.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/core": "7.0.0",
     "@babel/plugin-proposal-class-properties": "7.0.0",
     "@babel/plugin-proposal-decorators": "7.0.0",
@@ -131,6 +136,8 @@
     "@babel/preset-env": "7.0.0",
     "@babel/preset-flow": "7.0.0",
     "@babel/register": "7.0.0",
+=======
+>>>>>>> b03cc724cf01fc320fb98baa0d269849a21f3dcb
     "@glennsl/bs-jest": "^0.4.2",
     "@zeit/next-bundle-analyzer": "^0.1.1",
     "@zeit/next-css": "0.2.1-canary.2",
@@ -143,7 +150,27 @@
     "babel-plugin-import": "1.8.0",
     "babel-plugin-ramda": "^1.6.3",
     "babel-plugin-styled-components": "1.5.1",
+    "@babel/core": "7.0.0",
+    "@babel/plugin-proposal-class-properties": "7.0.0",
+    "@babel/plugin-proposal-decorators": "7.0.0",
+    "@babel/plugin-proposal-do-expressions": "7.0.0",
+    "@babel/plugin-proposal-export-default-from": "7.0.0",
     "babel-plugin-transform-imports": "^1.5.0",
+    "@babel/plugin-proposal-export-namespace-from": "7.0.0",
+    "@babel/plugin-proposal-function-bind": "7.0.0",
+    "@babel/plugin-proposal-function-sent": "7.0.0",
+    "@babel/plugin-proposal-json-strings": "7.0.0",
+    "@babel/plugin-proposal-logical-assignment-operators": "7.0.0",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "7.0.0",
+    "@babel/plugin-proposal-numeric-separator": "7.0.0",
+    "@babel/plugin-proposal-optional-chaining": "7.0.0",
+    "@babel/plugin-proposal-pipeline-operator": "7.0.0",
+    "@babel/plugin-proposal-throw-expressions": "7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "7.0.0",
+    "@babel/plugin-syntax-import-meta": "7.0.0",
+    "@babel/preset-env": "7.0.0",
+    "@babel/preset-flow": "7.0.0",
+    "@babel/register": "7.0.0",
     "bip39": "2.2.0",
     "body-parser": "^1.18.2",
     "bs-enzyme": "^0.4.0",
@@ -188,6 +215,7 @@
     "typescript-styled-plugin": "^0.2.1",
     "vrroom": "glennsl/vrroom",
     "web3-provider-engine": "8.4.0",
+    "webpack": "4.17.1",
     "webdriverio": "^4.13.1",
     "webpack": "4.17.1",
     "xmlhttprequest": "^1.8.0"

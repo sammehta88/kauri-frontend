@@ -4,6 +4,7 @@
     "packages/*"
   ],
    "scripts": {
-     "dev:web": "concurrently \"cd packages/kauri-components && yarn && npm run clean && npm run build\" \"cd packages/kauri-web && npm run dev:bs\" \"cd packages/kauri-web && npm run dev:web\""
+     "dev:web": "concurrently \"cd packages/kauri-components && yarn && npm run clean && npm run build\" \"cd packages/kauri-web && npm run dev:bs\" \"cd packages/kauri-web && npm run dev:web\"",
+     "build": "cd packages/kauri-components && yarn clean && npm run build && cd ../kauri-web && npm run build"
    }
 }

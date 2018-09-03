@@ -56,7 +56,7 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     this.setState({
       editorState,
     })
-    this.props.setFieldsValue({ text: JSON.stringify(editorState) })
+    this.props.setFieldsValue({ text: JSON.stringify({ markdown: editorState && editorState.markdown }) })
   }
 
   render () {

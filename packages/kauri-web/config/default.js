@@ -40,5 +40,7 @@ module.exports = {
     '0x7855bc9e6564a44753a8d291b037135c605e6d8a',
     // Eric
     '0xbfecec47dd8bf5f6264a9830a9d26ef387c38a67',
+    // Sina (ETHBerlin)
+    '0xC3EF09a2BdEec9De6Ab74cfA0B5491FA4Cd0b7c8',
   ],
 }

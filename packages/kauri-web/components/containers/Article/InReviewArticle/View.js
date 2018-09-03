@@ -6,7 +6,7 @@ import Header from './InReviewArticleHeader'
 import Content from './InReviewArticleContent'
 import Footer from '../ApprovedArticle/ApprovedArticleFooter'
 import NetworkBanner from '../../StyledFooter/NetworkBanner'
-import { ScrollToTopOnMount } from '@kauri/components'
+import { ScrollToTopOnMount } from 'kauri-components'
 
 type Props =
   | {

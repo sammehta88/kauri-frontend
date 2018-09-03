@@ -6,7 +6,7 @@ import SubmitArticleFormActions from './SubmitArticleFormActions'
 import SubmitArticleFormHeader from './SubmitArticleFormHeader'
 import SubmitArticleFormContent from './SubmitArticleFormContent'
 import { formatMetadata } from './Module'
-import { ScrollToTopButton } from '@kauri/components'
+import { ScrollToTopButton } from 'kauri-components'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'

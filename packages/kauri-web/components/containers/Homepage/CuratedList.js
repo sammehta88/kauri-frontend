@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import moment from 'moment'
-import { ArticleCard, CollectionCard } from '@kauri/components'
+import { ArticleCard, CollectionCard } from 'kauri-components'
 import CommunityCardConnection from '../../connections/Community/CommunityCard_Connection.bs'
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'

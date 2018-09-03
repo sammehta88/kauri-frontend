@@ -16,7 +16,7 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 
 console.log(processedConfig)
 
-const nextPlugins = [[withTM, { transpileModules: ['@kauri/components'] }], withSourceMaps, withLess, withCss]
+const nextPlugins = [[withTM, { transpileModules: ['kauri-components'] }], withSourceMaps, withLess, withCss]
 if (process.env.BUNDLE_ANALYZE) {
   nextPlugins.push([
     withBundleAnalyzer,

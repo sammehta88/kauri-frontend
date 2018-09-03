@@ -9,7 +9,7 @@ import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
 import styled from 'styled-components'
-import { ScrollToTopOnMount, ScrollToTopButton } from '@kauri/components'
+import { ScrollToTopOnMount, ScrollToTopButton } from 'kauri-components'
 
 import type { TipArticlePayload } from '../Module'
 

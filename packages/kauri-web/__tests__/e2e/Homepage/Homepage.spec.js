@@ -1,7 +1,7 @@
 import { By } from 'selenium-webdriver'
 import moment from 'moment'
 import setupWebdriver from '../lib/setup-webdriver'
-const url = 'https://rinkeby.kauri.io'
+const url = 'https://beta.kauri.io'
 
 describe('Kauri homepage', () => {
   let driver

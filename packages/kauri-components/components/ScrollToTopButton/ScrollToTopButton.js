@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 const ScrollToTopButton = styled.button`
+  cursor: pointer;
   opacity: 0.3;
   background-color: ${props => props.theme.primaryColor};
   width: 40px;
@@ -19,6 +20,7 @@ const ScrollToTopButton = styled.button`
 
 const ArrowUp = styled.img`
   color: white;
+  cursor: pointer;
   height: 20px;
   width: 20px;
 `

@@ -1,5 +1,5 @@
 {
-  "name": "kauri-components",
+  "name": "@kauri/components",
   "version": "1.0.0",
   "scripts": {
     "build": "bsb -make-world",

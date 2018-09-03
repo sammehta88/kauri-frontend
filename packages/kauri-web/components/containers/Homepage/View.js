@@ -68,7 +68,7 @@ class Homepage extends Component<Props> {
           <title>Kauri - {pageTitle}</title>
           <meta name="description" content={pageTitle} />
           <meta name="keywords" content="ethereum, blockchain, learn to code, developer documentation" />
-          <link rel="canonical" href={process.env.monolithExternalApi.includes('rinkeby') ? 'https://rinkeby.kauri.io' : 'https://dev.kauri.io'} />
+          <link rel="canonical" href={process.env.monolithExternalApi.includes('beta') ? 'https://beta.kauri.io' : 'https://dev.kauri.io'} />
         </Helmet>
         <HomePageHeader>
           <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>

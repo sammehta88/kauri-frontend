@@ -16,6 +16,7 @@ module.exports = {
       },
     ],
     'comma-dangle': ['error', 'always-multiline'],
+    'camelcase': 0
   },
   env: {
     'jest/globals': true,

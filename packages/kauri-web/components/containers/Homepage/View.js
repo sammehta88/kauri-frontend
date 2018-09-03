@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 import CuratedList from './CuratedList'
 import ArticleSearchbar from '../ArticleSearchbar'
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 
 type Props = {
   data: {
@@ -53,7 +53,7 @@ const KauriDescription = styled.div`
 class Homepage extends Component<Props> {
   static ContentContainer = ContentContainer
 
-  render() {
+  render () {
     if (!this.props.data || !this.props.data.getAllCuratedList) {
       return null
     } // TODO replace with an error message if exists
@@ -66,9 +66,9 @@ class Homepage extends Component<Props> {
       <ContentContainer>
         <Helmet>
           <title>Kauri - {pageTitle}</title>
-          <meta name="description" content={pageTitle} />
-          <meta name="keywords" content="ethereum, blockchain, learn to code, developer documentation" />
-          <link rel="canonical" href={process.env.monolithExternalApi.includes('beta') ? 'https://beta.kauri.io' : 'https://dev.kauri.io'} />
+          <meta name='description' content={pageTitle} />
+          <meta name='keywords' content='ethereum, blockchain, learn to code, developer documentation' />
+          <link rel='canonical' href={process.env.monolithExternalApi.includes('beta') ? 'https://beta.kauri.io' : 'https://dev.kauri.io'} />
         </Helmet>
         <HomePageHeader>
           <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>

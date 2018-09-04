@@ -5,7 +5,6 @@ module Styles = {
       fontWeight(500),
       margin2(~v=px(6), ~h=px(0)),
       color(hex(colorProp)),
-      textTransform(capitalize),
     ];
   let heading = (~colorProp, ~sizeProp) =>
     Css.style(baseHeading(~colorProp, ~sizeProp));

@@ -1,13 +1,11 @@
 // @flow
 import React from 'react'
-import moment from 'moment'
 import styled from 'styled-components'
 import {
   CreateRequestLogo as ApprovedArticleLogo,
   CreateRequestSecondaryHeader as ApprovedArticleSecondaryHeader,
   TopicActionsContainer as ApprovedArticleSubjectContainer,
 } from '../../CreateRequestForm/CreateRequestHeader'
-import { InReviewArticleStatus as ApprovedArticleStatus } from '../InReviewArticle/InReviewArticleHeader'
 import { ChosenCategory, ForVersion } from '../../SubmitArticleForm/SubmitArticleFormHeader'
 import PostedDate from '../../../../../kauri-components/components/Typography/PostedDate.bs'
 import theme from '../../../../lib/theme-config'

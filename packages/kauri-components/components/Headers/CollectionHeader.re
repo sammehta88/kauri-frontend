@@ -53,7 +53,7 @@ let make =
       <div className=Styles.leftSide>
         <PostedDate date_field=updated dateType=PostedDate.Updated />
         <Heading size=28 text=name color="ffffff" />
-        <Paragraph size=16 text=description color="ffffff" />
+        <Paragraph cardHeight=9000 size=16 text=description color="ffffff" />
         <ShareArticle url title=name />
       </div>
       <div className=Styles.rightSide>

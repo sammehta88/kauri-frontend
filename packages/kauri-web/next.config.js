@@ -5,6 +5,7 @@ const withPlugins = require('next-compose-plugins')
 const withCss = require('@zeit/next-css')
 const withLess = require('@zeit/next-less')
 const withSourceMaps = require('@zeit/next-source-maps')
+const withTM = require('next-plugin-transpile-modules')
 const { join } = require('path')
 global.process.env = Object.assign(process.env, config)
 
@@ -15,7 +16,7 @@ const processedConfig = Object.keys(config).reduce((current, next, i) => {
 
 console.log(processedConfig)
 
-const nextPlugins = [withSourceMaps, withLess, withCss]
+const nextPlugins = [[ withTM, { transpileModules: ['../kauri-components'] } ], withSourceMaps, withLess, withCss]
 if (process.env.BUNDLE_ANALYZE) {
   nextPlugins.push([
     withBundleAnalyzer,
@@ -43,7 +44,7 @@ const nextConfig = {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin(processedConfig)
     )
-    config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
+    // config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
       config.plugins.push(new webpack.IgnorePlugin(/jsdom$/), new webpack.IgnorePlugin(/.js.map$/))
     }
@@ -55,6 +56,11 @@ const nextConfig = {
 
     return config
   },
+  // webpackDevMiddleware: config => {
+  //   console.log(config)
+  //   config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
+  //   return config
+  // },
 }
 
 module.exports = withPlugins(nextPlugins, nextConfig)

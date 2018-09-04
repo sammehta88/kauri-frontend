@@ -11,7 +11,7 @@ const web3 = new Web3()
 
 const dateFormat = 'YYYY/MM/DD'
 
-function disabledDate(current) {
+function disabledDate (current) {
   // Can not select days before 3 days time and past 30 days time
   return (current && current < moment().add(2, 'days')) || current > moment().add(30, 'days')
 }
@@ -76,6 +76,7 @@ const isSubmittingOutlineHeaderCss = css`
 
 const outlineHeaderCss = css`
   position: sticky;
+  overflow-y: scroll;
   top: 30px;
   max-height: 90vh;
   > :nth-child(3) {
@@ -132,7 +133,7 @@ export const DetailLabel = styled.span`
 `
 
 class CreateRequestText extends React.Component {
-  render() {
+  render () {
     const { getFieldDecorator, editorState, handleChange, request, getFieldError } = this.props
     return getFieldDecorator('text', {
       rules: [
@@ -217,7 +218,7 @@ export default class extends React.Component {
   state = {
     focused: false,
   }
-  render() {
+  render () {
     const {
       getFieldDecorator,
       editorState,

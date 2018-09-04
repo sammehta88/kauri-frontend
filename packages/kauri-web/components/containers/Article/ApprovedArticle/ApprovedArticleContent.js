@@ -45,9 +45,9 @@ const ApprovedArticleHelmet = ({ blocks, contentState }) => {
 
   let description = blocks.filter(({ text }) => text.length >= 40)
   description = description.length
-    ? description.find(block => block.type.includes('unstyled')).text
-    : blocks.find(block => block.type.includes('unstyled')).text
-  description = description.length > 120 ? description.substring(0, 117) + '...' : description
+    ? description.find(block => block.type.includes('unstyled')) && description.find(block => block.type.includes('unstyled')).text
+    : blocks.find(block => block.type.includes('unstyled')) && blocks.find(block => block.type.includes('unstyled')).text
+  description = description && description.length > 120 ? description.substring(0, 117) + '...' : description
   let imageEntityKey = contentState && contentState.getLastCreatedEntityKey()
   let image = parseInt(imageEntityKey) && contentState.getEntity(imageEntityKey).toJS()
   if (image) image = image.data.src

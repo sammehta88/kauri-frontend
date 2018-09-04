@@ -10,6 +10,7 @@ import {
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../lib/markdown-converter-helper'
 import Outline from '../../../../kauri-components/components/Typography/Outline.bs'
 import { ApprovedArticleDetails as SubmitArticleFormDetails } from '../Article/ApprovedArticle/ApprovedArticleContent'
+import { hljs } from '../../../lib/hljs'
 
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 

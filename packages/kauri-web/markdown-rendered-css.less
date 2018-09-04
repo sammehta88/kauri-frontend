@@ -53,7 +53,7 @@
   code {
     padding: 0.2em 0 0.2em 0;
     margin: 0;
-    font-size: 90%;
+    font-size: 15px !important;
     background-color: rgba(0, 0, 0, 0.04);
     border-radius: 3px;
     &::before,
@@ -68,17 +68,18 @@
     overflow: auto;
     font-size: 85%;
     line-height: 1.45;
-    background-color: #f7f7f7;
     border-radius: 3px;
+    background-color: #f8f8f8;
 
     code {
       display: inline;
       padding: 0;
+      font-size: 15px !important;
       margin: 0;
       overflow: visible;
       line-height: inherit;
+      background: transparent;
       word-wrap: normal;
-      background-color: transparent;
       border: 0;
       &::before,
       &::after {
@@ -89,10 +90,10 @@
     > code {
       padding: 0;
       margin: 0;
-      font-size: 100%;
+      font-size: 15px !important;
+      background: transparent;
       word-break: normal;
       white-space: pre;
-      background: transparent;
       border: 0;
     }
   }
@@ -116,6 +117,8 @@
   }
 
   img {
+    display: block;
+    margin: 0 auto;
     max-width: 920px;
     @media (max-width: 500px) {
       max-width: 100%;
@@ -149,5 +152,20 @@
   p,
   span {
     font-size: 17px;
+  }
+}
+
+code,
+.solidity {
+  margin: 20px 0;
+  // padding-left: 1.5em !important;
+  text-align: left;
+  line-height: 23px;
+  font-size: 15px !important;
+  font-family: Roboto;
+  * {
+    font-size: 15px !important;
+    line-height: 23px;
+    font-family: Roboto;
   }
 }

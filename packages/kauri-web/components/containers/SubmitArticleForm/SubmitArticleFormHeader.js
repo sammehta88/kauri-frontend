@@ -164,7 +164,7 @@ const SubmitArticleFormSubject = ({
         <SelectSubCategory getFieldError={getFieldError} getFieldDecorator={getFieldDecorator} />
       )}
     </SubmitArticleFormTopicAndSubcategoryContainer>
-    <InputWrapper>
+    <InputWrapper maxlength={55}>
       {getFieldDecorator('subject', {
         rules: [
           {
@@ -179,10 +179,10 @@ const SubmitArticleFormSubject = ({
         <ArticleSubject
           onKeyPress={handleKeyPress}
           placeholder='Add Article Title'
-          maxlength={55}
+          maxLength={55}
           hasErrors={getFieldError('subject') && getFieldError('subject').length > 0}
           style={{
-            width: 830,
+            width: '100%',
             alignSelf: 'flex-start',
           }}
         />

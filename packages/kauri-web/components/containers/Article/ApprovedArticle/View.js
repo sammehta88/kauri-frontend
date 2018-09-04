@@ -3,12 +3,14 @@ import React from 'react'
 import { Helmet } from 'react-helmet'
 import slugify from 'slugify'
 import rake from 'rake-js'
+import R from 'ramda'
+import styled from 'styled-components'
 import Actions from './ApprovedArticleActions'
 import Content from './ApprovedArticleContent'
 import Header from './ApprovedArticleHeader'
 import Banner from './ApprovedArticleBanner'
 import Footer from './ApprovedArticleFooter'
-import styled from 'styled-components';
+import { hljs } from '../../../../lib/hljs'
 import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
 import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
 
@@ -42,6 +44,14 @@ class ApprovedArticle extends React.Component<Props, State> {
 
   state = {
     showBanner: false,
+  }
+
+  componentDidUpdate () {
+    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
+  }
+
+  componentDidMount () {
+    R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   toggleBanner = (status?: boolean) =>

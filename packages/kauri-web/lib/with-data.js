@@ -19,10 +19,10 @@ import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic } from 
 import themeConfig from './theme-config'
 import './rxjs-used-operators'
 
-import '../static/css/redraft-image.css'
-import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
 import 'highlightjs/styles/github.css'
 import '@rej156/react-mde/lib/styles/css/react-mde-all.css'
+import '../static/css/redraft-image.css'
+import 'draft-js-inline-toolbar-plugin/lib/plugin.css'
 import '../ant-theme-vars.less'
 
 const config = require('../config').default

@@ -1,12 +1,22 @@
-import { ContentState, EditorState, convertFromRaw, convertToRaw, convertFromHTML } from 'draft-js'
+import { ContentState, convertToRaw, convertFromHTML } from 'draft-js'
 import Showdown from 'showdown'
+
+Showdown.extension('highlightjs', function () {
+  return [{
+    type: 'output',
+    regex: new RegExp(`<code>`, 'g'),
+    replace: `<code class="hljs solidity">`,
+  }];
+});
 
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
   strikethrough: true,
   tasklists: true,
+  extensions: ['highlightjs'],
 })
+
 const serverDOMBuilder = html => {
   const jsdom = require('jsdom')
   const { JSDOM } = jsdom

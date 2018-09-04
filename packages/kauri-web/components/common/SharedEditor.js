@@ -5,6 +5,8 @@ import { HeaderTwoCss, TruncateWithEllipsisCss, ListItemCss } from '../container
 import ReactMde, { DraftUtil } from '@rej156/react-mde'
 import Showdown from 'showdown'
 import { getDefaultCommands } from '@rej156/react-mde/lib/js/commands'
+import { hljs } from '../../lib/hljs'
+import R from 'ramda'
 import uploadImageCommand from '../../lib/reactmde-commands/upload-image'
 import youtubeCommand from '../../lib/reactmde-commands/youtube'
 
@@ -50,6 +52,14 @@ let reactMdeCommands = getDefaultCommands()
 reactMdeCommands[1][3] = uploadImageCommand
 reactMdeCommands[1][4] = youtubeCommand
 
+Showdown.extension('highlightjs', function () {
+  return [{
+    type: 'output',
+    regex: new RegExp(`<code>`, 'g'),
+    replace: `<code class="hljs solidity">`,
+  }];
+});
+
 export class SharedEditor extends React.Component<*> {
   converter = Showdown.Converter
   commands = reactMdeCommands
@@ -61,7 +71,12 @@ export class SharedEditor extends React.Component<*> {
       simplifiedAutoLink: true,
       strikethrough: true,
       tasklists: true,
+      extensions: ['highlightjs'],
     })
+  }
+
+  componentDidUpdate () {
+    if (document.querySelector('.mde-preview')) R.map((block) => hljs.highlightBlock(block))(document.querySelectorAll('pre code'))
   }
 
   async componentDidMount () {
@@ -71,6 +86,7 @@ export class SharedEditor extends React.Component<*> {
         simplifiedAutoLink: true,
         strikethrough: true,
         tasklists: true,
+        extensions: ['highlightjs'],
       })
       // console.log(this.props.editorState)
       const mdeState = await DraftUtil.getMdeStateFromDraftState(

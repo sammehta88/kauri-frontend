@@ -68,10 +68,10 @@ export default class Complete extends React.Component<any, any> {
   componentDidMount () {
     const sub = handleSearch$
       .debounceTime(300)
-      .flatMap(text =>
+      .flatMap(full_text =>
         this.props.client.query({
           query: searchRequests,
-          variables: { text },
+          variables: { filter: { full_text, status_in: ['OPENED', 'IN_PUBLICATION_PERIOD'] } },
         })
       )
       .map(

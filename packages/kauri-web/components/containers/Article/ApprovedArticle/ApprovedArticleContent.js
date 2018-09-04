@@ -100,7 +100,7 @@ export default ({
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => whiteListedAddress === address
+    whiteListedAddress => whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())
   )
 
   return (

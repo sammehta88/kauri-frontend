@@ -43,6 +43,7 @@ const nextConfig = {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.DefinePlugin(processedConfig)
     )
+    config.module.rules[0].include.push(join(__dirname, '../kauri-components'))
     if (!isServer) {
       config.plugins.push(new webpack.IgnorePlugin(/jsdom$/), new webpack.IgnorePlugin(/.js.map$/))
     }

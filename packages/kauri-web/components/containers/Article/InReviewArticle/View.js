@@ -1,12 +1,13 @@
 // @flow
 import React from 'react'
-import { EditorState, ContentState, convertFromRaw } from 'draft-js'
+import { EditorState, ContentState } from 'draft-js'
 import Actions from './InReviewArticleActions'
 import Header from './InReviewArticleHeader'
 import Content from './InReviewArticleContent'
 import Footer from '../ApprovedArticle/ApprovedArticleFooter'
 import NetworkBanner from '../../StyledFooter/NetworkBanner'
 import ScrollToTopOnMount from '../../../../../kauri-components/components/ScrollToTopOnMount/ScrollToTopOnMount.bs'
+import ScrollToTopButton from '../../../../../kauri-components/components/ScrollToTopButton/ScrollToTopButton'
 
 type Props =
   | {
@@ -63,6 +64,7 @@ class InReviewArticle extends React.Component<Props, State> {
     return (
       <section>
         <ScrollToTopOnMount />
+        <ScrollToTopButton />
         <NetworkBanner type='withActionsHeader' />
         <InReviewArticle.Actions
           {...props.data.getArticle}

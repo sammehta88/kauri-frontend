@@ -9,3 +9,5 @@ export default ({ children }) => (
     {children}
   </BareHighlight>
 )
+
+export { hljs }

@@ -38,6 +38,8 @@ module.exports = {
     '0x37648fc15a8365735289e002d65d44d80c505e8b',
     // Josh
     '0x7855bc9e6564a44753a8d291b037135c605e6d8a',
+    // Josh 2
+    '0x7b88584d0e6a608fa3a8716b0ca1620d61834a0c',
     // Eric
     '0xbfecec47dd8bf5f6264a9830a9d26ef387c38a67',
     // Sina (ETHBerlin)

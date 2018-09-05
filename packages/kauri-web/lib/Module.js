@@ -8,6 +8,7 @@ import { SET_WALLET_AVAILABLE_FUNDS } from '../components/containers/Profile/Top
 import createReducer from './createReducer'
 
 import type { SetWalletAvailableFundsAction } from '../components/containers/Profile/TopicOwnerProfile/Module'
+const config = require('../config').default
 
 const { confirm } = Modal
 
@@ -51,6 +52,10 @@ type ShowConfirmationModalPayload = {
 
 type SetEthUsdPricePayload = {
   price: number,
+}
+
+type SetHostNamePayload = {
+  hostName: string,
 }
 
 type FetchUserDetailsPayload = {
@@ -123,6 +128,11 @@ export type HideIntroBannerAction = {
   type: string,
 }
 
+export type SetHostNameAction = {
+  type: string,
+  hostName: string
+}
+
 type Action =
   | ShowNotificationAction
   | ShowConfirmationModalAction
@@ -172,11 +182,9 @@ export const fetchEthUsdPrice = (fetch: any): Promise<any> =>
     .then(res => res.json())
     .catch(err => console.error(err))
 
-export const fetchUserDetails = (fetch: any, parsedToken: string): Promise<any> =>
+export const fetchUserDetails = (fetch: any, parsedToken: string, hostName: string): Promise<any> =>
   fetch(
-    `http${global.window ? 's' : ''}://${
-      global.window ? process.env.monolithExternalApi : process.env.monolithApi
-    }/auth`,
+    `http${global.window ? 's' : ''}://${config.getApiURL(hostName)}/auth`,
     {
       method: 'get',
       headers: {
@@ -192,6 +200,8 @@ export const fetchUserDetails = (fetch: any, parsedToken: string): Promise<any> 
 export const FETCH_ETH_USD_PRICE: string = 'FETCH_ETH_USD_PRICE'
 
 export const SET_USER_DETAILS: string = 'SET_USER_DETAILS'
+
+export const SET_HOSTNAME: string = 'SET_HOSTNAME'
 
 export const SET_ETH_USD_PRICE: string = 'SET_ETH_USD_PRICE'
 
@@ -249,6 +259,11 @@ export const hideIntroBannerAction = (): HideIntroBannerAction => ({
   type: HIDE_INTRO_BANNER,
 })
 
+export const setHostNameAction = (payload: SetHostNamePayload): SetHostNameAction => ({
+  type: SET_HOSTNAME,
+  payload,
+})
+
 export const toggleModalAction = ({
   modalTitle,
   modalChildren,
@@ -272,11 +287,11 @@ export const ethUsdPriceEpic = (action$: Observable<FetchEthUsdPriceAction>, _: 
     .map(({ USD }) => USD)
     .map(price => setEthUsdPriceAction({ price }))
 
-export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, _: any, { fetch }: Dependencies) =>
+export const userDetailsEpic = (action$: Observable<FetchUserDetailsAction>, { getState }: any, { fetch }: Dependencies) =>
   action$
     .ofType(FETCH_USER_DETAILS)
     .take(1)
-    .flatMap(({ payload: { parsedToken } }) => fetchUserDetails(fetch, parsedToken))
+    .flatMap(({ payload: { parsedToken } }) => fetchUserDetails(fetch, parsedToken, getState().app && getState().app.hostName))
     .map(user => setUserDetailsAction(user))
 
 export const showNotificationEpic = (
@@ -333,6 +348,7 @@ const initialState: State = {
   categories,
   showIntroBanner: true,
   funds: 0,
+  hostName: undefined,
 }
 
 const handlers = {
@@ -345,6 +361,8 @@ const handlers = {
       }
     }
   },
+  [SET_HOSTNAME]: (state: State, action: Action) =>
+    typeof action.payload.hostName === 'string' ? { ...state, hostName: action.payload.hostName } : state,
   [SET_USER_ID]: (state: State, action: Action) =>
     typeof action.userId === 'string' ? { ...state, userId: action.userId } : state,
   [SET_USER_DETAILS]: (state: State, action: Action) => ({ ...state, user: action.payload }),

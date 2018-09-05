@@ -15,7 +15,7 @@ import mixpanel from 'mixpanel-browser'
 import initRedux from './init-redux'
 import initApollo from './init-apollo'
 import { initSmartContracts } from './init-smart-contracts'
-import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic } from './Module'
+import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic, setHostNameAction } from './Module'
 import themeConfig from './theme-config'
 import './rxjs-used-operators'
 
@@ -62,6 +62,9 @@ export default ComposedComponent =>
 
     static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname }
+      const hostName = (context.req && context.req.headers.host) || process.env.monolithExternalApi
+      // console.log(context.req.headers)
+      // console.log(hostName)
 
       let stateApollo = {
         apollo: {
@@ -78,6 +81,7 @@ export default ComposedComponent =>
         {},
         {
           getToken: () => parsedToken,
+          hostName,
         }
       )
       const redux = initRedux(apollo, stateRedux, context)
@@ -85,6 +89,8 @@ export default ComposedComponent =>
       // Set userId from cookie
       const userId = parseCookies(context)['USER_ID']
       redux.dispatch({ type: 'SET_USER_ID', userId })
+      // Set hostName from request context
+      redux.dispatch(setHostNameAction({ hostName }))
 
       // Parse token jwt for user details
       if (parsedToken) {
@@ -155,6 +161,7 @@ export default ComposedComponent =>
       return {
         stateApollo,
         stateRedux,
+        hostName,
         ...composedInitialProps,
       }
     }
@@ -163,6 +170,7 @@ export default ComposedComponent =>
       super(props)
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => parseCookies()['TOKEN'],
+        hostName: props.hostName,
       })
       this.redux = initRedux(this.apollo, this.props.stateRedux)
     }

@@ -3,6 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Divider } from 'antd'
 import DatePosted from '../../../common/DatePosted'
+const config = require('../../../../config').default
 
 type Props = {
   username?: ?string,
@@ -10,6 +11,7 @@ type Props = {
   type?: 'in review article' | 'approved article',
   metadata?: ?ArticleMetadataDTO,
   content_hash?: ?string,
+  hostName: string,
 }
 
 const ArticleFooter = styled.section`
@@ -85,7 +87,7 @@ const IPFSIcon = () => (
   </svg>
 )
 
-export default ({ username, date_updated, type, metadata, content_hash }: Props) => (
+export default ({ username, date_updated, type, metadata, content_hash, hostName }: Props) => (
   <ArticleFooter>
     <Divider />
     <Details>
@@ -94,7 +96,7 @@ export default ({ username, date_updated, type, metadata, content_hash }: Props)
           <IPFSContentAttribution>
             {/* (Content)[a href='ipfs content hash'] is (CC-BY-SA 4.0)[a href='actual detail of the license link'] Licensed */}
             <IPFSIcon />
-            <a href={`https://${process.env.monolithExternalApi}:443/ipfs/${content_hash}`}>Content</a>
+            <a href={`https://${config.getApiURL(hostName)}:443/ipfs/${content_hash}`}>Content</a>
             <span> is</span>
             <a
               href={(metadata && metadata.LICENSE_URL) || 'https://creativecommons.org/licenses/by-sa/4.0/'}

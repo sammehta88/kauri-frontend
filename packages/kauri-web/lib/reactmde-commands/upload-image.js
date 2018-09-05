@@ -4,6 +4,7 @@ import { insertText } from '@rej156/react-mde/lib/js/util/MarkdownUtil'
 import { buildNewDraftState, getMarkdownStateFromDraftState } from '@rej156/react-mde/lib/js/util/DraftUtil'
 import { MdeToolbarIcon } from '@rej156/react-mde/lib/js/components'
 import initUppy from '../init-uppy'
+const config = require('../../config').default
 
 const uploadImageCommand = {
   buttonContent: <MdeToolbarIcon icon='image' />,
@@ -20,7 +21,7 @@ const uploadImageCommand = {
       uppy.on('upload-success', (file, { hash }) => {
         const finalText = insertText(
           newText,
-          `](https://${process.env.monolithExternalApi}:443/ipfs/${hash})`,
+          `](https://${config.getApiURL()}:443/ipfs/${hash})`,
           selection.end + insertionLength
         ).newText
         const modification = {

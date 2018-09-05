@@ -34,12 +34,12 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
   } else if (hostName.includes('beta')) {
     apiURL = (global.window)
       ? `api.beta.kauri.io`
-      : apiURL = `monolith.uat:8000`
+      : apiURL = `monolith.uat:8080`
   } else {
     const env = hostName.split('.')[0]
     apiURL = (global.window)
       ? `api.${env}.kauri.io`
-      : apiURL = `monolith.${env}:8000`
+      : apiURL = `monolith.${env}:8080`
   }
   return apiURL
 }

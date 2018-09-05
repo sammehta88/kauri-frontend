@@ -3,6 +3,7 @@ import cookie from 'cookie'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import enUS from 'antd/lib/locale-provider/en_US'
+import Router from 'next/router'
 import { LocaleProvider } from 'antd'
 import { Provider } from 'react-redux'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -63,9 +64,16 @@ export default ComposedComponent =>
     static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname }
       const hostName = (context.req && context.req.headers.host) || process.env.monolithExternalApi
-      // console.log(context.req.headers)
-      // console.log(hostName)
 
+      // TODO REVERT AFTER ETHBERLIN
+      // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
+      if (context.res && hostName && hostName.includes('ethberlin')) {
+        context.res.writeHead(302, {
+          Location: 'https://beta.kauri.io/collection/5b8d373fe727370001c942de/ethberlin',
+        })
+        context.res.end()
+      }
+      // REVERT ABOVE
       let stateApollo = {
         apollo: {
           data: {},

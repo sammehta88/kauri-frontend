@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => ({
   topics: state.app && state.app.user && state.app.user.topics,
   address: state.app && state.app.user && state.app.user.address,
   personalUsername: state.app && state.app.user && state.app.user.username,
+  hostName: state.app && state.app.hostName,
 })
 
 export default compose(

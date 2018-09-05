@@ -3,6 +3,7 @@ import cookie from 'cookie'
 import PropTypes from 'prop-types'
 import Head from 'next/head'
 import enUS from 'antd/lib/locale-provider/en_US'
+import Router from 'next/router'
 import { LocaleProvider } from 'antd'
 import { Provider } from 'react-redux'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
@@ -15,7 +16,7 @@ import mixpanel from 'mixpanel-browser'
 import initRedux from './init-redux'
 import initApollo from './init-apollo'
 import { initSmartContracts } from './init-smart-contracts'
-import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic } from './Module'
+import { fetchEthUsdPriceAction, fetchUserDetailsAction, userDetailsEpic, setHostNameAction } from './Module'
 import themeConfig from './theme-config'
 import './rxjs-used-operators'
 
@@ -62,7 +63,17 @@ export default ComposedComponent =>
 
     static async getInitialProps (context) {
       const url = { query: context.query, pathname: context.pathname }
+      const hostName = (context.req && context.req.headers.host) || process.env.monolithExternalApi
 
+      // TODO REVERT AFTER ETHBERLIN
+      // TLDR; ethberlin.kauri.io 302 -> ethberlin collection
+      if (context.res && hostName && hostName.includes('ethberlin')) {
+        context.res.writeHead(302, {
+          Location: 'https://beta.kauri.io/collection/5b8d373fe727370001c942de/ethberlin',
+        })
+        context.res.end()
+      }
+      // REVERT ABOVE
       let stateApollo = {
         apollo: {
           data: {},
@@ -78,6 +89,7 @@ export default ComposedComponent =>
         {},
         {
           getToken: () => parsedToken,
+          hostName,
         }
       )
       const redux = initRedux(apollo, stateRedux, context)
@@ -85,6 +97,8 @@ export default ComposedComponent =>
       // Set userId from cookie
       const userId = parseCookies(context)['USER_ID']
       redux.dispatch({ type: 'SET_USER_ID', userId })
+      // Set hostName from request context
+      redux.dispatch(setHostNameAction({ hostName }))
 
       // Parse token jwt for user details
       if (parsedToken) {
@@ -155,6 +169,7 @@ export default ComposedComponent =>
       return {
         stateApollo,
         stateRedux,
+        hostName,
         ...composedInitialProps,
       }
     }
@@ -163,6 +178,7 @@ export default ComposedComponent =>
       super(props)
       this.apollo = initApollo(this.props.stateApollo.apollo.data, {
         getToken: () => parseCookies()['TOKEN'],
+        hostName: props.hostName,
       })
       this.redux = initRedux(this.apollo, this.props.stateRedux)
     }

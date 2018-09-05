@@ -79,7 +79,7 @@ let make = (~name, ~description="", ~articles, _children) => {
                   }
                   title=article->subjectGet
                   content=article->textGet
-                  cardHeight=400
+                  cardHeight=500
                   imageURL=article->imageURLGet
                   date=
                     article

@@ -9,6 +9,7 @@ import { loginPersonalSign } from '../../../lib/web3-personal-sign'
 import superagent from 'superagent'
 
 import type { Dependencies } from '../../../lib/Module'
+const config = require('../../../config').default
 
 const request = superagent.agent()
 
@@ -41,7 +42,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
     loginPersonalSign(message)
       .flatMap(signature =>
         request
-          .post(`https://${global.window ? process.env.monolithExternalApi : process.env.monolithApi}/auth`)
+          .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/auth`)
           .send({
             owner: userId,
             signature,

@@ -142,7 +142,7 @@ const initUppy = () => {
     })
     .use(myXHR, {
       limit: 1,
-      endpoint: `https://${process.env.monolithExternalApi}:443/ipfs/`,
+      endpoint: `https://${config.getApiURL()}:443/ipfs/`,
       method: 'post',
       formData: true,
       headers: {

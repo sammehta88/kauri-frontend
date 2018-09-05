@@ -69,6 +69,7 @@ export default ({
   article_version,
   subject,
   address,
+  hostName,
 }: {
   text?: string,
   username?: ?string,
@@ -78,6 +79,7 @@ export default ({
   subject?: string,
   article_version: number,
   address?: string,
+  hostName: hostName,
 }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
@@ -131,9 +133,7 @@ export default ({
           </ArticleAction>
         )}
         <ShareArticle
-          url={`https://${
-            process.env.monolithExternalApi.includes('beta') ? 'beta.kauri.io' : 'dev.kauri.io'
-          }/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`https://${hostName}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

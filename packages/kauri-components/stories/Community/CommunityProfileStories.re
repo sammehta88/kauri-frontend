@@ -14,6 +14,10 @@ module DummyContainer =
 
 myStory.add("MetaMask", () =>
   <DummyContainer>
-    <CommunityProfile community="metamask" website="https://metamask.io" />
+    <CommunityProfile
+      hostName="beta.kauri.io"
+      community="metamask"
+      website="https://metamask.io"
+    />
   </DummyContainer>
 );

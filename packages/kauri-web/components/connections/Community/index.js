@@ -6,6 +6,7 @@ import View from './Community.bs'
 const mapStateToProps = (state, ownProps) => ({
   ethUsdPrice: state.app.ethUsdPrice,
   userId: state.app && state.app.userId,
+  hostName: state.app && state.app.hostName,
 })
 
 export default compose(

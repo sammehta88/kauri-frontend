@@ -78,7 +78,7 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, _children) => {
+let make = (~category, ~hostName, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -93,6 +93,7 @@ let make = (~category, _children) => {
             themeConfig
             ->ThemeConfig.getCommunityConfig(category)
             ->ThemeConfig.homepageURLGet
+          hostName
         />
       </CommunityHeader>
       BasicTabs.(
@@ -196,9 +197,10 @@ let make = (~category, _children) => {
 type jsProps = {
   userId: string,
   category: string,
+  hostName: string,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(~category=jsProps->categoryGet, [||])
+    make(~category=jsProps->categoryGet, ~hostName=jsProps->hostNameGet, [||])
   );

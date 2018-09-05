@@ -100,7 +100,7 @@ let addUserEpic =
                     App_Module.trackMixPanelMetaData(
                       ~resource="user",
                       ~resourceID=userId,
-                      ~resourceVersion=userId,
+                      ~resourceVersion="n/a",
                       ~resourceAction="add user",
                     ),
                 );

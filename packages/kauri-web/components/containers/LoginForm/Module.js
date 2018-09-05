@@ -95,13 +95,14 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
               metaData: {
                 resource: 'kauri',
                 resourceID: 'n/a',
+                resourceVersion: 'n/a',
                 resourceAction: 'login',
               },
             }),
             showNotificationAction({
               notificationType: 'success',
               message: type === 'login' ? 'Login successful' : 'Registration successful',
-              escription: 'Get those bounties!',
+              description: 'Get those bounties!',
             })
           )
         )

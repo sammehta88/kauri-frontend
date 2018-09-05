@@ -17,6 +17,10 @@ myStory.add("Collection Header", () =>
 
 myStory.add("Community Header", () =>
   <CommunityHeader>
-    <CommunityProfile community="metamask" website="https://metamask.io" />
+    <CommunityProfile
+      hostName="beta.kauri.io"
+      community="metamask"
+      website="https://metamask.io"
+    />
   </CommunityHeader>
 );

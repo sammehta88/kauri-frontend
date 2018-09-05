@@ -42,7 +42,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
     loginPersonalSign(message)
       .flatMap(signature =>
         request
-          .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName) || process.env.monolithExternalApi)}/auth`)
+          .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/auth`)
           .send({
             owner: userId,
             signature,

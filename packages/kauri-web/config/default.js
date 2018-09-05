@@ -26,9 +26,8 @@ const uppyConfig = {
   },
 }
 
-const getApiURL = hostName => {
-  // If undefined, it's HMR being annoying
-  if (!hostName) return 'api.dev.kauri.io'
+const getApiURL = (hostName = global.window && global.window.location.host) => {
+  if (!hostName) return process.env.monolithExternalApi
   let apiURL
   if (hostName.includes('localhost')) {
     apiURL = 'api.dev.kauri.io'

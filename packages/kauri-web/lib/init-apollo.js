@@ -3,10 +3,10 @@ import { ApolloClient } from 'apollo-client'
 import { HttpLink } from 'apollo-link-http'
 import { ApolloLink, split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
-import { InMemoryCache, IntrospectionFragmentMatcher} from 'apollo-cache-inmemory'
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory'
 import { getMainDefinition } from 'apollo-utilities'
 import introspectionQueryResultData from '../scripts/fragmentTypes.json'
-
+const config = require('../config').default
 
 let apolloClient = null
 
@@ -16,14 +16,14 @@ if (!global.window) {
 }
 
 const fragmentMatcher = new IntrospectionFragmentMatcher({
-  introspectionQueryResultData
+  introspectionQueryResultData,
 });
 
-function create (initialState, { getToken }) {
+function create (initialState, { getToken, hostName }) {
+  const apiURL = config.getApiURL(hostName)
+
   let httpLink = new HttpLink({
-    uri: `http${global.window ? 's' : ''}://${
-      global.window ? process.env.monolithExternalApi : process.env.monolithApi
-    }/graphql`,
+    uri: `http${global.window ? 's' : ''}://${apiURL}/graphql`,
   })
   const token = getToken()
   const authMiddlewareLink = new ApolloLink((operation, next) => {
@@ -42,7 +42,7 @@ function create (initialState, { getToken }) {
   if (global.window && token) {
     const xAuthToken = global.window.encodeURI(`Bearer ${token}`)
     const wsLink = new WebSocketLink({
-      uri: `wss://${process.env.monolithExternalApi}/socket/graphql?X-Auth-Token=${xAuthToken}`,
+      uri: `wss://${apiURL}/socket/graphql?X-Auth-Token=${xAuthToken}`,
       options: {
         reconnect: true,
       },

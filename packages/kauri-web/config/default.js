@@ -26,6 +26,25 @@ const uppyConfig = {
   },
 }
 
+const getApiURL = hostName => {
+  // If undefined, it's HMR being annoying
+  if (!hostName) return 'api.dev.kauri.io'
+  let apiURL
+  if (hostName.includes('localhost')) {
+    apiURL = 'api.dev.kauri.io'
+  } else if (hostName.includes('beta')) {
+    apiURL = (global.window)
+      ? `api.beta.kauri.io`
+      : apiURL = `monolith.uat:8000`
+  } else {
+    const env = hostName.split('.')[0]
+    apiURL = (global.window)
+      ? `api.${env}.kauri.io`
+      : apiURL = `monolith.${env}:8000`
+  }
+  return apiURL
+}
+
 module.exports = {
   ethUsdPriceEndpoint: 'https://min-api.cryptocompare.com/data/price?fsym=ETH&tsyms=USD',
   subCategories: ['General', 'Tutorial', 'Walkthrough'],
@@ -45,4 +64,5 @@ module.exports = {
     // Sina (ETHBerlin)
     '0xC3EF09a2BdEec9De6Ab74cfA0B5491FA4Cd0b7c8',
   ],
+  getApiURL,
 }

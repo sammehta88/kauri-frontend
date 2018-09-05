@@ -61,19 +61,9 @@ let stripWebsite = website => (website |> Js.String.split("://"))[1];
    ? 'https://beta.kauri.io'
    : 'https://dev.kauri.io' */
 
-let assembleShareWebsiteURL = community =>
-  switch (externalApiURL->Js.Nullable.toOption) {
-  | Some(externalApiURL) =>
-    (
-      externalApiURL |> Js.String.includes("beta") ?
-        "https://beta.kauri.io/community/" :
-        "https://dev.kauri.io/community/"
-    )
-    ++ community
-  | None => "https://test.com"
-  };
+let assembleShareWebsiteURL = (~community, ~hostName) => {j|https://$hostName/community/$community|j};
 
-let make = (~community, ~website, _children) => {
+let make = (~community, ~website, ~hostName, _children) => {
   ...component,
   render: _self =>
     <Container>
@@ -86,7 +76,7 @@ let make = (~community, ~website, _children) => {
       </CommunityWebsite>
       <ShareArticle
         pageType=CommunityProfile
-        url=community->assembleShareWebsiteURL
+        url={assembleShareWebsiteURL(~community, ~hostName)}
         title=community->String.capitalize
       />
     </Container>,

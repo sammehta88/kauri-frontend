@@ -68,16 +68,14 @@ class ApprovedArticle extends React.Component<Props, State> {
       language: 'english',
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
     })
-    const hostname = process.env.monolithExternalApi.includes('beta')
-      ? 'https://beta.kauri.io'
-      : 'https://dev.kauri.io'
+    const hostName = `https://${props.hostName}`
 
     return (
       <ArticleContent>
         <Helmet>
           <title>{subject} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
-          <link rel='canonical' href={`${hostname}/article/${article_id}/${slugify(subject, { lower: true })}`} />
+          <link rel='canonical' href={`https://${hostName}/article/${article_id}/${slugify(subject, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
@@ -98,6 +96,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_id={props.data.getArticle && props.data.getArticle.article_id}
           article_version={props.data.getArticle && props.data.getArticle.article_version}
           user_id={props.data.getArticle && props.data.getArticle.user_id}
+          hostName={hostName}
         />
         <ApprovedArticle.Header {...props.data.getArticle} />
         <ApprovedArticle.Content
@@ -109,12 +108,14 @@ class ApprovedArticle extends React.Component<Props, State> {
           userId={props.data.getArticle && props.data.getArticle.user_id}
           routeChangeAction={props.routeChangeAction}
           address={props.address}
+          hostName={hostName}
         />
         <ApprovedArticle.Footer
           metadata={props.data.getArticle && props.data.getArticle.metadata}
           username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
           date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.date_updated}
           content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.content_hash}
+          hostName={hostName}
         />
       </ArticleContent>
     )

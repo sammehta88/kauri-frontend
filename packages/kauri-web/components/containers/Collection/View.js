@@ -14,6 +14,7 @@ type Props = {
     collection?: CollectionDTO,
   },
   routeChangeAction: string => void,
+  hostName: string,
 }
 
 const ContentContainer = styled.div`
@@ -58,21 +59,18 @@ class CollectionPage extends Component<Props> {
   render () {
     if (!this.props.data || !this.props.data.collection) return null
     const { name, background, description, date_created, date_updated, owner, sections } = this.props.data.collection
-    const { routeChangeAction } = this.props
-    const myKeywords = rake(description, { language: 'english' })
+    const { routeChangeAction, hostName } = this.props
+    const extractedKeywords = rake(description, { language: 'english' })
     const bg = background || this.state.trianglifyBg
-    const hostname = process.env.monolithExternalApi.includes('beta')
-      ? 'https://beta.kauri.io'
-      : 'https://dev.kauri.io'
-    const url = `${hostname}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
+    const url = `https://${hostName}/collection/${this.props.id}/${slugify(name, { lower: true })}`;
 
     return (
       <div>
         <Helmet>
           <title>{name} - Kauri</title>
-          <meta name="description" content={`${description.slice(0, 151)}...`} />
-          <meta name="keywords" content={myKeywords.map(i => i)} />
-          <link rel="canonical" href={url} />
+          <meta name='description' content={`${description.slice(0, 151)}...`} />
+          <meta name='keywords' content={extractedKeywords.map(i => i)} />
+          <link rel='canonical' href={url} />
         </Helmet>
         <ScrollToTopOnMount />
         <HeaderContainer background={bg}>
@@ -98,14 +96,8 @@ class CollectionPage extends Component<Props> {
               <CollectionSection
                 name={i.name}
                 key={i.name}
-                routeChangeAction={this.props.routeChangeAction}
                 description={i.description}
                 articles={i.articles}
-                linkComponent={childrenProps => (
-                  <Link useAnchorTag route={`/article/${card.article_id}/v${card.article_version}`}>
-                    {childrenProps}
-                  </Link>
-                )}
               />
             ))}
         </ContentContainer>

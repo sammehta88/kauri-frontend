@@ -52,7 +52,7 @@ export const createRequestEpic = (
         console.log(dead_line)
         const weiBounty = web3.toWei(bounty, 'ether')
 
-        if (window.web3.eth.accounts[0] !== getState().app.userId) {
+        if (window.web3.eth.accounts[0] !== getState().app && getState().app.userId) {
           return Observable.throw('Wrong metamask account').catch(err => {
             console.log(err)
             return Observable.of(

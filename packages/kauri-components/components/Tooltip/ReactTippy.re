@@ -1,5 +1,5 @@
 [@bs.module "react-tippy"]
-external reactTooltip : ReasonReact.reactClass = "Tooltip";
+external reactTooltip: ReasonReact.reactClass = "Tooltip";
 
 [@bs.deriving jsConverter]
 type trigger = [ | [@bs.as "click"] `Click | [@bs.as "mouseenter"] `Hover];
@@ -12,6 +12,7 @@ type jsProps = {
   html: ReasonReact.reactElement,
   trigger: string,
   position: string,
+  unmountHTMLWhenHide: bool,
 };
 
 let make = (~html, ~trigger, ~position, children) =>
@@ -22,6 +23,7 @@ let make = (~html, ~trigger, ~position, children) =>
         ~html,
         ~trigger=triggerToJs(trigger),
         ~position=positionToJs(position),
+        ~unmountHTMLWhenHide=true,
       ),
     children,
   );

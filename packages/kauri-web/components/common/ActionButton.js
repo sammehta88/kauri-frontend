@@ -21,6 +21,9 @@ const secondaryActionBadgeCss = css`
   :hover {
     background-color: transparent !important;
   }
+  :focus {
+    background-color: transparent !important;
+  }
 `
 const secondaryActionBadgeColorPrimaryCss = css`
   color: ${props => props.theme.primaryTextColor};
@@ -29,6 +32,9 @@ const secondaryActionBadgeColorPrimaryCss = css`
   }
   background-color: transparent;
   :hover {
+    background-color: transparent !important;
+  }
+  :focus {
     background-color: transparent !important;
   }
 `
@@ -82,6 +88,9 @@ const PositiveActionBadge = ActionBadge.extend`
     background-color: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
     border: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
     box-shadow: ${props => props.type !== 'primary' && `0 0 0 2px ${props.theme.primaryColor}`};
+  }
+  :focus {
+    background-color: ${props => props.type === 'primary' && props.theme.hoverTextColor} !important;
   }
   margin-right: ${({ alone }) => alone && '0px'};
   ${props => props.type === 'secondary' && secondaryActionBadgeCss};

@@ -18,6 +18,7 @@ type ArticleProps = {
   personalUsername: ?string,
   deleteArticleCommentAction: DeleteArticleCommentPayload => void,
   publishArticleAction: any => void,
+  hostName: string,
 }
 
 class Article extends React.Component<ArticleProps> {
@@ -72,7 +73,7 @@ class Article extends React.Component<ArticleProps> {
       if (this.props.data.getArticle && typeof this.props.data.getArticle.article_id === 'string') {
         this.props.routeChangeAction(
           `/article/${this.props.data.getArticle.article_id}/v${
-          this.props.data.getArticle.article_version
+            this.props.data.getArticle.article_version
           }/update-article`
         )
       }
@@ -94,7 +95,7 @@ class Article extends React.Component<ArticleProps> {
         this.props.addCommentAction(preApproveArticlePayload, () =>
           this.props.routeChangeAction(
             `/article/${this.props.data.getArticle.article_id}/v${
-            this.props.data.getArticle.article_version
+              this.props.data.getArticle.article_version
             }/article-approved`
           )
         )
@@ -150,22 +151,22 @@ class Article extends React.Component<ArticleProps> {
     }
   }
 
-  render() {
+  render () {
     return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
       <ApprovedArticle {...this.props} />
     ) : (
-        <InReviewArticle
-          {...this.props}
-          updateUnsubmittedArticle={this.updateUnsubmittedArticle}
-          approveArticle={this.approveArticle}
-          rejectArticle={this.rejectArticle}
-          preApproveArticle={this.preApproveArticle}
-          addCommentAction={this.props.addCommentAction}
-          personalUsername={this.props.personalUsername}
-          deleteArticleComment={this.deleteArticleComment}
-          publishArticle={this.publishArticle}
-        />
-      )
+      <InReviewArticle
+        {...this.props}
+        updateUnsubmittedArticle={this.updateUnsubmittedArticle}
+        approveArticle={this.approveArticle}
+        rejectArticle={this.rejectArticle}
+        preApproveArticle={this.preApproveArticle}
+        addCommentAction={this.props.addCommentAction}
+        personalUsername={this.props.personalUsername}
+        deleteArticleComment={this.deleteArticleComment}
+        publishArticle={this.publishArticle}
+      />
+    )
   }
 }
 

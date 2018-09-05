@@ -6,7 +6,7 @@ import { routeChangeAction } from '../../../lib/Module'
 import withLoading from '../../../lib/with-loading'
 
 const mapStateToProps = (state, ownProps) => {
-  return {}
+  return { hostName: state.app && state.app.hostName }
 }
 
 export default compose(

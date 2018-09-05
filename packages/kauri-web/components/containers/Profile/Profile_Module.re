@@ -62,7 +62,7 @@ let addUserEpic =
 
         fromPromise(
           apolloClient##mutate({
-            "mutation": Profile_Queries.AddUserQuery.graphqlQueryAST,
+            "mutation": Profile_Queries.AddUserMutation.graphqlMutationAST,
             "variables": addUserMutation##variables,
             "fetchPolicy": Js.Nullable.undefined,
           }),

@@ -1,6 +1,6 @@
 module AddUser = [%graphql
   {|
-    query AddUser(
+    mutation addUser(
       $username: String,
       $email: String,
       $title: String,
@@ -22,4 +22,4 @@ module AddUser = [%graphql
   |}
 ];
 
-module AddUserQuery = ReasonApollo.CreateQuery(AddUser);
+module AddUserMutation = ReasonApollo.CreateMutation(AddUser);

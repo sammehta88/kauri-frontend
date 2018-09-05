@@ -16,9 +16,6 @@ const request = superagent.agent()
 type State = {}
 
 export type RegisterActionPayload = {
-  username: string,
-  email: string,
-  userId?: ?string,
   type?: 'login' | 'register',
 }
 type RegisterAction = { type: string, payload: RegisterActionPayload, callback: any }
@@ -61,7 +58,7 @@ const registerSignaturePayload = (userId, signature, sentence_id) => ({
 })
 
 export const registerEpic = (action$: Observable<RegisterAction>, store: any, { fetch }: Dependencies) =>
-  action$.ofType(REGISTER).switchMap(({ payload: { username, email, userId, type }, callback }: RegisterAction) =>
+  action$.ofType(REGISTER).switchMap(({ payload: { type = 'register' }, callback }: RegisterAction) =>
     Observable.fromPromise(
       request
       // http://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway
@@ -71,7 +68,7 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
       .mergeMap(({ sentence, id }: InitiateLoginResponse) => Observable.fromPromise(loginPersonalSign(sentence))
         .mergeMap((signature: string) => request
           .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login`)
-          .send(registerSignaturePayload(userId, signature, id))
+          .send(registerSignaturePayload(window.web3.eth.accounts[0], signature, id))
           .withCredentials()
         )
         .map(res => res.body)

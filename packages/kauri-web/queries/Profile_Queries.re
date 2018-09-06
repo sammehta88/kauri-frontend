@@ -1,3 +1,5 @@
+[@bs.module] external gql: ReasonApolloTypes.gql = "graphql-tag";
+
 module SaveUser = [%graphql
   {|
     mutation saveUser(
@@ -23,3 +25,23 @@ module SaveUser = [%graphql
 ];
 
 module SaveUserMutation = ReasonApollo.CreateMutation(SaveUser);
+
+module GetMyProfile = [%graphql
+  {|
+    query getMyProfile {
+      getMyProfile {
+        id,
+        name,
+        email,
+        title,
+        website,
+        avatar,
+        social
+      }
+    }
+  |}
+];
+
+module GetMyProfileQuery = ReasonApollo.CreateQuery(GetMyProfile);
+
+let getMyProfile = GetMyProfileQuery.graphqlQueryAST;

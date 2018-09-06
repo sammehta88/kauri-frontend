@@ -5,7 +5,7 @@ exception NoResponseData;
 
 module Profile = {
   [@bs.deriving abstract]
-  type addUserPayload = {
+  type saveUserPayload = {
     username: Js.Nullable.t(string),
     email: Js.Nullable.t(string),
     title: Js.Nullable.t(string),
@@ -15,27 +15,27 @@ module Profile = {
   };
 
   [@bs.deriving abstract]
-  type addUserAction = {
+  type saveUserAction = {
     [@bs.as "type"]
     type_: string,
-    payload: addUserPayload,
+    payload: saveUserPayload,
   };
 
-  let addUserActionType = "AddUser";
+  let saveUserActionType = "saveUser";
 
-  let createAddUserAction = (payload: addUserPayload): addUserAction =>
-    addUserAction(~type_=addUserActionType, ~payload);
+  let createsaveUserAction = (payload: saveUserPayload): saveUserAction =>
+    saveUserAction(~type_=saveUserActionType, ~payload);
 };
 
-let addUserEpic =
+let saveUserEpic =
     (
-      action: Profile.addUserAction,
+      action: Profile.saveUserAction,
       store: ReduxObservable.Store.store,
       dependencies: ReduxObservable.Dependencies.dependencies,
     ) =>
   ReduxObservable.Observable.(
     action
-    ->(ofType(Profile.addUserActionType))
+    ->(ofType(Profile.saveUserActionType))
     ->switchMap(profileAction => {
         let payload = profileAction->Profile.payloadGet;
         let apolloClient =
@@ -50,8 +50,8 @@ let addUserEpic =
         let website = payload->Profile.websiteGet |> Js.Nullable.toOption;
         let social = payload->Profile.socialGet |> Js.Nullable.toOption;
 
-        let addUserMutation =
-          Profile_Queries.AddUser.makeWithVariables({
+        let saveUserMutation =
+          Profile_Queries.SaveUser.makeWithVariables({
             "username": username,
             "email": email,
             "avatar": avatar,
@@ -62,8 +62,8 @@ let addUserEpic =
 
         fromPromise(
           apolloClient##mutate({
-            "mutation": Profile_Queries.AddUserMutation.graphqlMutationAST,
-            "variables": addUserMutation##variables,
+            "mutation": Profile_Queries.SaveUserMutation.graphqlMutationAST,
+            "variables": saveUserMutation##variables,
             "fetchPolicy": Js.Nullable.undefined,
           }),
         )
@@ -72,8 +72,8 @@ let addUserEpic =
               let possibleResponse = Js.Nullable.toOption(response##data);
               switch (possibleResponse) {
               | Some(data) =>
-                let result = Profile_Queries.AddUser.parse(data);
-                switch (result##addUser |? (x => x##hash)) {
+                let result = Profile_Queries.SaveUser.parse(data);
+                switch (result##saveUser |? (x => x##hash)) {
                 | Some(hash) => hash
                 | None => raise(NoHashFound)
                 };
@@ -93,7 +93,7 @@ let addUserEpic =
                 ->ReduxObservable.Store.appGet
                 ->ReduxObservable.Store.userIdGet;
 
-              let trackAddUserPayload =
+              let trackSaveUserPayload =
                 App_Module.trackMixPanelPayload(
                   ~event="Offchain",
                   ~metaData=
@@ -104,25 +104,25 @@ let addUserEpic =
                       ~resourceAction="add user",
                     ),
                 );
-              let trackAddUserAction =
-                App_Module.trackMixPanelAction(trackAddUserPayload);
+              let trackSaveUserAction =
+                App_Module.trackMixPanelAction(trackSaveUserPayload);
 
               let notificationType =
                 App_Module.notificationTypeToJs(`Success);
 
-              let showAddUserNotificationPayload =
+              let showSaveUserNotificationPayload =
                 App_Module.showNotificationPayload(
                   ~notificationType,
                   ~message="User details updated",
                   ~description="Your user details have now been updated!",
                 );
 
-              let showAddUserNotificationAction =
+              let showSaveUserNotificationAction =
                 App_Module.showNotificationAction(
-                  showAddUserNotificationPayload,
+                  showSaveUserNotificationPayload,
                 );
 
-              of2(trackAddUserAction, showAddUserNotificationAction);
+              of2(trackSaveUserAction, showSaveUserNotificationAction);
             })
           );
       })

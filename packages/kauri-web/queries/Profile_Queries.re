@@ -1,6 +1,6 @@
 module AddUser = [%graphql
   {|
-    mutation addUser(
+    mutation saveUser(
       $username: String,
       $email: String,
       $title: String,
@@ -8,7 +8,7 @@ module AddUser = [%graphql
       $avatar: String,
       $social: Map_String_StringScalar
     ) {
-      addUser(
+      saveUser (
         username: $username,
         email: $email
         title: $title,

@@ -18,7 +18,7 @@ const ConsenSysFormationIcon = styled.img`
   width: 34px;
 `
 
-const ConsenSysLogoIcon = styled.span`
+const ConsenSysLogoIcon = styled.a`
   color: #fff;
   font-weight: 500;
   font-size: 13px;

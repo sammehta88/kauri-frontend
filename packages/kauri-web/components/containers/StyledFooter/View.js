@@ -9,20 +9,20 @@ import { Layout } from 'antd'
 const Footer = Layout.Footer
 
 const NewFooter = styled(Footer)`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-auto-columns: auto;
   width: 100%;
-  flex-direction: row;
-  align-items: center;
   background-color: ${props => props.theme.primaryTextColor};
   padding: 0px ${props => props.theme.padding};
 
   @media(max-width: 500px) {
-    flex-direction: column;
+    display: none;
   }
 `
 
 class StyledFooter extends React.Component<{}> {
-  render() {
+  render () {
     return (
       <Fragment>
         <NewFooter>

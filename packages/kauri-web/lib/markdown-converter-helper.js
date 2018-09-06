@@ -12,8 +12,8 @@ Showdown.extension('highlightjs', function () {
 Showdown.extension('links-open-in-new-window', function () {
   return [{
     type: 'output',
-    regex: new RegExp(`<a`, 'g'),
-    replace: `<a target="_blank"`,
+    regex: new RegExp(`<a href="[^#]`, 'g'),
+    replace: `<a target="_blank" href="h`,
   }];
 });
 

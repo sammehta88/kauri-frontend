@@ -62,68 +62,72 @@ export const registerEpic = (action$: Observable<RegisterAction>, store: any, { 
     Observable.fromPromise(
       request
       // http://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway
-        .get(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login?app_id=${config.appId}&client_id=config.clientId`)
+        .get(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login?app_id=${config.appId}&client_id=${config.clientId}`)
     )
       .map(res => res.body)
-      .mergeMap(({ sentence, id }: InitiateLoginResponse) => Observable.fromPromise(loginPersonalSign(sentence))
-        .mergeMap((signature: string) => request
-          .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login`)
-          .send(registerSignaturePayload(window.web3.eth.accounts[0], signature, id))
-          .withCredentials()
-        )
-        .map(res => res.body)
-        .do(() => callback())
-        .do(({ token }: FinalLoginResponse) => {
-          console.log(token)
-          console.log(window.web3.eth.accounts[0])
-          if (process.env.e2eTesting || process.env.NODE_ENV !== 'production') {
-            document.cookie = cookie.serialize('TOKEN', token, {
-              maxAge: 30 * 24 * 60 * 60, // 30 days
-            })
-            document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
-              maxAge: 30 * 24 * 60 * 60, // 30 days
-            })
-          }
-        })
-        .flatMapTo(
-          Observable.of(
-            trackMixpanelAction({
-              event: 'Offchain',
-              metaData: {
-                resource: 'kauri',
-                resourceID: 'n/a',
-                resourceVersion: 'n/a',
-                resourceAction: 'login',
-              },
-            }),
-            showNotificationAction({
-              notificationType: 'success',
-              message: type === 'login' ? 'Login successful' : 'Registration successful',
-              description: 'Get those bounties!',
-            })
+      .do(h => console.log(h))
+      .switchMap(({ sentence, id }: InitiateLoginResponse) =>
+        loginPersonalSign(sentence)
+          .map((signature: string) => registerSignaturePayload(window.web3.eth.accounts[0], signature, id))
+          .mergeMap((payload) =>
+            request
+              .post(`https://${config.getApiURL((store.getState().app && store.getState().app.hostName))}/web3auth/api/login`)
+              .send(payload)
           )
-        )
-        .delay(500)
-        .do(() => (window.location = '/profile'))
-        .catch(err => {
-          console.error(err)
-          if (err && err.message.includes('Metamask locked!')) {
+          .map(res => res.body)
+          .do(h => console.log(h))
+          .do(() => callback())
+          .do(({ token }: FinalLoginResponse) => {
+            console.log(token)
+            console.log(window.web3.eth.accounts[0])
+            if (process.env.e2eTesting || process.env.NODE_ENV !== 'production') {
+              document.cookie = cookie.serialize('TOKEN', token, {
+                maxAge: 30 * 24 * 60 * 60, // 30 days
+              })
+              document.cookie = cookie.serialize('USER_ID', window.web3.eth.accounts[0], {
+                maxAge: 30 * 24 * 60 * 60, // 30 days
+              })
+            }
+          })
+          .mergeMapTo(
+            Observable.of(
+              trackMixpanelAction({
+                event: 'Offchain',
+                metaData: {
+                  resource: 'kauri',
+                  resourceID: 'n/a',
+                  resourceVersion: 'n/a',
+                  resourceAction: 'login',
+                },
+              }),
+              showNotificationAction({
+                notificationType: 'success',
+                message: type === 'login' ? 'Login successful' : 'Registration successful',
+                description: 'Get those bounties!',
+              })
+            )
+          )
+          .delay(500)
+          .do(() => (window.location = '/profile'))
+          .catch(err => {
+            console.error(err)
+            if (err && err.message.includes('Metamask locked!')) {
+              return Observable.of(
+                showNotificationAction({
+                  notificationType: 'error',
+                  message: 'Your wallet is locked!',
+                  description: 'Please unlock your wallet!',
+                })
+              )
+            }
             return Observable.of(
               showNotificationAction({
                 notificationType: 'error',
-                message: 'Your wallet is locked!',
-                description: 'Please unlock your wallet!',
+                message: 'Submission error',
+                description: 'Please try again!',
               })
             )
-          }
-          return Observable.of(
-            showNotificationAction({
-              notificationType: 'error',
-              message: 'Submission error',
-              description: 'Please try again!',
-            })
-          )
-        })
+          })
       )
   )
 

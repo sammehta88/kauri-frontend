@@ -101,6 +101,8 @@ const colors = {
   disabledBackgroundColor: '#D6D6D6',
   contentBorder: '1px solid rgba(30, 36, 40, 0.19)',
   errorRedColor: '#C03030',
+  bgPrimary: '#1E2428',
+  primary: '#0BA986',
 }
 
 const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 72 ]

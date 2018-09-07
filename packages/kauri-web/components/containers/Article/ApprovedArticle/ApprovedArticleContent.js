@@ -79,7 +79,7 @@ export default ({
   subject?: string,
   article_version: number,
   address?: string,
-  hostName: hostName,
+  hostName: string,
 }) => {
   let editorState = typeof text === 'string' && JSON.parse(text)
   editorState =
@@ -119,7 +119,7 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userId}
+          username={(typeof username === 'string' && username) || userId}
           userId={userId}
           routeChangeAction={routeChangeAction}
         />
@@ -133,7 +133,7 @@ export default ({
           </ArticleAction>
         )}
         <ShareArticle
-          url={`https://${hostName}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`https://${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

@@ -9,12 +9,20 @@ Showdown.extension('highlightjs', function () {
   }];
 });
 
+Showdown.extension('links-open-in-new-window', function () {
+  return [{
+    type: 'output',
+    regex: new RegExp(`<a href="[^#]`, 'g'),
+    replace: `<a target="_blank" href="h`,
+  }];
+});
+
 const converter = new Showdown.Converter({
   tables: true,
   simplifiedAutoLink: true,
   strikethrough: true,
   tasklists: true,
-  extensions: ['highlightjs'],
+  extensions: ['highlightjs', 'links-open-in-new-window'],
 })
 
 const serverDOMBuilder = html => {

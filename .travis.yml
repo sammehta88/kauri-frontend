@@ -33,20 +33,20 @@ before_install:
   --key-file client-secret.json; fi
 jobs:
   include:
-  - stage: unit-tests
-    if: NOT type IN (pull_request)
-    script:
-    - cd kauri-ops
-    - source env_setup.sh --config-file config/config-dev.json
-    - cd ..
-    - gcloud config set project $GOOGLE_PROJECT_ID
-    - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
-    - export BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
-    - gcloud docker -- pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
-    - docker build -t flow-frontend-boilerplate:unit-tests -f Dockerfile-unit .
-    - touch secret.env
-    - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
-    - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
+#   - stage: unit-tests
+#     if: NOT type IN (pull_request)
+#     script:
+#     - cd kauri-ops
+#     - source env_setup.sh --config-file config/config-dev.json
+#     - cd ..
+#     - gcloud config set project $GOOGLE_PROJECT_ID
+#     - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
+#     - export BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
+#     - gcloud docker -- pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
+#     - docker build -t flow-frontend-boilerplate:unit-tests -f Dockerfile-unit .
+#     - touch secret.env
+#     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
+#     - docker run --env-file=secret.env --rm flow-frontend-boilerplate:unit-tests
   - stage: chromaticqa-no-auto-accept-changes
     if: "((NOT branch = master) AND (branch = development) AND (type IN (pull_request)))"
     script:

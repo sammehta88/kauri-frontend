@@ -53,7 +53,10 @@ let getCommunity = community =>
   };
 
 let stripWebsite = website => (website |> Js.String.split("://"))[1];
-let assembleShareWebsiteURL = (~community, ~hostName) => {j|https://$hostName/community/$community|j};
+let assembleShareWebsiteURL = (~community, ~hostName) => {
+  let hostName = Js.String.replace("api.", "", hostName);
+    {j|https://$hostName/community/$community|j};
+  };
 
 let make = (~community, ~website, ~hostName, _children) => {
   ...component,

@@ -1,5 +1,18 @@
 [@bs.module] external gql: ReasonApolloTypes.gql = "graphql-tag";
 
+module GetUser = [%graphql
+  {|
+  query getUser($userId: String) {
+    getUser(id: $userId) {
+      id
+      name
+    }
+  }
+|}
+];
+
+module GetUserQuery = ReasonApollo.CreateQuery(GetUser);
+
 module SaveUser = [%graphql
   {|
     mutation saveUser(

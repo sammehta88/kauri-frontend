@@ -14,6 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import userIdTrim from '../../../../lib/userid-trim'
 
 const config = require('../../../../config').default
 
@@ -79,9 +80,10 @@ export default ({
   subject?: string,
   article_version: number,
   address?: string,
-  hostName: hostName,
+  hostName: string,
 }) => {
-  let editorState = typeof text === 'string' && JSON.parse(text)
+  let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
+  if (!editorState) return <SubmitArticleFormContent><p><span>{text}</span></p></SubmitArticleFormContent>
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState
@@ -102,7 +104,7 @@ export default ({
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())
+    whiteListedAddress => (whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())) || process.env.NODE_ENV === 'development'
   )
 
   return (
@@ -119,21 +121,19 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userId}
+          username={username || userIdTrim(userId)}
           userId={userId}
           routeChangeAction={routeChangeAction}
         />
-        {canUpdateArticle && (
-          <ArticleAction
-            svgIcon={<UpdateArticleSvgIcon />}
-            text={'Update Article'}
-            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
-          >
-            Update article
-          </ArticleAction>
-        )}
+        <ArticleAction
+          svgIcon={<UpdateArticleSvgIcon />}
+          text={'Update Article'}
+          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+        >
+          Update article
+        </ArticleAction>
         <ShareArticle
-          url={`https://${hostName}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

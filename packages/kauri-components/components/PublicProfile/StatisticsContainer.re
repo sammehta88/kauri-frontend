@@ -20,11 +20,15 @@ let make = (~statistics, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      (
+      {
         Belt.Array.map(statistics, statistic =>
-          <StatisticCount name=statistic##name count=statistic##count />
+          <StatisticCount
+            key=statistic##name
+            name=statistic##name
+            count=statistic##count
+          />
         )
         |> ReasonReact.array
-      )
+      }
     </div>,
 };

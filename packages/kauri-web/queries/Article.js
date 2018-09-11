@@ -1,5 +1,25 @@
 import gql from 'graphql-tag'
 
+export const Article = gql`
+  fragment Article on ArticleDTO {
+    id 
+    version
+    title
+    content
+    dateCreated
+    datePublished
+    author { 
+      id 
+      name 
+    }
+    status
+    attributes
+    vote {
+       totalVote 
+    }
+  }
+`
+
 export const submitArticle = gql`
   mutation submitArticle(
     $article_id: String

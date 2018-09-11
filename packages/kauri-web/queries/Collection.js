@@ -1,5 +1,12 @@
 import gql from 'graphql-tag'
 
+export const Collection = gql`
+  fragment Collection on CollectionDTO {
+    id 
+    name
+  }
+`
+
 export const globalCollectionDetails = gql`
   query collection($id: String) {
     collection(id: $id) {

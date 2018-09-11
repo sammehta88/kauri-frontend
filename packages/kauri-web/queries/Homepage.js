@@ -1,5 +1,4 @@
 import gql from 'graphql-tag'
-import { Article } from './Article'
 import { Collection } from './Collection'
 import { Community } from './Community'
 import { User } from './User'
@@ -12,15 +11,17 @@ export const HomePageQuery = gql`
       description
       featured
       dateCreated
-      owner {
-         id 
-         name 
-      }
       header {
         ...Article
         ...Collection
-        ...Community
-        ...User
+        ...on CommunityDTO {
+          id
+          name
+        }
+        ...on UserDTO {
+          id
+          name
+        }
       } 
       resources {
         ...Article
@@ -31,7 +32,6 @@ export const HomePageQuery = gql`
     } 
   }
 
-  ${Article}
   ${Collection}
   ${Community}
   ${User}

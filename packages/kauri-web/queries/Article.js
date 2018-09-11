@@ -2,20 +2,39 @@ import gql from 'graphql-tag'
 
 export const Article = gql`
   fragment Article on ArticleDTO {
-    id 
+    id
     version
     title
     content
     dateCreated
     datePublished
-    author { 
-      id 
-      name 
-    }
     status
-    attributes
+    attributes 
+    contentHash
+    checkpoint
     vote {
-       totalVote 
+      totalVote 
+    }
+    author {
+      id
+      name
+    }
+    comments {
+      content {
+        author {
+          id
+          name
+        }
+        posted
+        body 
+      }
+      totalPages 
+      totalElements  
+    }
+    resourceIdentifier {
+      id
+      type
+      version
     }
   }
 `

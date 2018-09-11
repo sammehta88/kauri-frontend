@@ -1,10 +1,31 @@
 import gql from 'graphql-tag'
+import { Article } from './Article'
 
 export const Collection = gql`
   fragment Collection on CollectionDTO {
-    id 
+    id
     name
+    description
+    background
+    dateCreated
+    owner {
+      id
+      name
+    } 
+    sections {
+      name 
+      description 
+      resources {
+       ...Article
+      }
+    } 
+    resourceIdentifier {
+      type
+      id
+    }
   }
+
+  ${Article}
 `
 
 export const globalCollectionDetails = gql`

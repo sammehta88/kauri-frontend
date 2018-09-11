@@ -10,6 +10,7 @@ type Props = {
     searchArticles?: {
       content: Array<?ArticleDTO>,
     },
+    getAllCuratedList: ?Array<CuratedListDTO>
   },
   hostName: string,
   routeChangeAction: string => void,
@@ -76,8 +77,8 @@ class Homepage extends Component<Props> {
           <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>
-        {getAllCuratedList.map(i => (
-          <CuratedList routeChangeAction={this.props.routeChangeAction} key={i.id} content={i} />
+        {getAllCuratedList.map(curatedList => (
+          <CuratedList routeChangeAction={this.props.routeChangeAction} key={curatedList.id} content={curatedList} />
         ))}
       </ContentContainer>
     )

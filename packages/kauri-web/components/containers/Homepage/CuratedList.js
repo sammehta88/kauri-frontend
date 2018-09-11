@@ -1,3 +1,5 @@
+// @flow
+import React from 'react'
 import styled from 'styled-components'
 import moment from 'moment'
 import ArticleCard from '../../../../kauri-components/components/Card/ArticleCard.bs'
@@ -6,6 +8,7 @@ import CommunityCardConnection from '../../connections/Community/CommunityCard_C
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 import { Link } from '../../../routes'
+import R from 'ramda'
 
 const Title = styled.h2`
   font-weight: 300;
@@ -58,15 +61,15 @@ const getBG = (header, featured) => {
 
 const HOMEPAGE_CARD_HEIGHT = 290
 
-const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } } = props) => {
+const CuratedList = ({ routeChangeAction, content: { name, resources, featured, header } }: { routeChangeAction: string => void, content: CuratedListDTO }) => {
   return (
-    <Container bgColor={getBG(header, featured)} featured={featured} background={header && header.background}>
+    <Container bgColor={getBG(header, featured)} featured={featured} background={header && typeof header.background === 'string' && header.background}>
       {!header && <Title featured={featured}>{name}</Title>}
       {resources && (
         <Resources>
           {header && <CuratedHeader name={name} header={header} />}
           {resources.map(card => {
-            switch (card.type) {
+            switch (card && card.resourceIdentifier && typeof card.resourceIdentifier.type === 'string' && card.resourceIdentifier.type) {
               case 'ARTICLE':
                 return (
                   <ArticleCard

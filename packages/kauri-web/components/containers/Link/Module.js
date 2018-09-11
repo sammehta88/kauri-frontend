@@ -27,7 +27,7 @@ type TrackingEvent = 'View' | 'Onchain' | 'Offchain'
 
 type Resource = 'request' | 'article' | 'community' | 'kauri' | 'collection' | 'public-profile'
 
-type Classification =
+export type Classification =
   | {
       page: string,
     }

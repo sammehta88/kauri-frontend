@@ -11,13 +11,27 @@ import ScrollToTopButton from '../../../../kauri-components/components/ScrollToT
 import type { EditArticlePayload, SubmitArticlePayload } from './Module'
 import type { ShowNotificationPayload } from '../../../lib/Module'
 
+type Owner = {
+  id: string,
+  name: string,
+}
+
+type PublishArticlePayload = {
+  id: string,
+  version: number,
+  contentHash: string,
+  dateCreated: string,
+  contributor: string,
+  owner: ?Owner
+};
+
 type Props =
   | any
   | {
       draftArticleAction: any => void,
       submitArticleAction: SubmitArticlePayload => void,
       editArticleAction: EditArticlePayload => void,
-      submitForReviewAction: any => void,
+      publishArticleAction: PublishArticlePayload => void,
       categories: Array<?string>,
       userId: string,
       article_id?: string,
@@ -32,7 +46,7 @@ type Props =
       username?: ?string,
     }
 
-type SubmitArticleVariables = { subject: string, text: string, sub_category?: string, version?: string }
+type SubmitArticleVariables = { subject: string, text: string, owner: ?Owner, sub_category?: string, version?: string }
 
 class SubmitArticleForm extends React.Component<Props> {
   static Header = SubmitArticleFormHeader
@@ -79,7 +93,7 @@ class SubmitArticleForm extends React.Component<Props> {
   handleSubmit = (submissionType: string) => (e: any) => {
     e.preventDefault()
     this.props.form.validateFieldsAndScroll(
-      async (formErr, { text, subject, sub_category, category, version }: SubmitArticleVariables) => {
+      async (formErr, { text, subject, sub_category, owner, version }: SubmitArticleVariables) => {
         const { networkName } = await this.getNetwork()
         if (networkName !== 'Rinkeby' && networkName !== 'Kauri Dev') {
           return this.props.showNotificationAction({
@@ -92,35 +106,37 @@ class SubmitArticleForm extends React.Component<Props> {
           if (submissionType === 'submit/update') {
             const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
 
-            if (typeof request_id === 'string') {
-              if (typeof article_id === 'string') {
-                return editArticleAction({
-                  request_id: data.getArticle.request_id,
-                  text,
-                  article_id,
-                  article_version: this.props.data.getArticle.article_version,
-                  subject,
-                })
-              } else {
-                return submitArticleAction({
-                  request_id,
-                  text,
-                  subject,
-                  category: data.getRequest.category,
-                  sub_category: data.getRequest.sub_category,
-                  metadata: formatMetadata({ version }),
-                })
-              }
-            } else if (typeof article_id === 'string') {
+            // if (typeof request_id === 'string') {
+            //   if (typeof article_id === 'string') {
+            //     return editArticleAction({
+            //       request_id: data.getArticle.request_id,
+            //       text,
+            //       article_id,
+            //       article_version: this.props.data.getArticle.article_version,
+            //       subject,
+            //     })
+            //   } else {
+            //     return submitArticleAction({
+            //       request_id,
+            //       text,
+            //       subject,
+            //       category: data.getRequest.category,
+            //       sub_category: data.getRequest.sub_category,
+            //       metadata: formatMetadata({ version }),
+            //     })
+            //   }
+            // }
+            if (typeof article_id === 'string') {
               const currentArticle: ArticleDTO = this.props.data.getArticle
+
               if (currentArticle.status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
+
+                // TODO: submitArticleVersion(...)
                 return submitArticleAction({
                   article_id,
                   text,
                   subject,
-                  sub_category: currentArticle.sub_category,
-                  category: currentArticle.category,
                   metadata: formatMetadata({ version }),
                 })
               } else if (currentArticle.status === 'IN_REVIEW') {
@@ -128,7 +144,7 @@ class SubmitArticleForm extends React.Component<Props> {
                 return editArticleAction({
                   text,
                   article_id,
-                  article_version: currentArticle.article_version,
+                  article_version: currentArticle.version,
                   subject,
                   sub_category,
                 })
@@ -137,42 +153,38 @@ class SubmitArticleForm extends React.Component<Props> {
                 return editArticleAction({
                   text,
                   article_id,
-                  article_version: currentArticle.article_version,
+                  article_version: currentArticle.version,
                   subject,
                   sub_category,
                 })
               }
             } else {
               return submitArticleAction({
-                request_id,
                 text,
                 subject,
-                sub_category,
-                category,
                 metadata: formatMetadata({ version }),
               })
             }
           } else if (submissionType === 'draft') {
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
               const currentArticle: ArticleDTO = this.props.data.getArticle
+              const { id, version, contentHash, dateCreated, owner } = currentArticle
 
-              const submitForReviewPayload = {
-                id: currentArticle.article_id,
-                article_version: currentArticle.article_version,
-                category: currentArticle.category,
+              const publishArticlePayload = {
+                id,
+                version,
+                contentHash,
+                dateCreated,
+                contributor: owner && owner.id,
+                owner, // Can be null or AbstractResourceDTO, chosen from form dropdown
               }
-              // console.log('submitForReviewPayload', submitForReviewPayload)
-              this.props.submitForReviewAction(submitForReviewPayload)
-            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
 
+              this.props.publishArticleAction(publishArticlePayload)
+            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
               const draftArticlePayload = {
                 subject,
                 text,
-                category: currentArticle.category,
-                sub_category: currentArticle.sub_category,
                 metadata: formatMetadata({ version }),
-                request_id: currentArticle.request_id,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)
@@ -180,10 +192,7 @@ class SubmitArticleForm extends React.Component<Props> {
               const draftArticlePayload = {
                 subject,
                 text,
-                category,
-                sub_category,
                 metadata: formatMetadata({ version }),
-                request_id: this.props.request_id,
               }
               // console.log('draftArticlePayload', draftArticlePayload)
               this.props.draftArticleAction(draftArticlePayload)

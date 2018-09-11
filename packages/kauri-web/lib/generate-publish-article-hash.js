@@ -7,7 +7,7 @@ const convertIpfsHash = ipfsHash => {
   return result
 }
 
-const generateApproveArticleHash = (id, article_version, content_hash, category, request_id, contributor) => {
+const generatePublishArticleHash = (id, version, contentHash, contributor, dateCreated) => {
   const web3 = window.web3
   const keccak256 = function (...args) {
     args = args.map(arg => {
@@ -28,19 +28,18 @@ const generateApproveArticleHash = (id, article_version, content_hash, category,
 
     args = args.join('')
     const result = web3.sha3(args, { encoding: 'hex' })
-    console.log('generated approved article hash', result)
+    console.log('generated article hash', result)
     return result
   }
 
   return keccak256(
     web3.padRight(web3.fromAscii(id), 66),
-    article_version,
-    web3.padRight(web3.fromAscii(request_id), 66),
-    web3.padRight(convertIpfsHash(content_hash), 66),
-    web3.padRight(web3.fromAscii(category), 66),
-    contributor
+    version,
+    contributor,
+    web3.padRight(convertIpfsHash(contentHash), 66),
+    new Date(dateCreated).getTime()
   )
 }
 
-export default generateApproveArticleHash
+export default generatePublishArticleHash
 export { convertIpfsHash }

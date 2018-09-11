@@ -42,24 +42,17 @@ export const Article = gql`
 export const submitArticle = gql`
   mutation submitArticle(
     $article_id: String
-    $request_id: String
     $text: String
     $subject: String
-    $sub_category: String
-    $category: String
-    $metadata: Map_String_StringScalar
-    $author_id: String
+    $metadata: Map_String_StringScalar,
+    $version: Int
   ) {
     submitArticle(
       id: $article_id
-      request_id: $request_id
-      text: $text
-      subject: $subject
-      sub_category: $sub_category
-      category: $category
-      metadata: $metadata
-      author_id: $author_id
-      draft: false
+      content: $text
+      title: $subject
+      attributes: $metadata
+      version: $version
     ) {
       hash
     }
@@ -93,39 +86,11 @@ export const commentArticle = gql`
 export const getArticle = gql`
   query getArticle($article_id: String, $article_version: Int) {
     getArticle(id: $article_id, article_version: $article_version) {
-      article_id
-      article_version
-      user_id
-      category
-      request_id
-      date_created
-      date_updated
-      text
-      tip
-      signature
-      status
-      subject
-      sub_category
-      content_hash
-      comments {
-        comment_id
-        date_created
-        comment
-        highlight_from
-        highlight_to
-        anchor_key
-        focus_key
-        user {
-          username
-        }
-      }
-      user {
-        user_id
-        username
-      }
-      metadata
+      ...Article
     }
   }
+
+  ${Article}
 `
 
 export const getArticleForAnalytics = gql`
@@ -153,8 +118,8 @@ export const getArticleForAnalytics = gql`
 `
 
 export const editArticle = gql`
-  mutation editArticle($article_id: String, $article_version: Int, $text: String, $subject: String) {
-    editArticle(id: $article_id, article_version: $article_version, text: $text, subject: $subject) {
+  mutation editArticleVersion($article_id: String, $article_version: Int, $text: String, $subject: String) {
+    editArticle(id: $article_id, version: $article_version, content: $text, title: $subject) {
       hash
     }
   }

@@ -5,6 +5,7 @@ import { submitArticle, editArticle } from '../../../queries/Article'
 import { showNotificationAction, routeChangeAction } from '../../../lib/Module'
 import { trackMixpanelAction } from '../Link/Module'
 
+import type { Classification } from '../Link/Module'
 import type { Dependencies } from '../../../lib/Module'
 
 export type MetadataPayload = {
@@ -13,12 +14,9 @@ export type MetadataPayload = {
 
 export type SubmitArticlePayload = {
   article_id?: string,
-  request_id?: string,
   subject: string,
   text: string,
-  category?: string,
-  sub_category: string,
-  metadata?: ArticleMetadataDTO,
+  metadata?: MetadataPayload,
 }
 
 export type EditArticlePayload = { article_id: string, article_version: number, text: string, subject: string }
@@ -56,11 +54,8 @@ export const submitArticleEpic = (
           mutation: submitArticle,
           variables: {
             article_id,
-            request_id,
             text,
             subject,
-            sub_category,
-            category,
             metadata,
           },
         })
@@ -81,6 +76,7 @@ export const submitArticleEpic = (
               metaData: {
                 resource: 'article',
                 resourceID: id,
+                resourceVersion: version,
                 resourceAction: 'submit article',
               },
             }),
@@ -131,7 +127,8 @@ export const editArticleEpic = (
               event: 'Offchain',
               metaData: {
                 resource: 'article',
-                resourceID: article_id,
+                resourceID: id,
+                resourceVersion: version,
                 resourceAction: 'update article',
               },
             }),

@@ -152,6 +152,7 @@ class Article extends React.Component<ArticleProps> {
   }
 
   render () {
+    if (!this.props.data && !this.props.data.getArticle) return
     return this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'PUBLISHED' ? (
       <ApprovedArticle {...this.props} />
     ) : (

@@ -96,8 +96,8 @@ export const getArticle = gql`
 export const getArticleForAnalytics = gql`
   query getArticle($article_id: String, $article_version: Int) {
     getArticle(id: $article_id, article_version: $article_version) {
-      article_id
-      article_version
+      id
+      version
       user_id
       request_id
       date_created
@@ -134,8 +134,8 @@ export const searchApprovedArticles = gql`
     ) {
       totalElements
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created
@@ -172,8 +172,8 @@ export const globalSearchApprovedCategoryArticles = gql`
     ) {
       totalElements
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created
@@ -202,8 +202,8 @@ export const globalSearchApprovedArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
       totalElements
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created
@@ -231,8 +231,8 @@ export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
     searchArticles(size: $size, dir: DESC, filter: { user_id_eq: $userId }) {
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created
@@ -259,8 +259,8 @@ export const searchPendingArticles = gql`
   query searchPendingArticles($size: Int = 500, $filter: ArticleFilterInput) {
     searchArticles(size: $size, dir: DESC, filter: $filter) {
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created
@@ -313,8 +313,8 @@ export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
-        article_id
-        article_version
+        id
+        version
         user_id
         request_id
         date_created

@@ -36,7 +36,7 @@ type Props =
       userId: string,
       article_id?: string,
       request_id: string,
-      data: any,
+      data: ?{ getArticle?: ArticleDTO },
       article?: any,
       form: any,
       handleFormChange: ({ text: string }) => void,
@@ -180,8 +180,12 @@ class SubmitArticleForm extends React.Component<Props> {
               }
 
               this.props.publishArticleAction(publishArticlePayload)
-            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id) {
+            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
+              const currentArticle: ArticleDTO = this.props.data.getArticle
+
               const draftArticlePayload = {
+                id: currentArticle.id,
+                version: currentArticle.version,
                 subject,
                 text,
                 metadata: formatMetadata({ version }),

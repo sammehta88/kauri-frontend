@@ -113,7 +113,7 @@ let approveArticleEpic =
                 let approveArticleMutation =
                   Article_Queries.ApproveArticle.make(
                     ~article_id=resourceID,
-                    ~article_version,
+                    ~version=article_version,
                     ~signature,
                     (),
                   );

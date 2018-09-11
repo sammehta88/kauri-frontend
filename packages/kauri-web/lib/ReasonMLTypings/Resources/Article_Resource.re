@@ -1,13 +1,19 @@
 open Infix_Utilities;
 
+let userIdGet = article =>
+  article
+  |? (article => article##author)
+  |? (author => author##id)
+  |> default("");
+
 let usernameGet = article =>
   article
-  |? (article => article##user)
-  |? (user => user##username)
+  |? (article => article##author)
+  |? (author => author##name)
   |> default(
        article
-       |? (article => article##user)
-       |? (user => user##user_id)
+       |? (article => article##author)
+       |? (author => author##id)
        |> default("Unknown Writer")
        |> (
          userId =>
@@ -19,33 +25,29 @@ let usernameGet = article =>
 
 let dateUpdatedGet = article =>
   article
-  |? (article => article##date_updated)
-  |? (date_updated => Js.Json.decodeString(date_updated))
+  |? (article => article##datePublished)
+  |? (datePublished => Js.Json.decodeString(datePublished))
   |> default("")
   |> MomentRe.moment
   |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));
 
 let keyGet = article =>
   article
-  |? (article => article##article_id)
+  |? (article => article##id)
   |> default("")
   |> (
     articleId =>
       articleId
-      ++ (article |? (x => x##article_version) |> default(0) |> string_of_int)
+      ++ (article |? (x => x##version) |> default(0) |> string_of_int)
   );
-let articleIdGet = article => article |? (x => x##article_id) |> default("");
-let articleVersionGet = article =>
-  article |? (x => x##article_version) |> default(1);
+let articleIdGet = article => article |? (x => x##id) |> default("");
+let articleVersionGet = article => article |? (x => x##version) |> default(1);
 
 let titleGet = article =>
-  article |? (article => article##subject) |> default("");
+  article |? (article => article##title) |> default("");
 
 let contentGet = article =>
-  article |? (article => article##text) |> default("");
-
-let userIdGet = article =>
-  article |? (article => article##user_id) |> default("");
+  article |? (article => article##content) |> default("");
 
 type articleResource = {
   key: string,

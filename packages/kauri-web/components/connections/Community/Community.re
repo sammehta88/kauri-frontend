@@ -150,12 +150,7 @@ let make = (~category, ~hostName, _children) => {
               let articlesQuery =
                 switch (currentTabName) {
                 | "all" => SearchCommunityArticles.make(~category, ())
-                | _ =>
-                  SearchCommunityArticles.make(
-                    ~category,
-                    ~sub_category=currentTabName,
-                    (),
-                  )
+                | _ => SearchCommunityArticles.make(~category, ())
                 };
 
               <PanelList>

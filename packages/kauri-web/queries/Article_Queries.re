@@ -81,8 +81,8 @@ module PublishArticleMutation = ReasonApollo.CreateMutation(PublishArticle);
 
 module SearchPersonalArticles = [%graphql
   {|
-    query searchArticles($page: Int, $size: Int, $filter: ArticleFilterInput) {
-       searchArticles (page: $page, size: $size, filter: $filter) {
+    query searchPersonalArticles($userId: String) {
+       searchArticles (page: $page, size: $size, filter: { ownerIdEquals: $userId } ) {
           content {
              id, version, title, content, dateCreated, datePublished, author {
                 id, name }
@@ -129,13 +129,21 @@ module GetArticlesQuery = ReasonApollo.CreateQuery(GetArticles);
 
 module SearchCommunityArticles = [%graphql
   {|
-    query searchCommunityArticles($category: String, $sub_category: String) {
-        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category], sub_category_in:[$sub_category] }) {
+    query searchCommunityArticles($category: String) {
+        searchArticles (filter: { status_in: [PUBLISHED], latestBersion: true, categoryIn: [$category] }) {
             content {
-              id, version, title, content, dateCreated, datePublished, author {
-                id, name }
-                 status, attributes, contentHash, checkpoint, vote { totalVote }, comments { content { posted author { id, name }, body }, totalPages, totalElements  }
-                 resourceIdentifier { type, id, version }                         }
+              id, version, title, content, dateCreated, datePublished
+              author {
+                id
+                 name
+              }
+              status, attributes, contentHash, checkpoint,
+               vote { totalVote },
+               comments {
+                 content { posted author { id, name }, body }, totalPages, totalElements
+              }
+              resourceIdentifier { type, id, version }
+            }
             totalPages
             totalElements
         }

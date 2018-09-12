@@ -81,7 +81,8 @@ export default ({
   address?: string,
   hostName: hostName,
 }) => {
-  let editorState = typeof text === 'string' && JSON.parse(text)
+  let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
+  if (!editorState) return <SubmitArticleFormContent><p><span>{text}</span></p></SubmitArticleFormContent>
   editorState =
     editorState && typeof editorState.markdown === 'string'
       ? editorState

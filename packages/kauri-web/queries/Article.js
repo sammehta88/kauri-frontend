@@ -9,11 +9,11 @@ export const Article = gql`
     dateCreated
     datePublished
     status
-    attributes 
+    attributes
     contentHash
     checkpoint
     vote {
-      totalVote 
+      totalVote
     }
     author {
       id
@@ -26,10 +26,10 @@ export const Article = gql`
           name
         }
         posted
-        body 
+        body
       }
-      totalPages 
-      totalElements  
+      totalPages
+      totalElements
     }
     resourceIdentifier {
       id
@@ -74,7 +74,7 @@ export const commentArticle = gql`
       highlight_from: $highlight_from
       highlight_to: $highlight_to
       id: $article_id
-      article_version: $article_version
+      version: $article_version
       anchor_key: $anchor_key
       focus_key: $focus_key
     ) {
@@ -84,8 +84,8 @@ export const commentArticle = gql`
 `
 
 export const getArticle = gql`
-  query getArticle($article_id: String, $article_version: Int) {
-    getArticle(id: $article_id, article_version: $article_version) {
+  query getArticle($id: String, $version: Int, $published: Boolean = false) {
+    getArticle(id: $id, version: $version, published: $published) {
       ...Article
     }
   }
@@ -94,25 +94,29 @@ export const getArticle = gql`
 `
 
 export const getArticleForAnalytics = gql`
-  query getArticle($article_id: String, $article_version: Int) {
-    getArticle(id: $article_id, article_version: $article_version) {
+  query getArticle($id: String, $version: Int, $published: Boolean = false) {
+    getArticle(id: $id, version: $version, published: $published) {
       id
       version
-      user_id
-      request_id
-      date_created
-      date_updated
-      tip
+      title
+      dateCreated
+      datePublished
       status
-      subject
-      sub_category
-      category
-      content_hash
-      user {
-        user_id
-        username
+      attributes
+      contentHash
+      checkpoint
+      vote {
+        totalVote
       }
-      metadata
+      author {
+        id
+        name
+      }
+      resourceIdentifier {
+        id
+        type
+        version
+      }
     }
   }
 `
@@ -303,7 +307,7 @@ export const totalArticlesCount = gql`
 
 export const rejectArticle = gql`
   mutation rejectArticle($article_id: String, $article_version: Int, $rejection_cause: String) {
-    rejectArticle(id: $article_id, article_version: $article_version, rejection_cause: $rejection_cause) {
+    rejectArticle(id: $article_id, version: $article_version, rejection_cause: $rejection_cause) {
       hash
     }
   }

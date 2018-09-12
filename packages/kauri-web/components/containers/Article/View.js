@@ -7,7 +7,7 @@ import type { DeleteArticleCommentPayload } from './Module'
 import type { AddCommentPayload } from '../AddCommentForm/Module'
 
 type ArticleProps = {
-  article_id: string,
+  id: string,
   data: {
     getArticle: ArticleDTO,
   },
@@ -25,16 +25,16 @@ class Article extends React.Component<ArticleProps> {
   approveArticle = () => {
     if (typeof this.props.data.getArticle === 'object') {
       if (
-        typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.article_version === 'number' &&
+        typeof this.props.data.getArticle.id === 'string' &&
+        typeof this.props.data.getArticle.version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string' &&
         typeof this.props.data.getArticle.request_id === 'string'
       ) {
         const approveArticlePayload = {
-          article_id: this.props.data.getArticle.article_id,
-          article_version: this.props.data.getArticle.article_version,
+          id: this.props.data.getArticle.id,
+          version: this.props.data.getArticle.version,
           user_id: this.props.data.getArticle.user_id,
           category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
@@ -44,15 +44,15 @@ class Article extends React.Component<ArticleProps> {
         console.log(approveArticlePayload)
         this.props.approveArticleAction(approveArticlePayload)
       } else if (
-        typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.article_version === 'number' &&
+        typeof this.props.data.getArticle.id === 'string' &&
+        typeof this.props.data.getArticle.version === 'number' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.content_hash === 'string'
       ) {
         const approveArticlePayload = {
-          article_id: this.props.data.getArticle.article_id,
-          article_version: this.props.data.getArticle.article_version,
+          id: this.props.data.getArticle.id,
+          version: this.props.data.getArticle.version,
           user_id: this.props.data.getArticle.user_id,
           category: this.props.data.getArticle.category,
           content_hash: this.props.data.getArticle.content_hash,
@@ -66,14 +66,14 @@ class Article extends React.Component<ArticleProps> {
   }
 
   rejectArticle = () =>
-    this.props.rejectArticleAction(this.props.data.getArticle.article_id, this.props.data.getArticle.article_version)
+    this.props.rejectArticleAction(this.props.data.getArticle.id, this.props.data.getArticle.version)
 
   updateUnsubmittedArticle = () => {
     if (this.props.routeChangeAction) {
-      if (this.props.data.getArticle && typeof this.props.data.getArticle.article_id === 'string') {
+      if (this.props.data.getArticle && typeof this.props.data.getArticle.id === 'string') {
         this.props.routeChangeAction(
-          `/article/${this.props.data.getArticle.article_id}/v${
-            this.props.data.getArticle.article_version
+          `/article/${this.props.data.getArticle.id}/v${
+            this.props.data.getArticle.version
           }/update-article`
         )
       }
@@ -84,18 +84,18 @@ class Article extends React.Component<ArticleProps> {
     if (this.props.data.getArticle) {
       if (
         typeof this.props.data.getArticle.text === 'string' &&
-        typeof this.props.data.getArticle.article_id === 'string'
+        typeof this.props.data.getArticle.id === 'string'
       ) {
         const preApproveArticlePayload: AddCommentPayload = {
-          article_id: this.props.data.getArticle.article_id,
+          id: this.props.data.getArticle.id,
           comment: `I've reviewed your article, and everything looks good. 
           Please "Submit for publishing" and it will be published soon!`,
         }
 
         this.props.addCommentAction(preApproveArticlePayload, () =>
           this.props.routeChangeAction(
-            `/article/${this.props.data.getArticle.article_id}/v${
-              this.props.data.getArticle.article_version
+            `/article/${this.props.data.getArticle.id}/v${
+              this.props.data.getArticle.version
             }/article-approved`
           )
         )
@@ -105,10 +105,10 @@ class Article extends React.Component<ArticleProps> {
 
   deleteArticleComment = (comment_id: number) => {
     if (this.props.data.getArticle) {
-      if (typeof this.props.data.getArticle.article_id === 'string' && typeof comment_id === 'number') {
+      if (typeof this.props.data.getArticle.id === 'string' && typeof comment_id === 'number') {
         const deleteArticleCommentPayload: DeleteArticleCommentPayload = {
           comment_id,
-          article_id: this.props.data.getArticle.article_id,
+          id: this.props.data.getArticle.id,
         }
         this.props.deleteArticleCommentAction(deleteArticleCommentPayload)
       }
@@ -119,16 +119,16 @@ class Article extends React.Component<ArticleProps> {
     if (typeof this.props.data.getArticle === 'object') {
       console.log(this.props.data.getArticle)
       if (
-        typeof this.props.data.getArticle.article_id === 'string' &&
-        typeof this.props.data.getArticle.article_version === 'number' &&
+        typeof this.props.data.getArticle.id === 'string' &&
+        typeof this.props.data.getArticle.version === 'number' &&
         typeof this.props.data.getArticle.content_hash === 'string' &&
         typeof this.props.data.getArticle.category === 'string' &&
         typeof this.props.data.getArticle.user_id === 'string' &&
         typeof this.props.data.getArticle.signature === 'string'
       ) {
         const {
-          article_id,
-          article_version,
+          id,
+          version,
           content_hash,
           category,
           user_id,
@@ -137,8 +137,8 @@ class Article extends React.Component<ArticleProps> {
         } = this.props.data.getArticle
         // TODO FIX ROUTE MATCHING FOR CONFIRMATION PAGE VS ID
         const publishArticlePayload = {
-          article_id,
-          article_version,
+          id,
+          version,
           request_id: request_id || '',
           content_hash,
           category,

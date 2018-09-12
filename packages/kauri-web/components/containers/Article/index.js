@@ -34,10 +34,10 @@ export default compose(
     }
   ),
   graphql(getArticle, {
-    options: ({ article_id, article_version }) => ({
+    options: ({ id, version }) => ({
       variables: {
-        article_id,
-        article_version,
+        id,
+        version: parseInt(version),
       },
     }),
   }),

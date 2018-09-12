@@ -113,8 +113,8 @@ const fetchResource = (classification: *, apolloClient: *): Promise<*> => {
     return apolloClient.query({
       query: getArticleForAnalytics,
       variables: {
-        article_id: classification.resourceID,
-        article_version: parseInt(classification.resourceVersion),
+        id: classification.resourceID,
+        version: parseInt(classification.resourceVersion),
       },
     })
   } else if (resource === 'collection') {

@@ -1,6 +1,5 @@
 import gql from 'graphql-tag'
 import { Collection } from './Collection'
-import { Community } from './Community'
 import { User } from './User'
 
 export const HomePageQuery = gql`
@@ -26,13 +25,15 @@ export const HomePageQuery = gql`
       resources {
         ...Article
         ...Collection
-        ...Community
+        ...on CommunityDTO {
+          id
+          name
+        }
         ...User      
       }
     } 
   }
 
   ${Collection}
-  ${Community}
   ${User}
 `

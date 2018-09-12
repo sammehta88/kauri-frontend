@@ -138,30 +138,7 @@ export const searchApprovedArticles = gql`
     ) {
       totalElements
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        status
-        category
-        sub_category
-        subject
-        text
-        comments {
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-        }
-        user {
-          user_id
-          username
-        }
+        ...Article
       }
     }
   }
@@ -176,26 +153,7 @@ export const globalSearchApprovedCategoryArticles = gql`
     ) {
       totalElements
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        status
-        category
-        sub_category
-        subject
-        text
-        comments {
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-        }
+        ...Article
       }
     }
   }
@@ -206,26 +164,7 @@ export const globalSearchApprovedArticles = gql`
     searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
       totalElements
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        status
-        category
-        sub_category
-        subject
-        text
-        comments {
-          date_created
-          comment
-          highlight_from
-          highlight_to
-          anchor_key
-          focus_key
-        }
+        ...Article
       }
     }
   }
@@ -235,25 +174,7 @@ export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
     searchArticles(size: $size, dir: DESC, filter: { user_id_eq: $userId }) {
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        text
-        status
-        category
-        sub_category
-        subject
-        comments {
-          date_created
-        }
-        user {
-          username
-          user_id
-        }
+        ...Article
       }
     }
   }
@@ -263,26 +184,7 @@ export const searchPendingArticles = gql`
   query searchPendingArticles($size: Int = 500, $filter: ArticleFilterInput) {
     searchArticles(size: $size, dir: DESC, filter: $filter) {
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        text
-        content_hash
-        status
-        category
-        sub_category
-        subject
-        comments {
-          date_created
-        }
-        user {
-          username
-          user_id
-        }
+        ...Article
       }
       totalElements
     }
@@ -317,24 +219,7 @@ export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {
       content {
-        id
-        version
-        user_id
-        request_id
-        date_created
-        date_updated
-        tip
-        text
-        status
-        category
-        sub_category
-        subject
-        comments {
-          date_created
-        }
-        user {
-          username
-        }
+        ...Article
       }
       totalElements
     }

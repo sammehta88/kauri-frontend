@@ -82,7 +82,7 @@ module PublishArticleMutation = ReasonApollo.CreateMutation(PublishArticle);
 module SearchPersonalArticles = [%graphql
   {|
     query searchPersonalArticles($userId: String) {
-       searchArticles (page: $page, size: $size, filter: { ownerIdEquals: $userId } ) {
+       searchArticles (filter: { ownerIdEquals: $userId } ) {
           content {
              id, version, title, content, dateCreated, datePublished, author {
                 id, name }
@@ -95,19 +95,6 @@ module SearchPersonalArticles = [%graphql
 
 module SearchPersonalArticlesQuery =
   ReasonApollo.CreateQuery(SearchPersonalArticles);
-
-module GetUser = [%graphql
-  {|
-  query getUser($userId: String) {
-    getUser(id:$userId) {
-      id
-      name
-    }
-  }
-|}
-];
-
-module GetUserQuery = ReasonApollo.CreateQuery(GetUser);
 
 module GetArticles = [%graphql
   {|

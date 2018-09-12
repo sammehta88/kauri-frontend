@@ -5,7 +5,7 @@ let component = ReasonReact.statelessComponent("ProfileAvatarQuery");
 let make = (~userId, _children) => {
   ...component,
   render: _self => {
-    open Article_Queries;
+    open Profile_Queries;
     let getUserQuery = GetUser.make(~userId, ());
     <GetUserQuery variables=getUserQuery##variables>
       ...{

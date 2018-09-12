@@ -99,7 +99,7 @@ module SearchPersonalArticlesQuery =
 module GetArticles = [%graphql
   {|
     query searchArticles {
-        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true }) {
+        searchArticles (filter: { statusIn: [PUBLISHED], latestVersion: true }) {
             content {
               id, version, title, content, dateCreated, datePublished, author {
                 id, name }
@@ -117,7 +117,7 @@ module GetArticlesQuery = ReasonApollo.CreateQuery(GetArticles);
 module SearchCommunityArticles = [%graphql
   {|
     query searchCommunityArticles($category: String) {
-        searchArticles (filter: { status_in: [PUBLISHED], latestBersion: true, categoryIn: [$category] }) {
+        searchArticles (filter: { statusIn: [PUBLISHED], latestVersion: true, ownerEquals: $category }) {
             content {
               id, version, title, content, dateCreated, datePublished
               author {
@@ -144,7 +144,7 @@ module SearchCommunityArticlesQuery =
 module CommunityArticlesCount = [%graphql
   {|
     query communityArticlesCount($category: String) {
-        searchArticles (filter: { status_in: [PUBLISHED], latest_version: true, category_in: [$category] }) {
+        searchArticles (filter: { statusIn: [PUBLISHED], latestVersion: true, ownerEquals: $category }) {
             content {
               id
             }

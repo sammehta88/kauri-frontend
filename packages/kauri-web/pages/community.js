@@ -1,15 +1,18 @@
 import React from 'react'
 import { withApollo, compose } from 'react-apollo'
+import { connect } from 'react-redux'
 import withData from '../lib/with-data'
 import App from '../layouts/App'
-import Community from '../components/connections/Community'
+import Community from '../components/connections/Community/Community_Connection.bs'
 import { withRouter } from 'next/router';
 
+const ConnectedCommunity = connect((state) => ({ hostName: state.app && state.app.hostName }))(Community)
+
 class TopicsPage extends React.Component {
-  render() {
+  render () {
     return (
       <App url={this.props.router}>
-        <Community category={this.props.router && this.props.router.query['category']} />
+        <ConnectedCommunity hostName={this.props.hostName} category={this.props.router && this.props.router.query['category']} />
       </App>
     )
   }

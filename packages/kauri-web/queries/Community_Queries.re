@@ -47,27 +47,53 @@ module Fragments = [%graphql
 module SearchCommunities = [%graphql
   {|
     query searchCommunities {
-       searchCommunities {
-       content {
-        id dateCreated dateUpdated creatorId name description status website avatar social
-        members {
-          id, name, role
+      searchCommunities {
+        content {
+          id dateCreated dateUpdated creatorId name description status website avatar social
+          members {
+            id, name, role
+          }
+          pending {
+            ...Fragments.Article
+          }
+          approved {
+            ...Fragments.Article
+          }
+          metadataLocator,
+          resourceIdentifier {
+            type, id
+          }
         }
-        pending {
-          ...Fragments.Article
-        }
-        approved {
-          ...Fragments.Article
-        }
-        metadataLocator,
-        resourceIdentifier {
-          type, id
-        }
+        totalPages
+        totalElements
       }
-      totalPages totalElements
     }
-  }
   |}
 ];
 
 module SearchCommunitiesQuery = ReasonApollo.CreateQuery(SearchCommunities);
+
+module GetCommunity = [%graphql
+  {|
+    query getCommunity($id: String) {
+      getCommunity(id: $id) {
+          id dateCreated dateUpdated creatorId name description status website avatar social
+          members {
+            id, name, role
+          }
+          pending {
+            ...Fragments.Article
+          }
+          approved {
+            ...Fragments.Article
+          }
+          metadataLocator,
+          resourceIdentifier {
+            type, id
+          }
+        }
+    }
+  |}
+];
+
+module GetCommunityQuery = ReasonApollo.CreateQuery(GetCommunity);

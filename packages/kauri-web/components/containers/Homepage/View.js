@@ -73,7 +73,7 @@ class Homepage extends Component<Props> {
           <link rel='canonical' href={`https://${this.props.hostName}`} />
         </Helmet>
         <HomePageHeader>
-          <KauriTitle>Learn to build on Ethereum with Kauri</KauriTitle>
+          <KauriTitle>{pageTitle}</KauriTitle>
           <KauriDescription>Articles, tutorials, Documentation and best practices</KauriDescription>
           <ArticleSearchbar />
         </HomePageHeader>

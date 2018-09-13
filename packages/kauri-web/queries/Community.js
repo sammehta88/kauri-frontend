@@ -6,7 +6,7 @@ export const getCommunity = gql`
       id dateCreated dateUpdated creatorId name description status website avatar social 
       members {
       id, name, role 
-    }
+      }
        pending {
       ...on ArticleDTO {
      id, version, title, content, dateCreated, datePublished, author {
@@ -18,10 +18,9 @@ export const getCommunity = gql`
       ...on ArticleDTO {
      id, version, title, content, dateCreated, datePublished, author {
       id name }, status, attributes, vote {
-      totalVote } }, ...on CollectionDTO {
-      id, name} metadataLocator,
-      resourceIdentifier {
-      type, id 
+      totalVote } }, 
+      ...on CollectionDTO {
+      id, name
     }
    } 
     }

@@ -180,3 +180,20 @@ let make = (~category, ~hostName, ~website, _children) => {
     </div>;
   },
 };
+
+[@bs.deriving abstract]
+type jsProps = {
+  category: string,
+  hostName: string,
+  website: string,
+};
+
+let default =
+  ReasonReact.wrapReasonForJs(~component, jsProps =>
+    make(
+      ~category=jsProps->categoryGet,
+      ~hostName=jsProps->hostNameGet,
+      ~website=jsProps->websiteGet,
+      [||],
+    )
+  );

@@ -137,7 +137,7 @@ export const editArticleEpic = (
           variables: { article_id, article_version, text, subject },
         })
       )
-        .flatMap(({ data: { editArticle: { hash } } }: { data: { editArticle: { hash: string } } }) =>
+        .flatMap(({ data: { editArticleVersion: { hash } } }: { data: { editArticle: { hash: string } } }) =>
           apolloSubscriber(hash)
         )
         .do(() => apolloClient.resetStore())

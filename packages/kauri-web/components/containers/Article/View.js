@@ -121,29 +121,26 @@ class Article extends React.Component<ArticleProps> {
       if (
         typeof this.props.data.getArticle.id === 'string' &&
         typeof this.props.data.getArticle.version === 'number' &&
-        typeof this.props.data.getArticle.content_hash === 'string' &&
-        typeof this.props.data.getArticle.category === 'string' &&
-        typeof this.props.data.getArticle.user_id === 'string' &&
-        typeof this.props.data.getArticle.signature === 'string'
+        typeof this.props.data.getArticle.contentHash === 'string' &&
+        typeof this.props.data.getArticle.dateCreated === 'string' &&
+        typeof this.props.data.getArticle.authorId === 'string'
       ) {
         const {
           id,
           version,
-          content_hash,
-          category,
-          user_id,
-          signature,
-          request_id,
+          contentHash,
+          dateCreated,
+          authorId,
+          owner,
         } = this.props.data.getArticle
         // TODO FIX ROUTE MATCHING FOR CONFIRMATION PAGE VS ID
         const publishArticlePayload = {
           id,
           version,
-          request_id: request_id || '',
-          content_hash,
-          category,
-          user_id,
-          signature,
+          contentHash,
+          dateCreated,
+          contributor: authorId,
+          owner,
         }
         console.log('publishArticlePayload, ', publishArticlePayload)
         this.props.publishArticleAction(publishArticlePayload)

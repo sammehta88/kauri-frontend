@@ -61,21 +61,21 @@ class ArticleApproved extends React.Component<Props> {
         />
         <ConfirmationSubject>{`The article ${subjectCopy}`}</ConfirmationSubject>
         <ArticleCard
-          changeRoute={routeChangeAction}
           key={article.id}
-          date={moment(article.datePublished).format('D MMM YYYY')}
-          title={article.title}
-          content={article.content}
-          userId={article.author.id}
-          username={article.author.name}
           articleId={article.id}
           articleVersion={article.version}
+          date={moment(article.datePublished || article.dateCreated).format('D MMM YYYY')}
+          title={article.title}
+          content={article.content}
+          userId={article.author && article.author.id}
+          username={article.author && article.author.name}
           cardHeight={500}
           linkComponent={(childrenProps, route) => (
             <Link toSlug={route.includes('article') && article.title} useAnchorTag route={route}>
               {childrenProps}
             </Link>
           )}
+          changeRoute={routeChangeAction}
         />
         <ArticleApprovedActionButtons>
           <PositiveRequestActionBadge

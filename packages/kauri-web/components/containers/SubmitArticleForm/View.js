@@ -169,15 +169,16 @@ class SubmitArticleForm extends React.Component<Props> {
             }
           } else if (submissionType === 'draft') {
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
+              // Draft -> Publish
               const currentArticle: ArticleDTO = this.props.data.getArticle
-              const { id, version, contentHash, dateCreated, owner } = currentArticle
+              const { id, authorId, version, contentHash, dateCreated, owner } = currentArticle
 
               const publishArticlePayload = {
                 id,
                 version,
                 contentHash,
                 dateCreated,
-                contributor: owner && owner.id,
+                contributor: authorId,
                 owner, // Can be null or AbstractResourceDTO, chosen from form dropdown
               }
 
@@ -231,28 +232,28 @@ class SubmitArticleForm extends React.Component<Props> {
           categories={this.props.categories}
           handleSubmit={this.handleSubmit}
           routeChangeAction={routeChangeAction}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.content}
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           userId={this.props.userId}
-          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id}
+          authorId={this.props.data && this.props.data.getArticle && this.props.data.getArticle.authorId}
         />
         <SubmitArticleForm.Header
           {...this.props.form}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // || (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           subCategory={
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
           status={this.props.data && this.props.data.getArticle && this.props.data.getArticle.status}
-          subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.subject}
-          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.metadata}
+          subject={this.props.data && this.props.data.getArticle && this.props.data.getArticle.title}
+          metadata={this.props.data && this.props.data.getArticle && this.props.data.getArticle.attributes}
           isKauriTopicOwner={isKauriTopicOwner}
         />
         <SubmitArticleForm.Content
@@ -266,7 +267,7 @@ class SubmitArticleForm extends React.Component<Props> {
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
           article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
-          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.text}
+          text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.content}
           username={
             (this.props.data &&
               this.props.data.getArticle &&

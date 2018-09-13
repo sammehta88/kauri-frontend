@@ -26,6 +26,7 @@ type Props =
       deleteArticleComment: any,
       personalUsername: ?string,
       publishArticle: () => void,
+      userId?: string
     }
   | any
 
@@ -77,6 +78,7 @@ class InReviewArticle extends React.Component<Props, State> {
   render () {
     const props = this.props
     if (!this.props.data && !this.props.data.getArticle) return
+
     return (
       <section>
         <ScrollToTopOnMount />
@@ -89,10 +91,10 @@ class InReviewArticle extends React.Component<Props, State> {
           isTopicOwner={
             props.topics &&
             props.topics.find(
-              category => props.data && props.data.getArticle && props.data.getArticle.author.name === category
+              category => props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id === category
             )
           }
-          isContributor={props.address === props.data && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.id}
+          isContributor={props.userId === (props.data && props.data.getArticle && props.data.getArticle.authorId)}
           updateUnsubmittedArticle={props.updateUnsubmittedArticle}
           approveArticle={props.approveArticle}
           rejectArticle={props.rejectArticle}
@@ -102,7 +104,7 @@ class InReviewArticle extends React.Component<Props, State> {
         <InReviewArticle.Header {...props.data.getArticle} />
         <InReviewArticle.Content
           loaded={() => this.setState({ ...this.state.editorState, loaded: true })}
-          category={props.data && props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
+          category={props.data && props.data.getArticle && props.data.getArticle.owner && props.data.getArticle.owner.id}
           text={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.content}
           status={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.status}
           comments={props.data && props.data.getArticle && props.data.getArticle && props.data.getArticle.comments}

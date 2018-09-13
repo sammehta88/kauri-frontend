@@ -72,11 +72,11 @@ export default ({
         </span>
       </PositiveRequestActionBadge>
 
-      {status === 'DRAFT' && (
+      {/* {status === 'DRAFT' && (
         <PositiveRequestActionBadge type={'primary'} action={handleSubmit('draft')}>
           <span>{userId === authorId && !category ? 'Publish' : 'Submit for review'}</span>
         </PositiveRequestActionBadge>
-      )}
+      )} */}
     </PullRight>
   </SubmitArticleFormActions>
 )

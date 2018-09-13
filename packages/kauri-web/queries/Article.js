@@ -127,7 +127,7 @@ export const getArticleForAnalytics = gql`
 
 export const editArticle = gql`
   mutation editArticleVersion($article_id: String, $article_version: Int, $text: String, $subject: String) {
-    editArticle(id: $article_id, version: $article_version, content: $text, title: $subject) {
+    editArticleVersion(id: $article_id, version: $article_version, content: $text, title: $subject) {
       hash
     }
   }

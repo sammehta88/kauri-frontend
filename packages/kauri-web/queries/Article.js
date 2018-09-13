@@ -6,6 +6,7 @@ export const Article = gql`
     version
     title
     content
+    authorId
     dateCreated
     datePublished
     status

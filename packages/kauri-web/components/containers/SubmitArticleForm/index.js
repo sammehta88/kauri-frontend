@@ -40,8 +40,8 @@ export default compose(
   graphql(getArticle, {
     options: ({ article_id, article_version }) => ({
       variables: {
-        article_id,
-        article_version,
+        id: article_id,
+        version: article_version,
       },
     }),
     skip: ({ article_id }) => !article_id,

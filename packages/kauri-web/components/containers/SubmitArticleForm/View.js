@@ -159,10 +159,12 @@ class SubmitArticleForm extends React.Component<Props> {
                 })
               }
             } else {
+              // Fresh article, self publish
               return submitArticleAction({
                 text,
                 subject,
                 metadata: formatMetadata({ version }),
+                selfPublish: true,
               })
             }
           } else if (submissionType === 'draft') {

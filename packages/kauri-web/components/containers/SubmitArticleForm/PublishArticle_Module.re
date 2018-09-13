@@ -65,11 +65,12 @@ let publishArticleEpic =
     ->(ofType(PublishArticle.actionType))
     ->(
         switchMap(publishArticleAction => {
-          let (apolloClient, subscriber) =
+          let (apolloClient, subscriber, personalSign) =
             dependencies
             ->(
                 ReduxObservable.Dependencies.apolloClientGet,
                 ReduxObservable.Dependencies.subscribeToOffchainEvent,
+                ReduxObservable.Dependencies.personalSignGet,
               );
 
           let (resourceID, version, contentHash, contributor, dateCreated) =
@@ -83,7 +84,7 @@ let publishArticleEpic =
                 dateCreatedGet,
               );
 
-          let signature =
+          let publishArticleHash =
             PublishArticle.generatePublishArticleHash(
               ~id=resourceID,
               ~version,
@@ -98,22 +99,27 @@ let publishArticleEpic =
             ->PublishArticle.ownerGet
             ->Js.Nullable.toOption;
 
-          let publishArticleMutation =
-            Article_Queries.PublishArticle.makeWithVariables({
-              "id": Some(resourceID),
-              "version": Some(version),
-              "signature": Some(signature),
-              "owner":
-                Belt.Option.mapWithDefault(owner, None, owner => Some(owner)),
-            });
+          fromPromise(personalSign(publishArticleHash))
+          ->mergeMap(signature => {
+              let publishArticleMutation =
+                Article_Queries.PublishArticle.makeWithVariables({
+                  "id": Some(resourceID),
+                  "version": Some(version),
+                  "signature": Some(signature),
+                  "owner":
+                    Belt.Option.mapWithDefault(owner, None, owner =>
+                      Some(owner)
+                    ),
+                });
 
-          fromPromise(
-            apolloClient##mutate({
-              "mutation": Article_Queries.PublishArticleMutation.graphqlMutationAST,
-              "variables": publishArticleMutation##variables,
-              "fetchPolicy": Js.Nullable.undefined,
-            }),
-          )
+              fromPromise(
+                apolloClient##mutate({
+                  "mutation": Article_Queries.PublishArticleMutation.graphqlMutationAST,
+                  "variables": publishArticleMutation##variables,
+                  "fetchPolicy": Js.Nullable.undefined,
+                }),
+              );
+            })
           ->(
               map(response => {
                 let possibleResponse = Js.Nullable.toOption(response##data);
@@ -128,22 +134,12 @@ let publishArticleEpic =
                 };
               })
             )
+          ->(tap(Js.log))
           ->(flatMap(hash => fromPromise(subscriber(hash))))
+          ->(tap(Js.log))
           ->(tap(_ => apolloClient##resetStore()))
           ->(
-              map(
-                (
-                  offchainEventResponse: ReduxObservable.Dependencies.OffchainEvent.response,
-                ) =>
-                ReduxObservable.Dependencies.OffchainEvent.(
-                  dataGet(offchainEventResponse)
-                  ->submitArticleResponseGet
-                  ->versionGet
-                )
-              )
-            )
-          ->(
-              flatMap(_ => {
+              mergeMap(_ => {
                 let trackPublishArticlePayload =
                   App_Module.trackMixPanelPayload(
                     ~event="Offchain",

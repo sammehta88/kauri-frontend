@@ -20,23 +20,29 @@ const generatePublishArticleHash = (id, version, contentHash, contributor, dateC
       }
 
       if (typeof arg === 'number') {
-        return web3.padLeft(arg.toString(16), 64, 0)
+        return web3.padLeft((arg).toString(16), 64, 0)
       } else {
         return ''
       }
     })
 
     args = args.join('')
-    const result = web3.sha3(args, { encoding: 'hex' })
-    console.log('generated article hash', result)
+    console.log('message=' + args)
+    var result = web3.sha3(args, { encoding: 'hex' })
     return result
   }
+
+  console.log(id)
+  console.log(version)
+  console.log(contentHash)
+  console.log(contributor)
+  console.log(dateCreated)
 
   return keccak256(
     web3.padRight(web3.fromAscii(id), 66),
     version,
-    contributor,
-    web3.padRight(convertIpfsHash(contentHash), 66),
+    '0x' + contributor,
+    convertIpfsHash(contentHash),
     new Date(dateCreated).getTime()
   )
 }

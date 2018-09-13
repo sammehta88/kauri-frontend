@@ -131,6 +131,7 @@ class SubmitArticleForm extends React.Component<Props> {
 
               if (currentArticle.status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
+                // Clicked update article version and update rhs button in actions directly
 
                 // TODO: submitArticleVersion(...)
                 return submitArticleAction({
@@ -138,6 +139,7 @@ class SubmitArticleForm extends React.Component<Props> {
                   text,
                   subject,
                   metadata: formatMetadata({ version }),
+                  selfPublish: true,
                 })
               } else if (currentArticle.status === 'IN_REVIEW') {
                 // If I own the article and it's not already published... I can edit it!

@@ -19,6 +19,9 @@ export const Article = gql`
       id
       name
     }
+    owner {
+      ...on UserDTO { id, name}, ...on CommunityDTO { id, name }    
+    }
     comments {
       content {
         author {
@@ -134,7 +137,7 @@ export const searchApprovedArticles = gql`
     searchArticles(
       size: $size
       dir: DESC
-      filter: { full_text: $text, status_in: [PUBLISHED], category_in: [$category] }
+      filter: { fullText: $text, statusIn: [PUBLISHED], ownerIdEquals: $category }
     ) {
       totalElements
       content {
@@ -149,7 +152,7 @@ export const globalSearchApprovedCategoryArticles = gql`
     searchArticles(
       size: $size
       dir: DESC
-      filter: { category_in: [$category], status_in: [PUBLISHED], latest_version: true }
+      filter: { ownerIdEquals: $category, statusIn: [PUBLISHED] }
     ) {
       totalElements
       content {
@@ -161,7 +164,7 @@ export const globalSearchApprovedCategoryArticles = gql`
 
 export const globalSearchApprovedArticles = gql`
   query globalSearchApprovedArticles($size: Int = 500, $text: String) {
-    searchArticles(size: $size, dir: DESC, filter: { full_text: $text, status_in: [PUBLISHED], latest_version: true }) {
+    searchArticles(size: $size, dir: DESC, filter: { fullText: $text, statusIn: [PUBLISHED] }) {
       totalElements
       content {
         ...Article
@@ -172,7 +175,7 @@ export const globalSearchApprovedArticles = gql`
 
 export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
-    searchArticles(size: $size, dir: DESC, filter: { user_id_eq: $userId }) {
+    searchArticles(size: $size, dir: DESC, filter: { creatorIdEquals: $userId }) {
       content {
         ...Article
       }
@@ -193,7 +196,7 @@ export const searchPendingArticles = gql`
 
 export const getTotalArticlesCount = gql`
   query getTotalArticlesCount($category: String) {
-    searchArticles(filter: { category_in: [$category], status_in: [PUBLISHED] }) {
+    searchArticles(filter: { ownerIdEquals: $category, statusIn: [PUBLISHED] }) {
       totalElements
     }
   }
@@ -215,6 +218,7 @@ export const rejectArticle = gql`
   }
 `
 
+// TODO: Rewrite approvals
 export const searchPublishedArticleHistory = gql`
   query searchPublishedArticleHistory($userId: String, $categories: [String]) {
     searchArticles(filter: { category_in: $categories, status_in: [PUBLISHED], moderator_eq: $userId }) {

@@ -66,7 +66,7 @@ export const submitArticleEpic = (
         )
         .do(h => console.log(h))
         .do(h => apolloClient.resetStore())
-        .mergeMap(({ data: { command_output: { id, version } } }) =>
+        .mergeMap(({ data: { output: { id, version } } }) =>
           Observable.of(
             routeChangeAction(
               `/article/${id}/v${version}/article-${typeof category === 'string' ? 'submitted' : 'published'}`
@@ -120,7 +120,7 @@ export const editArticleEpic = (
           apolloSubscriber(hash)
         )
         .do(() => apolloClient.resetStore())
-        .flatMap(({ data: { command_output: { id, version } } }) =>
+        .flatMap(({ data: { output: { id, version } } }) =>
           Observable.of(
             routeChangeAction(`/article/${id}/v${version}/article-updated`),
             trackMixpanelAction({

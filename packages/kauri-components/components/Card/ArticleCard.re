@@ -55,7 +55,9 @@ let cardContent = (~title, ~content, ~cardHeight) =>
   <>
     <Heading cardHeight text=title />
     {
-      content->(String.sub(0, 2))->(String.contains('{')) ?
+      content
+      |> Js.String.substring(~from=0, ~to_=2)
+      |> Js.String.includes("{") ?
         [%raw
           {|
                   (() => {

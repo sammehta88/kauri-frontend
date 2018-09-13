@@ -227,7 +227,7 @@ class Navbar extends React.Component {
                   Write Article
                 </TooltipItem>
               </Link>
-              <div style={{ width: '100%', border: '1px solid #f2f2f2' }} />
+              {/* <div style={{ width: '100%', border: '1px solid #f2f2f2' }} /> */}
               {/* <Link route={userId ? '/create-request' : '/login'}>
                 <TooltipItem href='/write-article' pathname={router.pathname} link='/write-article'>
                   Write Request

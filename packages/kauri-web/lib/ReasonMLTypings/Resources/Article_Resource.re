@@ -29,8 +29,11 @@ let usernameGet = article =>
 
 let dateUpdatedGet = article =>
   article
-  |? (article => article##datePublished)
-  |? (datePublished => Js.Json.decodeString(datePublished))
+  |? (
+    article =>
+      Belt.Option.getWithDefault(article##datePublished, article##dateCreated)
+  )
+  |? (date => Js.Json.decodeString(date))
   |> default("")
   |> MomentRe.moment
   |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));

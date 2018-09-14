@@ -175,12 +175,14 @@ export const globalSearchApprovedArticles = gql`
 
 export const searchPersonalSubmittedArticles = gql`
   query searchPersonalSubmittedArticles($size: Int = 500, $userId: String) {
-    searchArticles(size: $size, dir: DESC, filter: { creatorIdEquals: $userId }) {
+    searchArticles(size: $size, dir: DESC, filter: { authorIdEquals: $userId }) {
       content {
         ...Article
       }
     }
   }
+
+  ${Article}
 `
 
 export const searchPendingArticles = gql`

@@ -47,13 +47,11 @@ export default ({
       <span>Cancel Article</span>
     </ActionBadge>
     <PullRight>
-      {status !== 'DRAFT' && (
-        <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
-          <span>Save as a draft</span>
-        </PositiveRequestActionBadge>
-      )}
+      <PositiveRequestActionBadge type='secondary' action={authorId === userId ? handleSubmit('submit/update') : handleSubmit('draft')}>
+        <span>Save draft</span>
+      </PositiveRequestActionBadge>
 
-      <PositiveRequestActionBadge
+      {/* <PositiveRequestActionBadge
         type={status === 'DRAFT' ? 'secondary' : 'primary'}
         action={handleSubmit('submit/update')}
       >
@@ -70,7 +68,7 @@ export default ({
               ? 'Submit for Review'
               : 'Publish'}
         </span>
-      </PositiveRequestActionBadge>
+      </PositiveRequestActionBadge> */}
 
       {/* {status === 'DRAFT' && (
         <PositiveRequestActionBadge type={'primary'} action={handleSubmit('draft')}>

@@ -6,6 +6,7 @@ import { submitArticleAction, editArticleAction } from './Module'
 import { routeChangeAction, showNotificationAction } from '../../../lib/Module'
 import { draftArticleAction } from './DraftArticle_Module.bs'
 import { publishArticleAction } from './PublishArticle_Module.bs'
+import withLoading from '../../../lib/with-loading'
 import View from './View'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -45,5 +46,6 @@ export default compose(
       },
     }),
     skip: ({ article_id }) => !article_id,
-  })
+  }),
+  withLoading()
 )(View)

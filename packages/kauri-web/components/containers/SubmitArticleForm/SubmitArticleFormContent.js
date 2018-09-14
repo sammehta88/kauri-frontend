@@ -38,7 +38,7 @@ type State = {
 class SubmitArticleFormText extends React.Component<Props, State> {
   constructor (props) {
     super(props)
-    if (typeof props.text === 'string') {
+    if (props.text) {
       const rawData = ContentState.createFromText(JSON.parse(props.text).markdown)
       const newEditorState = EditorState.createWithContent(rawData)
 
@@ -48,6 +48,17 @@ class SubmitArticleFormText extends React.Component<Props, State> {
     } else {
       this.state = {
         editorState: { markdown: 'Write markdown content here!', text: 'Write markdown content here' },
+      }
+    }
+  }
+
+  componentDidMount () {
+    if (this.props.text) {
+      const rawData = ContentState.createFromText(JSON.parse(this.props.text).markdown)
+      const newEditorState = EditorState.createWithContent(rawData)
+
+      this.state = {
+        editorState: { draftEditorState: newEditorState },
       }
     }
   }
@@ -171,18 +182,18 @@ export default class extends React.Component<
     } = this.props
 
     const editorState =
-      getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
+    getFieldValue('text') && typeof getFieldValue('text') === 'string' && JSON.parse(getFieldValue('text'))
 
     const outlineHeadings =
-      typeof editorState === 'object' &&
-      (editorState.markdown
-        ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
-          .getBlocksAsArray()
-          .map(block => block.toJS())
-          .filter(block => block.type.includes('header'))
-          .map(header => header.text)
-        : editorState.blocks &&
-          editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
+    typeof editorState === 'object' &&
+    (editorState.markdown
+      ? contentStateFromHTML(getHTMLFromMarkdown(editorState.markdown))
+        .getBlocksAsArray()
+        .map(block => block.toJS())
+        .filter(block => block.type.includes('header'))
+        .map(header => header.text)
+      : editorState.blocks &&
+      editorState.blocks.filter(block => block.type.includes('header')).map(header => header.text))
 
     return (
       <SubmitArticleFormContent>

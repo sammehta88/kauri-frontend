@@ -42,7 +42,7 @@ class ArticleApproved extends React.Component<Props> {
     const { data, routeChangeAction, type } = this.props
     const article = data.getArticle
     const subjectCopy = R.cond([
-      [R.equals('updated'), R.always('has been updated')],
+      [R.equals('updated'), R.always('draft has been updated')],
       [R.equals('drafted'), R.always('draft has been saved')],
       [R.equals('published'), R.always('is now live')],
       [R.equals('approved'), R.always('now needs publishing from author before going live')],

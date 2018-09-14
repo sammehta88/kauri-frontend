@@ -41,15 +41,22 @@ let dateUpdatedGet = article =>
   |> MomentRe.moment
   |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));
 
+type articleVersionAndId = {
+  articleId: string,
+  articleVersion: int,
+};
+
 let keyGet = article =>
-  article
-  |? (article => article##id)
-  |> default("")
-  |> (
-    articleId =>
-      articleId
-      ++ (article |? (x => x##version) |> default(0) |> string_of_int)
-  );
+  switch (
+    article |? (article => article##id),
+    article |? (article => article##version),
+  ) {
+  | (Some(articleId), Some(articleVersion)) =>
+    articleId ++ string_of_int(articleVersion)
+  | (None, Some(articleVersion)) => string_of_int(articleVersion)
+  | (Some(articleId), None) => articleId
+  | (None, None) => ""
+  };
 let articleIdGet = article => article |? (x => x##id) |> default("");
 let articleVersionGet = article => article |? (x => x##version) |> default(1);
 

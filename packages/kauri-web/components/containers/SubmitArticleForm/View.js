@@ -36,7 +36,7 @@ type Props =
       userId: string,
       article_id?: string,
       request_id: string,
-      data: ?{ getArticle?: ArticleDTO },
+      data?: ?{ getArticle?: ArticleDTO },
       article?: any,
       form: any,
       handleFormChange: ({ text: string }) => void,
@@ -104,7 +104,7 @@ class SubmitArticleForm extends React.Component<Props> {
         }
         if (!formErr) {
           if (submissionType === 'submit/update') {
-            const { submitArticleAction, editArticleAction, request_id, data, article_id } = this.props
+            const { submitArticleAction, editArticleAction, article_id } = this.props
 
             // if (typeof request_id === 'string') {
             //   if (typeof article_id === 'string') {
@@ -131,16 +131,17 @@ class SubmitArticleForm extends React.Component<Props> {
 
               if (currentArticle.status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
-                // Clicked update article version and update rhs button in actions directly
+                // Already published article, saving a draft for my own version then I can publish later
 
-                // TODO: submitArticleVersion(...)
-                return submitArticleAction({
-                  article_id,
-                  text,
+                const draftArticlePayload = {
+                  id: currentArticle.id,
+                  version: currentArticle.version,
                   subject,
+                  text,
                   metadata: formatMetadata({ version }),
-                  selfPublish: true,
-                })
+                }
+                // console.log('draftArticlePayload', draftArticlePayload)
+                this.props.draftArticleAction(draftArticlePayload)
               } else if (currentArticle.status === 'IN_REVIEW') {
                 // If I own the article and it's not already published... I can edit it!
                 return editArticleAction({
@@ -261,24 +262,24 @@ class SubmitArticleForm extends React.Component<Props> {
         <SubmitArticleForm.Content
           {...this.props.form}
           category={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.category) ||
-            (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.owner && this.props.data.getArticle.owner.id)
+            // (this.props.data && this.props.data.getRequest && this.props.data.getRequest.category)
           }
           subCategory={
             (this.props.data && this.props.data.getRequest && this.props.data.getRequest.sub_category) ||
             (this.props.data && this.props.data.getArticle && this.props.data.getArticle.sub_category)
           }
-          article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.article_id}
+          article_id={this.props.data && this.props.data.getArticle && this.props.data.getArticle.id}
           text={this.props.data && this.props.data.getArticle && this.props.data.getArticle.content}
           username={
             (this.props.data &&
               this.props.data.getArticle &&
-              this.props.data.getArticle.user &&
-              this.props.data.getArticle.user.username) ||
+              this.props.data.getArticle.author &&
+              this.props.data.getArticle.author.name) ||
             this.props.username
           }
           userId={
-            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.user_id) || this.props.userId
+            (this.props.data && this.props.data.getArticle && this.props.data.getArticle.authorId) || this.props.userId
           }
         />
       </Form>

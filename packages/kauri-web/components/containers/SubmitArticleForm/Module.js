@@ -156,7 +156,7 @@ export const editArticleEpic = (
             showNotificationAction({
               notificationType: 'info',
               message: 'Article updated',
-              description: "Wait for the topic owner's comments or approval!",
+              description: 'The article version has been updated!',
             })
           )
         )

@@ -85,7 +85,7 @@ export const commentArticle = gql`
 `
 
 export const getArticle = gql`
-  query getArticle($id: String, $version: Int, $published: Boolean = false) {
+  query getArticle($id: String, $version: Int, $published: Boolean = true) {
     getArticle(id: $id, version: $version, published: $published) {
       ...Article
     }

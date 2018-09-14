@@ -20,9 +20,6 @@ export const Article = gql`
       id
       name
     }
-    owner {
-      ...on UserDTO { id, name}, ...on CommunityDTO { id, name }    
-    }
     comments {
       content {
         author {

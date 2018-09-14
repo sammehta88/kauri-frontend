@@ -107,7 +107,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.username}
           userId={props.data.getArticle && props.data.getArticle.authorId}
           routeChangeAction={props.routeChangeAction}
-          address={props.address}
+          address={props.userId}
           hostName={hostName}
         />
         <ApprovedArticle.Footer

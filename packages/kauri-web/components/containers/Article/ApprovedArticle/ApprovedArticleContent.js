@@ -79,7 +79,7 @@ export default ({
   subject?: string,
   article_version: number,
   address?: string,
-  hostName: hostName,
+  hostName: string,
 }) => {
   let editorState = typeof text === 'string' && text[0] === '{' && JSON.parse(text)
   if (!editorState) return <SubmitArticleFormContent><p><span>{text}</span></p></SubmitArticleFormContent>
@@ -103,7 +103,7 @@ export default ({
   const outlineHeadings = blocks.filter(({ type }) => type.includes('header')).map(({ text }) => text)
 
   const canUpdateArticle = config.updateArticleWhitelistedAddresses.find(
-    whiteListedAddress => whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())
+    whiteListedAddress => (whiteListedAddress.toLowerCase() === (typeof address === 'string' && address.toLowerCase())) || process.env.NODE_ENV === 'development'
   )
 
   return (

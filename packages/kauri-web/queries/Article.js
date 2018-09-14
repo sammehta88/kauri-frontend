@@ -169,6 +169,8 @@ export const globalSearchApprovedArticles = gql`
       }
     }
   }
+
+  ${Article}
 `
 
 export const searchPersonalSubmittedArticles = gql`

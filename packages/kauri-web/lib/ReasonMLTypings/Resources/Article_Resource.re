@@ -31,7 +31,10 @@ let dateUpdatedGet = article =>
   article
   |? (
     article =>
-      Belt.Option.getWithDefault(article##datePublished, article##dateCreated)
+      switch (article##datePublished) {
+      | Some(_) => article##datePublished
+      | None => article##dateCreated
+      }
   )
   |? (date => Js.Json.decodeString(date))
   |> default("")

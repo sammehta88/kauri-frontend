@@ -14,6 +14,7 @@ import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markd
 import ShareArticle from '../../../../../kauri-components/components/Tooltip/ShareArticle.bs'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
 import ArticleAction from '../../../../../kauri-components/components/Articles/ArticleAction.bs'
+import userIdTrim from '../../../../lib/userid-trim'
 
 const config = require('../../../../config').default
 
@@ -120,7 +121,7 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userId}
+          username={username || userIdTrim(userId)}
           userId={userId}
           routeChangeAction={routeChangeAction}
         />

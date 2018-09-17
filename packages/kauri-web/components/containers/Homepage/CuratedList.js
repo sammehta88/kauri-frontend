@@ -8,7 +8,7 @@ import CommunityCardConnection from '../../connections/Community/CommunityCard_C
 import theme from '../../../lib/theme-config'
 import CuratedHeader from './CuratedHeader'
 import { Link } from '../../../routes'
-import R from 'ramda'
+import userIdTrim from '../../../lib/userid-trim'
 
 const Title = styled.h2`
   font-weight: 300;
@@ -80,7 +80,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     title={articleCard.title}
                     content={articleCard.content}
                     userId={articleCard.author && articleCard.author.id}
-                    username={articleCard.author && articleCard.author.name}
+                    username={articleCard.author && (articleCard.author.name || userIdTrim(articleCard.author.id))}
                     articleId={articleCard.id}
                     articleVersion={articleCard.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
@@ -104,7 +104,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     changeRoute={routeChangeAction}
                     key={collectionCard.id}
                     collectionName={collectionCard.name}
-                    username={collectionCard.owner && collectionCard.owner.name}
+                    username={collectionCard.owner && (collectionCard.owner.name || userIdTrim(collectionCard.owner.id))}
                     userId={collectionCard.owner && collectionCard.owner.id}
                     articles={articleCount}
                     lastUpdated={moment(collectionCard.dateCreated).fromNow()}

@@ -66,7 +66,11 @@ let make = (~username, ~profileImage=?, ~color="1E2428", ~pageType, _children) =
         | Some(string) => <img className=Styles.image src=string />
         | _ =>
           <div className={Styles.imagePlaceholder(~colorProp=color)}>
-            {ReasonReact.string(String.sub(username, 0, 1))}
+            {
+              ReasonReact.string(
+                Js.String.substring(~from=0, ~to_=1, username),
+              )
+            }
           </div>
         }
       }

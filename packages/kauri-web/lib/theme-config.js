@@ -105,7 +105,7 @@ const colors = {
   primary: '#0BA986',
 }
 
-const fontSizes = [ 12, 14, 16, 20, 24, 32, 48, 64, 72 ]
+const fontSizes = [ 11, 13, 16, 20, 24, 32, 48, 64, 72 ]
 
 const breakpoints = [ '500px', '52em', '64em' ]
 

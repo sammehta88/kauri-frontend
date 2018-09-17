@@ -86,7 +86,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           ethUsdPrice={props.ethUsdPrice}
           {...props.data.getArticle}
         />
-        <ApprovedArticle.Banner
+        {/* <ApprovedArticle.Banner
           type='article'
           showBanner={this.state.showBanner}
           ethUsdPrice={props.ethUsdPrice}
@@ -97,7 +97,7 @@ class ApprovedArticle extends React.Component<Props, State> {
           article_version={props.data.getArticle && props.data.getArticle.version}
           user_id={props.data.getArticle && props.data.getArticle.authorId}
           hostName={hostName}
-        />
+        /> */}
         <ApprovedArticle.Header {...props.data.getArticle} />
         <ApprovedArticle.Content
           text={props.data.getArticle && props.data.getArticle.content}

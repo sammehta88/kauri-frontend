@@ -16,13 +16,17 @@ type statistics = {
   count: int,
 };
 
-let make = (~statistics, _children) => {
+type pageType =
+  | CollectionPage;
+
+let make = (~statistics, ~pageType=?, _children) => {
   ...component,
   render: _self =>
     <div className=Styles.container>
       {
         Belt.Array.map(statistics, statistic =>
           <StatisticCount
+            pageType
             key=statistic##name
             name=statistic##name
             count=statistic##count

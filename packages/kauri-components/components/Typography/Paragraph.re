@@ -7,7 +7,7 @@ module Styles = {
       margin2(~v=px(10), ~h=px(0)),
       fontWeight(400),
       color(hex(colorProp)),
-      wordBreak(`breakAll),
+      unsafe("wordBreak", "break-word"),
     ];
 
   let paragraph = (~colorProp, ~sizeProp) =>

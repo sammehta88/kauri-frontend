@@ -2,6 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import theme from '../theme-config'
 
+const Link = ({ children }) => {
+  return children
+}
+
 const Header = styled.div`
   flex: 1;
   display: flex;
@@ -75,7 +79,7 @@ const Button = styled.div`
   }
 `
 
-const CuratedHeader = ({ header, name, Link }) => {
+const CuratedHeader = ({ header, name }) => {
   const topic = theme[header.id]
   const imageURL = `/static/images/${header.id}/avatar.png`
 

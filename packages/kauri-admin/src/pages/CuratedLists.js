@@ -1,19 +1,28 @@
 import React, { Component } from 'react';
-import { Table, Button } from 'react-bootstrap';
 import WebService from '../components/WebService';
 import { ScaleLoader } from 'react-spinners';
-// import CuratedList from '../components/CuratedList';
-import R,{ CuratedHeader } from 'kauri-components';
+import R, { CuratedList } from 'kauri-components';
 import { CreateCuratedList, AddItemToList, AddHeader } from '../components/modals';
 import styled from "styled-components";
-console.log(R)
 
-// const CuratedHeader = styled.div`
-//   display: flex;
-//   background: black;
-//   height: 100px;
-//   width: 100px;
-// `;
+const Sidebar = styled.div`
+  padding: 20px;
+  display: flex;
+  background: #efefef;
+  min-height: 100%;
+`;
+
+const Container = styled.div`
+display: flex;
+flex-direction: row;
+position: relative;
+`;
+
+const ListContainer = styled.div`
+display: flex;
+flex: 5;
+flex-direction: column;`;
+
 
 class CuratedLists extends Component {
   constructor(props) {
@@ -101,31 +110,16 @@ class CuratedLists extends Component {
     return (
       <div className="curatedLists" style={{ paddingBottom: 50 }}>
         <h1 className="Title">Curated Lists</h1>
-        <Table striped style={{ paddingBottom: 50 }} >
-          <thead>
-            <tr>
-              <th>Featured</th>
-              <th>List Details</th>
-              <th>Resources</th>
-              <th></th>
-              <th><Button onClick={() => this.setState({ modal: 'CreateCuratedList' })} bsStyle="primary">Create New Curated List</Button></th>
-            </tr>
-          </thead>
-          <tbody style={{ overflow: 'scroll' }}>
-            {content && content.map(i => <CuratedHeader
-              // editCuratedList={(list, featured) => this.editCuratedList(list, featured)}
-              // removeList={payload => this.removeListReq(payload)}
-              // removeResource={payload => this.removeResourceFromListReq(payload)}
-              // addItem={() => this.setState({ modal: 'AddItemToList', selectedList: i.id })}
-              // addHeaderModal={() => this.setState({ modal: 'AddHeader', selectedList: i.id })}
-              // removeHeader={id => this.removeHeader(id)}
-              // curatedList={i} key={i.id}  
-              Link={({children}) => children}
-              header={{ id: 'metamask', type: 'COLLECTION', name: 'metamask', description: 'lol' }}
-              name='metamask'
-            />)}
-          </tbody>
-        </Table>
+        <Container>
+          <ListContainer>
+          {content && content.map(i => <CuratedList
+            routeChangeAction={this.props.routeChangeAction}
+            key={i.id} content={i}
+            Link={({children}) => children}
+          />)}
+          </ListContainer>
+          <Sidebar>Here you will edit the content</Sidebar>
+        </Container>
         {!content && <div style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center', height: '100%' }}><ScaleLoader /></div>}
         <CreateCuratedList
           createList={payload => this.createListReq(payload)}

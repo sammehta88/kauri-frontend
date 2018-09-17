@@ -132,7 +132,7 @@ class Dashboard extends Component {
           <div>
             <Col sm={2} />
             <Col sm={10}>
-              <Alert bsStyle="danger">{this.state.error}</Alert>
+              <Alert bsStyle="danger">{this.state.error && this.state.error.message}</Alert>
             </Col>
           </div>
         ) : null}{' '}

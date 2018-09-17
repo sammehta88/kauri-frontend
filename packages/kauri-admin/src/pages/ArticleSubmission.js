@@ -4,7 +4,7 @@ import Configuration from '../components/Configuration'
 import { Form, Button, FormGroup, FormControl, ControlLabel, Col, Alert } from 'react-bootstrap'
 import { convertToRaw } from 'draft-js'
 import { editorStateFromRaw } from 'megadraft'
-import UpgradedEditor from '../components/UpgradedEditor'
+// import UpgradedEditor from '../components/UpgradedEditor'
 
 class ArticleSubmission extends Component {
   constructor(props) {
@@ -234,11 +234,11 @@ class ArticleSubmission extends Component {
               Content*
             </Col>
             <Col sm={10}>
-              <UpgradedEditor
+              {/* <UpgradedEditor
                 editorKey="foobaz"
                 editorState={this.state.content}
                 handleChange={this.handleContentChange}
-              />
+              /> */}
             </Col>
           </FormGroup>
 

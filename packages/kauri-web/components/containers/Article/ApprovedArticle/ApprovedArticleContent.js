@@ -121,7 +121,7 @@ export default ({
             </Link>
           )}
           headings={outlineHeadings || []}
-          username={username || userIdTrim(userId)}
+          username={(typeof username === 'string' && username) || userIdTrim(userId)}
           userId={userId}
           routeChangeAction={routeChangeAction}
         />
@@ -135,7 +135,7 @@ export default ({
           </ArticleAction>
         )}
         <ShareArticle
-          url={`https://${hostName}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
+          url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}
         />
       </ApprovedArticleDetails>

@@ -37,7 +37,7 @@ module Styles = {
       fontSize(px(14)),
       fontWeight(700),
       overflow(hidden),
-      maxWidth(px(200)),
+      maxWidth(px(220)),
       color(hex(colorProp)),
       textTransform(`lowercase),
       whiteSpace(`preWrap),

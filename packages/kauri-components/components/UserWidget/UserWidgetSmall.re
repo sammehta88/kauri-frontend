@@ -40,6 +40,9 @@ module Styles = {
       maxWidth(px(200)),
       color(hex(colorProp)),
       textTransform(`lowercase),
+      whiteSpace(`preWrap),
+      overflow(`hidden),
+      textOverflow(`ellipsis),
     ];
 
   let username = (~colorProp, ~pageType) =>

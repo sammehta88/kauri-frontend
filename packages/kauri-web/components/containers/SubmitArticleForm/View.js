@@ -102,10 +102,9 @@ class SubmitArticleForm extends React.Component<Props> {
             description: 'Please switch to the correct Ethereum network!',
           })
         }
+        const { submitArticleAction, editArticleAction, article_id } = this.props
         if (!formErr) {
           if (submissionType === 'submit/update') {
-            const { submitArticleAction, editArticleAction, article_id } = this.props
-
             // if (typeof request_id === 'string') {
             //   if (typeof article_id === 'string') {
             //     return editArticleAction({
@@ -126,43 +125,43 @@ class SubmitArticleForm extends React.Component<Props> {
             //     })
             //   }
             // }
-            if (typeof article_id === 'string') {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
+            if (typeof article_id === 'string' && submissionType === 'submit/update') {
+              const { id, version, status }: ArticleDTO = this.props.data.getArticle
 
-              if (currentArticle.status === 'PUBLISHED') {
+              if (status === 'PUBLISHED') {
                 // Here I am really submitting a new article with updates for an already existing article!
-                // Already published article, saving a draft for my own version then I can publish later
-
-                const draftArticlePayload = {
-                  id: currentArticle.id,
-                  version: currentArticle.version,
-                  subject,
+                // Not my published article, I clicked Update article version, I create a new article and self publish it AIO
+                return submitArticleAction({
+                  id,
                   text,
+                  subject,
                   metadata: formatMetadata({ version }),
-                }
-                // console.log('draftArticlePayload', draftArticlePayload)
-                this.props.draftArticleAction(draftArticlePayload)
-              } else if (currentArticle.status === 'IN_REVIEW') {
-                // If I own the article and it's not already published... I can edit it!
-                return editArticleAction({
-                  text,
-                  article_id,
-                  article_version: currentArticle.version,
-                  subject,
-                  sub_category,
+                  selfPublish: true,
                 })
-              } else if (currentArticle.status === 'DRAFT') {
+              } else if (status === 'DRAFT') {
                 // If I own the article and it's not already published... I can edit it!
+                // Draft -> draft
                 return editArticleAction({
                   text,
                   article_id,
-                  article_version: currentArticle.version,
+                  article_version: version,
                   subject,
                   sub_category,
                 })
               }
+              // else if (currentArticle.status === 'IN_REVIEW') {
+              //   // If I own the article and it's not already published... I can edit it!
+              //   // Update
+              //   return editArticleAction({
+              //     text,
+              //     article_id,
+              //     article_version: currentArticle.version,
+              //     subject,
+              //     sub_category,
+              //   })
+              // }
             } else {
-              // Fresh article, self publish
+              // Fresh article, self publish directly
               return submitArticleAction({
                 text,
                 subject,
@@ -171,27 +170,21 @@ class SubmitArticleForm extends React.Component<Props> {
               })
             }
           } else if (submissionType === 'draft') {
+            const { id, version }: ArticleDTO = this.props.data.getArticle
             if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.status === 'DRAFT') {
-              // Draft -> Publish
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-              const { id, authorId, version, contentHash, dateCreated, owner } = currentArticle
+              // Draft -> Draft Version updated
 
-              const publishArticlePayload = {
+              return editArticleAction({
+                text,
+                article_id: id,
+                article_version: version,
+                subject,
+                sub_category,
+              })
+            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
+              const draftArticlePayload = {
                 id,
                 version,
-                contentHash,
-                dateCreated,
-                contributor: authorId,
-                owner, // Can be null or AbstractResourceDTO, chosen from form dropdown
-              }
-
-              this.props.publishArticleAction(publishArticlePayload)
-            } else if (this.props.data && this.props.data.getArticle && this.props.data.getArticle.id) {
-              const currentArticle: ArticleDTO = this.props.data.getArticle
-
-              const draftArticlePayload = {
-                id: currentArticle.id,
-                version: currentArticle.version,
                 subject,
                 text,
                 metadata: formatMetadata({ version }),

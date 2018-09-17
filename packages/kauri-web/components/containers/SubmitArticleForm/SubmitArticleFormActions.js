@@ -47,34 +47,12 @@ export default ({
       <span>Cancel Article</span>
     </ActionBadge>
     <PullRight>
-      <PositiveRequestActionBadge type='secondary' action={authorId === userId ? handleSubmit('submit/update') : handleSubmit('draft')}>
+      <PositiveRequestActionBadge type='secondary' action={handleSubmit('draft')}>
         <span>Save draft</span>
       </PositiveRequestActionBadge>
-
-      {/* <PositiveRequestActionBadge
-        type={status === 'DRAFT' ? 'secondary' : 'primary'}
-        action={handleSubmit('submit/update')}
-      >
-        <span>
-          {text
-            ? authorId === userId
-              ? status === 'DRAFT'
-                ? 'Save Draft'
-                : 'Update Article'
-              : getFieldValue('category') || category
-                ? 'Submit for Review'
-                : 'Publish'
-            : getFieldValue('category') || category
-              ? 'Submit for Review'
-              : 'Publish'}
-        </span>
-      </PositiveRequestActionBadge> */}
-
-      {/* {status === 'DRAFT' && (
-        <PositiveRequestActionBadge type={'primary'} action={handleSubmit('draft')}>
-          <span>{userId === authorId && !category ? 'Publish' : 'Submit for review'}</span>
-        </PositiveRequestActionBadge>
-      )} */}
+      <PositiveRequestActionBadge type={'primary'} action={handleSubmit('submit/update')}>
+        <span>{authorId !== userId ? 'Publish' : 'Update Article'}</span>
+      </PositiveRequestActionBadge>
     </PullRight>
   </SubmitArticleFormActions>
 )

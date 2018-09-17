@@ -103,6 +103,7 @@ const colors = {
   errorRedColor: '#C03030',
   bgPrimary: '#1E2428',
   primary: '#0BA986',
+  white: '#FFFFFF',
 }
 
 const fontSizes = [ 11, 13, 16, 20, 24, 32, 48, 64, 72 ]

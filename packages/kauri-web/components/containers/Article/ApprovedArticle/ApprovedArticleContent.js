@@ -123,15 +123,13 @@ export default ({
           userId={userId}
           routeChangeAction={routeChangeAction}
         />
-        {canUpdateArticle && (
-          <ArticleAction
-            svgIcon={<UpdateArticleSvgIcon />}
-            text={'Update Article'}
-            handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
-          >
-            Update article
-          </ArticleAction>
-        )}
+        <ArticleAction
+          svgIcon={<UpdateArticleSvgIcon />}
+          text={'Update Article'}
+          handleClick={() => routeChangeAction(`/article/${article_id}/v${article_version}/update-article`)}
+        >
+          Update article
+        </ArticleAction>
         <ShareArticle
           url={`${hostName.replace(/api\./g, '')}/article/${article_id}/v${article_version}/${slugify(subject, { lower: true })}`}
           title={subject}

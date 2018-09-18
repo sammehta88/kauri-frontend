@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react'
 import TertiaryButton from '../components/Button/TertiaryButton'
 import PrimaryButton from '../components/Button/PrimaryButton'
 import SecondaryButton from '../components/Button/SecondaryButton'
+import AddTagButton from '../components/Button/AddTagButton'
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
@@ -28,4 +29,10 @@ storiesOf('Button', module)
   ))
   .add('TertiaryButton', () => (
     <TertiaryButton handleClick={() => alert('clicked')} icon={<UploadIcon />}>Background Image</TertiaryButton>
+  ))
+  .add('TertiaryButton Disabled', () => (
+    <TertiaryButton disabled handleClick={() => alert('clicked')} icon={<UploadIcon />}>Background Image</TertiaryButton>
+  ))
+  .add('AddTagButton', () => (
+    <AddTagButton handleClick={() => alert('clicked')} />
   ))

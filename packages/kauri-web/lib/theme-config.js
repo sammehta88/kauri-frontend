@@ -102,6 +102,7 @@ const colors = {
   contentBorder: '1px solid rgba(30, 36, 40, 0.19)',
   errorRedColor: '#C03030',
   bgPrimary: '#1E2428',
+  textPrimary: '#1E2428',
   primary: '#0BA986',
   primaryDark: '#11856B',
   secondary: '#11856B',

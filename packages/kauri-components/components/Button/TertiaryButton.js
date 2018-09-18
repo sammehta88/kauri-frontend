@@ -8,12 +8,10 @@ const TertiaryButton = styled.button`
   align-items: center;
   border: none;
   background-color: transparent;
-  cursor: pointer;
+  cursor: ${(props) => props.disabled ? 'not-allowed' : 'pointer'};
   text-transform: uppercase;
   color: #fff;
-  ${fontSize};
-  ${fontWeight};
-  ${color};
+  opacity: ${props => props.disabled ? '0.5' : '1'};
   > :first-child {
     height: 18px;
     width: 18px;
@@ -22,16 +20,20 @@ const TertiaryButton = styled.button`
   :hover {
     color: ${({ theme }) => theme.colors.primary};
   }
+  ${fontSize};
+  ${fontWeight};
+  ${color};
 `
 
 type Props = {
   icon: React.Node,
   children: React.ChildrenArray<T>,
   handleClick: any => void;
+  disabled?: boolean;
 }
 
-export default ({ icon, children, fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick }: Props) =>
-  <TertiaryButton onClick={handleClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick, icon, children, disabled }: Props) =>
+  <TertiaryButton disabled={disabled} onClick={handleClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children}
   </TertiaryButton>

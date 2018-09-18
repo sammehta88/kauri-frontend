@@ -1,70 +1,51 @@
 open Infix_Utilities;
 
-let userIdGet = article =>
-  article
-  |? (article => article##author)
-  |? (author => author##id)
-  |> default("");
-
 let usernameGet = article =>
   article
-  |? (article => article##author)
-  |? (author => author##name)
+  |? (article => article##user)
+  |? (user => user##username)
   |> default(
        article
-       |? (article => article##author)
-       |? (author => author##id)
+       |? (article => article##user)
+       |? (user => user##user_id)
        |> default("Unknown Writer")
        |> (
          userId =>
-           Js.String.substring(~from=0, ~to_=11, userId)
+           String.sub(userId, 0, 11)
            ++ "..."
-           ++ Js.String.substring(
-                ~from=Js.String.length(userId) - 13,
-                ~to_=11,
-                userId,
-              )
+           ++ String.sub(userId, String.length(userId) - 13, 11)
        ),
      );
 
 let dateUpdatedGet = article =>
   article
-  |? (
-    article =>
-      switch (article##datePublished) {
-      | Some(_) => article##datePublished
-      | None => article##dateCreated
-      }
-  )
-  |? (date => Js.Json.decodeString(date))
+  |? (article => article##date_updated)
+  |? (date_updated => Js.Json.decodeString(date_updated))
   |> default("")
   |> MomentRe.moment
   |> MomentRe.Moment.(fromNow(~withoutSuffix=Some(false)));
 
-type articleVersionAndId = {
-  articleId: string,
-  articleVersion: int,
-};
-
 let keyGet = article =>
-  switch (
-    article |? (article => article##id),
-    article |? (article => article##version),
-  ) {
-  | (Some(articleId), Some(articleVersion)) =>
-    articleId ++ string_of_int(articleVersion)
-  | (None, Some(articleVersion)) => string_of_int(articleVersion)
-  | (Some(articleId), None) => articleId
-  | (None, None) => ""
-  };
-let articleIdGet = article => article |? (x => x##id) |> default("");
-let articleVersionGet = article => article |? (x => x##version) |> default(1);
+  article
+  |? (article => article##article_id)
+  |> default("")
+  |> (
+    articleId =>
+      articleId
+      ++ (article |? (x => x##article_version) |> default(0) |> string_of_int)
+  );
+let articleIdGet = article => article |? (x => x##article_id) |> default("");
+let articleVersionGet = article =>
+  article |? (x => x##article_version) |> default(1);
 
 let titleGet = article =>
-  article |? (article => article##title) |> default("");
+  article |? (article => article##subject) |> default("");
 
 let contentGet = article =>
-  article |? (article => article##content) |> default("");
+  article |? (article => article##text) |> default("");
+
+let userIdGet = article =>
+  article |? (article => article##user_id) |> default("");
 
 type articleResource = {
   key: string,

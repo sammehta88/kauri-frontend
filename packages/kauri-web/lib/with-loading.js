@@ -1,3 +1,4 @@
+import React from 'react'
 import { branch, renderComponent } from 'recompose'
 import Loading from '../components/common/Loading'
 

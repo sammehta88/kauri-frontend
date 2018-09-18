@@ -25,17 +25,17 @@ const InReviewHeaderDetails = styled.div`
   min-width: 70%;
 `
 
-export default ({ owner, sub_category, status, title, attributes }: *) => (
-  <InReviewArticleSecondaryHeader type='article' theme={theme} chosenCategory={owner && owner.id}>
-    {owner && <InReviewArticleLogo type='article' theme={theme} chosenCategory={owner && owner.id} />}
-    <InReviewHeaderDetails chosenCategory={owner && owner.id}>
+export default ({ category, sub_category, status, subject, metadata }: *) => (
+  <InReviewArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
+    {category && <InReviewArticleLogo type='article' theme={theme} chosenCategory={category} />}
+    <InReviewHeaderDetails chosenCategory={category}>
       <InReviewArticleSubject
         type='in review article'
-        metadata={attributes}
-        subject={title}
+        metadata={metadata}
+        subject={subject}
         theme={theme}
-        chosenCategory={owner && owner.id}
-        chosenSubcategory={''}
+        chosenCategory={category}
+        chosenSubcategory={sub_category}
       />
     </InReviewHeaderDetails>
     <PullRight>

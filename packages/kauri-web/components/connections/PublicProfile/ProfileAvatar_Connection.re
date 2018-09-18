@@ -5,30 +5,30 @@ let component = ReasonReact.statelessComponent("ProfileAvatarQuery");
 let make = (~userId, _children) => {
   ...component,
   render: _self => {
-    open Profile_Queries;
+    open Article_Queries;
     let getUserQuery = GetUser.make(~userId, ());
     <GetUserQuery variables=getUserQuery##variables>
-      ...{
+      ...(
            ({result}) =>
              switch (result) {
              | Loading => ReasonReact.null
              | Error(error) =>
-               <div> {ReasonReact.string(error##message)} </div>
+               <div> (ReasonReact.string(error##message)) </div>
              | Data(response) =>
                <ProfileAvatar
-                 username={
+                 username=(
                    response##getUser
-                   |? (user => user##name)
+                   |? (user => user##username)
                    |> default(
                         response##getUser
-                        |? (user => user##id)
+                        |? (user => user##user_id)
                         |> default("Unknown Writer"),
                       )
-                 }
+                 )
                  pageType=RinkebyPublicProfile
                />
              }
-         }
+         )
     </GetUserQuery>;
   },
 };

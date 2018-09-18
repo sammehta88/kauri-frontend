@@ -45,7 +45,7 @@ const Heading = styled.div`
 `;
 
 class OpenRequests extends Component<Props> {
-  render () {
+  render() {
     const { routeChangeAction } = this.props
     const data = this.props.searchOpenRequests || this.props.data
     const count = data && data.searchRequests && data.searchRequests.content.length
@@ -81,17 +81,16 @@ class OpenRequests extends Component<Props> {
                 />
             )
           ) : (
-            <p>No requests found.</p>
-          )}
+              <p>No requests found.</p>
+            )}
           {typeof this.props.profile === 'boolean' &&
-            this.props.profile === true &&
-              <OpenRequestsHeader completed key='Completed'>
-                Completed
+            this.props.profile === true && <OpenRequestsHeader completed key='Completed'>
+              Completed
               </OpenRequestsHeader>}
           {typeof this.props.searchCompletedRequests === 'object' &&
             typeof this.props.searchCompletedRequests.searchRequests === 'object' &&
-            this.props.searchCompletedRequests.searchRequests.content.length >= 1
-            ? this.props.searchCompletedRequests.searchRequests.content.map(
+            this.props.searchCompletedRequests.searchRequests.content.length >= 1 &&
+            this.props.searchCompletedRequests.searchRequests.content.map(
               (request, index, requests) =>
                 <OpenRequest
                   key={request.request_id}
@@ -99,9 +98,10 @@ class OpenRequests extends Component<Props> {
                   request={request}
                   ethUsdPrice={this.props.ethUsdPrice}
                 />
-            )
-            : <p>No completed requests.</p>
-          }
+            )}
+          {typeof this.props.searchCompletedRequests === 'object' &&
+            typeof this.props.searchCompletedRequests.searchRequests === 'object' &&
+            this.props.searchCompletedRequests.searchRequests.content.length < 1 && <p>No completed requests.</p>}
         </OpenRequestsSection>
       </section>
     )

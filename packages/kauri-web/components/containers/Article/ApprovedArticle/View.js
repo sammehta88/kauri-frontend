@@ -62,8 +62,8 @@ class ApprovedArticle extends React.Component<Props, State> {
   render () {
     const props = this.props
     if (!props.data.getArticle) return
-    const { title, id, content } = props.data.getArticle
-    const articleContent = content[0] === '{' && JSON.parse(content).markdown ? JSON.parse(content).markdown : content
+    const { subject, article_id, text } = props.data.getArticle
+    const articleContent = JSON.parse(text).markdown ? JSON.parse(text).markdown : text
     const articleKeywords = rake(articleContent, {
       language: 'english',
       delimiters: ['#', '##', '###', '####', '\n', '\n\n'],
@@ -73,9 +73,9 @@ class ApprovedArticle extends React.Component<Props, State> {
     return (
       <ArticleContent>
         <Helmet>
-          <title>{title} - Kauri</title>
+          <title>{subject} - Kauri</title>
           <meta name='keywords' content={articleKeywords.map(i => i)} />
-          <link rel='canonical' href={`https://${hostName}/article/${id}/${slugify(title, { lower: true })}`} />
+          <link rel='canonical' href={`https://${hostName}/article/${article_id}/${slugify(subject, { lower: true })}`} />
         </Helmet>
         <ScrollToTopOnMount />
         <ScrollToTopButton />
@@ -86,35 +86,35 @@ class ApprovedArticle extends React.Component<Props, State> {
           ethUsdPrice={props.ethUsdPrice}
           {...props.data.getArticle}
         />
-        {/* <ApprovedArticle.Banner
+        <ApprovedArticle.Banner
           type='article'
           showBanner={this.state.showBanner}
           ethUsdPrice={props.ethUsdPrice}
           tipArticleAction={props.tipArticleAction}
           toggleBanner={this.toggleBanner}
           request_id={props.data.getArticle && props.data.getArticle.request_id}
-          article_id={props.data.getArticle && props.data.getArticle.id}
-          article_version={props.data.getArticle && props.data.getArticle.version}
-          user_id={props.data.getArticle && props.data.getArticle.authorId}
+          article_id={props.data.getArticle && props.data.getArticle.article_id}
+          article_version={props.data.getArticle && props.data.getArticle.article_version}
+          user_id={props.data.getArticle && props.data.getArticle.user_id}
           hostName={hostName}
-        /> */}
+        />
         <ApprovedArticle.Header {...props.data.getArticle} />
         <ApprovedArticle.Content
-          text={props.data.getArticle && props.data.getArticle.content}
-          subject={props.data.getArticle && props.data.getArticle.title}
-          article_id={props.data.getArticle && props.data.getArticle.id}
-          article_version={props.data.getArticle && props.data.getArticle.version}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.username}
-          userId={props.data.getArticle && props.data.getArticle.authorId}
+          text={props.data.getArticle && props.data.getArticle.text}
+          subject={props.data.getArticle && props.data.getArticle.subject}
+          article_id={props.data.getArticle && props.data.getArticle.article_id}
+          article_version={props.data.getArticle && props.data.getArticle.article_version}
+          username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
+          userId={props.data.getArticle && props.data.getArticle.user_id}
           routeChangeAction={props.routeChangeAction}
-          address={props.userId}
+          address={props.address}
           hostName={hostName}
         />
         <ApprovedArticle.Footer
-          metadata={props.data.getArticle && props.data.getArticle.attributes}
-          username={props.data.getArticle && props.data.getArticle.author && props.data.getArticle.author.name}
-          date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.datePublished}
-          content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.contentHash}
+          metadata={props.data.getArticle && props.data.getArticle.metadata}
+          username={props.data.getArticle && props.data.getArticle.user && props.data.getArticle.user.username}
+          date_updated={props.data.getArticle && props.data.getArticle && props.data.getArticle.date_updated}
+          content_hash={props.data.getArticle && props.data.getArticle && props.data.getArticle.content_hash}
           hostName={hostName}
         />
       </ArticleContent>

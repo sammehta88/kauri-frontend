@@ -1,6 +1,7 @@
 // @flow
 import React from 'react'
 import styled from 'styled-components'
+import { Icon } from 'antd'
 import { ActionBadge, ActionIcon } from '../../../common/ActionBadge'
 import GreenArrow from '../../../common/GreenArrow'
 
@@ -53,41 +54,34 @@ export default ({
     </ActionBadge>
     {status === 'IN_REVIEW' &&
       isTopicOwner && (
-      <ActionBadge onClick={approveArticle}>
-        <ActionIcon />
-        <strong>APPROVE ARTICLE</strong>
-      </ActionBadge>
-    )}
-    {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
-    {status === 'APPROVED' &&
-      isContributor && (
-      <ActionBadge onClick={publishArticle}>
-        <ActionIcon />
-        <strong>{'PUBLISH ARTICLE'}</strong>
-      </ActionBadge>
-    )}
-    <PullRight>
-      {(status === 'IN_REVIEW' || status === 'DRAFT') &&
-        isContributor && (
-        <ActionBadge onClick={updateUnsubmittedArticle}>
+        <ActionBadge onClick={approveArticle}>
           <ActionIcon />
-          <strong>{status === 'DRAFT' ? 'EDIT DRAFT' : 'UPDATE ARTICLE'}</strong>
+          <strong>APPROVE ARTICLE</strong>
         </ActionBadge>
       )}
-      {status === 'DRAFT' &&
+    {/* TODO: PUBLISH ARTICLE DIRECTLY IF CONTRIBUTOR + TOPIC OWNER */}
+    {status === 'APPROVED' &&
       isContributor && (
         <ActionBadge onClick={publishArticle}>
           <ActionIcon />
           <strong>{'PUBLISH ARTICLE'}</strong>
         </ActionBadge>
       )}
+    <PullRight>
+      {(status === 'IN_REVIEW' || status === 'DRAFT') &&
+        isContributor && (
+          <ActionBadge onClick={updateUnsubmittedArticle}>
+            <ActionIcon />
+            <strong>{status === 'DRAFT' ? 'EDIT DRAFT' : 'UPDATE ARTICLE'}</strong>
+          </ActionBadge>
+        )}
       {status === 'IN_REVIEW' &&
         isTopicOwner && (
-        <ActionBadge onClick={rejectArticle}>
-          <ActionIcon />
-          <strong>REJECT ARTICLE</strong>
-        </ActionBadge>
-      )}
+          <ActionBadge onClick={rejectArticle}>
+            <ActionIcon />
+            <strong>REJECT ARTICLE</strong>
+          </ActionBadge>
+        )}
     </PullRight>
   </InReviewArticleActions>
 )

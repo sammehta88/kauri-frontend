@@ -30,7 +30,7 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
   if (!hostName) return process.env.monolithExternalApi
   let apiURL
   if (hostName.includes('localhost')) {
-    apiURL = 'api.dev2.kauri.io'
+    apiURL = 'api.dev.kauri.io'
   } else if (hostName.includes('beta')) {
     apiURL = (global.window)
       ? `api.beta.kauri.io`
@@ -41,11 +41,6 @@ const getApiURL = (hostName = global.window && global.window.location.host) => {
       ? `api.${env}.kauri.io`
       : apiURL = `monolith.${env}:8080`
   }
-
-  // Local config override if exists
-  const localConfig = require('./local.js')
-  if (typeof localConfig.apiURL === 'string') apiURL = localConfig.apiURL
-
   return apiURL
 }
 
@@ -56,8 +51,6 @@ module.exports = {
   googleTagManagerCode,
   mixpanelToken,
   uppyConfig,
-  appId: 'kauri',
-  clientId: 'kauri-gateway',
   updateArticleWhitelistedAddresses: [
     // Admin
     '0x37648fc15a8365735289e002d65d44d80c505e8b',

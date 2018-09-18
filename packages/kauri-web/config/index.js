@@ -6,7 +6,7 @@ const config = Object.assign(
       ? require('./production')
       : require('./development'),
   require('./custom-environment-variables'),
-  process.env.NODE_ENV !== 'production' && require('./local')
+  require('./local')
 )
 
 exports.default = config

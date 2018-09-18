@@ -78,7 +78,7 @@ let renderArticleCards = (~response) =>
   | None => <p> "No articles found boo"->ReasonReact.string </p>
   };
 
-let make = (~category, ~hostName, ~website, _children) => {
+let make = (~category, ~hostName, _children) => {
   ...component,
   render: _self => {
     open Article_Queries;
@@ -87,7 +87,14 @@ let make = (~category, ~hostName, ~website, _children) => {
     <div className=Styles.container>
       <ScrollToTopOnMount />
       <CommunityHeader>
-        <CommunityProfile community=category website hostName />
+        <CommunityProfile
+          community=category
+          website=
+            themeConfig
+            ->ThemeConfig.getCommunityConfig(category)
+            ->ThemeConfig.homepageURLGet
+          hostName
+        />
       </CommunityHeader>
       BasicTabs.(
         <Tabs
@@ -143,7 +150,12 @@ let make = (~category, ~hostName, ~website, _children) => {
               let articlesQuery =
                 switch (currentTabName) {
                 | "all" => SearchCommunityArticles.make(~category, ())
-                | _ => SearchCommunityArticles.make(~category, ())
+                | _ =>
+                  SearchCommunityArticles.make(
+                    ~category,
+                    ~sub_category=currentTabName,
+                    (),
+                  )
                 };
 
               <PanelList>
@@ -183,17 +195,12 @@ let make = (~category, ~hostName, ~website, _children) => {
 
 [@bs.deriving abstract]
 type jsProps = {
+  userId: string,
   category: string,
   hostName: string,
-  website: string,
 };
 
 let default =
   ReasonReact.wrapReasonForJs(~component, jsProps =>
-    make(
-      ~category=jsProps->categoryGet,
-      ~hostName=jsProps->hostNameGet,
-      ~website=jsProps->websiteGet,
-      [||],
-    )
+    make(~category=jsProps->categoryGet, ~hostName=jsProps->hostNameGet, [||])
   );

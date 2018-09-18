@@ -8,13 +8,14 @@ export const BaseButtonCss = css`
   align-items: center;
   justify-content: center;
   height: 26px;
-  min-width: 88px;
+  width: 100px;
   border: 1px solid ${bg};
   border-radius: 13px;
   cursor: pointer;
   opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
   background: transparent;
   border: 1px solid ${(props) => props.theme.colors[props.bg]};
+  text-transform: uppercase;
   > svg, img {
     height: 16px;
     ${space};

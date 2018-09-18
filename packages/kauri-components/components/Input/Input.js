@@ -28,6 +28,20 @@ const Input = styled.input`
     border: none;
     outline: none;
   }
+  ::-webkit-input-placeholder {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: ${props => props.theme.colors.primary};
+  }
+  :focus::-webkit-input-placeholder {
+    text-indent: -999px;
+  }
+  ::-moz-placeholder {
+    color: #fff;
+  }
+  :focus::-moz-placeholder {
+    text-indent: -999px;
+  }
 `
 
 const UnderlineSpan = styled.span`
@@ -68,7 +82,7 @@ export default class extends React.Component<Props, State> {
 
     return (
       <InputWrapper>
-        <Input placeholder={placeHolder} color='white' onChange={({ target: { value } }) => handleChange(value)} fontSize={fontSize} value={value} />
+        <Input fontWeight={500} placeholder={placeHolder} color='white' onChange={({ target: { value } }) => handleChange(value)} fontSize={fontSize} value={value} />
         <UnderlineSpan fontSize={fontSize}>
           {value.replace(/ /g, '\u00a0')}
         </UnderlineSpan>

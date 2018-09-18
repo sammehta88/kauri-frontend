@@ -76,6 +76,7 @@ const isSubmittingOutlineHeaderCss = css`
 
 const outlineHeaderCss = css`
   position: sticky;
+  overflow-x: hidden;
   overflow-y: scroll;
   overflow-y: -moz-hidden-unscrollable;
   overflow-x: -moz-hidden-unscrollable;

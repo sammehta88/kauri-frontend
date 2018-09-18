@@ -104,9 +104,11 @@ const colors = {
   bgPrimary: '#1E2428',
   primary: '#0BA986',
   primaryDark: '#11856B',
+  primaryDisabled: 'rgb(11,169,134, 0.3)',
   secondary: '#11856B',
   secondaryBlue: 'rgb(81, 123, 162, 1)',
   secondaryBlueDark: 'rgb(81, 118, 142, 1)',
+  secondaryBlueDisabled: 'rgb(81, 118, 142, 0.3)',
   white: '#FFFFFF',
 }
 

@@ -16,10 +16,14 @@ export const BaseButtonCss = css`
     ${space};
   }
   text-transform: uppercase;
+  opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
   ${fontWeight};
   ${fontSize};
   ${bg};
   ${color};
+  :hover {
+    cursor: ${({ disabled }) => disabled ? 'not-allowed' : 'pointer'};
+}
 `
 
 const bgHover = ({ theme: { bg: { primaryDark } } }) => primaryDark
@@ -35,10 +39,11 @@ type Props = {
   icon?: React.Node,
   children: React.ChildrenArray<T>,
   handleClick: any => void,
+  disabled?: boolean,
 }
 
-export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, color = 'white', handleClick, text, children, icon, space = 2 }: Props) =>
-  <PrimaryButton mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick, text, children, icon, disabled }: Props) =>
+  <PrimaryButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children || text}
   </PrimaryButton>

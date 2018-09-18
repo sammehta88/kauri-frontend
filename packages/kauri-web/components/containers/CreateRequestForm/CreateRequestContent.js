@@ -76,6 +76,7 @@ const isSubmittingOutlineHeaderCss = css`
 
 const outlineHeaderCss = css`
   position: sticky;
+  overflow-x: hidden;
   overflow-y: scroll;
   top: 30px;
   max-height: 90vh;

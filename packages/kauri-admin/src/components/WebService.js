@@ -76,35 +76,68 @@ class WebService {
     })
   }
 
-  async authenticate(username, email) {
-    console.log('authenticate []')
+  // async authenticate(username, email) {
+  //   console.log('authenticate []')
 
-    const signature = await this.web3Utils.sign(Configuration._JWT_MSG)
+  //   const signature = await this.web3Utils.sign(Configuration._JWT_MSG)
 
-    return new Promise((resolve, reject) => {
-      var data = {
-        owner: window.web3.eth.accounts[0],
-        signature: signature,
-        username: username,
-        email: email
+  //   return new Promise((resolve, reject) => {
+  //     var data = {
+  //       owner: window.web3.eth.accounts[0],
+  //       signature: signature,
+  //       username: username,
+  //       email: email
+  //     }
+
+  //     axios({
+  //       method: 'post',
+  //       url: this.config.getEndpoints().auth,
+  //       responseType: 'json',
+  //       data: data
+  //     })
+  //       .then(function (response) {
+  //         console.log('jwt=' + response.data.token)
+  //         window.localStorage.setItem('jwt', response.data.token);
+  //         resolve(response.data.token)
+  //       })
+  //       .catch(function (err) {
+  //         console.error(err)
+  //         reject(err)
+  //       })
+  //   })
+  // }
+
+  async authenticate() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const initiatedAuth = await axios({
+          method: 'get',
+          url: this.config.getEndpoints().initiateAuth,
+          responseType: 'json'
+        }).then(res => res.data);
+        console.log(initiatedAuth);
+        const signature = await this.web3Utils.sign(initiatedAuth.sentence);
+        const payload = {
+          signature,
+          address: window.web3.eth.accounts[0],
+          sentence_id: initiatedAuth.id,
+          app_id: 'kauri',
+          client_id: 'kauri-gateway'
+        };
+        const auth = await axios({
+          method: 'post',
+          responseType: 'json',
+          data: payload,
+          url: this.config.getEndpoints().auth,
+        }).then(res => res.data);
+        console.log('Token: ' + auth.token);
+        if(auth.token) window.localStorage.setItem('jwt', auth.token);
+        resolve(auth.token);
+      } catch(err) {
+        console.log(err);
+        reject(err);
       }
-
-      axios({
-        method: 'post',
-        url: this.config.getEndpoints().auth,
-        responseType: 'json',
-        data: data
-      })
-        .then(function (response) {
-          console.log('jwt=' + response.data.token)
-          window.localStorage.setItem('jwt', response.data.token);
-          resolve(response.data.token)
-        })
-        .catch(function (err) {
-          console.error(err)
-          reject(err)
-        })
-    })
+    });
   }
 
   async submitArticle(data) {

@@ -189,9 +189,11 @@ class Collections extends Component {
   }
 
   componentDidMount() {
-    this.fetchCollections();
     if (!window.localStorage.getItem('jwt')) {
-      this.state.ws.authenticate();
+      this.state.ws.authenticate()
+        .then(() => this.fetchCollections())
+    } else {
+      this.fetchCollections();
     }
   }
 

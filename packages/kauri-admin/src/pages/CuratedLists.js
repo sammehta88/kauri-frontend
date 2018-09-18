@@ -41,10 +41,11 @@ class CuratedLists extends Component {
 
   componentDidMount() {
     if (!window.localStorage.getItem('jwt')) {
-      this.state.ws.authenticate();
+      this.state.ws.authenticate()
+        .then(() => this.fetchLists())
+    } else {
+      this.fetchLists();
     }
-
-    this.fetchLists();
   }
 
   fetchLists() {

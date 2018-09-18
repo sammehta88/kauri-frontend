@@ -10,7 +10,7 @@ class Configuration {
     },
     DEV: {
       name: 'DEV',
-      host: 'api.dev.kauri.io',
+      host: 'api.dev2.kauri.io',
       port: 443,
       network_id: 224895
     },
@@ -329,7 +329,9 @@ class Configuration {
   setBackend(backend) {
     this.backend = Configuration._BACKEND[backend]
     this.endpoints = {
-      auth: 'https://' + this.backend.host + ':' + this.backend.port + '/auth',
+      // auth: 'https://' + this.backend.host + ':' + this.backend.port + '/auth',
+      initiateAuth: 'https://api.dev2.kauri.io/web3auth/api/login?app_id=kauri&client_id=kauri-gateway',
+      auth: 'https://api.dev2.kauri.io/web3auth/api/login',
       gql: 'https://' + this.backend.host + ':' + this.backend.port + '/graphql',
       ws: 'wss://' + this.backend.host + ':' + this.backend.port + '/socket/graphql'
     }

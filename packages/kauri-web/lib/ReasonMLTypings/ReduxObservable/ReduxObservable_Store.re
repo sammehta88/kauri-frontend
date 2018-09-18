@@ -1,8 +1,8 @@
 [@bs.deriving abstract]
-type reduxState = {
-  hey: int,
-  woo: string,
-};
+type appState = {userId: string};
+
+[@bs.deriving abstract]
+type reduxState = {app: appState};
 
 [@bs.deriving abstract]
 type store = {getState: unit => reduxState};

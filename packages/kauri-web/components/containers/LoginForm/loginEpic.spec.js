@@ -3,6 +3,7 @@ import { Subject } from 'rxjs'
 import Web3 from 'web3'
 import config from '../../../config'
 import fetch from 'isomorphic-unfetch'
+import HDWalletProvider from '../../../forked_modules/truffle-hdwallet-provider'
 import { registerEpic, registerAction } from './Module'
 
 const testEpic = (epic, action, state = {}, dependencies = {}) => {
@@ -25,35 +26,58 @@ const testEpic = (epic, action, state = {}, dependencies = {}) => {
   return promised
 }
 
+const web3GetAccounts = web3 =>
+  new Promise((resolve, reject) => {
+    web3.eth.getAccounts((err, result) => {
+      err ? reject(err) : resolve(result)
+    })
+  })
+
+const web3Sign = (web3, web3Account, web3Message) =>
+  new Promise((resolve, reject) => {
+    web3.eth.sign(web3Account, web3Message, (err, result) => {
+      err ? reject(err) : resolve(result)
+    })
+  })
+
 describe.skip('login epic', () => {
   it(
-    'should request a signature sign, request an auth token and trigger a notification and redirect to the homepage',
+    'should request a sentence to sign, request an auth token, trigger a notification and redirect to the homepage',
     async () => {
-      const email = 'ericjohn.juta@consensys.net`'
-      const userId = '0xb94C61caAe9b69A608EeD2E50C967896deD03435'
-      const nickname = 'rej156'
+      const mnemonic = config.default.devSeedWords
+      const provider = new HDWalletProvider(mnemonic, `http://${config.default.gethBlockchain}`)
+      let web3 = new Web3(provider)
+      let web3Account = await web3GetAccounts(web3)
+      web3Account = web3Account[0]
+      web3.eth.accounts[0] = web3Account[0]
+      global.window.web3 = web3
+      const payload = {}
       const sourceAction = registerAction(
-        {
-          email,
-          userId,
-          nickname,
-        },
+        payload,
         () => {}
       )
       const expectedActions = [
         {
           type: 'SHOW_NOTIFICATION',
           notificationType: 'success',
-          message: 'Register success',
-          description: 'You have successfully been registered! Get those bounties!',
+          message: 'Registration successful',
+          description: 'Get those bounties!',
         },
         {
-          type: 'ROUTE_CHANGE',
-          payload: '/my-requests',
+          type: 'TRACK_MIXPANEL',
+          payload: {
+            event: 'Offchain',
+            metaData: {
+              resource: 'kauri',
+              resourceID: 'n/a',
+              resourceVersion: 'n/a',
+              resourceAction: 'login',
+            },
+          },
         },
       ]
-      const web3 = new Web3(new Web3.providers.HttpProvider(`http://${config.gethBlockchain}`))
-      const resultingActions = await testEpic(registerEpic, sourceAction, null, {
+
+      const resultingActions = await testEpic(registerEpic, sourceAction, { getState: () => ({ app: { hostName: 'api.dev2.kauri.io' } }) }, {
         web3,
         fetch,
       })

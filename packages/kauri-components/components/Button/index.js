@@ -1,3 +1,5 @@
+// @flow
+
 const exports = {
   PrimaryButton: require('./PrimaryButton').default,
   SecondaryButton: require('./SecondaryButton').default,

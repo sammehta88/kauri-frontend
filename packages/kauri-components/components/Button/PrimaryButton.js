@@ -10,6 +10,7 @@ export const BaseButtonCss = css`
   min-width: 136px;
   height: 40px;
   border-radius: 4px;
+  border: none;
   cursor: pointer;
   > svg, img {
     height: 16px;

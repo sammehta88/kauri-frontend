@@ -5,6 +5,7 @@ import TertiaryButton from '../components/Button/TertiaryButton'
 import PrimaryButton from '../components/Button/PrimaryButton'
 import SecondaryButton from '../components/Button/SecondaryButton'
 import AddTagButton from '../components/Button/AddTagButton'
+import AddMemberButton from '../components/Button/AddMemberButton'
 
 const UploadIcon = () => <img src='https://png.icons8.com/color/50/000000/upload.png' />
 
@@ -35,4 +36,7 @@ storiesOf('Button', module)
   ))
   .add('AddTagButton', () => (
     <AddTagButton handleClick={() => alert('clicked')} />
+  ))
+  .add('AddMemberButton', () => (
+    <AddMemberButton handleClick={() => alert('clicked')} />
   ))

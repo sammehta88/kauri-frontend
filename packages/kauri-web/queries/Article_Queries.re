@@ -103,7 +103,7 @@ module SubmitForReviewMutation = ReasonApollo.CreateMutation(SubmitForReview);
 module SearchPersonalArticles = [%graphql
   {|
     query searchPersonalArticles($userId: String) {
-      searchArticles(filter: { user_id_eq: $userId, status_in: [ IN_REVIEW, APPROVED, PUBLISHED ] }) {
+      searchArticles(filter: { user_id_eq: $userId, status_in: [ IN_REVIEW, APPROVED, PUBLISHED ], latest_version: true }) {
         content {
           article_id
           article_version

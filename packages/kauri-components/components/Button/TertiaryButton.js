@@ -3,7 +3,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { fontSize, fontWeight, color, space } from 'styled-system'
 
-const IconNoBorderButton = styled.button`
+const TertiaryButton = styled.button`
   display: flex;
   align-items: center;
   border: none;
@@ -31,7 +31,7 @@ type Props = {
 }
 
 export default ({ icon, children, fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick }: Props) =>
-  <IconNoBorderButton onClick={handleClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+  <TertiaryButton onClick={handleClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children}
-  </IconNoBorderButton>
+  </TertiaryButton>

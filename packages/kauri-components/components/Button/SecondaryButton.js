@@ -13,12 +13,13 @@ const SecondaryButton = styled.button`
 `
 
 type Props = {
-  icon: React.Node,
+  icon?: React.Node,
   children: React.ChildrenArray<T>,
   handleClick: any => void,
 }
 
-export default ({ bg = 'secondaryBlue', fontWeight = 700, fontSize = 0, color = 'white', handleClick, text, children }: Props) =>
-  <SecondaryButton onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ bg = 'secondaryBlue', fontWeight = 700, fontSize = 0, color = 'white', space = 2, handleClick, text, children, icon }: Props) =>
+  <SecondaryButton mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+    {icon}
     {children || text}
   </SecondaryButton>

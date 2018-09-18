@@ -1,3 +1,5 @@
+// TODO REMOVE THE WHOLE FILE, UNUSED
+
 import React from 'react';
 import { Button } from './common/button';
 
@@ -35,13 +37,13 @@ const CuratedList = ({ addItem, addHeaderModal, editCuratedList, removeHeader, r
         {resources.map(i => {
           switch (i.type) {
             case "ARTICLE":
-              return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.article_id}><span>ARTICLE: {i.subject}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'ARTICLE', id: i.article_id } })}>🗑️</div></li>
+              return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.id}><span>ARTICLE: {i.subject}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'ARTICLE', id: i.id } })}>🗑️</div></li>
             case "TOPIC":
               return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.id}><span>TOPIC: {i.id}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'TOPIC', id: i.id } })}>🗑️</div></li>
             case "COLLECTION":
               return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.id}><span>COLLECTION: {i.name}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'COLLECTION', id: i.id } })}>🗑️</div></li>
             case "REQUEST":
-              return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.request_id}><span>REQUEST: {i.subject}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'REQUEST', id: i.request_id } })}>🗑️</div></li>
+              return <li style={{ display: 'flex', flex: 1, justifyContent: 'space-between', marginBottom: 10 }} key={i.id}><span>REQUEST: {i.subject}</span><div style={{ cursor: 'pointer' }} onClick={() => removeResource({ id, resource: { type: 'REQUEST', id: i.id } })}>🗑️</div></li>
             default:
               return null;
           }

@@ -50,7 +50,7 @@ const Resources = styled.div`
 `
 
 const getBG = (header, featured) => {
-  if (featured && header && header.type === ('TOPIC' || 'COMMUNITY')) {
+  if (featured && header && header.type === 'COMMUNITY') {
     return theme[header.id].primaryColor
   } else if (featured) {
     return '#1e2428'
@@ -69,19 +69,19 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
         <Resources>
           {header && <CuratedHeader name={name} header={header} />}
           {resources.map(card => {
-            switch (card.type) {
+            switch (card.resourceIdentifier.type) {
               case 'ARTICLE':
                 return (
                   <ArticleCard
                     changeRoute={routeChangeAction}
-                    key={card.article_id}
-                    date={moment(card.date_created).format('D MMM YYYY')}
-                    title={card.subject}
-                    content={card.text}
-                    userId={card.user.user_id}
-                    username={card.user.username}
-                    articleId={card.article_id}
-                    articleVersion={card.article_version}
+                    key={card.id}
+                    date={moment(card.dateCreated).format('D MMM YYYY')}
+                    title={card.title}
+                    content={card.content}
+                    userId={card.author.id}
+                    username={card.author.name}
+                    articleId={card.id}
+                    articleVersion={card.version}
                     cardHeight={HOMEPAGE_CARD_HEIGHT}
                     linkComponent={(childrenProps, route) => (
                       <Link toSlug={route.includes('article') && card.subject} useAnchorTag route={route}>
@@ -92,7 +92,7 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                 )
               case 'COLLECTION':
                 const articles = card.sections.reduce((acc, item) => {
-                  acc += item.article_id.length
+                  if(typeof item.length === 'number') acc += item.length;
                   return acc
                 }, 0)
                 return (
@@ -100,10 +100,10 @@ const CuratedList = ({ routeChangeAction, content: { name, resources, featured, 
                     changeRoute={routeChangeAction}
                     key={card.id}
                     collectionName={card.name}
-                    username={card.owner.username}
-                    userId={card.owner.user_id}
+                    username={card.owner.name}
+                    userId={card.owner.id}
                     articles={articles}
-                    lastUpdated={moment(card.date_created).fromNow()}
+                    lastUpdated={moment(card.dateCreated).fromNow()}
                     collectionId={card.id}
                     imageURL={card.background}
                     profileImage={card.profileImage}

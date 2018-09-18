@@ -76,17 +76,17 @@ class CuratedLists extends Component {
   }
 
   async searchArticles(payload) {
-    const articles = await this.state.ws.executeQuery('searchArticles', { full_text: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
+    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
     return articles;
   }
 
   async searchRequests(payload) {
-    const requests = await this.state.ws.executeQuery('searchRequests', { full_text: payload.val }, 10, payload);
+    const requests = await this.state.ws.executeQuery('searchRequests', { nameContains: payload.val }, 10, payload);
     return requests;
   }
 
   async searchCollections(payload) {
-    const collections = await this.state.ws.executeQuery('searchCollections', { full_text: payload.val }, 10, payload);
+    const collections = await this.state.ws.executeQuery('searchCollections', { nameContains: payload.val }, 10, payload);
     return collections;
   }
 

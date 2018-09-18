@@ -39,7 +39,7 @@ const sectionGenerator = (state) => {
     name: 'test',
     description: 'test',
     articles: [],
-    article_id: [],
+    id: [],
   });
   return state;
 };
@@ -52,7 +52,7 @@ const prepPayload = (selectedCollection) => {
   const filteredSections = collection.sections.map(i => ({
     name: i.name,
     description: i.description,
-    article_id: i.articles ? i.articles.map(j => j.article_id) : [],
+    id: i.articles ? i.articles.map(j => j.id) : [],
   }));
   collection.sections = filteredSections;
   return collection;
@@ -117,7 +117,7 @@ const Section = ({ addArticle, searchArticles, removeArticle, edit, removeSectio
       onChange={(e) => edit(index, 'description', e.target.value)}
     />
     {articles && articles.map(i =>
-      <div key={`${i.article_id}-${i.article_version}`} style={{ marginLeft: 20 }}>{i.subject} <Glyphicon onClick={() => removeArticle(index, i.article_id)} glyph="trash" /></div>)}
+      <div key={`${i.id}-${i.article_version}`} style={{ marginLeft: 20 }}>{i.subject} <Glyphicon onClick={() => removeArticle(index, i.id)} glyph="trash" /></div>)}
     <AddArticle index={index} addArticle={addArticle} searchArticles={searchArticles} />
   </div>;
 
@@ -157,7 +157,7 @@ class AddArticle extends Component {
               onClick={() => this.handleChange(i)}
               bsStyle="link"
               style={{ outline: 'none' }}
-              key={i.article_id}>
+              key={i.id}>
               {i.subject} - version {i.article_version}
             </Button>
           )}
@@ -198,7 +198,7 @@ class Collections extends Component {
   }
 
   async searchArticles(payload) {
-    const articles = await this.state.ws.executeQuery('searchArticles', { full_text: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
+    const articles = await this.state.ws.executeQuery('searchArticles', { nameContains: payload.val, latest_version: true, status_in: ["PUBLISHED"] }, 10, payload);
     return articles;
   }
 
@@ -221,15 +221,15 @@ class Collections extends Component {
 
   addArticle(sectionIndex, article) {
     const coll = { ...this.state.selectedCollection };
-    coll.sections[sectionIndex].article_id.push(article.article_id);
+    coll.sections[sectionIndex].id.push(article.id);
     coll.sections[sectionIndex].articles ? coll.sections[sectionIndex].articles.push(article) : coll.sections[sectionIndex].articles = [article];
     this.setState({ selectedCollection: coll });
   }
 
-  removeArticle(sectionIndex, article_id) {
+  removeArticle(sectionIndex, id) {
     const coll = { ...this.state.selectedCollection };
-    coll.sections[sectionIndex].articles = coll.sections[sectionIndex].articles.filter(i => i.article_id !== article_id);
-    coll.sections[sectionIndex].article_id = coll.sections[sectionIndex].article_id.filter(i => i !== article_id);
+    coll.sections[sectionIndex].articles = coll.sections[sectionIndex].articles.filter(i => i.id !== id);
+    coll.sections[sectionIndex].id = coll.sections[sectionIndex].id.filter(i => i !== id);
     this.setState({ selectedCollection: coll });
   }
 

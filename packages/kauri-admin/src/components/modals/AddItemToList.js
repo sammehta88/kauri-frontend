@@ -20,9 +20,9 @@ class AddArticle extends Component {
     }
   }
 
-  handleChange(article_id) {
-    this.setState({ selected_id: article_id });
-    this.props.handleChange({ type: 'ARTICLE', id: article_id });
+  handleChange(id) {
+    this.setState({ selected_id: id });
+    this.props.handleChange({ type: 'ARTICLE', id: id });
   }
 
   render() {
@@ -37,10 +37,10 @@ class AddArticle extends Component {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.articles.length > 0 && this.state.articles.map(i =>
             <Button
-              onClick={() => this.handleChange(i.article_id)}
+              onClick={() => this.handleChange(i.id)}
               bsStyle="link"
-              style={{ backgroundColor: this.state.selected_id === i.article_id ? '#5bc0de' : 'transparent', outline: 'none' }}
-              key={i.article_id}>
+              style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
+              key={i.id}>
               {i.subject}
             </Button>
           )}
@@ -78,9 +78,9 @@ class AddCollection extends Component {
     }
   }
 
-  handleChange(collection_id) {
-    this.setState({ selected_id: collection_id });
-    this.props.handleChange({ type: 'COLLECTION', id: collection_id });
+  handleChange(id) {
+    this.setState({ selected_id: id });
+    this.props.handleChange({ type: 'COLLECTION', id: id });
   }
 
   render() {
@@ -124,9 +124,9 @@ class AddRequest extends Component {
     }
   }
 
-  handleChange(request_id) {
-    this.setState({ selected_id: request_id });
-    this.props.handleChange({ type: 'REQUEST', id: request_id });
+  handleChange(id) {
+    this.setState({ selected_id: id });
+    this.props.handleChange({ type: 'REQUEST', id: id });
   }
 
   render() {
@@ -141,10 +141,10 @@ class AddRequest extends Component {
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
           {this.state.requests.length > 0 && this.state.requests.map(i =>
             <Button
-              onClick={() => this.handleChange(i.request_id)}
+              onClick={() => this.handleChange(i.id)}
               bsStyle="link"
-              style={{ backgroundColor: this.state.selected_id === i.request_id ? '#5bc0de' : 'transparent', outline: 'none' }}
-              key={i.request_id}>
+              style={{ backgroundColor: this.state.selected_id === i.id ? '#5bc0de' : 'transparent', outline: 'none' }}
+              key={i.id}>
               {i.subject}
             </Button>
           )}

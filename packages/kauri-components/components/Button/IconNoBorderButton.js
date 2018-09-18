@@ -19,15 +19,19 @@ const IconNoBorderButton = styled.button`
     width: 18px;
     ${space};
   }
+  :hover {
+    color: ${({ theme }) => theme.colors.primary};
+  }
 `
 
 type Props = {
   icon: React.Node,
   children: React.ChildrenArray<T>,
+  handleClick: any => void;
 }
 
-export default ({ icon, children, fontWeight = 700, fontSize = 0, space = 2, color = 'white' }: Props) =>
-  <IconNoBorderButton mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
+export default ({ icon, children, fontWeight = 700, fontSize = 0, space = 2, color = 'white', handleClick }: Props) =>
+  <IconNoBorderButton onClick={handleClick} mr={space} color={color} fontSize={fontSize} fontWeight={fontWeight}>
     {icon}
     {children}
   </IconNoBorderButton>

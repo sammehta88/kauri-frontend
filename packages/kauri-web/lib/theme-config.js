@@ -103,6 +103,10 @@ const colors = {
   errorRedColor: '#C03030',
   bgPrimary: '#1E2428',
   primary: '#0BA986',
+  primaryDark: '#11856B',
+  secondary: '#11856B',
+  secondaryBlue: 'rgb(81, 123, 162, 1)',
+  secondaryBlueDark: 'rgb(81, 118, 142, 1)',
   white: '#FFFFFF',
 }
 
@@ -119,6 +123,7 @@ const themeConfig = {
   fontSizes,
   breakpoints,
   colors,
+  bg: colors,
   ...colors, // TODO: Deprecate across the app
   padding: 'calc((100vw - 1280px) / 2)',
   paddingTop: '2.5em',

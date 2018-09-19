@@ -8,7 +8,7 @@ export const BaseButtonCss = css`
   align-items: center;
   justify-content: center;
   height: 26px;
-  width: 100px;
+  width: 80px;
   border: 1px solid ${bg};
   border-radius: 13px;
   cursor: pointer;
@@ -46,6 +46,6 @@ type Props = {
 
 export default ({ bg = 'primary', fontWeight = 700, fontSize = 0, space = 2, color = 'textPrimary', icon = <AddIcon />, text = 'Add Tag', handleClick, children, disabled }: Props) =>
   <AddTagButton disabled={disabled} mr={space} onClick={handleClick} bg={bg} color={color} fontSize={fontSize} fontWeight={fontWeight}>
-    {icon}
+    {/* {icon} */}
     {children || text}
   </AddTagButton>

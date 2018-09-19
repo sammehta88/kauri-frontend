@@ -1,7 +1,7 @@
 // @flow
 import React from 'react'
 import styled, { css } from 'styled-components'
-import { space, fontSize, fontWeight, bgColor, color } from 'styled-system'
+import { space, bgColor } from 'styled-system'
 
 const bgHover = ({ theme: { colors: { primaryDark } } }) => primaryDark
 
@@ -12,6 +12,7 @@ export const BaseButtonCss = css`
   height: 30px;
   width: 30px;
   border-radius: 50%;
+  border: none;
   cursor: pointer;
   opacity: ${({ disabled }) => disabled ? '0.3' : '1'};
   > svg, img {

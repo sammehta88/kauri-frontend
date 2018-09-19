@@ -8,6 +8,7 @@ export const BaseButtonCss = css`
   align-items: center;
   justify-content: center;
   min-width: 136px;
+  max-width: 150px;
   height: 40px;
   border-radius: 4px;
   border: none;

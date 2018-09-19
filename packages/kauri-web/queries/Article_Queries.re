@@ -82,7 +82,7 @@ module PublishArticleMutation = ReasonApollo.CreateMutation(PublishArticle);
 module SearchPersonalArticles = [%graphql
   {|
     query searchPersonalArticles($userId: String) {
-       searchArticles (filter: { authorIdEquals: $userId, statusIn: [ IN_REVIEW, APPROVED, PUBLISHED ], latestVersion: true } ) {
+       searchArticles (filter: { authorIdEquals: $userId, statusIn: [ PUBLISHED ], latestVersion: true } ) {
           content {
              id, version, title, content, dateCreated, datePublished, author {
                 id, name }

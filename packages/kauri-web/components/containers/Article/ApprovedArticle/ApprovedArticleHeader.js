@@ -59,7 +59,7 @@ export const ApprovedArticleSubject = ({
     <ArticleSubject chosenCategory={chosenCategory} style={{ width: '100%' }} type='article'>
       {subject}
     </ArticleSubject>
-    {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>}
+    {/* {metadata && metadata.FOR_VERSION && <ForVersion>{`FOR VERSION ${metadata && metadata.FOR_VERSION}`}</ForVersion>} */}
   </ApprovedArticleSubjectContainer>
 )
 

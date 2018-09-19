@@ -61,7 +61,7 @@ let renderCommunitiyCards = (~communities) =>
                        <Link
                          useAnchorTag=true
                          linkComponent
-                         route={j|/community/$key|j}>
+                         route={j|/community/$community|j}>
                          ...childrenProps
                        </Link>
                    )

@@ -42,7 +42,7 @@ jobs:
 #     - gcloud config set project $GOOGLE_PROJECT_ID
 #     - gcloud container clusters get-credentials $ACS_NAME --zone $GOOGLE_ZONE
 #     - export BUILD_TAG=${REGISTRY_URL}/${GOOGLE_PROJECT_ID}
-#     - gcloud docker -- pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
+#     - docker pull ${BUILD_TAG}/kauri-contract-abis:latest-dev
 #     - docker build -t flow-frontend-boilerplate:unit-tests -f Dockerfile-unit .
 #     - touch secret.env
 #     - echo "DEV_SEED_WORDS=${DEV_SEED_WORDS}" > secret.env
@@ -88,6 +88,7 @@ jobs:
     - FRONTEND_VERSION=$(cd packages/kauri-web && npm version | grep kauri-web | head
       -1 | awk '{ print $3 }' | sed 's/[",]//g' | sed 's|["'\'']||g')
     - git config remote.origin.fetch '+refs/tags/*:refs/tags/*'
+    - git fetch --all
     - git fetch --all
     - bash ./kauri-ops/versioning/gittag.sh $FRONTEND_VERSION
     - NEW_DEV_VERSION=$(./kauri-ops/versioning/get-next-dev-ver.sh)

@@ -5,8 +5,7 @@ import { getRequest } from '../../../queries/Request'
 import { submitArticleAction, editArticleAction } from './Module'
 import { routeChangeAction, showNotificationAction } from '../../../lib/Module'
 import { draftArticleAction } from './DraftArticle_Module.bs'
-import { publishArticleAction } from './PublishArticle_Module.bs'
-import withLoading from '../../../lib/with-loading'
+import { submitForReviewAction } from './SubmitForReview_Module.bs'
 import View from './View'
 
 const mapStateToProps = (state, ownProps) => ({
@@ -14,7 +13,7 @@ const mapStateToProps = (state, ownProps) => ({
     state.app.user && state.app.user.topics && state.app.user.topics.find(topic => topic === 'kauri')
   ),
   categories: state.app && state.app.user && state.app.user.topics,
-  userId: state.app.user && state.app.user && state.app.user.id,
+  userId: state.app.user && state.app.userId,
   username: state.app.user && state.app.user.username,
 })
 
@@ -27,7 +26,7 @@ export default compose(
       routeChangeAction,
       showNotificationAction,
       draftArticleAction,
-      publishArticleAction,
+      submitForReviewAction,
     }
   ),
   graphql(getRequest, {
@@ -41,11 +40,10 @@ export default compose(
   graphql(getArticle, {
     options: ({ article_id, article_version }) => ({
       variables: {
-        id: article_id,
-        version: article_version,
+        article_id,
+        article_version,
       },
     }),
     skip: ({ article_id }) => !article_id,
-  }),
-  withLoading()
+  })
 )(View)

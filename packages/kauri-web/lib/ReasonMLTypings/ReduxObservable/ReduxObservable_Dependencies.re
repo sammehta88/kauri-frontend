@@ -56,15 +56,16 @@ module OffchainEvent = {
   type offchainEventResponseData;
 
   [@bs.get]
-  external submitArticleResponseGet: offchainEventResponseData => submitArticle =
-    "output";
+  external submitArticleResponseGet :
+    offchainEventResponseData => submitArticle =
+    "command_output";
 
   [@bs.deriving abstract]
   type response = {data: offchainEventResponseData};
 };
 
 [@bs.send]
-external subscribeToOffchainEvent:
+external subscribeToOffchainEvent :
   (dependencies, string) => Js.Promise.t(OffchainEvent.response) =
   "apolloSubscriber";
 
@@ -72,7 +73,7 @@ external subscribeToOffchainEvent:
 type smartContractEvent = [ | [@bs.as "ArticlePublished"] `ArticlePublished];
 
 [@bs.send]
-external _subscribeToOnchainEvent:
+external _subscribeToOnchainEvent :
   (dependencies, string, string) => Js.Promise.t(string) =
   "apolloSubscriber";
 

@@ -1,5 +1,6 @@
 // @flow
 import React from 'react'
+import { Divider } from 'antd'
 import {
   CreateRequestContent as InReviewArticleFormContent,
   CreateRequestContainer as InReviewArticleFormContainer,
@@ -8,9 +9,8 @@ import { ApprovedArticleDetails as InReviewArticleDetails } from '../ApprovedArt
 import InReviewArticleGeneralCommentForm from './InReviewArticleGeneralCommentForm'
 import InReviewArticleGeneralComments from './InReviewArticleGeneralComments'
 import { contentStateFromHTML, getHTMLFromMarkdown } from '../../../../lib/markdown-converter-helper'
-import userIdTrim from '../../../../lib/userid-trim'
+import { OutlineLabel } from '../../SubmitArticleForm/SubmitArticleFormContent'
 import Outline from '../../../../../kauri-components/components/Typography/Outline.bs'
-import { Link } from '../../../../routes'
 import DescriptionRow from '../../../common/DescriptionRow'
 
 type Comments = Array<?CommentDTO>
@@ -70,12 +70,12 @@ export default ({
         {comments &&
           comments.length > 0 &&
           comments.filter(comment => typeof comment.anchor_key !== 'string') && (
-          <InReviewArticleGeneralComments
-            comments={
-              comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
-            }
-          />
-        )}
+            <InReviewArticleGeneralComments
+              comments={
+                comments && comments.length > 0 && comments.filter(comment => typeof comment.anchor_key !== 'string')
+              }
+            />
+          )}
         <InReviewArticleGeneralCommentForm
           addCommentAction={addCommentAction}
           article_id={article_id}
@@ -86,14 +86,9 @@ export default ({
       <InReviewArticleDetails type='outline'>
         <Outline
           routeChangeAction={routeChangeAction}
-          linkComponent={children => (
-            <Link useAnchorTag route={`/public-profile/${userId}`}>
-              {children}
-            </Link>
-          )}
           userId={userId}
           headings={outlineHeadings || []}
-          username={username || userIdTrim(userId)}
+          username={username || userId}
         />
       </InReviewArticleDetails>
     </InReviewArticleFormContent>

@@ -1,5 +1,3 @@
-open Infix_Utilities;
-
 [@bs.module "../../../lib/theme-config.js"]
 external themeConfig: ThemeConfig.themeConfig = "default";
 [@bs.module "../../../lib/theme-config.js"]
@@ -28,35 +26,34 @@ module Styles = {
     Css.(style([width(`percent(100.0)), textAlign(center)]));
 };
 
-let renderCommunitiyCards = {
-  open Community_Queries;
+let renderCommunitiyCards = (~communities) =>
+  communities
+  ->Belt.Array.map(community => {
+      let description =
+        ThemeConfig.getCommunityConfig(themeConfig, community)
+        |> ThemeConfig.descriptionGet;
+      open Article_Queries;
 
-  let searchCommunitiesQuery = SearchCommunities.make();
+      let articlesCountQuery =
+        CommunityArticlesCount.make(~category=community, ());
 
-  <SearchCommunitiesQuery variables=searchCommunitiesQuery##variables>
-    ...{
-         ({result}) =>
-           switch (result) {
-           | Loading => <Loading />
-           | Error(error) =>
-             <div> {ReasonReact.string(error##message)} </div>
-           | Data(response) =>
-             Belt.Array.map(
-               response##searchCommunities
-               |? (communities => communities##content)
-               |> default([||]),
-               community => {
-                 open Community_Resource;
-
-                 let {key, name, description, avatar, totalArticles} =
-                   make(community);
-
+      <CommunityArticlesCountQuery
+        key=community variables=articlesCountQuery##variables>
+        ...{
+             ({result}) =>
+               switch (result) {
+               | Loading => <Loading />
+               | Error(error) =>
+                 <div> {ReasonReact.string(error##message)} </div>
+               | Data(response) =>
+                 let totalArticles =
+                   response->Article_Resource.articlesCountGet->string_of_int;
                  <CommunityCard
-                   key
-                   communityName=name
+                   key=community
+                   communityName=community
                    communityDescription=description
-                   communityLogo=avatar
-                   articles=totalArticles->string_of_int
+                   communityLogo={j|/static/images/$community/avatar.png|j}
+                   articles=totalArticles
                    /* followers="1" */
                    /* views="1" */
                    linkComponent=(
@@ -69,19 +66,19 @@ let renderCommunitiyCards = {
                        </Link>
                    )
                  />;
-               },
-             )
-             |> ReasonReact.array
+               }
            }
-       }
-  </SearchCommunitiesQuery>;
-};
+      </CommunityArticlesCountQuery>;
+    })
+  |> ReasonReact.array;
 
 let make = _children => {
   ...component,
   render: _self =>
     <div className=Styles.container>
-      <div className=Styles.communitiesContainer> renderCommunitiyCards </div>
+      <div className=Styles.communitiesContainer>
+        {renderCommunitiyCards(~communities)}
+      </div>
     </div>,
 };
 

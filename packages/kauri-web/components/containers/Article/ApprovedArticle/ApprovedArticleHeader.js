@@ -70,19 +70,19 @@ export const PullRight = styled.div`
   align-items: center;
 `
 
-export default ({ category, sub_category, datePublished, title, attributes }: *) => (
+export default ({ category, sub_category, date_updated, subject, metadata }: *) => (
   <ApprovedArticleSecondaryHeader type='article' theme={theme} chosenCategory={category}>
     {category && <ApprovedArticleLogo type='article' theme={theme} chosenCategory={category} />}
     <ApprovedArticleSubject
       type='article'
-      metadata={attributes}
-      subject={title}
+      metadata={metadata}
+      subject={subject}
       theme={theme}
       chosenCategory={category}
       chosenSubcategory={sub_category}
     />
     <PullRight>
-      <PostedDate dateType='FromNow' date_field={datePublished} />
+      <PostedDate dateType='FromNow' date_field={date_updated} />
     </PullRight>
   </ApprovedArticleSecondaryHeader>
 )

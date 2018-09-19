@@ -90,7 +90,9 @@ export const categories = Object.keys({
   zeppelin,
 })
 
-const colors = {
+const themeConfig = {
+  padding: 'calc((100vw - 1280px) / 2)',
+  paddingTop: '2.5em',
   primaryColor: '#0BA986',
   secondaryColor: '#1E3D3B',
   primaryTextColor: '#1E2428',

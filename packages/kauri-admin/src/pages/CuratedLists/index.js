@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import WebService from '../components/WebService';
+import WebService from 'kauri-admin/src/components/WebService';
 import { ScaleLoader } from 'react-spinners';
-import R, { CuratedList } from 'kauri-components';
-import { CreateCuratedList, AddItemToList, AddHeader } from '../components/modals';
+import { CuratedList } from 'kauri-components';
+import { CreateCuratedList, AddItemToList, AddHeader } from 'kauri-admin/src/components/modals';
 import styled from "styled-components";
 
 const Sidebar = styled.div`
@@ -10,6 +10,7 @@ const Sidebar = styled.div`
   display: flex;
   background: #efefef;
   min-height: 100%;
+  flex: 1;
 `;
 
 const Container = styled.div`
@@ -20,8 +21,39 @@ position: relative;
 
 const ListContainer = styled.div`
 display: flex;
-flex: 5;
+flex: 4;
 flex-direction: column;`;
+
+const ListWrapper = styled.div`
+  position: relative;
+
+  &:hover {
+    box-shadow: 0px 0px 0px 2px #00d2ec;
+    z-index: 9;
+
+    & > .delete-list-button {
+      opacity: 1;
+    }
+  }
+`;
+
+const DeleteList = styled.div`
+  transition: all 0.3s;
+  background: darkred;
+  color: white;
+  border-radius: 4px;
+  padding: 10px;
+  opacity: 0;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  cursor: pointer;
+
+  &:hover {
+    background: red;
+  }
+`;
 
 
 class CuratedLists extends Component {
@@ -113,11 +145,15 @@ class CuratedLists extends Component {
         <h1 className="Title">Curated Lists</h1>
         <Container>
           <ListContainer>
-          {content && content.map(i => <CuratedList
-            routeChangeAction={this.props.routeChangeAction}
-            key={i.id} content={i}
-            Link={({children}) => children}
-          />)}
+          {content && content.map(i =>
+          <ListWrapper key={i.id} >
+            <DeleteList onClick={() => this.removeListReq({ id: i.id })} className="delete-list-button">Delete List</DeleteList>
+            <CuratedList
+              routeChangeAction={this.props.routeChangeAction}
+              content={i}
+              Link={({children}) => children}
+            />
+          </ListWrapper>)}
           </ListContainer>
           <Sidebar>Here you will edit the content</Sidebar>
         </Container>
